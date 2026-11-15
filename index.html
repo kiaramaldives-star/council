@@ -236,6 +236,15 @@ footer.foot{background:none;border:0;border-radius:0;padding:0;margin:100px auto
 .foot-contact span{direction:ltr}
 .copy{text-align:center;color:#7b8294;font-size:14px;padding:18px 10px 24px}
 @media(max-width:700px){.foot-card{padding:24px 20px}.foot-contact div{border:0;flex-basis:100%}}
+
+/* footer links were white (inherited from header menu style) -> make visible */
+.foot-links a{color:#5b6275;font-weight:600;white-space:normal}
+.foot-links a:hover{color:var(--cream)}
+
+.dates b{direction:rtl;font-family:inherit;font-weight:normal;font-size:13px}
+body.en .dates b{direction:ltr;font-family:'Poppins',sans-serif;font-weight:500}
+.news small{font-family:inherit;font-size:14px}
+body.en .news small{font-family:'Poppins',sans-serif}
 </style>
 </head>
 <body>
@@ -331,9 +340,9 @@ footer.foot{background:none;border:0;border-radius:0;padding:0;margin:100px auto
 <section id="news">
  <h2 class="title"><span data-dv>ޚަބަރު</span><span data-en>Latest News</span></h2>
  <div class="grid3">
-  <article class="news"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=70" alt=""><div><small>15 NOV 2026</small><h3><span data-dv>ކައުންސިލްގެ ބައްދަލުވުން ބޭއްވުނު</span><span data-en>Council meeting held</span></h3></div></article>
-  <article class="news"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=700&q=70" alt=""><div><small>10 NOV 2026</small><h3><span data-dv>ރަށު ސާފުތާހިރުކުރުމުގެ ޕްރޮގްރާމް</span><span data-en>Island clean-up programme</span></h3></div></article>
-  <article class="news"><img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=700&q=70" alt=""><div><small>05 NOV 2026</small><h3><span data-dv>އާ މަޝްރޫޢެއް ފެށިއްޖެ</span><span data-en>New project begins</span></h3></div></article>
+  <article class="news"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=700&q=70" alt=""><div><small><span data-dv>15 ނޮވެމްބަރު 2026</span><span data-en>15 NOV 2026</span></small><h3><span data-dv>ކައުންސިލްގެ ބައްދަލުވުން ބޭއްވުނު</span><span data-en>Council meeting held</span></h3></div></article>
+  <article class="news"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=700&q=70" alt=""><div><small><span data-dv>10 ނޮވެމްބަރު 2026</span><span data-en>10 NOV 2026</span></small><h3><span data-dv>ރަށު ސާފުތާހިރުކުރުމުގެ ޕްރޮގްރާމް</span><span data-en>Island clean-up programme</span></h3></div></article>
+  <article class="news"><img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=700&q=70" alt=""><div><small><span data-dv>05 ނޮވެމްބަރު 2026</span><span data-en>05 NOV 2026</span></small><h3><span data-dv>އާ މަޝްރޫޢެއް ފެށިއްޖެ</span><span data-en>New project begins</span></h3></div></article>
  </div>
 </section>
 
@@ -407,6 +416,9 @@ const GOV_PROJECTS=[
  {dv:'400 ގޯތިގެދޮރަށް ކަރަންޓް ޚިދުމަތް ފުޅާކުރުން',en:'Electricity extension to 400 households',amt:'415,086,000',pct:18,start:'30-09-2022',end:'20-11-2026'},
  {dv:'ރަށުގެ ފެނާއި ނަރުދަމާ ސިސްޓަމް',en:'Island water and sewerage system',amt:'1,534,635.72',pct:100,start:'19-12-2023',end:'01-05-2024'}
 ];
+const MDV=['ޖެނުއަރީ','ފެބްރުއަރީ','މާރިޗް','އޭޕްރިލް','މެއި','ޖޫން','ޖުލައި','އޮގަސްޓް','ސެޕްޓެމްބަރު','އޮކްޓޯބަރު','ނޮވެމްބަރު','ޑިސެމްބަރު'];
+const MEN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fd=d=>{const[a,b,c]=d.split('-');const m=+b-1;return `<span data-dv>${a} ${MDV[m]} ${c}</span><span data-en>${a} ${MEN[m]} ${c}</span>`};
 const renderProjects=(id,list)=>{document.getElementById(id).innerHTML=list.map(p=>{
  const done=p.pct>=100;
  const tag=done?'<span data-dv>ނިމިފައި</span><span data-en>Completed</span>':'<span data-dv>ކުރިއަށްދަނީ</span><span data-en>Ongoing</span>';
@@ -416,8 +428,8 @@ const renderProjects=(id,list)=>{document.getElementById(id).innerHTML=list.map(
   <div class="bar"><span style="width:${p.pct}%"></span></div>
   <div class="prow"><b>${p.pct}%</b><span class="tag">${tag}</span></div>
   <div class="dates">
-   <div><em><span data-dv>ފެށުނު ތާރީޚް</span><span data-en>Start date</span></em><b>${p.start}</b></div>
-   <div><em><span data-dv>ނިމޭ ތާރީޚް</span><span data-en>End date</span></em><b>${p.end}</b></div>
+   <div><em><span data-dv>ފެށުނު ތާރީޚް</span><span data-en>Start date</span></em><b>${fd(p.start)}</b></div>
+   <div><em><span data-dv>ނިމޭ ތާރީޚް</span><span data-en>End date</span></em><b>${fd(p.end)}</b></div>
   </div>
  </article>`}).join('')};
 renderProjects('projectList',PROJECTS);
