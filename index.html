@@ -829,7 +829,6 @@ html[lang=dv] .pr-bar{font-family:"KondeyHeading","Faruma",sans-serif;font-size:
 .md-empty svg{display:block;margin:0 auto 6px}
 
 /* ---------- jobs ---------- */
-#jobFilterWrap{margin-bottom:40px}
 .jb-card{padding:22px 22px 26px;gap:8px}
 .jb-ref{font-family:"Plus Jakarta Sans",sans-serif;font-size:15px;color:#374151;direction:ltr;align-self:flex-start}
 .jb-date{display:flex;align-items:center;gap:8px;color:#4B5563;font-size:13px}
@@ -837,6 +836,22 @@ html[lang=dv] .jb-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 .jb-date svg{color:#3F4F66;flex:none}
 .jb-date .num{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;font-weight:600}
 .jb-card h4{margin-top:6px;color:#111827}
+
+.jf{position:relative;max-width:600px;margin:0 auto 40px}
+.jf-btn{width:100%;display:flex;align-items:center;justify-content:space-between;background:#E6ECF3;border:0;border-radius:18px;padding:13px 18px 13px 14px;cursor:pointer;color:#374151;font-size:15px}
+html[lang=dv] .jf-btn{font-family:"KondeyHeading","Faruma",sans-serif;font-size:17px}
+html[dir=rtl] .jf-btn{padding:13px 22px 13px 14px}
+.jf-chev{transition:transform .2s;flex:none}
+html[dir=rtl] .jf-chev{transform:rotate(90deg)}html[dir=ltr] .jf-chev{transform:rotate(-90deg)}
+.jf-btn.open .jf-chev{transform:none!important}
+.jf-menu{position:absolute;inset-inline:0;top:calc(100% + 8px);background:#fff;border-radius:18px;box-shadow:0 16px 40px rgba(5,0,0,.12);padding:8px 40px;z-index:20;display:flex;flex-direction:column;animation:jfIn .18s ease}
+.jf-menu[hidden]{display:none}
+@keyframes jfIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.jf-menu button{background:none;border:0;border-bottom:1px solid #E5E7EB;padding:12px 6px;cursor:pointer;color:#6B7280;font-size:15px;text-align:center}
+html[lang=dv] .jf-menu button{font-family:"KondeyHeading","Faruma",sans-serif;font-size:17px}
+.jf-menu button:last-child{border-bottom:0}
+.jf-menu button:hover,.jf-menu button.on{color:var(--gold)}
+@media (max-width:560px){.jf-menu{padding:6px 18px}}
 </style>
 </head>
 <body>
@@ -1009,7 +1024,7 @@ html[lang=dv] .jb-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 <section id="announcements" data-page="announcements jobs">
   <div class="wrap">
     <div class="sec-head reveal"><h2><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span></h2></div>
-    <div class="pfilter" id="jobFilterWrap" hidden><label class="pf-select"><select id="jobFilter" aria-label="Filter jobs"></select><svg class="pf-chev" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#111"/><path d="m13.5 8-4 4 4 4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></label></div>
+    <div class="jf" id="jobFilterWrap" hidden><button type="button" class="jf-btn" id="jfBtn" aria-haspopup="listbox" aria-expanded="false"><span id="jfLabel"></span><svg class="jf-chev" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#111"/><path d="m8 10.5 4 4 4-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="jf-menu" id="jfMenu" role="listbox" hidden></div></div>
     <div class="an-grid" id="annList"></div>
     <div class="nw-more" id="annMore"><button type="button" id="annMoreBtn"><span class="dv">އިތުރު އިޢުލާންތައް</span><span class="en">More announcements</span></button></div>
   </div>
@@ -1691,6 +1706,7 @@ const ACTIVITIES = [
 
 /* ANNOUNCEMENTS (އިޢުލާންތައް) — copied from kondey.gov.mv/category/iulan (newest first).
    kind: tender (ބީލަން) / job (ވަޒީފާ) / iulan (އިޢުލާން). Add new ones at the TOP.
+   For jobs, cat: vacancy (ވަޒީފާގެ ފުރުޞަތު) / screening (ސްކްރީނިންގ މަރުޙަލާ ނިމުނު ޝީޓް) / a2 (A2 ޝީޓް).
    id: used in the page address (#iulaan-<id>). pdf: the notice file. ref: number like (IUL)412-PR/412/2026/10.
    deadline: "2026-11-30 10:30" (optional). files: extra files [{dv,en,url}]. */
 const ANNOUNCEMENTS = [
@@ -1698,15 +1714,16 @@ const ANNOUNCEMENTS = [
   {"kind": "tender", "dv": "މެއިންޓެނެންސް ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-11-09", "url": "https://kondey.gov.mv/9032", "id":"9032", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/11/އިޢުލާން-2.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ސްޓޭޝަނަރީ ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-11-04", "url": "https://kondey.gov.mv/9017", "id":"9017", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/11/އިޢުލާން-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ޖަލްސާ އަދި ސެމިނާ އަށް ބޭނުންވާ ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-11-04", "url": "https://kondey.gov.mv/9013", "id":"9013", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/11/އިޢުލާން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
-  {"kind": "job", "dv": "ޑްރައިވަރ (ވޭޖް އެމްޕްލޯއިމެންޓް)", "en": "", "date": "2026-10-26", "url": "https://kondey.gov.mv/8967", "id":"8967", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/10/އިއުލާން-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
+  {"kind": "job", "cat": "vacancy", "dv": "ޑްރައިވަރ (ވޭޖް އެމްޕްލޯއިމެންޓް)", "en": "", "date": "2026-10-26", "url": "https://kondey.gov.mv/8967", "id":"8967", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/10/އިއުލާން-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ޖަލްސާ އަދި ސެމިނާ ހޯލަށް ބޭނުންވާ ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-10-14", "url": "https://kondey.gov.mv/8959", "id":"8959", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/10/އިއުލާން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ކޭކެއް ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-09-30", "url": "https://kondey.gov.mv/8898", "id":"8898", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/އިޢުލާން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
+  {"kind": "job", "cat": "a2", "dv": "ކައުންސިލް އެސިސްޓެންޓް (ވޭޖް އެމްޕްލޯއިމެންޓް) މަޤާމަށް ކުރިމަތިލި ފަރާތްތަކަށް ޕޮއިންޓް ލިބުނުގޮތުގެ ޝީޓު", "en": "", "date": "2026-09-24", "url": "https://kondey.gov.mv/8868", "id": "8868", "pdf": "https://kondey.gov.mv/wp-content/uploads/2026/09/ކައުންސިލް-އެސިސްޓެންޓް-ވޭޖް-އެމްޕްލޯއިމެންޓް-މަޤާމަށް-ކުރިމަތިލި-ފަރާތްތަކަށް-ޕޮއިންޓް-ލިބުނުގޮތުގެ-ޝީޓު.pdf", "ref": "", "reg": "", "submit": "", "files": []},
   {"kind": "tender", "dv": "ހަވިއްތަ ސަރަހައްދަށާއި، ޗަސްބިން ސަރަހައްދަށް ދެވޭގޮތަށް މަގެއް ހެދުން", "en": "", "date": "2026-09-20", "url": "https://kondey.gov.mv/8844", "id":"8844", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/Magu-hedhun-havihtha-02-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ދިގުމަގު އުތުރު ކޮޅުގައި ހަޓު ހެދުމުގެ މަސައްކަތް ކޮށްދޭނެ ފަރާތެއް ހޯދުމަށް", "en": "", "date": "2026-09-20", "url": "https://kondey.gov.mv/8835", "id":"8835", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/އިއުލާން-1.pdf", "ref":"", "reg":"", "submit":"", "files":[{"dv": "އިތުރު ފައިލް", "en": "Additional file", "url": "https://kondey.gov.mv/wp-content/uploads/2026/09/swing__bench_measurement_54c5f3e0_4b93_4b6a_bcbe_b8c050c043f6.pdf"}]},
   {"kind": "tender", "dv": "މެއިންޓެނެންސް ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-09-20", "url": "https://kondey.gov.mv/8832", "id":"8832", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/އިއުލާން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ހަވިއްތަ ސަރަހައްދަށާއި، ޗަސްބިން ސަރަހައްދަށް ދެވޭގޮތަށް މަގެއް ހަދައި މަޑުބާތު އޭރިޔާ ހެދުން", "en": "", "date": "2026-09-10", "url": "https://kondey.gov.mv/8799", "id":"8799", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/Magu-hedhun-havihtha.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "iulan", "dv": "އެއްގަމު އުޅަނދު ދުއްވުން މަނާ ސަރަހައްދުތަކެއް ކަނޑައެޅުން", "en": "", "date": "2026-09-10", "url": "https://kondey.gov.mv/8796", "id":"8796", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/Ulhandhu.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
-  {"kind": "job", "dv": "ކައުންސިލް އެސިސްޓެންޓް (ވޭޖް އެމްޕްލޯއިމެންޓް)", "en": "", "date": "2026-09-09", "url": "https://kondey.gov.mv/8784", "id":"8784", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/gazette.gov_.mv_iulaan_print_411615-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
+  {"kind": "job", "cat": "vacancy", "dv": "ކައުންސިލް އެސިސްޓެންޓް (ވޭޖް އެމްޕްލޯއިމެންޓް)", "en": "", "date": "2026-09-09", "url": "https://kondey.gov.mv/8784", "id":"8784", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/09/gazette.gov_.mv_iulaan_print_411615-1.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ލޯންޗު ދަތުރުތަކާއި، ކޮޓަރި ކުލި އަދި ކެއުމުގެ އަގުތައް ހޯދުން", "en": "", "date": "2026-08-16", "url": "https://kondey.gov.mv/8695", "id":"8695", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/08/އިޢުލާން-4.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "ޕިކަޕް މެއިންޓެނެންސް ސާމާނާއި އަދި އެހެނިހެން މެއިންޓެނެންސް ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-08-13", "url": "https://kondey.gov.mv/8675", "id":"8675", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/08/ޕިކަޕް-މެއިންޓެނެންސް-ސާމާނާއި-އަދި-އެހެނިހެން-މެއިންޓެނެންސް-ސާމާނު-ސަޕްލައި-ކޮށްދޭނެ-ފަރާތެއް-ހޯދުން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
   {"kind": "tender", "dv": "އޮފީސް ސާމާނު ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-08-13", "url": "https://kondey.gov.mv/8672", "id":"8672", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/08/އޮފީސް-ސާމާނު-ސަޕްލައި-ކޮށްދޭނެ-ފަރާތެއް-ހޯދުން.pdf", "ref":"", "reg":"", "submit":"", "files":[]},
@@ -1818,6 +1835,7 @@ $("#actGrid").innerHTML=rest.map(a=>`<article class="card act reveal"><div class
 const KIND={press:bi("ނޫސްބަޔާން","Press release"),tender:bi("ބީލަން","Tender"),job:bi("ވަޒީފާ","Job"),iulan:bi("އިޢުލާން","Notice"),notice:bi("ޢާއްމު","General")};
 let ASHOW=8, AKIND=null;
 let JYEAR="all";
+const JCATS={all:["ހުރިހާ","All"],vacancy:["ވަޒީފާގެ ފުރުޞަތު","Job vacancies"],screening:["ސްކްރީނިންގ މަރުޙަލާ ނިމުނު ޝީޓް","Screening completed sheet"],a2:["A2 ޝީޓް","A2 sheet"]};
 const CLOCK='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg>';
 function renderAnn(kind,reset){
   if(kind!==undefined){AKIND=kind;} if(reset!==false)ASHOW=8;
@@ -1825,9 +1843,9 @@ function renderAnn(kind,reset){
   let list=AKIND?ANNOUNCEMENTS.filter(a=>a.kind===AKIND):ANNOUNCEMENTS;
   const fw=document.getElementById("jobFilterWrap");
   if(fw){fw.hidden=!isJob;
-    if(isJob){const years=[...new Set(list.map(a=>a.date.slice(0,4)))];const en=document.documentElement.lang==="en";
-      $("#jobFilter").innerHTML=`<option value="all" data-dv="ހުރިހާ" data-en="All">${en?"All":"ހުރިހާ"}</option>`+years.map(y=>`<option value="${y}" ${JYEAR===y?"selected":""}>${y}</option>`).join("");
-      if(JYEAR!=="all") list=list.filter(a=>a.date.startsWith(JYEAR));}}
+    if(isJob){$("#jfLabel").innerHTML=bi(JCATS[JYEAR][0],JCATS[JYEAR][1]);
+      $("#jfMenu").innerHTML=Object.entries(JCATS).map(([k,v])=>`<button type="button" role="option" data-jcat="${k}" class="${JYEAR===k?"on":""}">${bi(v[0],v[1])}</button>`).join("");
+      if(JYEAR!=="all") list=list.filter(a=>(a.cat||"vacancy")===JYEAR);}}
   $("#annList").classList.toggle("jb-grid",isJob);
   $("#annList").innerHTML=list.length?list.slice(0,ASHOW).map(a=>isJob?`<a class="an-card jb-card" href="${a.id?"#iulaan-"+a.id:"#jobs"}">
       ${a.ref?`<span class="jb-ref">${a.ref}</span>`:""}
@@ -1839,7 +1857,13 @@ function renderAnn(kind,reset){
       <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4></a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
   const more=document.getElementById("annMore"); if(more) more.hidden=list.length<=ASHOW;
 }
-document.addEventListener("change",e=>{if(e.target.id==="jobFilter"){JYEAR=e.target.value;renderAnn(undefined);}});
+document.addEventListener("click",e=>{
+  const b=e.target.closest("#jfBtn"), o=e.target.closest("[data-jcat]"), m=document.getElementById("jfMenu");
+  if(!m) return;
+  if(b){const open=m.hidden;m.hidden=!open;b.setAttribute("aria-expanded",open);b.classList.toggle("open",open);return;}
+  if(o){JYEAR=o.dataset.jcat;renderAnn(undefined);}
+  m.hidden=true;const bb=document.getElementById("jfBtn");if(bb){bb.classList.remove("open");bb.setAttribute("aria-expanded","false");}
+});
 document.addEventListener("click",e=>{if(e.target.closest("#annMoreBtn")){e.preventDefault();ASHOW+=8;renderAnn(undefined,false);}});
 renderAnn(null);
 
