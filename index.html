@@ -17,8 +17,8 @@
   --radius:22px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:150px}
-body{background:var(--bg);color:var(--text);font-family:"Faruma","Plus Jakarta Sans",sans-serif;line-height:1.9}
+html{background:#F6F5F8;overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:150px}
+body{overflow-x:clip;overscroll-behavior-y:none;min-height:0;background:var(--bg);color:var(--text);font-family:"Faruma","Plus Jakarta Sans",sans-serif;line-height:1.9}
 html[lang=en] body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;line-height:1.6}
 .num,.ltr{font-family:"Plus Jakarta Sans",sans-serif;direction:ltr;unicode-bidi:isolate}
 html[lang=dv] .en{display:none!important}
@@ -75,9 +75,11 @@ html[lang=en] .nav-name{font-weight:800;font-size:18px}
 .brand b{font-size:19px;font-weight:700;display:block;line-height:1.3}
 
 /* ---------- menu overlay ---------- */
-.menu{position:fixed;inset:0;z-index:80;background:#fff;color:var(--text);transform:translateX(100%);visibility:hidden;overflow-y:auto;overscroll-behavior:contain;transition:transform .4s cubic-bezier(.7,0,.2,1),visibility 0s linear .4s;display:flex;flex-direction:column}
-html[dir=ltr] .menu{transform:translateX(-100%)}
-.menu.open{transform:none!important;visibility:visible;transition:transform .4s cubic-bezier(.7,0,.2,1),visibility 0s}
+.menu{position:fixed;inset:0;z-index:80;background:#fff;color:var(--text);display:none;overflow-y:auto;overscroll-behavior:contain;flex-direction:column}
+@keyframes menuIn{from{transform:translateX(30%);opacity:0}to{transform:none;opacity:1}}
+html[dir=ltr] .menu.open{animation-name:menuInL}
+@keyframes menuInL{from{transform:translateX(-30%);opacity:0}to{transform:none;opacity:1}}
+.menu.open{display:flex;animation:menuIn .3s ease-out}
 
 /* ---------- search ---------- */
 .search{position:fixed;inset:0;z-index:90;background:rgba(107,15,26,.6);backdrop-filter:blur(6px);display:none;align-items:flex-start;justify-content:center;padding-top:16vh}
@@ -228,6 +230,7 @@ html[lang=en] .foot-nav{font-size:14px}
 .foot-contacts svg{flex:none;color:#2b2f36}
 .foot-contacts a:hover{color:var(--gold)}
 .foot-bottom{padding:24px 0 30px;text-align:center;font-family:"Plus Jakarta Sans",sans-serif;font-size:14px;color:#6B7280}
+@media (max-width:620px){.foot-bottom{padding-inline:72px}}
 .foot-bottom span{margin-inline-start:14px;color:#374151}
 @media (max-width:900px){
   .foot-card{padding:32px 24px}
@@ -1125,9 +1128,9 @@ document.addEventListener("click",e=>{
 addEventListener("hashchange",()=>{CUR=location.hash;route();if(typeof markMenu==="function")markMenu()});
 addEventListener("popstate",()=>{CUR=location.hash;route();if(typeof markMenu==="function")markMenu()});
 const menu=$("#menu");
-$("#menuBtn").onclick=()=>menu.classList.add("open");
-$("#menuClose").onclick=()=>menu.classList.remove("open");
-menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>menu.classList.remove("open")));
+$("#menuBtn").onclick=()=>{menu.classList.add("open");document.body.style.overflow="hidden"};
+$("#menuClose").onclick=()=>{menu.classList.remove("open");document.body.style.overflow=""};
+menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");document.body.style.overflow=""}));
 menu.querySelectorAll(".m-tog").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();const g=b.closest(".m-group");const o=g.classList.toggle("open");b.setAttribute("aria-expanded",o)}));
 function markMenu(){const h=CUR;menu.querySelectorAll("a[href^='#']").forEach(a=>a.classList.toggle("active",!!h&&h!=="#top"&&a.getAttribute("href")===h));
   menu.querySelectorAll(".m-group").forEach(g=>{if([...g.querySelectorAll(".m-sub a")].some(a=>a.getAttribute("href")===h)){g.classList.add("open")}})}
