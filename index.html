@@ -489,6 +489,55 @@ html[lang=en] .m-sub a{font-size:15px;font-weight:600}
 .m-foot svg{width:28px;height:28px}
 .m-foot a [fill="var(--gold)"]{fill:#fff}
 
+/* ---------- project pop-up ---------- */
+.proj{cursor:pointer}
+.proj:focus-visible{outline:3px solid rgba(200,16,46,.35);outline-offset:3px}
+.proj-more{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);display:flex;align-items:center;gap:8px;color:var(--gold);font-weight:700;font-size:14px}
+html[dir=ltr] .proj-more svg{transform:scaleX(-1)}
+.pmodal{position:fixed;inset:0;z-index:95;background:rgba(20,10,12,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s}
+.pmodal.show{opacity:1}
+.pm-card{position:relative;background:#fff;border-radius:24px;width:min(640px,100%);max-height:calc(100vh - 40px);overflow-y:auto;overscroll-behavior:contain;box-shadow:0 30px 80px rgba(0,0,0,.25);transform:translateY(16px) scale(.98);transition:transform .25s}
+.pmodal.show .pm-card{transform:none}
+.pm-body{padding:30px}
+.pm-close{position:absolute;top:14px;inset-inline-end:14px;width:42px;height:42px;border-radius:50%;background:#F3F4F6;color:#4B5563;display:grid;place-items:center;z-index:2}
+.pm-close:hover{background:#FDE3E7;color:var(--gold)}
+.pm-img{margin:-30px -30px 20px;height:220px;overflow:hidden;border-radius:24px 24px 0 0}
+.pm-img img{width:100%;height:100%;object-fit:cover}
+.pm-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;padding-inline-end:48px}
+.pm-type{font-size:12px;font-weight:700;padding:3px 12px;border-radius:7px;background:#F3F4F6;color:#4B5563}
+.pm-card h2{color:var(--navy);font-size:26px;line-height:1.5;margin-bottom:8px}
+html[lang=en] .pm-card h2{font-size:22px;font-weight:800}
+.pm-desc{color:#4B5563;margin-bottom:12px}
+.pm-box{background:#F7F7F9;border-radius:16px;padding:16px 18px;margin-top:14px}
+.pm-box .lb{color:var(--muted);font-size:13px}
+.pm-box .cost{margin:4px 0 10px}
+.pm-box .proj-meta{margin-top:8px}
+.pm-card .contractor{margin-top:12px}
+.pm-card .dates{grid-template-columns:1fr 1fr;margin-top:16px;padding-top:16px;gap:16px}
+.pm-card .dates > div{background:#F7F7F9;border-radius:14px;padding:12px 14px;font-size:15px}
+@media (max-width:620px){.pmodal{align-items:flex-end;padding:0}.pm-card{border-radius:24px 24px 0 0;max-height:88vh}.pm-body{padding:24px 20px 30px}.pm-img{margin:-24px -20px 18px}}
+
+/* ---------- project cards with photo ---------- */
+.proj{padding:0!important;overflow:hidden}
+.proj-ph{position:relative;margin:10px 10px 0;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:linear-gradient(135deg,#ECEEF2,#DCE0E6)}
+.proj-ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.proj:hover .proj-ph img{transform:scale(1.04)}
+.ph-empty{position:absolute;inset:0;display:grid;place-items:center;color:#B6BCC6}
+.ph-empty svg{width:64px;height:64px}
+.proj-ph::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(transparent,rgba(0,0,0,.55));pointer-events:none}
+.ph-badge{position:absolute;top:12px;inset-inline-start:12px;z-index:2;background:#fff;border-radius:10px;padding:3px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.ph-badge .badge{display:block}
+.ph-prog{position:absolute;inset:auto 14px 12px 14px;z-index:2;display:flex;align-items:center;gap:12px;direction:ltr}
+.ph-prog .num{color:#fff;font-weight:800;font-size:16px;text-shadow:0 1px 4px rgba(0,0,0,.3)}
+.ph-bar{flex:1;height:7px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden}
+.ph-bar i{display:block;height:100%;width:0;background:#fff;border-radius:99px;transition:width 1.4s ease}
+.proj-b{padding:16px 20px 18px}
+.proj-b h3{min-height:0!important;font-size:20px;line-height:1.7;color:var(--navy)}
+.proj-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;font-size:13px;color:#4B5563}
+.proj-foot .pf-d{color:var(--navy);white-space:nowrap}
+.pm-img{height:240px}
+.proj-ph:has(.ph-empty)::after{height:38%;background:linear-gradient(transparent,rgba(0,0,0,.32))}
+
 .to-top{position:fixed;bottom:24px;inset-inline-end:24px;z-index:45;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(200,16,46,.4);opacity:0;pointer-events:none;transition:opacity .3s}
 .to-top.show{opacity:1;pointer-events:auto}
 
@@ -1064,23 +1113,56 @@ $("#stats").innerHTML=STATS.map(s=>`<div class="stat"><div class="ic"><svg width
 function status(p){ if(p.pct>=100) return `<span class="badge b-done">${bi("ނިމިފައި","Completed")}</span>`;
   if(p.pct>0) return `<span class="badge b-go">${bi("ކުރިއަށްދަނީ","In progress")}</span>`;
   return `<span class="badge b-new">${bi("ފަށާނެ","Upcoming")}</span>`; }
+function projPhoto(p){
+  if(p.img) return `<img src="${p.img}" alt="" loading="lazy">`;
+  return `<div class="ph-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V10l6-4 6 4v11M10 21v-5h4v5"/><path d="M14 3h6v4"/></svg></div>`;
+}
 function renderProjects(type){
-  $("#projectGrid").innerHTML=PROJECTS.filter(p=>p.type===type).map(p=>`
-   <article class="card proj reveal">
-     <h3>${bi(p.dv,p.en)}</h3>
-     <div class="cost">${p.cost!=null?`<small>MVR</small>${money(p.cost)}`:`<span class="dash">—</span>`}</div>
-     <div class="bar"><i data-w="${p.pct??0}"></i></div>
-     <div class="proj-meta"><span class="pct">${p.pct!=null?p.pct+"%":"—"}</span>${p.pct!=null?status(p):""}</div>
+  $("#projectGrid").innerHTML=PROJECTS.map((p,i)=>[p,i]).filter(([p])=>p.type===type).map(([p,i])=>`
+   <article class="card proj reveal" data-i="${i}" role="button" tabindex="0">
+     <div class="proj-ph">
+       ${projPhoto(p)}
+       ${p.pct!=null?`<span class="ph-badge">${status(p)}</span>`:""}
+       ${p.pct!=null?`<div class="ph-prog"><span class="num">${p.pct}%</span><div class="ph-bar"><i data-w="${p.pct}"></i></div></div>`:""}
+     </div>
+     <div class="proj-b">
+       <h3>${bi(p.dv,p.en)}</h3>
+       <div class="proj-foot"><span class="pf-c">${p.contractor_dv&&!p.contractor_dv.startsWith("[")?bi(p.contractor_dv,p.contractor_en||p.contractor_dv):""}</span><span class="pf-d">${(p.awarded||p.start)?fdate(p.awarded||p.start):""}</span></div>
+     </div>
+   </article>`).join("");
+  observe();
+}
+function projectDetails(p){
+  return `
+     ${p.img?`<div class="pm-img"><img src="${p.img}" alt=""></div>`:""}
+     <div class="pm-tags"><span class="pm-type">${p.type==="gov"?bi("ސަރުކާރުގެ ޕްރޮޖެކްޓް","Government project"):bi("ކައުންސިލްގެ ޕްރޮޖެކްޓް","Council project")}</span>${p.pct!=null?status(p):""}</div>
+     <h2 id="pmTitle">${bi(p.dv,p.en)}</h2>
+     ${(p.desc_dv||p.desc_en)?`<p class="pm-desc">${bi(p.desc_dv||"",p.desc_en||"")}</p>`:""}
+     <div class="pm-box">
+       <span class="lb">${bi("ޕްރޮޖެކްޓުގެ އަގު","Project cost")}</span>
+       <div class="cost">${p.cost!=null?`<small>MVR</small>${money(p.cost)}`:`<span class="dash">—</span>`}</div>
+       <div class="bar"><i style="width:${p.pct??0}%"></i></div>
+       <div class="proj-meta"><span class="lb">${bi("މަސައްކަތް ނިމިފައިވާ މިންވަރު","Progress")}</span><span class="pct">${p.pct!=null?p.pct+"%":"—"}</span></div>
+     </div>
      <div class="contractor"><span class="c-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18h20M4 18v-3a8 8 0 0 1 16 0v3M12 7V4M9 7.5V5.5M15 7.5V5.5"/></svg></span><div><span class="lb">${bi("ކޮންޓްރެކްޓަރ","Contractor")}</span><b>${bi(p.contractor_dv,p.contractor_en)}</b></div></div>
      <div class="dates">
        <div><span class="lb">${bi("ހަވާލުކުރި ތާރީޚު","Awarding date")}</span>${fdate(p.awarded)}</div>
        <div><span class="lb">${bi("މުއްދަތު","Duration")}</span>${p.days!=null?bi(`<span class="num">${p.days}</span> ދުވަސް`,`<span class="num">${p.days}</span> days`):"—"}</div>
        <div><span class="lb">${bi("ފެށި ތާރީޚު","Start date")}</span>${fdate(p.start)}</div>
        <div><span class="lb">${bi("ނިމޭނެ ތާރީޚު","Expected end")}</span>${fdate(p.end)}</div>
-     </div>
-   </article>`).join("");
-  observe();
+     </div>`;
 }
+const pmEl=document.createElement("div");
+pmEl.className="pmodal"; pmEl.hidden=true;
+pmEl.innerHTML=`<div class="pm-card" role="dialog" aria-modal="true" aria-labelledby="pmTitle"><button class="pm-close" aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="pm-body"></div></div>`;
+document.body.appendChild(pmEl);
+let pmLast=null;
+function openProject(i){pmLast=document.activeElement;pmEl.querySelector(".pm-body").innerHTML=projectDetails(PROJECTS[i]);pmEl.hidden=false;requestAnimationFrame(()=>pmEl.classList.add("show"));document.body.style.overflow="hidden";pmEl.querySelector(".pm-close").focus()}
+function closeProject(){pmEl.classList.remove("show");document.body.style.overflow="";setTimeout(()=>{pmEl.hidden=true},200);if(pmLast)pmLast.focus()}
+pmEl.addEventListener("click",e=>{if(e.target===pmEl||e.target.closest(".pm-close"))closeProject()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!pmEl.hidden)closeProject()});
+$("#projectGrid").addEventListener("click",e=>{const c=e.target.closest(".proj");if(c)openProject(+c.dataset.i)});
+$("#projectGrid").addEventListener("keydown",e=>{const c=e.target.closest(".proj");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openProject(+c.dataset.i)}});
 document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");renderProjects(b.dataset.f)});
 
 const [f,...rest]=ACTIVITIES;
@@ -1161,7 +1243,7 @@ addEventListener("scroll",onScroll,{passive:true}); onScroll();
 let io;
 function observe(){
   io=io||new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return; const el=en.target; el.classList.add("in");
-    el.querySelectorAll(".bar i").forEach(b=>b.style.width=b.dataset.w+"%");
+    el.querySelectorAll(".bar i,.ph-bar i").forEach(b=>b.style.width=b.dataset.w+"%");
     el.querySelectorAll(".count").forEach(c=>{const n=+c.dataset.n,t0=performance.now();(function tick(t){const k=Math.min((t-t0)/1400,1);c.textContent=Math.round(n*(1-Math.pow(1-k,3))).toLocaleString("en-US");if(k<1)requestAnimationFrame(tick)})(t0)});
     io.unobserve(el)}),{threshold:.15});
   document.querySelectorAll(".reveal:not(.in)").forEach(el=>io.observe(el));
