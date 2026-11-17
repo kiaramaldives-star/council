@@ -48,6 +48,12 @@ html[lang=dv] :is(h1,h2,h3,h4,.brand b,.foot-brand b,.nav-links a,.menu nav a,.f
 .portal-btn:hover{background:rgba(255,255,255,.26)}
 .navbar{background:var(--green-soft);height:78px;display:flex;align-items:center;border-bottom:3px solid var(--green)}
 .navbar .wrap{width:100%;display:flex;align-items:center;gap:26px}
+.nav-brand{flex:none;display:flex;align-items:center;gap:12px;padding-inline-end:22px;border-inline-end:1px solid rgba(0,0,0,.12)}
+@media (max-width:1100px){.nav-brand{border:0;padding:0}}
+.nav-name{color:var(--navy);font-size:22px;line-height:1.2;white-space:nowrap}
+html[lang=dv] .nav-name{font-family:"KondeyHeading","Faruma",sans-serif}
+html[lang=en] .nav-name{font-weight:800;font-size:18px}
+@media (max-width:1280px) and (min-width:1101px){.nav-links a{font-size:16px}.navbar .wrap{gap:18px}}
 .nav-logo{flex:none;width:60px;height:60px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);color:var(--navy)}
 .nav-logo svg{width:52px;height:52px}
 .nav-links{flex:1;display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -64,8 +70,9 @@ html[lang=dv] :is(h1,h2,h3,h4,.brand b,.foot-brand b,.nav-links a,.menu nav a,.f
 .brand b{font-size:19px;font-weight:700;display:block;line-height:1.3}
 
 /* ---------- menu overlay ---------- */
-.menu{position:fixed;inset:0;z-index:80;background:var(--navy);color:#fff;transform:translateY(-100%);transition:transform .45s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column}
-.menu.open{transform:none}
+.menu{position:fixed;inset:0;z-index:80;background:var(--navy);color:#fff;transform:translateY(-100%);visibility:hidden;overflow-y:auto;overscroll-behavior:contain;transition:transform .45s cubic-bezier(.7,0,.2,1),visibility 0s linear .45s;display:flex;flex-direction:column}
+.menu.open{transform:none;visibility:visible;transition:transform .45s cubic-bezier(.7,0,.2,1),visibility 0s}
+.menu nav{flex:none}
 .menu .icon-btn{color:#fff;background:rgba(255,255,255,.12)}
 .menu-top{display:flex;justify-content:space-between;align-items:center;padding:24px 20px;max-width:1180px;width:100%;margin:0 auto}
 .menu nav{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px 28px;max-width:1180px;width:100%;margin:0 auto;padding:20px;align-content:center}
@@ -312,6 +319,49 @@ html[lang=en] .svc p{font-size:15px;line-height:1.7}
 .unit small{opacity:.8;font-family:"Plus Jakarta Sans",sans-serif;font-size:13px}
 @media (max-width:900px){.about{padding:34px 22px}.svc-grid,.units{grid-template-columns:1fr}.facts{grid-template-columns:1fr 1fr 1fr;gap:10px}.fact strong{font-size:30px}.fact{padding:14px 8px}}
 
+/* ---------- organisational chart ---------- */
+.orgchart{margin-top:28px}
+.oc-top{display:flex;flex-direction:column;align-items:center}
+.oc-box{background:#fff;border:1.5px solid #E5E7EB;border-radius:14px;padding:12px 22px;text-align:center;font-weight:700;color:#1f2937;font-size:16px;box-shadow:0 4px 14px rgba(0,0,0,.04);min-width:220px}
+html[lang=dv] .oc-box{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:normal;font-size:19px}
+.oc-root{background:var(--navy);border-color:var(--navy);color:#fff;font-size:17px;padding:14px 26px}
+html[lang=dv] .oc-root{font-size:21px}
+.oc-sg{background:var(--gold);border-color:var(--gold);color:#fff}
+.oc-line{width:2px;height:26px;background:#D1D5DB}
+.oc-row{position:relative;display:flex;justify-content:center}
+.oc-side{position:absolute;inset-inline-start:100%;top:50%;transform:translateY(-50%);display:flex;align-items:center}
+.oc-arrow{width:34px;height:2px;background:#D1D5DB;position:relative}
+.oc-arrow::after{content:"";position:absolute;inset-inline-end:-1px;top:-4px;border:5px solid transparent;border-inline-start:7px solid #D1D5DB}
+.oc-wdc{min-width:0;width:230px;font-size:14px;padding:10px 14px;background:#FDF0F2;border-color:rgba(200,16,46,.25);color:var(--navy)}
+html[lang=dv] .oc-wdc{font-size:16px}
+.oc-n{direction:ltr;unicode-bidi:isolate;display:inline-block;font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:12px;background:var(--gold-soft);color:var(--gold);border-radius:999px;padding:1px 8px;margin-inline-start:6px;vertical-align:middle}
+.oc-root .oc-n,.oc-sg .oc-n{background:rgba(255,255,255,.2);color:#fff}
+.oc-cols{display:grid;grid-template-columns:.7fr 1fr 1fr 1fr;gap:14px;position:relative;padding-top:24px}
+.oc-cols::before{content:"";position:absolute;top:0;left:12%;right:12%;height:2px;background:#D1D5DB}
+.oc-col{position:relative;background:#FAFAFB;border:1px solid #EEF0F3;border-radius:18px;padding:14px;display:flex;flex-direction:column}
+.oc-col::before{content:"";position:absolute;top:-24px;left:50%;width:2px;height:24px;background:#D1D5DB}
+.oc-head{border-radius:12px;padding:10px 12px;text-align:center;font-weight:700;font-size:14px;line-height:1.5;color:#1f2937;background:#F1F2F4;min-height:62px;display:grid;place-items:center}
+html[lang=dv] .oc-head{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:normal;font-size:17px;line-height:1.7}
+.oc-col.corp .oc-head{background:var(--green-soft);border:1px solid #D9DCE1}
+.oc-col.esm .oc-head,.oc-col.ppi .oc-head{background:#FDF0F2;border:1px solid rgba(200,16,46,.18);color:var(--navy)}
+.oc-lead{margin-top:10px;background:#fff;border:1.5px solid var(--navy);border-radius:12px;padding:9px 10px;text-align:center;font-weight:700;font-size:14px;color:var(--navy);font-family:"Plus Jakarta Sans",sans-serif}
+.oc-lead .oc-g{display:block;margin-top:2px}
+.oc-col ul{list-style:none;margin-top:10px;display:grid;gap:8px;flex:1;align-content:start}
+.oc-col li{direction:ltr;text-align:left;background:#fff;border:1px solid #EEF0F3;border-radius:12px;padding:9px 10px 9px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;font-family:"Plus Jakarta Sans",sans-serif}
+.oc-t{font-size:13.5px;font-weight:600;color:#1f2937;line-height:1.35;grid-column:1}
+.oc-t em{font-style:normal;color:var(--muted);font-weight:500}
+.oc-g{font-size:11.5px;color:var(--muted);font-weight:600;grid-column:1;font-family:"Plus Jakarta Sans",sans-serif}
+.oc-col li .oc-n{grid-column:2;grid-row:1/span 2;margin:0}
+.oc-total{margin-top:10px;text-align:center;font-size:13px;color:var(--muted)}
+.oc-total b{color:var(--navy);font-size:15px}
+html .about p.oc-meta{margin-top:16px;text-align:center!important;font-size:12.5px!important;line-height:1.6!important;color:var(--muted)!important}
+@media (max-width:1000px){
+  .oc-cols{grid-template-columns:1fr 1fr}.oc-cols::before{display:none}.oc-col::before{display:none}
+  .oc-side{position:static;transform:none;margin-inline-start:0;flex-direction:column;align-items:center}.oc-wdc{width:auto;min-width:220px}.oc-row{flex-direction:column;align-items:center;gap:0}
+  .oc-arrow{width:2px;height:20px}.oc-arrow::after{display:none}
+}
+@media (max-width:620px){.oc-cols{grid-template-columns:1fr}.oc-box,.oc-wdc{min-width:0;width:100%}.oc-side{width:100%}.oc-top{align-items:stretch}.oc-line,.oc-arrow{align-self:center}}
+
 /* ---------- president page ---------- */
 .page-band{background:#E8EDF3;padding:64px 0 150px;text-align:center}
 .page-band h1{color:var(--navy);font-size:clamp(34px,5vw,54px);line-height:1.4}
@@ -427,7 +477,8 @@ html[lang=en] :is(.about p,.mv-card p,.mem p,.mun-list p,.mun-intro,.p-bio,.p-bi
   </div>
   <div class="navbar">
     <div class="wrap">
-      <a href="#top" class="nav-logo" title="Kondey Council">
+      <a href="#top" class="nav-brand">
+        <span class="nav-logo">
         <svg viewBox="0 0 64 64" aria-hidden="true">
           <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="2"/>
           <circle cx="32" cy="32" r="25" fill="none" stroke="currentColor" stroke-width=".8" opacity=".5"/>
@@ -436,6 +487,8 @@ html[lang=en] :is(.about p,.mv-card p,.mem p,.mun-list p,.mun-intro,.p-bio,.p-bi
           <path d="M15 42h34l-4 6H19z" fill="currentColor"/>
           <path d="M14 51c3 0 3-2 6-2s3 2 6 2 3-2 6-2 3 2 6 2 3-2 6-2 3 2 6 2" fill="none" stroke="currentColor" stroke-width="1.6"/>
         </svg>
+      </span>
+        <span class="nav-name"><span class="dv">ކޮނޑޭ ކައުންސިލް</span><span class="en">Kondey Council</span></span>
       </a>
       <nav class="nav-links" id="navLinks">
         <a href="#council"><span class="dv">ކައުންސިލް</span><span class="en">Council</span></a>
@@ -463,15 +516,15 @@ html[lang=en] :is(.about p,.mv-card p,.mem p,.mun-list p,.mun-intro,.p-bio,.p-bi
   </div>
   <nav id="menuNav">
     <a href="#council"><span class="dv">ކައުންސިލް</span><span class="en">Council</span><small class="num">01</small></a>
-    <a href="#president"><span class="dv">ރައީސް</span><span class="en">President</span><small class="num">01</small></a>
-    <a href="#projects"><span class="dv">ޕްރޮޖެކްޓްތައް</span><span class="en">Projects</span><small class="num">02</small></a>
-    <a href="#island"><span class="dv">ރަށް</span><span class="en">Island</span><small class="num">03</small></a>
-    <a href="#activities"><span class="dv">މީޑިއާ ސެންޓަރ</span><span class="en">Media Center</span><small class="num">04</small></a>
-    <a href="#announcements"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span><small class="num">05</small></a>
-    <a href="#announcements"><span class="dv">ވަޒީފާ</span><span class="en">Jobs</span><small class="num">06</small></a>
-    <a href="#procurement"><span class="dv">ޕްރޮކިއުމަންޓްތައް</span><span class="en">Procurement</span><small class="num">07</small></a>
-    <a href="#meetings"><span class="dv">ބައްދަލުވުންތައް</span><span class="en">Meetings</span><small class="num">08</small></a>
-    <a href="#contact"><span class="dv">ގުޅުއްވުމަށް</span><span class="en">Contact</span><small class="num">09</small></a>
+    <a href="#president"><span class="dv">ރައީސް</span><span class="en">President</span><small class="num">02</small></a>
+    <a href="#projects"><span class="dv">ޕްރޮޖެކްޓްތައް</span><span class="en">Projects</span><small class="num">03</small></a>
+    <a href="#island"><span class="dv">ރަށް</span><span class="en">Island</span><small class="num">04</small></a>
+    <a href="#activities"><span class="dv">މީޑިއާ ސެންޓަރ</span><span class="en">Media Center</span><small class="num">05</small></a>
+    <a href="#announcements"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span><small class="num">06</small></a>
+    <a href="#announcements"><span class="dv">ވަޒީފާ</span><span class="en">Jobs</span><small class="num">07</small></a>
+    <a href="#procurement"><span class="dv">ޕްރޮކިއުމަންޓްތައް</span><span class="en">Procurement</span><small class="num">08</small></a>
+    <a href="#meetings"><span class="dv">ބައްދަލުވުންތައް</span><span class="en">Meetings</span><small class="num">09</small></a>
+    <a href="#contact"><span class="dv">ގުޅުއްވުމަށް</span><span class="en">Contact</span><small class="num">10</small></a>
   </nav>
 </div>
 
@@ -715,9 +768,45 @@ html[lang=en] :is(.about p,.mv-card p,.mem p,.mun-list p,.mun-intro,.p-bio,.p-bi
       <div class="about-block">
         <h2><span class="dv">އިދާރާގެ މަސައްކަތްތައް ބަހާލެވިފައިވާގޮތް</span><span class="en">How the Secretariat is Organised</span></h2>
         <p><span class="dv">ގއ. ކޮނޑޭ ކައުންސިލް އިދާރާގެ މަސައްކަތްތައް ބަހާލެވިފައިވަނީ މައިގަނޑު 2 ޔުނިޓަކަށެވެ. އެއީ ކޯޕަރޭޓް އެފެއާޒް ޔުނިޓް އަދި އިކޮނޮމިކް ސޯޝަލް އެންޑް މުނިސިޕަލް ސަރވިސް ޔުނިޓެވެ. މިއިން ކޮންމެ ޔުނިޓެއްގައިވެސް މައިގަނޑު މަސައްކަތްތައް ކުރަމުންދާނީ ސިވިލް ސަރވިސް މުވައްޒަފުންނެވެ.</span><span class="en">The work of the Ga. Kondey Council Secretariat is divided into 2 main units: the Corporate Affairs Unit and the Economic, Social and Municipal Services Unit. The core work of each unit is carried out by civil servants.</span></p>
-        <div class="units">
-          <div class="unit"><div class="no">1</div><div><h3><span class="dv">ކޯޕަރޭޓް އެފެއާޒް ޔުނިޓް</span><span class="en">Corporate Affairs Unit</span></h3><small>Corporate Affairs Unit</small></div></div>
-          <div class="unit g"><div class="no">2</div><div><h3><span class="dv">އިކޮނޮމިކް ސޯޝަލް އެންޑް މުނިސިޕަލް ސަރވިސް ޔުނިޓް</span><span class="en">Economic, Social &amp; Municipal Services Unit</span></h3><small>Economic, Social &amp; Municipal Services Unit</small></div></div>
+        <div class="orgchart">
+          <div class="oc-top">
+            <div class="oc-box oc-root"><span class="dv">ހުވަދުއަތޮޅު އުތުރުބުރީ ކޮނޑޭ ކައުންސިލްގެ އިދާރާ</span><span class="en">Huvadhu Atoll North Kondey Council Secretariat</span></div>
+            <div class="oc-line"></div>
+            <div class="oc-row">
+              <div class="oc-box"><span class="dv">ކައުންސިލް މެމްބަރުން</span><span class="en">Council Members</span> <span class="oc-n">×5</span></div>
+              <div class="oc-side"><span class="oc-arrow"></span><div class="oc-box oc-wdc"><span class="dv">އަންހެނުންގެ ތަރައްޤީއަށް މަސައްކަތްކުރާ ކޮމިޓީ</span><span class="en">Women Development Committee</span> <span class="oc-n">×5</span></div></div>
+            </div>
+            <div class="oc-line"></div>
+            <div class="oc-box oc-sg"><span class="dv">ސެކްރެޓަރީ ޖެނެރަލް</span><span class="en">Secretary General</span></div>
+            <div class="oc-line"></div>
+          </div>
+          <div class="oc-cols">
+          <div class="oc-col legal">
+            <div class="oc-head"><span class="dv">ޤާނޫނީ</span><span class="en">Legal</span></div>
+            
+            <ul><li><span class="oc-t ltr">Legal Officer</span><span class="oc-g ltr">CS9</span></li></ul>
+            <div class="oc-total"><span class="dv">ޖުމްލަ</span><span class="en">Total</span> <b class="num">1</b></div>
+          </div>
+          <div class="oc-col corp">
+            <div class="oc-head"><span class="dv">ކޯޕަރޭޓް އެފެއާޒް ސެކްޝަން</span><span class="en">Corporate Affairs Section</span></div>
+            <div class="oc-lead ltr">Council Executive <span class="oc-g">EX1</span></div>
+            <ul><li><span class="oc-t ltr">Asst. Council Officer to Senior Council Officer</span><span class="oc-g ltr">GS3–MS2</span><span class="oc-n">×5</span></li><li><span class="oc-t ltr">Finance Officer</span><span class="oc-g ltr">MS1 / MS2</span></li><li><span class="oc-t ltr">Computer Technician</span><span class="oc-g ltr">MS1 / MS2</span></li><li><span class="oc-t ltr">Council Assistant</span><span class="oc-g ltr">SS1</span><span class="oc-n">×4</span></li><li><span class="oc-t ltr">Security Officer<em> (Contract)</em></span><span class="oc-g ltr">SS2</span><span class="oc-n">×4</span></li></ul>
+            <div class="oc-total"><span class="dv">ޖުމްލަ</span><span class="en">Total</span> <b class="num">16</b></div>
+          </div>
+          <div class="oc-col esm">
+            <div class="oc-head"><span class="dv">އިކޮނޮމިކް، ސޯޝަލް އެންޑް މުނިސިޕަލް ސަރވިސަސް ޔުނިޓް</span><span class="en">Economic, Social &amp; Municipal Services Unit</span></div>
+            <div class="oc-lead ltr">Assistant Council Executive <span class="oc-g">MS3</span></div>
+            <ul><li><span class="oc-t ltr">Asst. Council Officer to Senior Council Officer</span><span class="oc-g ltr">MS2–GS3</span><span class="oc-n">×5</span></li><li><span class="oc-t ltr">Sports Counselor</span><span class="oc-g ltr">GS3</span></li><li><span class="oc-t ltr">Preschool Teacher</span><span class="oc-g ltr">GS3 / GS4</span><span class="oc-n">×2</span></li><li><span class="oc-t ltr">Council Assistant<em> (Miskithu)</em></span><span class="oc-g ltr">SS1</span><span class="oc-n">×5</span></li></ul>
+            <div class="oc-total"><span class="dv">ޖުމްލަ</span><span class="en">Total</span> <b class="num">14</b></div>
+          </div>
+          <div class="oc-col ppi">
+            <div class="oc-head"><span class="dv">ޕްލޭނިންގ، ޕްރޮޖެކްޓްސް އެންޑް އިންފްރާސްޓްރަކްޗަރ ޔުނިޓް</span><span class="en">Planning, Projects &amp; Infrastructure Unit</span></div>
+            <div class="oc-lead ltr">Assistant Council Executive <span class="oc-g">MS3</span></div>
+            <ul><li><span class="oc-t ltr">Asst. Council Officer to Senior Council Officer</span><span class="oc-g ltr">MS2–GS3</span><span class="oc-n">×2</span></li><li><span class="oc-t ltr">Assistant Maintenance Officer</span><span class="oc-g ltr">GS4</span></li><li><span class="oc-t ltr">Council Assistant<em> (Waste Management)</em></span><span class="oc-g ltr">SS1</span><span class="oc-n">×4</span></li><li><span class="oc-t ltr">Driver</span><span class="oc-g ltr">SS2</span><span class="oc-n">×2</span></li><li><span class="oc-t ltr">Council Assistant<em> (Ijuthimaaee)</em></span><span class="oc-g ltr">SS1</span><span class="oc-n">×12</span></li></ul>
+            <div class="oc-total"><span class="dv">ޖުމްލަ</span><span class="en">Total</span> <b class="num">22</b></div>
+          </div>
+          </div>
+          <p class="oc-meta ltr">Endorsed by the Civil Service Commission · Version 1.0 · 26.10.2022 · CSC/OD/FN</p>
         </div>
       </div>
     </div>
