@@ -1031,6 +1031,24 @@ html[lang=dv] .ac-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 .ac-card:hover h4{color:var(--gold)}
 @media (max-width:1100px){.ac-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.ac-grid{grid-template-columns:1fr}.ac-card:hover .ac-img{margin:0;aspect-ratio:16/9}.ac-card:hover .ac-top{opacity:1}}
+
+/* ---------- procurement cards ---------- */
+.pc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pc-card{background:#fff;border-radius:22px;padding:22px 22px 26px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;color:inherit;box-shadow:0 2px 10px rgba(5,0,0,.04);transition:box-shadow .2s,transform .2s}
+.pc-card:hover{box-shadow:0 16px 36px rgba(5,0,0,.09);transform:translateY(-3px)}
+.pc-open{background:#DCFCE7;color:#15803D;border-radius:10px;padding:8px 14px;font-size:13px;margin-bottom:6px}
+html[lang=dv] .pc-open{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.pc-cat{color:var(--gold);font-size:14px}
+html[lang=dv] .pc-cat{font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+.pc-ref{font-family:"Plus Jakarta Sans",sans-serif;font-size:15px;color:#374151;direction:ltr;margin-top:4px}
+.pc-date{color:#4B5563;font-size:13px}
+html[lang=dv] .pc-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.pc-date .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:13px}
+.pc-card h4{font-family:"KondeyHeading","Faruma",sans-serif;font-size:18px;line-height:1.8;color:#111827;margin-top:14px;width:100%;text-align:right;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pc-card:hover h4{color:var(--gold)}
+#procurement .jf{margin-bottom:34px}
+@media (max-width:1100px){.pc-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.pc-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1212,8 +1230,10 @@ html[lang=dv] .ac-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 <section id="procurement" data-page="procurement">
   <div class="wrap">
     <div class="sec-head reveal"><h2><span class="dv">ޕްރޮކިއުމަންޓްތައް</span><span class="en">Procurement</span></h2></div>
-    <div class="grid2" id="procGrid"></div>
-    <div class="more"><a href="#procurement"><span class="dv">އިތުރު ޕްރޮކިއުމަންޓްތައް</span><span class="en">More procurement</span></a></div>
+    <div class="sf-counts"><span><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2 12h11l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg></i><b class="num" id="procCount"></b> <span class="dv">ޕްރޮކިއުމަންޓް ޖުމްލަ</span><span class="en">procurements</span></span></div>
+    <div class="jf"><button type="button" class="jf-btn" id="pfBtn"><span id="pfLabel"></span><svg class="jf-chev" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#111"/><path d="m8 10.5 4 4 4-4" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="jf-menu" id="pfMenu" hidden></div></div>
+    <div class="pc-grid" id="procGrid"></div>
+    <div class="nw-more" id="procMore"><button type="button" id="procMoreBtn"><span class="dv">އިތުރު ޕްރޮކިއުމަންޓްތައް</span><span class="en">More procurement</span></button></div>
   </div>
 </section>
 
@@ -2227,12 +2247,11 @@ const ANNOUNCEMENTS = [
   {"kind": "tender", "dv": "ކައުންސިލްގެ ވެހިކަލްތަކަށާއި، ކައުންސިލުން ކުރިއަށް ގެންދާ މަސައްކަތްތަކަށް ބޭނުންވާ ތެޔޮ ސަޕްލައި ކޮށްދޭނެ ފަރާތެއް ހޯދުން", "en": "", "date": "2026-08-07", "url": "https://kondey.gov.mv/8613", "id":"8613", "pdf":"https://kondey.gov.mv/wp-content/uploads/2026/08/Thyo-Iulaan.pdf", "ref":"", "reg":"", "submit":"", "files":[]}
 ];
 
-const PROCUREMENT = [
-  {dv:"ކައުންސިލް އިދާރާއަށް ކޮމްޕިއުޓަރު ގަތުން", en:"Purchase of computers for the council office", ref:"(IUL)355-PR/355/2026/14", date:"2026-11-10", due:"2026-11-24"},
-  {dv:"ރަށުގެ މަގުބައްތި ބަދަލުކުރުން", en:"Replacement of island street lights", ref:"(IUL)355-PR/355/2026/13", date:"2026-11-04", due:"2026-11-18"},
-  {dv:"ކުނި އުފުލާ ވެހިކަލް ކުއްޔަށް ހިފުން", en:"Hiring a waste collection vehicle", ref:"(IUL)355-PR/355/2026/12", date:"2026-10-22", due:""},
-  {dv:"ކައުންސިލް އިދާރާގެ އިމާރާތް މަރާމާތުކުރުން", en:"Council office building repairs", ref:"(IUL)355-PR/355/2026/11", date:"2026-10-09", due:""}
-];
+/* PROCUREMENT (ޕްރޮކިއުމަންޓްތައް) — built from the tender announcements (ANNOUNCEMENTS kind "tender").
+   cat: works / supply / service, worked out from the title. Opens the announcement page (#iulaan-id). */
+const PCATS={all:["ހުރިހާ","All"],works:["މަސައްކަތް ކުރުން","Works"],supply:["ސާމާނު ސަޕްލައި ކުރުން","Supply of goods"],service:["ޚިދުމަތް ހޯދުން","Services"]};
+const PROCUREMENT = ANNOUNCEMENTS.filter(a=>a.kind==="tender").map(a=>({...a,
+  cat:/ސަޕްލައި/.test(a.dv)?"supply":/(ހެދުން|ހެދުމުގެ|މަސައްކަތް|ޖަހައި)/.test(a.dv)?"works":"service"}));
 
 /* COUNCIL MEETINGS (ކައުންސިލް ބައްދަލުވުންތައް) — 5th term, copied from kondey.gov.mv
    (agendas: /category/agenda-aanmu, minutes: /category/yaumihyaa-aanmu). Newest first.
@@ -2399,7 +2418,30 @@ document.addEventListener("click",e=>{
 document.addEventListener("click",e=>{if(e.target.closest("#annMoreBtn")){e.preventDefault();ASHOW+=8;renderAnn(undefined,false);}});
 renderAnn(null);
 
-$("#procGrid").innerHTML=PROCUREMENT.map(p=>`<article class="card proc reveal"><div class="type">${bi("ބީލަން","Tender")}</div><div class="ref">${p.ref}</div><div class="d">${fdate(p.date)}</div><h4>${bi(p.dv,p.en)}</h4>${p.due?`<div class="deadline">${bi("ސުންގަޑި:","Deadline:")} ${fdate(p.due)}</div>`:""}</article>`).join("");
+let PCAT="all", PSHOW=8;
+function procOpen(p){const d=p.submit?new Date(p.submit.replace(" ","T")):null;return d&&d>new Date();}
+function renderProc(){
+  const list=PROCUREMENT.filter(p=>PCAT==="all"||p.cat===PCAT);
+  $("#procCount").textContent=list.length;
+  $("#pfLabel").innerHTML=bi(PCATS[PCAT][0],PCATS[PCAT][1]);
+  $("#pfMenu").innerHTML=Object.entries(PCATS).map(([k,v])=>`<button type="button" data-pcat="${k}" class="${PCAT===k?"on":""}">${bi(v[0],v[1])}</button>`).join("");
+  $("#procGrid").innerHTML=list.length?list.slice(0,PSHOW).map(p=>`<a class="pc-card" href="#iulaan-${p.id}">
+    ${procOpen(p)?`<span class="pc-open">${bi("ހުޅުވިފައި","Open")}</span>`:""}
+    <span class="pc-cat">${bi(PCATS[p.cat][0],PCATS[p.cat][1])}</span>
+    ${p.ref?`<span class="pc-ref">${p.ref}</span>`:""}
+    <span class="pc-date">${nDate(p.date).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</span>
+    <h4 dir="rtl">${p.dv}</h4></a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
+  $("#procMore").hidden=list.length<=PSHOW;
+}
+document.addEventListener("click",e=>{
+  const m=document.getElementById("pfMenu"), b=e.target.closest("#pfBtn"), o=e.target.closest("[data-pcat]");
+  if(e.target.closest("#procMoreBtn")){PSHOW+=8;renderProc();return;}
+  if(!m) return;
+  if(b){const open=m.hidden;m.hidden=!open;b.classList.toggle("open",open);return;}
+  if(o){PCAT=o.dataset.pcat;PSHOW=8;renderProc();}
+  m.hidden=true;const bb=document.getElementById("pfBtn");if(bb)bb.classList.remove("open");
+});
+renderProc();
 
 let MSHOW=9, MTYPE="all";
 const ord=n=>n+(n%100>=11&&n%100<=13?"th":({1:"st",2:"nd",3:"rd"}[n%10]||"th"));
