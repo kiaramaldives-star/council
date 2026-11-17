@@ -553,6 +553,14 @@ html[dir=ltr] .pd-back svg{transform:scaleX(-1)}
 .pd-card h2{display:none}
 @media (max-width:700px){.pd-card{padding:20px 18px 26px}.pd-card .dates{grid-template-columns:1fr 1fr}}
 
+/* project detail page: MV Waheed for labels and values */
+html[lang=dv] .pd-card :is(.lb,.pm-type,.badge,.contractor b,.dates > div,.pm-desc,.pd-back){font-family:"KondeyHeading","Faruma",sans-serif;font-weight:normal}
+html[lang=dv] .pd-card .lb{font-size:15px!important}
+html[lang=dv] .pd-card .pm-type,html[lang=dv] .pd-card .badge{font-size:14px}
+html[lang=dv] .pd-card .contractor b{font-size:18px}
+html[lang=dv] .pd-card .dates > div{font-size:17px}
+html[lang=dv] .pd-card .pd-back{font-size:17px}
+
 .to-top{position:fixed;bottom:24px;inset-inline-end:24px;z-index:45;width:46px;height:46px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(200,16,46,.4);opacity:0;pointer-events:none;transition:opacity .3s}
 .to-top.show{opacity:1;pointer-events:auto}
 
