@@ -1699,6 +1699,7 @@ const DIRECTORY = [
   {dv:"ކޮނޑޭ ޕޮލިސް ޕޯސްޓް", en:"Kondey Police Post", phone:"9222606", img:"", icon:"police"}
 ];
 
+const STATS_NOTE=["އަދާހަމަކުރެވިފައިވަނީ: ސެޕްޓެމްބަރު 2023","Last updated: September 2023"];
 const STATS = [
   {dv:"ޖުމްލަ އާބާދީ", en:"Total population", n:614, icon:"people"},
   {dv:"ފިރިހެން", en:"Male", n:297, icon:"male"},
@@ -2122,7 +2123,7 @@ function mediaBody(k){
   if(k==="council-staff") return staffPage();
   if(k==="news") return newsPage();
   if(k==="council-info") return `<div class="dir-grid">${$("#dirGrid").innerHTML.replace(/ reveal/g,"")}</div>`;
-  if(k==="statistics") return `<div class="md-stats">${STATS.map(x=>`<div class="md-st"><b class="num">${x.n.toLocaleString("en-US")}</b><span>${bi(x.dv,x.en)}</span></div>`).join("")}</div><p class="md-note">${bi("އަދާހަމަކުރެވިފައިވަނީ: ސެޕްޓެމްބަރު 2023","Last updated: September 2023")}</p>`;
+  if(k==="statistics") return `<div class="md-stats">${STATS.map(x=>`<div class="md-st"><b class="num">${x.n.toLocaleString("en-US")}</b><span>${bi(x.dv,x.en)}</span></div>`).join("")}</div><p class="md-note">${bi(STATS_NOTE[0],STATS_NOTE[1])}</p>`;
   if(k==="gallery"){const imgs=[...document.querySelectorAll(".hero-img")].map(e=>(e.style.backgroundImage.match(/url\("?(.*?)"?\)/)||[])[1]).filter(Boolean).concat(PROJECTS.filter(p=>p.img).map(p=>p.img));
     return imgs.length?`<div class="md-gallery">${imgs.map(u=>`<div class="g-ph"><img src="${u}" alt="" loading="lazy"></div>`).join("")}</div>`:mdEmpty();}
   if(k==="map") return `<div class="md-map"><div class="map-pin"><svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg></div><h3>${bi("ގއ. ކޮނޑޭ","Ga. Kondey")}</h3><p class="num">0.4986°N, 73.5486°E</p><a class="md-btn" href="https://www.google.com/maps?q=0.49861,73.54861&z=15" target="_blank" rel="noopener">${bi("ގޫގަލް މެޕްސްގައި ބައްލަވާ","Open in Google Maps")}</a></div>`;
@@ -2556,7 +2557,20 @@ function art(kind){
 const thumb=a=>a.img?`<img src="${a.img}" alt="${a.en}" loading="lazy">`:art(a.art);
 
 /* ---- render ---- */
-$("#stats").innerHTML=STATS.map(s=>`<div class="stat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24">${ICONS[s.icon]}</svg></div>${bi(s.dv,s.en)}<strong class="count" data-n="${s.n}">0</strong></div>`).join("");
+function renderStats(done){
+  $("#stats").innerHTML=STATS.map(s=>`<div class="stat"><div class="ic"><svg width="26" height="26" viewBox="0 0 24 24">${ICONS[s.icon]||ICONS.people}</svg></div>${bi(s.dv,s.en)}<strong class="count" data-n="${s.n}">${done?Number(s.n).toLocaleString("en-US"):0}</strong></div>`).join("");
+  const nt=document.querySelector(".stats-note"); if(nt) nt.innerHTML=bi(STATS_NOTE[0],STATS_NOTE[1]);
+}
+renderStats();
+/* island numbers from the admin portal (section "island") */
+function applyIsland(d){
+  const S=[["total","ޖުމްލަ އާބާދީ","Total population","people"],["male","ފިރިހެން","Male","male"],["female","އަންހެން","Female","female"],["households","ގޭބިސީ","Households","home"],["area","ބިމުގެ ބޮޑުމިން (ހެކްޓަރު)","Land area (ha)","map"]];
+  const L=S.filter(([k])=>d[k]!==""&&d[k]!=null&&!(k==="households"&&!+d[k])).map(([k,dv,en,icon])=>({dv,en,n:+d[k]||0,icon}));
+  if(L.length) STATS.splice(0,STATS.length,...L);
+  if(d.updated_dv||d.updated_en) STATS_NOTE.splice(0,2,"އަދާހަމަކުރެވިފައިވަނީ: "+(d.updated_dv||d.updated_en),"Last updated: "+(d.updated_en||d.updated_dv));
+  const done=[...document.querySelectorAll("#stats .count")].some(c=>c.textContent!=="0");
+  renderStats(done);
+}
 
 function status(p){ if(p.pct>=100) return `<span class="badge b-done">${bi("ނިމިފައި","Completed")}</span>`;
   if(p.pct>0) return `<span class="badge b-go">${bi("ކުރިއަށްދަނީ","In progress")}</span>`;
@@ -2961,6 +2975,7 @@ async function loadDB(){
     for(const [k,arr] of Object.entries(DB_SECTIONS)) if(by[k]) arr.splice(0,arr.length,...by[k]);
     if(by.councillors) membersToTerms(by.councillors,COUNCIL_TERMS);
     if(by.wdc) membersToTerms(by.wdc,WDC_TERMS);
+    if(by.island&&by.island[0]) try{applyIsland(by.island[0])}catch(e){}
     try{renderDir()}catch(e){}
     try{const el=document.getElementById("cmTerms");if(el)el.innerHTML=termsHTML(COUNCIL_TERMS,COUNCIL_POS);}catch(e){}
     PROJECTS.forEach((p,i)=>{if(!p.id)p.id="p"+(i+1)});

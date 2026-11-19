@@ -146,6 +146,10 @@ const SECTIONS={
  wdc:{dv:"އ.ތ.މ ކޮމިޓީ",en:"WDC members",title:x=>x.dv,img:"photo",sub:x=>`${x.term} ވަނަ ދައުރު · ${({pres:"ރައީސް",vp:"ނައިބް ރައީސް",mem:"މެމްބަރ"})[x.pos]||""}`,fields:[
    T("term","ދައުރު","Term (e.g. 5)","number",{def:5}),T("pos","މަޤާމު","Position","select",{opts:[["pres","ކޮމިޓީގެ ރައީސް"],["vp","ކޮމިޓީގެ ނައިބް ރައީސް"],["mem","ކޮމިޓީގެ މެމްބަރ"]]}),
    T("dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),T("phone","އޮފީސް ފޯނު","Office phone","text",{ltr:1}),T("mobile","މޮބައިލް","Mobile","text",{ltr:1}),T("email","އީމެއިލް","Email","text",{ltr:1}),T("photo","ފޮޓޯ","Photo","image")]},
+ island:{dv:"ރަށުގެ ތަފާސްހިސާބު",en:"Island statistics",single:1,title:x=>`ޖުމްލަ އާބާދީ ${x.total||""}`,sub:x=>`ފިރިހެން ${x.male||""} · އަންހެން ${x.female||""} · ${x.area||""} ހެކްޓަރު`,fields:[
+   T("total","ޖުމްލަ އާބާދީ","Total population","number"),T("male","ފިރިހެން","Male","number"),T("female","އަންހެން","Female","number"),
+   T("households","ގޭބިސީ (ހުސްކޮށް ބާއްވައިފިނަމަ ނުދައްކާނެ)","Households (blank = hidden)","number"),T("area","ބިމުގެ ބޮޑުމިން (ހެކްޓަރު)","Land area (hectares)","number"),
+   T("updated_dv","އަދާހަމަކުރި ތާރީޚު (ދިވެހިން)","Last updated (Dhivehi), e.g. ސެޕްޓެމްބަރު 2023"),T("updated_en","އަދާހަމަކުރި ތާރީޚު (އިނގިރޭސިން)","Last updated (English), e.g. September 2023","text",{ltr:1})]},
  directory:{dv:"ޑައިރެކްޓަރީ",en:"Island directory",title:x=>x.dv,img:"img",sub:x=>x.phone||"",fields:[
    T("dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),T("phone","ފޯނު ނަންބަރު","Phone","text",{ltr:1}),
    T("icon","އައިކަން","Icon (if no photo)","select",{opts:[["office","އޮފީސް"],["school","ސްކޫލް"],["health","ހެލްތް"],["power","ކަރަންޓް"],["court","ކޯޓު"],["road","މަގު"],["police","ފުލުހުން"],["harbour","ބަނދަރު"]]}),T("img","ފޮޓޯ (ބޭނުންނަމަ)","Photo (optional)","image")]},
@@ -204,13 +208,13 @@ function renderMain(){
   const total=ROWS.length; const count=k=>ROWS.filter(r=>r.section===k).length;
   const q=Q.trim(); if(q) rows=rows.filter(r=>JSON.stringify(r.data).includes(q));
   $("#main").innerHTML=(Object.keys(SECTIONS).some(k=>k!=="press"&&!count(k))?`<div class="note"><b>${total===0?"ޑޭޓާބޭސް ހުހަށް.":"އަލަށް އިތުރުކުރި ބައިތައް ހުހަށް."}</b> ވެބްސައިޓުގައި މިހާރު ހުރި ހުރިހާ މަޢުލޫމާތާއި ފޮޓޯ ޑޭޓާބޭހަށް އެއްފަހަރާ ގެނެސްލެވޭނެ.<br><span class="en">The database is empty. Import everything that is currently built into the website (with photos) in one go.</span><br><button class="btn" id="importBtn">ވެބްސައިޓުން ގެންނަ <span class="en" style="color:#fff">Import site content</span></button><div class="msg" id="impMsg"></div></div>`:"")+
-   `<div class="bar"><h2>${sec.dv} <span class="en">${sec.en}</span></h2><input class="search" id="q" placeholder="ހޯދާ… / Search" value="${esc(Q)}"><button class="btn" id="addBtn">+ އަލަށް <span class="en" style="color:#fff">Add new</span></button></div>`+
+   `<div class="bar"><h2>${sec.dv} <span class="en">${sec.en}</span></h2><input class="search" id="q" placeholder="ހޯދާ… / Search" value="${esc(Q)}">${sec.single&&rows.length?"":`<button class="btn" id="addBtn">+ އަލަށް <span class="en" style="color:#fff">Add new</span></button>`}</div>`+
    (rows.length?`<div class="list">${rows.map(r=>{const d=r.data, im=sec.img&&d[sec.img];return `<div class="row" data-id="${r.id}">
       ${sec.img?`<img class="th" src="${esc(im||"")}" alt="" onerror="this.style.visibility='hidden'">`:""}
       <div class="tt"><div>${esc(sec.title(d)||"(ސުރުޚީ ނެތް)")}${r.published?"":'<span class="hid">ފޮރުވާފައި</span>'}</div><small>${esc(sec.sub?sec.sub(d):(d.date||({sg:"ސެކްރެޓަރީ ޖެނެރަލް",ace:"އެސިސްޓެންޓް ކައުންސިލް އެގްޒެކްޓިވް",aco:"އެސޯސިއޭޓް ކައުންސިލް އޮފިސަރ",ca:"ކައުންސިލް އެސިސްޓެންޓް"})[d.role]||""))}</small></div>
       <div class="acts"><button class="btn ghost sm" data-mv="-1" title="Up">▲</button><button class="btn ghost sm" data-mv="1" title="Down">▼</button><button class="btn ghost sm" data-edit>ބަދަލު</button><button class="btn danger sm" data-del>ފޮހެލާ</button></div></div>`}).join("")}</div>`:`<div class="empty">މި ބައިގައި އެއްވެސް އެއްޗެއް ނެތް <span class="en">Nothing here yet</span></div>`);
   $("#q").oninput=e=>{Q=e.target.value;const p=e.target.selectionStart;renderMain();const i=$("#q");i.focus();i.setSelectionRange(p,p);};
-  $("#addBtn").onclick=()=>openEditor(null);
+  if($("#addBtn"))$("#addBtn").onclick=()=>openEditor(null);
   const ib=$("#importBtn"); if(ib) ib.onclick=importSite;
 }
 $("#main").onclick=async e=>{
@@ -320,6 +324,7 @@ async function importSite(){
     await new Promise((res,rej)=>{fr.onload=res;setTimeout(()=>rej(new Error("Could not load index.html")),60000);});
     const w=fr.contentWindow;
     const data=w.eval(`({news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS.map(({dv,en,...m})=>m),reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY,
+      island:[{total:STATS[0].n,male:STATS[1].n,female:STATS[2].n,area:(STATS.find(x=>x.icon==="map")||{}).n,updated_dv:"ސެޕްޓެމްބަރު 2023",updated_en:"September 2023"}],
       councillors:COUNCIL_TERMS.flatMap(t=>t.members.map(m=>({term:/ފުރަތަމަ/.test(t.dv)?1:parseInt(t.dv)||0,...m}))),
       wdc:WDC_TERMS.flatMap(t=>t.members.map(m=>({term:/ފުރަތަމަ/.test(t.dv)?1:parseInt(t.dv)||0,...m})))})`);
     const have=new Set(ROWS.map(r=>r.section)); const all=[]; for(const [sec,arr] of Object.entries(data)) if(!have.has(sec)) arr.forEach((x,i)=>all.push([sec,JSON.parse(JSON.stringify(x)),i]));
