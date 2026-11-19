@@ -1171,6 +1171,14 @@ html[lang=en] .cd-k,html[lang=en] .cd-v{font-family:inherit;font-size:12px}
 .pc-card h4,.an-card h4{flex:none}
 .td+.dl2.in-td{margin-top:12px}
 .dl2.in-td{max-width:none}
+
+/* compact deadline cards: calendar beside title, time + status in one row */
+.dl2-c:not(.na){display:grid;grid-template-columns:auto 1fr;grid-template-areas:"cal h" "cal info";column-gap:12px;row-gap:8px;align-items:center}
+.dl2-c:not(.na) .dl2-b{display:contents}
+.dl2-c:not(.na) .dl2-cal{grid-area:cal}
+.dl2-c:not(.na) .dl2-h{grid-area:h;margin:0}
+.dl2-c:not(.na) .dl2-info{grid-area:info;flex-direction:row;flex-wrap:wrap;align-items:center}
+.dl2-c:not(.na) .dl2-ic{width:26px;height:26px}
 </style>
 </head>
 <body>
