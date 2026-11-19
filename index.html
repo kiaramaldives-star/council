@@ -1816,13 +1816,13 @@ document.addEventListener("DOMContentLoaded",()=>{const av=document.querySelecto
 function cardDeadlines(a){
   if(a.kind!=="tender") return "";
   const row=(v,dv,en,c)=>`<div class="cd-r ${c}"><span class="cd-k">${bi(dv,en)}</span><span class="cd-v">${v?(()=>{const [d,t]=v.split(" ");return nDate(d)+(t?` <b class="num">${t}</b>`:"")})():`<i>${bi("ލިޔުމުގައި","See document")}</i>`}</span></div>`;
-  return `<div class="cd">${row(a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg")}${row(a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub")}${a.date?row(a.date,"އިޢުލާން ކުރި ތާރީޚު","Date announced","pub"):""}</div>`;
+  return `<div class="cd">${row(a.reg,"ރަޖިސްޓަރވުމުގެ ސުންގަޑި","Registration deadline","reg")}${row(a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub")}${a.date?row(a.date,"އިޢުލާން ކުރި ތާރީޚު","Date announced","pub"):""}</div>`;
 }
 const TENDER_REQ="އަގު ބަޔާންކޮށްފައިވާ ކޯޓޭޝަން\nވިޔަފާރީގެ ޕްރޮފައިލް ޝީޓް\nވެރި ފަރާތުގެ ދިވެހި ރައްޔިތެއްކަން އަންގައިދޭ ކާޑުގެ ކޮޕީ";
 function annDetail(a){
   const DL='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
   const DOC='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>';
-  const DL2=`<div class="dl2">${[[a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg"],[a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub"]].map(([v,dv,en,c])=>{
+  const DL2=`<div class="dl2">${[[a.reg,"ރަޖިސްޓަރވުމުގެ ސުންގަޑި","Registration deadline","reg"],[a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub"]].map(([v,dv,en,c])=>{
       if(!v) return `<div class="dl2-c ${c} na"><div class="dl2-h"><span class="dl2-ic">${c==="reg"?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>'}</span><b>${bi(dv,en)}</b></div><p class="dl2-na">${bi("ތާރީޚު ލިޔުމުގައި ބައްލަވާ","See the document")}</p></div>`;
       const [d,t]=v.split(" "), dt=new Date(d+"T"+(t||"23:59")+":00+05:00"), [y,m,dd]=d.split("-").map(Number);
       const left=Math.ceil((dt-Date.now())/864e5), open=dt>Date.now();
@@ -1853,7 +1853,7 @@ function annDetail(a){
       const info=[
         a.ref?["#","ނަންބަރު","Number",`<span class="ltr num">${esc2(a.ref)}</span>`,""]:null,
         a.date?["pub","އިޢުލާން ކުރި ތާރީޚު","Date announced",nDate(a.date),""]:null,
-        ["reg","ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline",DV(a.reg),ST(a.reg)],
+        ["reg","ރަޖިސްޓަރވުމުގެ ސުންގަޑި","Registration deadline",DV(a.reg),ST(a.reg)],
         ["sub","އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission",DV(a.submit),ST(a.submit)]
       ].filter(Boolean);
       return `${info.map(([c,dv,en,v,st])=>`<h3 class="ad-h">${bi(dv,en)}</h3><ul class="td-req ti" dir="rtl"><li class="ti-${c==="#"?"ref":c}"><span class="ti-v">${v}</span>${st}</li></ul>`).join("")}
