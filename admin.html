@@ -134,6 +134,7 @@ const SECTIONS={
    T("no","ބައްދަލުވުމުގެ ނަންބަރު","Meeting no.","number"),T("term","ދައުރު","Term","number",{def:5}),T("type","ބާވަތް","Type","select",{opts:[["aanmu","އާންމު"],["kuhli","ކުއްލި"]]}),T("date","ތާރީޚު","Date","date"),
    T("agendaPdf","އެޖެންޑާ PDF","Agenda PDF","file"),T("agendaText","އެޖެންޑާގެ ލިޔުން","Agenda text","textarea",{rows:8,help:"# = heading · 1. = numbered · - = bullet"}),
    T("minutesPdf","ޔައުމިއްޔާ PDF","Minutes PDF","file"),T("minutesText","ޔައުމިއްޔާގެ ލިޔުން","Minutes text","textarea",{rows:10,help:"# = heading · 1. = numbered · - = bullet"}),
+   T("decisionsPdf","ނިންމުންތައް (PDF ނުވަތަ ފޮޓޯ)","Decisions (PDF or photo)","file"),T("decisionsText","ނިންމުންތަކުގެ ލިޔުން","Decisions text","textarea",{rows:10,help:"# = heading · 1. = numbered · - = bullet"}),
    T("agenda","އެޖެންޑާ ލިންކް (kondey.gov.mv)","Agenda page link","url"),T("minutes","ޔައުމިއްޔާ ލިންކް (kondey.gov.mv)","Minutes page link","url")]},
  reports:{dv:"ރިޕޯޓުތައް",en:"Reports",title:x=>x.dv,fields:[T("type","ބާވަތް","Type","select",{opts:[["expense","ޚަރަދު"],["income","އާމްދަނީ"],["attendance","ހާޟިރީ"],["procurement","ޕްރޮކިއުމަންޓް"],["other","އެހެނިހެން"]]}),T("dv","ސުރުޚީ","Title"),T("date","ތާރީޚު","Date","date"),T("pdf","PDF","PDF","file"),T("url","ލިންކް","Link (optional)","url")]},
  rules:{dv:"ޤަވާއިދު / އުޞޫލު",en:"Rules & regulations",title:x=>x.dv,fields:[T("type","ބާވަތް","Type","select",{opts:[["regulation","ޤަވާއިދު"],["policy","އުޞޫލު"]]}),T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("pdf","PDF","PDF","file"),T("url","ލިންކް","Link (optional)","url")]},
@@ -251,7 +252,7 @@ function fieldHTML(f,v){
   if(f.type==="number") return `<div class="fld">${lab}<input data-k="${f.k}" type="number" class="ltr" value="${v??""}"></div>`;
   if(f.type==="url") return `<div class="fld">${lab}<input data-k="${f.k}" type="url" class="ltr" value="${esc(v)}" placeholder="https://"></div>`;
   if(f.type==="image") return `<div class="fld">${lab}<div class="imgbox"><img data-prev="${f.k}" src="${esc(v||"")}" alt="" onerror="this.removeAttribute('src')"><input type="file" accept="image/*" data-file="${f.k}" data-img="1"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
-  if(f.type==="file") return `<div class="fld">${lab}<div class="filebox">${v?`<a href="${esc(v)}" target="_blank" data-cur="${f.k}">${esc(decodeURIComponent(v.split("/").pop()))}</a><button type="button" class="btn ghost sm" data-clear="${f.k}">✕</button>`:""}<input type="file" accept="application/pdf,.pdf,.doc,.docx" data-file="${f.k}"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
+  if(f.type==="file") return `<div class="fld">${lab}<div class="filebox">${v?`<a href="${esc(v)}" target="_blank" data-cur="${f.k}">${esc(decodeURIComponent(v.split("/").pop()))}</a><button type="button" class="btn ghost sm" data-clear="${f.k}">✕</button>`:""}<input type="file" accept="application/pdf,.pdf,.doc,.docx,image/*" data-file="${f.k}"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
   return `<div class="fld">${lab}<input data-k="${f.k}" type="text"${ltr} value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}></div>`;
 }
 function openEditor(r){
