@@ -114,7 +114,10 @@ const esc=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"
 /* ---------- section definitions ---------- */
 const T=(k,dv,en,type="text",extra={})=>({k,dv,en,type,...extra});
 const SECTIONS={
- news:{dv:"ޚަބަރު",en:"News",title:x=>x.title,img:"img",fields:[T("title","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("img","ފޮޓޯ","Photo","image"),T("url","ފުރިހަމަ ޚަބަރުގެ ލިންކް","Link to full story","url")]},
+ news:{dv:"ޚަބަރު",en:"News",title:x=>x.title,img:"img",fields:[T("title","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("time","ގަޑި","Time (e.g. 19:17)","text",{ltr:1,ph:"19:17"}),T("author","ލިޔުނު ފަރާތް","Author","text",{ph:"ކޮނޑޭ ކައުންސިލް"}),
+   T("img","ފޮޓޯ","Photo","image"),T("caption","ފޮޓޯގެ ތިރީގައި ލިޔުން","Photo caption"),T("summary","ޚުލާޞާ (ބޭނުންނަމަ)","Summary (optional)","textarea",{rows:3}),
+   T("body","ޚަބަރު","Story text","textarea",{rows:14,help:"Blank line = new paragraph · # = heading · - = bullet"}),T("points","މުހިންމު ނުކުތާތައް (ކޮންމެ ނުކުތާއެއް އަލަށް ލައިނެއްގައި)","Key points (one per line, optional)","textarea",{rows:4}),
+   T("url","kondey.gov.mv ލިންކް (ބޭނުންނަމަ)","Original link (optional)","url"),T("id","","","hiddenid")]},
  announcements:{dv:"އިޢުލާން / ވަޒީފާ / ބީލަން",en:"Announcements, jobs & tenders",title:x=>x.dv,fields:[
    T("kind","ބާވަތް","Type","select",{opts:[["tender","ބީލަން / ޕްރޮކިއުމަންޓް"],["job","ވަޒީފާ"],["iulan","އިޢުލާން"]]}),
    T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("ref","ނަންބަރު","Reference no.","text",{ltr:1,ph:"(IUL)412-PR/412/2026/10"}),
