@@ -1853,8 +1853,7 @@ function annDetail(a){
         ["reg","ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline",DV(a.reg),ST(a.reg)],
         ["sub","އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission",DV(a.submit),ST(a.submit)]
       ].filter(Boolean);
-      return `<h3 class="ad-h">${bi("ބީލަމުގެ ތަފްޞީލް","Tender details")}</h3>
-      <ul class="td-req ti" dir="rtl">${info.map(([c,dv,en,v,st])=>`<li class="ti-${c==="#"?"ref":c}"><span class="ti-k">${bi(dv,en)}:</span><span class="ti-v">${v}</span>${st}</li>`).join("")}</ul>
+      return `${info.map(([c,dv,en,v,st])=>`<h3 class="ad-h">${bi(dv,en)}</h3><ul class="td-req ti" dir="rtl"><li class="ti-${c==="#"?"ref":c}"><span class="ti-v">${v}</span>${st}</li></ul>`).join("")}
       ${a.body?`<div class="td-body" dir="rtl">${mnRender(a.body)}</div>`:""}
       ${(a.requirements==="none"?"":(a.requirements||TENDER_REQ))?`<h3 class="ad-h">${bi("ހުށަހަޅަންޖެހޭ ލިޔުންތައް","Documents to submit")}</h3><ul class="td-req" dir="rtl">${(a.requirements==="none"?"":(a.requirements||TENDER_REQ)).split("\n").map(x=>x.trim()).filter(Boolean).map(x=>`<li>${esc2(x)}</li>`).join("")}</ul>`:""}`;})():""}
     ${(()=>{const fn=u=>decodeURIComponent((u||"").split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"").replace(/[-_]+/g," ").trim();
