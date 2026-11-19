@@ -1179,6 +1179,13 @@ html[lang=en] .cd-k,html[lang=en] .cd-v{font-family:inherit;font-size:12px}
 .dl2-c:not(.na) .dl2-h{grid-area:h;margin:0}
 .dl2-c:not(.na) .dl2-info{grid-area:info;flex-direction:row;flex-wrap:wrap;align-items:center}
 .dl2-c:not(.na) .dl2-ic{width:26px;height:26px}
+
+.dl2-c:not(.na){grid-template-columns:auto 1fr auto;grid-template-areas:"cal h st" "cal t st";row-gap:6px;padding:10px 12px}
+.dl2-c:not(.na) .dl2-info{display:contents}
+.dl2-c:not(.na) .dl2-t{grid-area:t;justify-self:start}
+.dl2-c:not(.na) .dl2-s{grid-area:st;align-self:center;white-space:nowrap}
+.dl2-c:not(.na) .dl2-h b{font-size:14px}
+@media (max-width:640px){.dl2-c:not(.na) .dl2-ic{display:none}.dl2-c:not(.na) .dl2-h b{white-space:nowrap}}
 </style>
 </head>
 <body>
