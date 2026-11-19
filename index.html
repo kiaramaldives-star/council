@@ -1185,7 +1185,14 @@ html[lang=en] .cd-k,html[lang=en] .cd-v{font-family:inherit;font-size:12px}
 .dl2-c:not(.na) .dl2-t{grid-area:t;justify-self:start}
 .dl2-c:not(.na) .dl2-s{grid-area:st;align-self:center;white-space:nowrap}
 .dl2-c:not(.na) .dl2-h b{font-size:14px}
-@media (max-width:640px){.dl2-c:not(.na) .dl2-ic{display:none}.dl2-c:not(.na) .dl2-h b{white-space:nowrap}}
+@media (max-width:640px){.dl2-c:not(.na) .dl2-ic{display:none}.dl2-c:not(.na) .dl2-h{min-width:0}}
+
+.dl2-c:not(.na){grid-template-columns:auto auto 1fr;grid-template-areas:"h h st" "dt t st";column-gap:8px;padding:12px 14px}
+.dl2-c:not(.na) .dl2-date{grid-area:dt;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px;color:#111827;white-space:nowrap}
+.dl2-c:not(.na).sub .dl2-date{color:var(--gold)}
+.dl2-c:not(.na) .dl2-s{justify-self:end}
+html[lang=en] .dl2-date{font-family:inherit!important;font-weight:700;font-size:14px!important}
+@media (max-width:640px){.dl2-c:not(.na){grid-template-areas:"h h st" "dt t .";padding:12px}.dl2-c:not(.na) .dl2-s{align-self:center}.dl2-c:not(.na) .dl2-t{padding:3px 9px}.dl2-c:not(.na) .dl2-s{font-size:12px;padding:3px 8px}}
 </style>
 </head>
 <body>
@@ -1807,7 +1814,7 @@ function annDetail(a){
       return `<div class="dl2-c ${c} ${open?"open":"closed"}">
         <div class="dl2-h"><span class="dl2-ic">${c==="reg"?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>'}</span><b>${bi(dv,en)}</b></div>
         <div class="dl2-b">
-          <div class="dl2-cal"><span class="dl2-m">${bi(DV_MONTHS[m-1],EN_MONTHS[m-1].slice(0,3))}</span><span class="dl2-d num">${String(dd).padStart(2,"0")}</span><span class="dl2-y num">${y}</span></div>
+          <span class="dl2-date">${nDate(d)}</span>
           <div class="dl2-info">${t?`<span class="dl2-t"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg><span class="num">${t}</span></span>`:""}<span class="dl2-s">${st}</span></div>
         </div></div>`}).join("")}</div>`;
   const share=encodeURIComponent(location.href.split("#")[0]+"#iulaan-"+a.id), txt=encodeURIComponent(a.dv);
