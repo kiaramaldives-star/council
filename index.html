@@ -1139,6 +1139,23 @@ html[lang=dv] .dl2-s{font-family:"KondeyHeading","Faruma",sans-serif;font-size:1
 .page-band:has(.nd-head) h1{margin:0}
 #mediaPage:has(.nd-head) .md-card{margin-top:-72px}
 @media (max-width:640px){.page-band:has(.nd-head){padding:16px 0 70px}#mediaPage:has(.nd-head) .md-card{margin-top:-54px;padding-top:16px}}
+
+/* ---------- tender details ---------- */
+.td{border:1px solid #EEF0F3;border-radius:16px;overflow:hidden}
+.td-r{display:grid;grid-template-columns:30px 150px 1fr;align-items:center;gap:10px;padding:10px 14px}
+.td-r:nth-child(odd){background:#F8F9FB}
+.td-ic{width:28px;height:28px;border-radius:8px;background:#FDE3E7;color:var(--gold);display:grid;place-items:center}
+.td-k{color:#6B7280;font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+html[lang=en] .td-k{font-family:inherit;font-size:13px}
+.td-v{color:#111827;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+html[lang=en] .td-v{font-family:inherit;font-size:14px;font-weight:600}
+.td-v .num,.td-v .ltr{font-family:"Plus Jakarta Sans",system-ui,sans-serif;font-weight:600;font-size:14px}
+.td-v a{color:var(--gold)}
+.td-body{margin-top:14px;font-family:"Faruma",sans-serif;font-size:17px;line-height:2;color:#374151}
+.td-body p{margin:0 0 10px}
+.td-req{margin:0;padding-inline-start:22px;font-family:"Faruma",sans-serif;font-size:16px;line-height:2;color:#374151}
+.td-req li::marker{color:var(--gold)}
+@media (max-width:560px){.td-r{grid-template-columns:28px 1fr;row-gap:2px}.td-v{grid-column:2}}
 </style>
 </head>
 <body>
@@ -1745,8 +1762,8 @@ function annDetail(a){
   const DOC='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>';
   const share=encodeURIComponent(location.href.split("#")[0]+"#iulaan-"+a.id), txt=encodeURIComponent(a.dv);
   return `<article class="ad">
-    <div class="ad-meta"><span class="an-tag ${a.kind}">${KIND[a.kind]}</span><span class="an-date">${nDate(a.date)}</span>${a.ref?`<span class="ad-ref"><small>${bi("ނަންބަރު","Number")}</small> <span class="ltr">${a.ref}</span></span>`:""}</div>
-    ${a.body?`<div class="ad-body" dir="rtl">${a.body}</div>`:""}
+    <div class="ad-meta"><span class="an-tag ${a.kind}">${KIND[a.kind]}</span><span class="an-date">${nDate(a.date)}</span>${a.ref&&a.kind!=="tender"?`<span class="ad-ref"><small>${bi("ނަންބަރު","Number")}</small> <span class="ltr">${a.ref}</span></span>`:""}</div>
+    ${a.body&&a.kind!=="tender"?`<div class="ad-body" dir="rtl">${a.body}</div>`:""}
     ${a.kind==="tender"||a.reg||a.submit?`<div class="dl2">${[[a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg"],[a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub"]].map(([v,dv,en,c])=>{
       if(!v) return `<div class="dl2-c ${c} na"><div class="dl2-h"><span class="dl2-ic">${c==="reg"?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>'}</span><b>${bi(dv,en)}</b></div><p class="dl2-na">${bi("ތާރީޚު ލިޔުމުގައި ބައްލަވާ","See the document")}</p></div>`;
       const [d,t]=v.split(" "), dt=new Date(d+"T"+(t||"23:59")+":00+05:00"), [y,m,dd]=d.split("-").map(Number);
@@ -1758,6 +1775,27 @@ function annDetail(a){
           <div class="dl2-cal"><span class="dl2-m">${bi(DV_MONTHS[m-1],EN_MONTHS[m-1].slice(0,3))}</span><span class="dl2-d num">${String(dd).padStart(2,"0")}</span><span class="dl2-y num">${y}</span></div>
           <div class="dl2-info">${t?`<span class="dl2-t"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg><span class="num">${t}</span></span>`:""}<span class="dl2-s">${st}</span></div>
         </div></div>`}).join("")}</div>`:""}
+    ${a.kind==="tender"?(()=>{const P=(typeof PROCUREMENT!=="undefined"&&PROCUREMENT.find(x=>x.id===a.id))||a;
+      const catDv={works:"މަސައްކަތް ކުރުން",supply:"ސާމާނު ސަޕްލައި ކުރުން",service:"ޚިދުމަތް ހޯދުން"}[a.pcat||P.cat]||"";
+      const catEn={works:"Works",supply:"Supply of goods",service:"Services"}[a.pcat||P.cat]||"";
+      const D=v=>{if(!v)return"";const [d,t]=v.split(" ");return nDate(d)+(t?` · <span class="num">${t}</span>`:"");};
+      const rows=[
+        ["ref","ނަންބަރު","Reference no.",a.ref?`<span class="ltr num">${esc2(a.ref)}</span>`:""],
+        ["cat","ބާވަތް","Type",catDv?bi(catDv,catEn):""],
+        ["pub","ޝާއިޢުކުރި ތާރީޚު","Published",nDate(a.date)],
+        ["loc","މަސައްކަތްކުރާ ތަން","Location",esc2(a.location||"")],
+        ["budget","އަންދާޒީ ބަޖެޓް","Estimated budget",a.budget?`<span class="num">${Number(a.budget).toLocaleString("en-US")}</span> ${bi("ރުފިޔާ","MVR")}`:""],
+        ["dur","މުއްދަތު","Duration",esc2(a.duration||"")],
+        ["visit","ސައިޓް ވިޒިޓް","Site visit",D(a.visit)],
+        ["open","ބީލަން ހުޅުވާ","Bid opening",D(a.opening)],
+        ["fee","ފައިސާ ދައްކަންޖެހޭ ނަމަ","Fee",esc2(a.fee||"")],
+        ["contact","ގުޅޭނެ","Contact",a.contact?esc2(a.contact):`<a href="tel:+9606820019" class="num">6820019</a> · <a href="mailto:info@kondey.gov.mv" class="ltr">info@kondey.gov.mv</a>`]
+      ].filter(r=>r[3]);
+      const I={ref:'<path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/>',cat:'<path d="M3 4h2l2 12h11l2-8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/>',pub:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',loc:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',budget:'<rect x="2" y="6" width="20" height="13" rx="3"/><circle cx="12" cy="12.5" r="3"/>',dur:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M9 2h6"/>',visit:'<path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M10 21v-5h4v5"/>',open:'<path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M9 14h6"/>',fee:'<circle cx="12" cy="12" r="9"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .9-3 2s1.3 1.8 3 2 3 .9 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6v2M12 16v2"/>',contact:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>'};
+      return `<h3 class="ad-h">${bi("ބީލަމުގެ ތަފްޞީލް","Tender details")}</h3>
+      <div class="td">${rows.map(([k,dv,en,v])=>`<div class="td-r"><span class="td-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${I[k]}</svg></span><span class="td-k">${bi(dv,en)}</span><span class="td-v">${v}</span></div>`).join("")}</div>
+      ${a.body?`<div class="td-body" dir="rtl">${mnRender(a.body)}</div>`:""}
+      ${a.requirements?`<h3 class="ad-h">${bi("ހުށަހަޅަންޖެހޭ ލިޔެކިޔުން","Required documents")}</h3><ul class="td-req" dir="rtl">${a.requirements.split("\n").map(x=>x.trim()).filter(Boolean).map(x=>`<li>${esc2(x)}</li>`).join("")}</ul>`:""}`;})():""}
     ${(()=>{const fn=u=>decodeURIComponent((u||"").split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"").replace(/[-_]+/g," ").trim();
       const L=[...(a.pdf?[{u:a.pdf,n:a.pdfName||fn(a.pdf)}]:[]),...(a.files||[]).map(f=>({u:f.url,n:fn(f.url)}))];
       const PDFI='<svg class="rd-ic" width="26" height="32" viewBox="0 0 26 32"><path d="M2 0h16l8 8v22a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" fill="#E1251B"/><path d="M18 0v6a2 2 0 0 0 2 2h6z" fill="#fff" opacity=".55"/><path d="M6.5 24.5c1.6-1 3.4-4.6 4.6-8.4.6-1.9.4-3.6-.6-3.6s-1.2 1.6-.6 3.3c1 2.9 3.6 5.8 6.4 6.5 1.7.4 2.6-.3 2.2-1.1-.5-.9-3-.7-5.8.1-3 .9-6 2.4-6.6 3.4-.4.7.1 1.1.4-.2z" fill="none" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>';
