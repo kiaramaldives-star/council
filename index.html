@@ -1044,7 +1044,7 @@ html[lang=dv] .pc-cat{font-family:"KondeyHeading","Faruma",sans-serif;font-size:
 .pc-date{color:#4B5563;font-size:13px}
 html[lang=dv] .pc-date{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
 .pc-date .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:13px}
-.pc-card h4{font-family:"KondeyHeading","Faruma",sans-serif;font-size:18px;line-height:1.8;color:#111827;margin-top:14px;width:100%;text-align:right;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pc-card h4{font-family:"KondeyHeading","Faruma",sans-serif;font-size:18px;line-height:1.8;color:#111827;margin-top:2px;width:100%;text-align:right;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .pc-card:hover h4{color:var(--gold)}
 #procurement .jf{margin-bottom:34px}
 @media (max-width:1100px){.pc-grid{grid-template-columns:repeat(2,1fr)}}
@@ -2639,7 +2639,7 @@ function renderAnn(kind,reset){
       <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4></a>`:`<a class="an-card" href="${a.id?"#iulaan-"+a.id:"#announcements"}">
       <span class="an-tag ${a.kind}">${KIND[a.kind]}</span>
       
-      <span class="an-date">${nDate(a.date)}</span>
+      ${a.kind==="tender"?"":`<span class="an-date">${nDate(a.date)}</span>`}
       <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4>${a.ref?`<span class="an-ref ltr">${a.ref}</span>`:""}${cardDeadlines(a)}</a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
   const more=document.getElementById("annMore"); if(more) more.hidden=list.length<=ASHOW;
 }
@@ -2664,7 +2664,6 @@ function renderProc(){
     ${procOpen(p)?`<span class="pc-open">${bi("ހުޅުވިފައި","Open")}</span>`:""}
     <span class="pc-cat">${bi(PCATS[p.cat][0],PCATS[p.cat][1])}</span>
     
-    <span class="pc-date">${nDate(p.date).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</span>
     <h4 dir="rtl">${p.dv}</h4>${p.ref?`<span class="pc-ref">${p.ref}</span>`:""}${cardDeadlines(p)}</a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
   $("#procMore").hidden=list.length<=PSHOW;
 }
