@@ -1126,6 +1126,14 @@ html[lang=dv] .dl2-s{font-family:"KondeyHeading","Faruma",sans-serif;font-size:1
 .closed .dl2-cal{opacity:.7}
 .dl2-na{margin:0;color:#9CA3AF;font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
 @media (max-width:640px){.dl2{grid-template-columns:1fr}}
+
+/* ---------- related documents ---------- */
+.rd-list{display:grid;gap:10px}
+.rd{display:flex;align-items:flex-start;gap:12px;background:#F4F4F5;border-radius:14px;padding:16px 18px;color:#6B7280;transition:background .2s,color .2s}
+.rd:hover{background:#FDF2F4;color:var(--gold)}
+.rd-ic{flex:none;margin-top:2px}
+.rd span{font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,"Faruma",sans-serif;font-size:17px;line-height:1.5;word-break:break-word;unicode-bidi:plaintext;text-align:start;flex:1}
+.rd-ext{flex:none;font-style:normal;background:#3F4F66;color:#fff;border-radius:6px;font-size:11px;font-weight:700;padding:5px 6px;font-family:"Plus Jakarta Sans",sans-serif}
 </style>
 </head>
 <body>
@@ -1748,7 +1756,11 @@ function annDetail(a){
         </div></div>`}).join("")}</div>`:""}
     ${a.pdf?`<div class="ad-pdf"><a class="ad-ph" href="${a.pdf}" target="_blank" rel="noopener">${DOC}<b>${bi("އިޢުލާނުގެ ލިޔުން","Announcement document")}</b><span>PDF</span></a><iframe src="${a.pdf}#view=FitH" title="PDF" loading="lazy"></iframe></div>
     <div class="ad-btns"><a class="ad-dl" href="${a.pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${a.pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:""}
-    ${a.files&&a.files.length?`<h3 class="ad-h">${bi("އިތުރު ފައިލްތައް","Additional files")}</h3><div class="ad-files">${a.files.map(f=>`<a href="${f.url}" target="_blank" rel="noopener"><i>${DOC}</i><span>${bi(f.dv,f.en)}</span><em>PDF</em></a>`).join("")}</div>`:""}
+    ${(()=>{const fn=u=>decodeURIComponent((u||"").split("/").pop()||"").replace(/\.[a-z0-9]+$/i,"").replace(/[-_]+/g," ").trim();
+      const L=[...(a.pdf?[{u:a.pdf,n:a.pdfName||fn(a.pdf)}]:[]),...(a.files||[]).map(f=>({u:f.url,n:fn(f.url)}))];
+      const PDFI='<svg class="rd-ic" width="26" height="32" viewBox="0 0 26 32"><path d="M2 0h16l8 8v22a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" fill="#E1251B"/><path d="M18 0v6a2 2 0 0 0 2 2h6z" fill="#fff" opacity=".55"/><path d="M6.5 24.5c1.6-1 3.4-4.6 4.6-8.4.6-1.9.4-3.6-.6-3.6s-1.2 1.6-.6 3.3c1 2.9 3.6 5.8 6.4 6.5 1.7.4 2.6-.3 2.2-1.1-.5-.9-3-.7-5.8.1-3 .9-6 2.4-6.6 3.4-.4.7.1 1.1.4-.2z" fill="none" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+      const ext=u=>((u||"").split(".").pop()||"").toUpperCase();
+      return L.length?`<h3 class="ad-h">${bi("ގުޅުންހުރި ޑޮކިއުމަންޓްތައް","Related documents")}</h3><div class="rd-list">${L.map(x=>`<a class="rd" href="${x.u}" target="_blank" rel="noopener">${ext(x.u)==="PDF"?PDFI:`<i class="rd-ext">${ext(x.u)}</i>`}<span dir="auto">${esc2(x.n)}</span></a>`).join("")}</div>`:"";})()}
     <h3 class="ad-h">${bi("ޝެއަރ ކުރުމަށް","Share")}</h3>
     <div class="ad-share">
       <a href="https://www.facebook.com/sharer/sharer.php?u=${share}" target="_blank" rel="noopener" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8z"/></svg></a>
