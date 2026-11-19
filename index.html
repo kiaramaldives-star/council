@@ -1208,6 +1208,7 @@ html[lang=en] .dl2-date{font-family:inherit!important;font-weight:700;font-size:
 .ti-s .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
 html[lang=en] .ti-v{font-family:inherit}
 .ti-s{font-family:"Faruma",sans-serif}
+.an-card h4+.an-ref,.pc-card h4+.pc-ref{margin-top:-4px;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -2637,9 +2638,9 @@ function renderAnn(kind,reset){
       <span class="jb-date">${CLOCK}${nDate(a.date).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</span>
       <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4></a>`:`<a class="an-card" href="${a.id?"#iulaan-"+a.id:"#announcements"}">
       <span class="an-tag ${a.kind}">${KIND[a.kind]}</span>
-      ${a.ref?`<span class="an-ref ltr">${a.ref}</span>`:""}
+      
       <span class="an-date">${nDate(a.date)}</span>
-      <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4>${cardDeadlines(a)}</a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
+      <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4>${a.ref?`<span class="an-ref ltr">${a.ref}</span>`:""}${cardDeadlines(a)}</a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
   const more=document.getElementById("annMore"); if(more) more.hidden=list.length<=ASHOW;
 }
 document.addEventListener("click",e=>{
@@ -2662,9 +2663,9 @@ function renderProc(){
   $("#procGrid").innerHTML=list.length?list.slice(0,PSHOW).map(p=>`<a class="pc-card" href="#iulaan-${p.id}">
     ${procOpen(p)?`<span class="pc-open">${bi("ހުޅުވިފައި","Open")}</span>`:""}
     <span class="pc-cat">${bi(PCATS[p.cat][0],PCATS[p.cat][1])}</span>
-    ${p.ref?`<span class="pc-ref">${p.ref}</span>`:""}
+    
     <span class="pc-date">${nDate(p.date).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</span>
-    <h4 dir="rtl">${p.dv}</h4>${cardDeadlines(p)}</a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
+    <h4 dir="rtl">${p.dv}</h4>${p.ref?`<span class="pc-ref">${p.ref}</span>`:""}${cardDeadlines(p)}</a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
   $("#procMore").hidden=list.length<=PSHOW;
 }
 document.addEventListener("click",e=>{
