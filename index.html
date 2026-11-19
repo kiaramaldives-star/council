@@ -1816,7 +1816,7 @@ document.addEventListener("DOMContentLoaded",()=>{const av=document.querySelecto
 function cardDeadlines(a){
   if(a.kind!=="tender") return "";
   const row=(v,dv,en,c)=>`<div class="cd-r ${c}"><span class="cd-k">${bi(dv,en)}</span><span class="cd-v">${v?(()=>{const [d,t]=v.split(" ");return nDate(d)+(t?` <b class="num">${t}</b>`:"")})():`<i>${bi("ލިޔުމުގައި","See document")}</i>`}</span></div>`;
-  return `<div class="cd">${row(a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg")}${row(a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub")}</div>`;
+  return `<div class="cd">${row(a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg")}${row(a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub")}${a.date?row(a.date,"އިޢުލާން ކުރި ތާރީޚު","Date announced","pub"):""}</div>`;
 }
 const TENDER_REQ="އަގު ބަޔާންކޮށްފައިވާ ކޯޓޭޝަން\nވިޔަފާރީގެ ޕްރޮފައިލް ޝީޓް\nވެރި ފަރާތުގެ ދިވެހި ރައްޔިތެއްކަން އަންގައިދޭ ކާޑުގެ ކޮޕީ";
 function annDetail(a){
