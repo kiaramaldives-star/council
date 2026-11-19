@@ -1850,8 +1850,8 @@ function annDetail(a){
         return `<em class="ti-s ${open?"":"closed"}">${open?(left<=1?bi("މިއަދު / މާދަމާ ނިމޭ","Closes very soon"):bi(`<span class="num">${left}</span> ދުވަސް ބާކީ`,`<span class="num">${left}</span> days left`)):bi("ނިމިއްޖެ","Closed")}</em>`;};
       const DV=v=>{if(!v)return`<span class="ti-na">${bi("ލިޔުމުގައި","See document")}</span>`;const [d,t]=v.split(" ");return `${nDate(d)}${t?` <span class="ti-t num">${t}</span>`:""}`;};
       const info=[
-        a.date?["pub","އިޢުލާން ކުރި ތާރީޚު","Date announced",nDate(a.date),""]:null,
         a.ref?["#","ނަންބަރު","Number",`<span class="ltr num">${esc2(a.ref)}</span>`,""]:null,
+        a.date?["pub","އިޢުލާން ކުރި ތާރީޚު","Date announced",nDate(a.date),""]:null,
         ["reg","ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline",DV(a.reg),ST(a.reg)],
         ["sub","އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission",DV(a.submit),ST(a.submit)]
       ].filter(Boolean);
