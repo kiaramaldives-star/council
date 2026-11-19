@@ -1098,6 +1098,34 @@ html[lang=dv] .nd-meta{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 @media (max-width:760px){.nd-rel{grid-template-columns:1fr}.nd-bar{gap:6px;padding:7px 9px}.nd-bar>*{width:40px;height:40px}.nd-body{font-size:18px}}
 @media print{.top-bar,header,.navbar,footer,.nd-bar,.nd-pills,.nd-rel,.nd-more,.sec-band,#secBand{display:none!important}.nd-sum p{display:block!important}}
 #mediaTitle.nd-head{font-size:clamp(26px,4.2vw,44px);line-height:1.6;max-width:900px;margin-inline:auto;padding:0 16px;color:#1F1F2E}
+
+/* ---------- tender deadlines ---------- */
+.dl2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.dl2-c{border-radius:20px;padding:18px;background:#fff;border:1.5px solid #E6ECF3;position:relative;overflow:hidden}
+.dl2-c::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:#3F4F66}
+.dl2-c.sub{border-color:#F7C6CE;background:linear-gradient(180deg,#FDF2F4,#fff)}
+.dl2-c.sub::before{background:var(--gold)}
+.dl2-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.dl2-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#E6ECF3;color:#3F4F66;flex:none}
+.sub .dl2-ic{background:#FDE3E7;color:var(--gold)}
+.dl2-h b{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:18px;color:#1F2937;line-height:1.5}
+html[lang=en] .dl2-h b{font-family:inherit;font-size:15px;font-weight:700}
+.dl2-b{display:flex;align-items:center;gap:16px}
+.dl2-cal{width:84px;flex:none;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(5,0,0,.08);text-align:center;display:flex;flex-direction:column}
+.dl2-m{background:#3F4F66;color:#fff;font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px;padding:4px 2px}
+.sub .dl2-m{background:var(--gold)}
+.dl2-d{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:32px;line-height:1.1;color:#111827;padding-top:6px}
+.dl2-y{font-family:"Plus Jakarta Sans",sans-serif;font-size:12px;color:#6B7280;padding-bottom:8px}
+.dl2-info{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.dl2-t{display:inline-flex;align-items:center;gap:6px;background:#F3F4F6;border-radius:999px;padding:6px 12px;color:#111827}
+.dl2-t .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:18px}
+.dl2-s{border-radius:999px;padding:4px 12px;font-size:13px;background:#DCFCE7;color:#15803D}
+html[lang=dv] .dl2-s{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.dl2-s .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+.closed .dl2-s{background:#F3F4F6;color:#6B7280}
+.closed .dl2-cal{opacity:.7}
+.dl2-na{margin:0;color:#9CA3AF;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+@media (max-width:640px){.dl2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1707,13 +1735,17 @@ function annDetail(a){
     <div class="ad-meta"><span class="an-tag ${a.kind}">${KIND[a.kind]}</span><span class="an-date">${nDate(a.date)}</span>${a.ref?`<span class="ad-ref"><small>${bi("ނަންބަރު","Number")}</small> <span class="ltr">${a.ref}</span></span>`:""}</div>
     <h2 class="ad-title" dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h2>
     ${a.body?`<div class="ad-body" dir="rtl">${a.body}</div>`:""}
-    ${a.kind==="tender"||a.reg||a.submit?`<div class="ad-dates">
-      ${[[a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline",'<path d="M12 7v5l3 2"/>'],[a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission",'<path d="M12 7v5H8"/>']].map(([v,dv,en,hand])=>{const p=v?v.split(" "):null;return `<div class="ad-dt">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/>${hand}</svg>
-        <small>${bi(dv,en)}</small>
-        ${p?`<b>${nDate(p[0]).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</b>${p[1]?`<b class="num">${p[1]}</b>`:""}`:`<b class="ad-na">${bi("ލިޔުމުގައި ބައްލަވާ","See the document")}</b>`}
-      </div>`}).join("")}
-    </div>`:""}
+    ${a.kind==="tender"||a.reg||a.submit?`<div class="dl2">${[[a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg"],[a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub"]].map(([v,dv,en,c])=>{
+      if(!v) return `<div class="dl2-c ${c} na"><div class="dl2-h"><span class="dl2-ic">${c==="reg"?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>'}</span><b>${bi(dv,en)}</b></div><p class="dl2-na">${bi("ތާރީޚު ލިޔުމުގައި ބައްލަވާ","See the document")}</p></div>`;
+      const [d,t]=v.split(" "), dt=new Date(d+"T"+(t||"23:59")+":00+05:00"), [y,m,dd]=d.split("-").map(Number);
+      const left=Math.ceil((dt-Date.now())/864e5), open=dt>Date.now();
+      const st=open?(left<=1?bi("މިއަދު / މާދަމާ ނިމޭ","Closes very soon"):bi(`<span class="num">${left}</span> ދުވަސް ބާކީ`,`<span class="num">${left}</span> days left`)):bi("ނިމިއްޖެ","Closed");
+      return `<div class="dl2-c ${c} ${open?"open":"closed"}">
+        <div class="dl2-h"><span class="dl2-ic">${c==="reg"?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 15l2 2 4-4"/></svg>'}</span><b>${bi(dv,en)}</b></div>
+        <div class="dl2-b">
+          <div class="dl2-cal"><span class="dl2-m">${bi(DV_MONTHS[m-1],EN_MONTHS[m-1].slice(0,3))}</span><span class="dl2-d num">${String(dd).padStart(2,"0")}</span><span class="dl2-y num">${y}</span></div>
+          <div class="dl2-info">${t?`<span class="dl2-t"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7v5l3 2"/></svg><span class="num">${t}</span></span>`:""}<span class="dl2-s">${st}</span></div>
+        </div></div>`}).join("")}</div>`:""}
     ${a.pdf?`<div class="ad-pdf"><a class="ad-ph" href="${a.pdf}" target="_blank" rel="noopener">${DOC}<b>${bi("އިޢުލާނުގެ ލިޔުން","Announcement document")}</b><span>PDF</span></a><iframe src="${a.pdf}#view=FitH" title="PDF" loading="lazy"></iframe></div>
     <div class="ad-btns"><a class="ad-dl" href="${a.pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${a.pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:""}
     ${a.files&&a.files.length?`<h3 class="ad-h">${bi("އިތުރު ފައިލްތައް","Additional files")}</h3><div class="ad-files">${a.files.map(f=>`<a href="${f.url}" target="_blank" rel="noopener"><i>${DOC}</i><span>${bi(f.dv,f.en)}</span><em>PDF</em></a>`).join("")}</div>`:""}
