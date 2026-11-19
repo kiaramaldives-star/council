@@ -2250,8 +2250,10 @@ const ANNOUNCEMENTS = [
 /* PROCUREMENT (ޕްރޮކިއުމަންޓްތައް) — built from the tender announcements (ANNOUNCEMENTS kind "tender").
    cat: works / supply / service, worked out from the title. Opens the announcement page (#iulaan-id). */
 const PCATS={all:["ހުރިހާ","All"],works:["މަސައްކަތް ކުރުން","Works"],supply:["ސާމާނު ސަޕްލައި ކުރުން","Supply of goods"],service:["ޚިދުމަތް ހޯދުން","Services"]};
-const PROCUREMENT = ANNOUNCEMENTS.filter(a=>a.kind==="tender").map(a=>({...a,
-  cat:/ސަޕްލައި/.test(a.dv)?"supply":/(ހެދުން|ހެދުމުގެ|މަސައްކަތް|ޖަހައި)/.test(a.dv)?"works":"service"}));
+const PROCUREMENT = [];
+function buildProcurement(){PROCUREMENT.splice(0,PROCUREMENT.length,...ANNOUNCEMENTS.filter(a=>a.kind==="tender").map(a=>({...a,
+  cat:a.pcat||(/ސަޕްލައި/.test(a.dv)?"supply":/(ހެދުން|ހެދުމުގެ|މަސައްކަތް|ޖަހައި)/.test(a.dv)?"works":"service")})));}
+buildProcurement();
 
 /* COUNCIL MEETINGS (ކައުންސިލް ބައްދަލުވުންތައް) — 5th term, copied from kondey.gov.mv
    (agendas: /category/agenda-aanmu, minutes: /category/yaumihyaa-aanmu). Newest first.
@@ -2509,7 +2511,7 @@ const search=$("#search");
 $("#searchBtn").onclick=()=>{search.classList.add("open");setTimeout(()=>$("#searchInput").focus(),50)};
 search.onclick=e=>{if(e.target===search) search.classList.remove("open")};
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){search.classList.remove("open");menu.classList.remove("open")}});
-const INDEX=[...PROJECTS.map(x=>[x,"#projects"]),...ACTIVITIES.map(x=>[x,"#activities"]),...ANNOUNCEMENTS.map(x=>[x,"#announcements"]),...PROCUREMENT.map(x=>[x,"#procurement"]),...MEETINGS.map(x=>[x,"#meetings"])];
+const INDEX=[];function buildIndex(){INDEX.splice(0,INDEX.length,...PROJECTS.map(x=>[x,"#projects"]),...ACTIVITIES.map(x=>[x,"#activities"]),...ANNOUNCEMENTS.map(x=>[x,"#announcements"]),...PROCUREMENT.map(x=>[x,"#procurement"]),...MEETINGS.map(x=>[x,"#meetings"]));}buildIndex();
 $("#searchInput").oninput=e=>{const q=e.target.value.trim().toLowerCase(); if(!q){$("#searchResults").innerHTML="";return}
   const r=INDEX.filter(([x])=>(x.dv+" "+x.en).toLowerCase().includes(q)).slice(0,6);
   $("#searchResults").innerHTML=r.length?r.map(([x,h])=>`<a href="${h}">${bi(x.dv,x.en)}</a>`).join(""):`<a>${bi("އެއްވެސް ނަތީޖާއެއް ނުފެނުނު","No results found")}</a>`;
@@ -2568,7 +2570,7 @@ function renderProjectStats(){
 renderProjectStats();
 
 /* ---- directory ---- */
-(function(){
+function renderDir(){
   const I={office:'<path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6M9 10h.01M15 10h.01"/>',
    school:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
    health:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 8v8M8 12h8"/>',
@@ -2587,7 +2589,8 @@ renderProjectStats();
     return `<${tag} class="dir reveal"><div class="ph">${ph}</div><span class="nm">${bi(d.dv,d.en)}</span>${tel}</${tag.split(" ")[0]}>`;
   }).join("");
   observe();
-})();
+}
+renderDir();
 
 /* ---- prayer times for Ga. Kondey (0.49861°N, 73.54861°E, UTC+5) ----
    Method: Muslim World League (Fajr 18°, Isha 17°), Shafi Asr — matched to IslamicFinder's Kondey timetable. */
@@ -2705,7 +2708,39 @@ function route(){
   scrollTo({top:0,behavior:"instant"}); setTimeout(()=>scrollTo({top:0,behavior:"instant"}),0); addEventListener("load",()=>scrollTo({top:0,behavior:"instant"}),{once:true});
   onScroll();
 }
+/* ===== DATABASE (Supabase project "kondey-council") =====
+   Content is edited in admin.html. If the database can't be reached, the built-in lists above are used. */
+const SB_URL="https://tmjjrhdwuoencmtmolvs.supabase.co", SB_KEY="sb_publishable_BG4KiDiwGlQUmMb9vDqG2g_KvrRmhdx";
+/* councillors / WDC members are stored in the database one person per row ({term, pos, dv, en, ...}) */
+const termLabel=n=>n==1?["ފުރަތަމަ ދައުރު","1st term"]:[`${n} ވަނަ ދައުރު`,`${n}${n==2?"nd":n==3?"rd":"th"} term`];
+function membersToTerms(rows,target){
+  const by={}; rows.forEach(r=>{const t=+r.term||0;(by[t]=by[t]||[]).push(r);});
+  target.splice(0,target.length,...Object.keys(by).map(Number).sort((a,b)=>b-a).map(t=>{const [dv,en]=termLabel(t);return {dv,en,members:by[t]};}));
+}
+
+const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS,reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY};
+async function loadDB(){
+  if(/[?&]nodb\b/.test(location.search)) return;
+  try{
+    const r=await fetch(`${SB_URL}/rest/v1/content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});
+    if(!r.ok) return; const rows=await r.json(); if(!rows.length) return;
+    const by={}; rows.forEach(x=>(by[x.section]=by[x.section]||[]).push(x.data));
+    for(const [k,arr] of Object.entries(DB_SECTIONS)) if(by[k]) arr.splice(0,arr.length,...by[k]);
+    if(by.councillors) membersToTerms(by.councillors,COUNCIL_TERMS);
+    if(by.wdc) membersToTerms(by.wdc,WDC_TERMS);
+    try{renderDir()}catch(e){}
+    try{const el=document.getElementById("cmTerms");if(el)el.innerHTML=termsHTML(COUNCIL_TERMS,COUNCIL_POS);}catch(e){}
+    PROJECTS.forEach((p,i)=>{if(!p.id)p.id="p"+(i+1)});
+    MEETINGS.forEach(m=>{m.dv=`ކައުންސިލްގެ ${m.term} ވަނަ ދައުރުގެ ${m.no} ވަނަ ${m.type==="kuhli"?"ކުއްލި":"އާންމު"} ބައްދަލުވުން`;m.en=`Council meeting ${m.no} (term ${m.term})`;});
+    buildProcurement(); buildIndex();
+    try{renderAct()}catch(e){} try{renderProc()}catch(e){} try{renderMeet(true)}catch(e){}
+    try{renderProjects("council");updateProjCount();renderProjectStats()}catch(e){}
+    const y=scrollY; route(); scrollTo({top:y,behavior:"instant"});
+  }catch(e){console.warn("Database not reachable, using built-in content",e);}
+}
+
 route();
+loadDB();
 $("#yr").textContent=new Date().getFullYear();
 </script>
 </body>
