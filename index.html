@@ -1158,6 +1158,17 @@ html[lang=en] .td-v{font-family:inherit;font-size:14px;font-weight:600}
 .td-req li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:#FDE3E7;color:var(--gold);display:grid;place-items:center;font-size:13px;font-weight:700;font-family:system-ui}
 .td-req li::marker{color:var(--gold)}
 @media (max-width:560px){.td-r{grid-template-columns:28px 1fr;row-gap:2px}.td-v{grid-column:2}}
+
+.cd{width:100%;margin-top:auto;padding-top:12px;border-top:1px solid #F1F2F4;display:grid;gap:6px}
+.cd-r{display:flex;justify-content:space-between;align-items:center;gap:8px;border-radius:10px;padding:7px 10px;background:#F4F6F9}
+.cd-r.sub{background:#FDF2F4}
+.cd-k{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px;color:#4B5563;line-height:1.4}
+.cd-r.sub .cd-k{color:var(--gold)}
+.cd-v{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px;color:#111827;white-space:nowrap}
+.cd-v .num{font-family:"Plus Jakarta Sans",sans-serif;font-size:12px;font-weight:700}
+.cd-v i{font-style:normal;color:#9CA3AF}
+html[lang=en] .cd-k,html[lang=en] .cd-v{font-family:inherit;font-size:12px}
+.pc-card h4,.an-card h4{flex:none}
 </style>
 </head>
 <body>
@@ -1760,6 +1771,13 @@ function wdcPage(){
 document.addEventListener("DOMContentLoaded",()=>{const av=document.querySelector(".resp-wrap .mem-av img");if(av)COUNCIL_TERMS[0].members[0].photo=av.src;const el=document.getElementById("cmTerms");if(el)el.innerHTML=termsHTML(COUNCIL_TERMS,COUNCIL_POS);});
 
 /* documents every tender asks for (a tender's own "requirements" in admin replaces this list) */
+
+/* small deadline rows shown on tender cards in lists */
+function cardDeadlines(a){
+  if(a.kind!=="tender") return "";
+  const row=(v,dv,en,c)=>`<div class="cd-r ${c}"><span class="cd-k">${bi(dv,en)}</span><span class="cd-v">${v?(()=>{const [d,t]=v.split(" ");return nDate(d)+(t?` <b class="num">${t}</b>`:"")})():`<i>${bi("ލިޔުމުގައި","See document")}</i>`}</span></div>`;
+  return `<div class="cd">${row(a.reg,"ރަޖިސްޓަރ ވުމުގެ ސުންގަޑި","Registration deadline","reg")}${row(a.submit,"އަންދާސީ ހިސާބު ހުށަހެޅުން","Bid submission","sub")}</div>`;
+}
 const TENDER_REQ="އަގު ބަޔާންކޮށްފައިވާ ކޯޓޭޝަން\nވިޔަފާރީގެ ޕްރޮފައިލް ޝީޓް\nވެރި ފަރާތުގެ ދިވެހި ރައްޔިތެއްކަން އަންގައިދޭ ކާޑުގެ ކޮޕީ";
 function annDetail(a){
   const DL='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
@@ -2572,7 +2590,7 @@ function renderAnn(kind,reset){
       <span class="an-tag ${a.kind}">${KIND[a.kind]}</span>
       ${a.ref?`<span class="an-ref ltr">${a.ref}</span>`:""}
       <span class="an-date">${nDate(a.date)}</span>
-      <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4></a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
+      <h4 dir="rtl">${a.en?bi(a.dv,a.en):a.dv}</h4>${cardDeadlines(a)}</a>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ވަޒީފާއެއް ނެތް","No vacancies at the moment")}</p>`;
   const more=document.getElementById("annMore"); if(more) more.hidden=list.length<=ASHOW;
 }
 document.addEventListener("click",e=>{
@@ -2597,7 +2615,7 @@ function renderProc(){
     <span class="pc-cat">${bi(PCATS[p.cat][0],PCATS[p.cat][1])}</span>
     ${p.ref?`<span class="pc-ref">${p.ref}</span>`:""}
     <span class="pc-date">${nDate(p.date).replace(/<span class="num">(\d)<\/span>/,'<span class="num">0$1</span>')}</span>
-    <h4 dir="rtl">${p.dv}</h4></a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
+    <h4 dir="rtl">${p.dv}</h4>${cardDeadlines(p)}</a>`).join(""):`<p class="an-empty">${bi("މި ބައިގައި އެއްވެސް ޕްރޮކިއުމަންޓެއް ނެތް","Nothing here")}</p>`;
   $("#procMore").hidden=list.length<=PSHOW;
 }
 document.addEventListener("click",e=>{
