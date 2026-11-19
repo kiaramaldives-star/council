@@ -1835,7 +1835,7 @@ function annDetail(a){
         </div></div>`}).join("")}</div>`;
   const share=encodeURIComponent(location.href.split("#")[0]+"#iulaan-"+a.id), txt=encodeURIComponent(a.dv);
   return `<article class="ad">
-    <div class="ad-meta"><span class="an-tag ${a.kind}">${KIND[a.kind]}</span><span class="an-date">${nDate(a.date)}</span>${a.ref&&a.kind!=="tender"?`<span class="ad-ref"><small>${bi("ނަންބަރު","Number")}</small> <span class="ltr">${a.ref}</span></span>`:""}</div>
+    <div class="ad-meta"><span class="an-tag ${a.kind}">${KIND[a.kind]}</span>${a.kind==="tender"?"":`<span class="an-date">${nDate(a.date)}</span>`}${a.ref&&a.kind!=="tender"?`<span class="ad-ref"><small>${bi("ނަންބަރު","Number")}</small> <span class="ltr">${a.ref}</span></span>`:""}</div>
     ${a.body&&a.kind!=="tender"?`<div class="ad-body" dir="rtl">${a.body}</div>`:""}
     ${a.kind!=="tender"&&(a.reg||a.submit)?DL2:""}
     
