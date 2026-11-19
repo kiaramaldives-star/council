@@ -80,6 +80,8 @@ button,input,select,textarea{font:inherit}
 .note .btn{margin-top:8px}
 .hint{font-size:12px;color:var(--muted);font-family:system-ui;direction:ltr;text-align:right}
 @media(max-width:860px){.wrap{grid-template-columns:1fr}.side{position:static;display:flex;overflow:auto;gap:4px}.side button{white-space:nowrap;width:auto}.side hr{display:none}.grid2{grid-template-columns:1fr}.row .th{display:none}}
+.reqs{display:grid;gap:6px;margin-bottom:8px}.reqs .chk{display:flex;align-items:center;gap:10px;direction:rtl;text-align:right;cursor:pointer;margin:0;padding:8px 10px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px}
+.reqs .chk input{width:18px;height:18px;flex:none;margin:0;accent-color:#C8102E}
 </style>
 </head>
 <body>
@@ -124,7 +126,7 @@ const SECTIONS={
    T("cat","ވަޒީފާގެ ބައި (ވަޒީފާއަށް)","Job category (jobs only)","select",{opts:[["",""],["vacancy","ވަޒީފާގެ ފުރުޞަތު"],["screening","ސްކްރީނިންގ ޝީޓް"],["a2","A2 ޝީޓް"]]}),
    T("pcat","ޕްރޮކިއުމަންޓް ބައި (ބީލަމަށް)","Procurement category (tenders)","select",{opts:[["","ސިސްޓަމުން ހޮވާ"],["works","މަސައްކަތް ކުރުން"],["supply","ސާމާނު ސަޕްލައި"],["service","ޚިދުމަތް ހޯދުން"]]}),
    T("reg","ރަޖިސްޓަރ ސުންގަޑި","Registration deadline","datetime"),T("submit","ހުށަހަޅާ ސުންގަޑި","Submission deadline","datetime"),
-   T("body","ތަފްޞީލް","Description","textarea",{rows:6,help:"Blank line = new paragraph · # = heading · - = bullet"}),T("requirements","ހުށަހަޅަންޖެހޭ ލިޔުންތައް (ހުސްކޮށް ބާއްވައިފިނަމަ: ކޯޓޭޝަން، ޕްރޮފައިލް ޝީޓް، އައިޑީ ކާޑު)","Documents to submit (blank = standard 3)","textarea",{rows:4}),
+   T("body","ތަފްޞީލް","Description","textarea",{rows:6,help:"Blank line = new paragraph · # = heading · - = bullet"}),T("requirements","ހުށަހަޅަންޖެހޭ ލިޔުންތައް","Documents to submit","reqlist"),
    T("pdf","އިޢުލާނުގެ PDF","Announcement PDF","file"),T("url","kondey.gov.mv ލިންކް","Original link (optional)","url"),T("id","","","hiddenid")]},
  press:{dv:"ނޫސް ބަޔާން",en:"Press releases",title:x=>x.dv,fields:[T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("body","ތަފްޞީލް","Text","textarea",{rows:8}),T("pdf","PDF","PDF","file"),T("id","","","hiddenid")]},
  activities:{dv:"ހަރަކާތްތައް",en:"Activities",title:x=>x.dv,img:"img",fields:[T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("img","ފޮޓޯ","Photo","image"),T("url","ލިންކް","Link (optional)","url")]},
@@ -224,9 +226,20 @@ $("#main").onclick=async e=>{
 
 /* ---------- editor ---------- */
 let EDIT=null, PEND={};
+const STD_REQ=["އަގު ބަޔާންކޮށްފައިވާ ކޯޓޭޝަން","ވިޔަފާރީގެ ޕްރޮފައިލް ޝީޓް","ވެރި ފަރާތުގެ ދިވެހި ރައްޔިތެއްކަން އަންގައިދޭ ކާޑުގެ ކޮޕީ"];
+function reqSync(box){const L=[...box.querySelectorAll("[data-req]:checked")].map(c=>c.value).concat(box.querySelector("[data-reqx]").value.split("\n").map(x=>x.trim()).filter(Boolean));box.querySelector("[data-k]").value=L.length?L.join("\n"):"none";}
+document.addEventListener("input",e=>{const b=e.target.closest(".reqbox");if(b)reqSync(b);});
+document.addEventListener("change",e=>{const b=e.target.closest(".reqbox");if(b)reqSync(b);});
 function fieldHTML(f,v){
   const lab=`<label>${f.dv} <span class="en">${f.en}</span></label>`, ltr=f.ltr?' class="ltr"':'';
   if(f.type==="hiddenid"||f.type==="hiddenfixed") return "";
+  if(f.type==="reqlist"){const cur=(v==="none"?"":(v||"")).split("\n").map(x=>x.trim()).filter(Boolean), useStd=!cur.length&&v!=="none";
+    const extra=cur.filter(x=>!STD_REQ.includes(x));
+    const val=v==="none"?"none":(useStd?STD_REQ:cur).join("\n");
+    return `<div class="fld reqbox">${lab}<div class="reqs">${STD_REQ.map(x=>`<label class="chk"><input type="checkbox" data-req value="${esc(x)}" ${useStd||cur.includes(x)?"checked":""}> <span dir="rtl">${esc(x)}</span></label>`).join("")}</div>
+      <textarea data-reqx rows="3" dir="rtl" placeholder="އިތުރު ލިޔުމެއް (ކޮންމެ ލިޔުމެއް ވަކި ލައިނެއްގައި)">${esc(extra.join("\n"))}</textarea>
+      <span class="hint">ސްޓޭންޑަރޑް ލިޔުންތައް ޓިކް ކޮށް، އިތުރު ލިޔުމެއް ބޭނުންނަމަ ތިރީގައި ލިޔޭ · Tick the standard documents; add any others below, one per line</span>
+      <input type="hidden" data-k="${f.k}" value="${esc(val)}"></div>`;}
   if(f.type==="textarea") return `<div class="fld">${lab}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="rtl">${esc(v)}</textarea>${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;
   if(f.type==="select") return `<div class="fld">${lab}<select data-k="${f.k}">${f.opts.map(([k,t])=>`<option value="${k}" ${String(v??"")===k?"selected":""}>${t}</option>`).join("")}</select></div>`;
   if(f.type==="date") return `<div class="fld">${lab}<input data-k="${f.k}" type="date" value="${esc(v)}"></div>`;
