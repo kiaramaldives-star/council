@@ -1941,7 +1941,6 @@ function newsDetail(n){
   const author=n.author||"ކޮނޑޭ ކައުންސިލް";
   const paras=(n.body||"").trim(); const lead=(n.summary||"").trim();
   const points=(n.points||"").split("\n").map(x=>x.trim()).filter(Boolean);
-  const others=NEWS.filter(x=>x!==n).slice(0,3);
   const bar=`<div class="nd-bar">
       <button type="button" data-nd="print" title="Save / print">${ico("dl")}</button>
       <button type="button" data-nd="copy" data-url="${url}" title="Copy link">${ico("link")}</button>
@@ -1958,7 +1957,6 @@ function newsDetail(n){
     ${bar}
     ${(!paras&&n.url)?`<div class="nd-pills"><a class="nd-pill" href="${n.url}" target="_blank" rel="noopener">${bi("ފުރިހަމަ ޚަބަރު kondey.gov.mv ގައި ކިޔާލާ","Read the full story on kondey.gov.mv")} ‹‹</a></div>`:""}
     <div class="nd-pills"><a class="nd-pill" href="#news">${bi("އިތުރު ޚަބަރުތައް ކިޔާލާ","Read more news")} ‹‹</a></div>
-    ${others.length?`<h3 class="nd-more">${bi("އިތުރު ޚަބަރު","More news")}</h3><div class="nw-grid nd-rel">${others.map(o=>`<a class="nw-card" href="#news-${o.id}"><div class="nw-top"><span class="nw-tag">${bi("ޚަބަރު","News")}</span><span class="nw-date">${nDate(o.date)}</span></div><div class="nw-img">${o.img?`<img src="${o.img}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}</div><h3 dir="rtl">${o.title}</h3></a>`).join("")}</div>`:""}
   </article>`;
 }
 function esc2(x){return String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
