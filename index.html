@@ -1068,8 +1068,12 @@ html[lang=dv] .nd-meta{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 .nd-sumh{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:none;padding:16px 20px;cursor:pointer;color:var(--gold);font-family:"KondeyHeading","Faruma",sans-serif;font-size:19px}
 .nd-sumh svg{transition:transform .2s}
 .nd-sum.open .nd-sumh svg{transform:rotate(180deg)}
-.nd-sum p{display:none;margin:0;padding:4px 22px 22px;font-family:"Faruma",sans-serif;font-size:18px;line-height:2.1;color:#374151;text-align:right}
-.nd-sum.open p{display:block}
+.nd-sumb{display:none;padding:4px 22px 18px}
+.nd-sum.open .nd-sumb{display:block}
+.nd-sumb ul{margin:0;padding-inline-start:24px;font-family:"Faruma",sans-serif;font-size:18px;line-height:2.1;color:#374151}
+.nd-sumb li{margin-bottom:8px}.nd-sumb li::marker{color:var(--gold);font-size:1.3em}
+.nd-sum p{margin:0 0 8px;padding:0;font-family:"Faruma",sans-serif;font-size:18px;line-height:2.1;color:#374151;text-align:right}
+
 .nd-body{font-family:"Faruma",sans-serif;color:#1F2937;font-size:19px;line-height:2.25;text-align:right}
 .nd-f1 .nd-body{font-size:22px}.nd-f2 .nd-body{font-size:25px}
 .nd-body p{margin:0 0 22px}
@@ -1949,12 +1953,11 @@ function newsDetail(n){
   return `<article class="nd nd-f${NFONT}">
     <div class="nd-meta"><span class="nd-av"><img src="${document.querySelector('img[src^="data:image/png"]').src}" alt=""></span><b>${esc2(author)}</b><i></i><span>${nDate(n.date)}</span>${n.time?`<i></i><span class="num">${n.time}</span>`:""}</div>
     ${n.img?`<figure class="nd-fig"><img src="${n.img}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.remove()">${n.caption?`<figcaption dir="rtl">${esc2(n.caption)}</figcaption>`:""}</figure>`:""}
-    ${lead?`<div class="nd-sum"><button type="button" class="nd-sumh" data-nd="sum"><span>✦ ${bi("ޚުލާޞާ","Summary")}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button><p dir="rtl">${esc2(lead)}</p></div>`:""}
+    ${(lead||points.length)?`<div class="nd-sum"><button type="button" class="nd-sumh" data-nd="sum"><span>✦ ${bi("ޚުލާޞާ","Summary")}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button><div class="nd-sumb" dir="rtl">${lead?`<p>${esc2(lead)}</p>`:""}${points.length?`<ul>${points.map(x=>`<li>${esc2(x)}</li>`).join("")}</ul>`:""}</div></div>`:""}
     ${paras?`<div class="nd-body" dir="rtl">${mnRender(paras)}</div>`:`<div class="nd-body nd-empty" dir="rtl"><p>${bi("މި ޚަބަރުގެ ފުރިހަމަ ލިޔުން އަދި މި ވެބްސައިޓަށް އެއްވެފައެއް ނުވޭ.","The full text of this story hasn't been added here yet.")}</p></div>`}
     ${bar}
     ${(!paras&&n.url)?`<div class="nd-pills"><a class="nd-pill" href="${n.url}" target="_blank" rel="noopener">${bi("ފުރިހަމަ ޚަބަރު kondey.gov.mv ގައި ކިޔާލާ","Read the full story on kondey.gov.mv")} ‹‹</a></div>`:""}
     <div class="nd-pills"><a class="nd-pill" href="#news">${bi("އިތުރު ޚަބަރުތައް ކިޔާލާ","Read more news")} ‹‹</a></div>
-    ${points.length?`<div class="nd-pts"><h3>✦ ${bi("މުހިންމު ނުކުތާތައް","Key points")}</h3><ul dir="rtl">${points.map(x=>`<li>${esc2(x)}</li>`).join("")}</ul></div>`:""}
     ${others.length?`<h3 class="nd-more">${bi("އިތުރު ޚަބަރު","More news")}</h3><div class="nw-grid nd-rel">${others.map(o=>`<a class="nw-card" href="#news-${o.id}"><div class="nw-top"><span class="nw-tag">${bi("ޚަބަރު","News")}</span><span class="nw-date">${nDate(o.date)}</span></div><div class="nw-img">${o.img?`<img src="${o.img}" alt="" loading="lazy" referrerpolicy="no-referrer">`:""}</div><h3 dir="rtl">${o.title}</h3></a>`).join("")}</div>`:""}
   </article>`;
 }
