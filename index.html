@@ -1093,6 +1093,7 @@ html[lang=dv] .nd-meta{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 .nd-rel{grid-template-columns:repeat(3,1fr)}
 @media (max-width:760px){.nd-rel{grid-template-columns:1fr}.nd-bar{gap:6px;padding:7px 9px}.nd-bar>*{width:40px;height:40px}.nd-body{font-size:18px}}
 @media print{.top-bar,header,.navbar,footer,.nd-bar,.nd-pills,.nd-rel,.nd-more,.sec-band,#secBand{display:none!important}.nd-sum p{display:block!important}}
+#mediaTitle.nd-head{font-size:clamp(26px,4.2vw,44px);line-height:1.6;max-width:900px;margin-inline:auto;padding:0 16px;color:#1F1F2E}
 </style>
 </head>
 <body>
@@ -1946,7 +1947,6 @@ function newsDetail(n){
       <button type="button" data-nd="font" title="Text size">${ico("gear")}<span class="nd-fs">${["A","A+","A++"][NFONT]}</span></button>
     </div>`;
   return `<article class="nd nd-f${NFONT}">
-    <h1 class="nd-title" dir="rtl">${n.title}</h1>
     <div class="nd-meta"><span class="nd-av"><img src="${document.querySelector('img[src^="data:image/png"]').src}" alt=""></span><b>${esc2(author)}</b><i></i><span>${nDate(n.date)}</span>${n.time?`<i></i><span class="num">${n.time}</span>`:""}</div>
     ${n.img?`<figure class="nd-fig"><img src="${n.img}" alt="" referrerpolicy="no-referrer" onerror="this.parentNode.remove()">${n.caption?`<figcaption dir="rtl">${esc2(n.caption)}</figcaption>`:""}</figure>`:""}
     ${lead?`<div class="nd-sum"><button type="button" class="nd-sumh" data-nd="sum"><span>✦ ${bi("ޚުލާޞާ","Summary")}</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></button><p dir="rtl">${esc2(lead)}</p></div>`:""}
@@ -2777,7 +2777,7 @@ function route(){
   const mkey=MEDIA_PAGES[key]?key:((staffP||annP||prP||mvP||nwP)?key:null);
   const pg=pid!=null?"projectPage":(mkey?"mediaPage":(csub?"councilPage":pages[h]));
   $("#mediaPage").hidden=!mkey;
-  if(mkey){const T=staffP?["މުވައްޒަފުން","Staff"]:annP?["އިޢުލާން","Announcement"]:prP?["ނޫސް ބަޔާން","Press release"]:nwP?["ޚަބަރު","News"]:mvP?["ކައުންސިލް ބައްދަލުވުން","Council Meeting"]:MEDIA_PAGES[mkey];$("#mediaTitle").innerHTML=bi(T[0],T[1]);$("#mediaBody").innerHTML=staffP?staffProfile(staffP):annP?annDetail(annP):prP?pressDetail(prP):nwP?newsDetail(nwP):mvP?meetViewer(mvP,mvM[3]):mediaBody(mkey);if(mkey==="rules")$("#lwGrid").innerHTML=rulesCards();if(mkey==="landuse"){LUX.sel.clear();LUX.W=0;setTimeout(luxInit,0);}$("#mediaBody").classList.toggle("plain",mkey==="council-staff"||mkey==="news"||mkey==="council-wdc"||(mkey==="press"&&PRESS.length>0)||mkey==="reports"||mkey==="rules");}
+  if(mkey){const T=staffP?["މުވައްޒަފުން","Staff"]:annP?["އިޢުލާން","Announcement"]:prP?["ނޫސް ބަޔާން","Press release"]:nwP?[nwP.title,nwP.title]:mvP?["ކައުންސިލް ބައްދަލުވުން","Council Meeting"]:MEDIA_PAGES[mkey];$("#mediaTitle").innerHTML=bi(T[0],T[1]);$("#mediaTitle").classList.toggle("nd-head",!!nwP);$("#mediaBody").innerHTML=staffP?staffProfile(staffP):annP?annDetail(annP):prP?pressDetail(prP):nwP?newsDetail(nwP):mvP?meetViewer(mvP,mvM[3]):mediaBody(mkey);if(mkey==="rules")$("#lwGrid").innerHTML=rulesCards();if(mkey==="landuse"){LUX.sel.clear();LUX.W=0;setTimeout(luxInit,0);}$("#mediaBody").classList.toggle("plain",mkey==="council-staff"||mkey==="news"||mkey==="council-wdc"||(mkey==="press"&&PRESS.length>0)||mkey==="reports"||mkey==="rules");}
   $("#projectPage").hidden=pid==null;
   if(pid!=null){const P=PROJECTS[pid];$("#projPageTitle").innerHTML=bi(P.dv,P.en);$("#projPageBody").innerHTML=projectDetails(P);}
   const CT={intro:["ތަޢާރަފު","Introduction"],mission:["މިޝަން އަދި ވިޝަން","Mission and Vision"],members:["ކައުންސިލް މެމްބަރުން","Council Members"],services:["ކައުންސިލުން ފޯރުކޮށްދޭ ޚިދުމަތްތައް","Services Provided by the Council"],structure:["އިދާރާގެ މަސައްކަތްތައް ބަހާލެވިފައިވާގޮތް","Organisational Structure"]};
