@@ -1956,7 +1956,6 @@ function newsDetail(n){
     ${paras?`<div class="nd-body" dir="rtl">${mnRender(paras)}</div>`:`<div class="nd-body nd-empty" dir="rtl"><p>${bi("މި ޚަބަރުގެ ފުރިހަމަ ލިޔުން އަދި މި ވެބްސައިޓަށް އެއްވެފައެއް ނުވޭ.","The full text of this story hasn't been added here yet.")}</p></div>`}
     ${bar}
     ${(!paras&&n.url)?`<div class="nd-pills"><a class="nd-pill" href="${n.url}" target="_blank" rel="noopener">${bi("ފުރިހަމަ ޚަބަރު kondey.gov.mv ގައި ކިޔާލާ","Read the full story on kondey.gov.mv")} ‹‹</a></div>`:""}
-    <div class="nd-pills"><a class="nd-pill" href="#news">${bi("އިތުރު ޚަބަރުތައް ކިޔާލާ","Read more news")} ‹‹</a></div>
   </article>`;
 }
 function esc2(x){return String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
