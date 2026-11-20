@@ -371,6 +371,22 @@ html[lang=dv] .ch-note{font-family:"KondeyHeading","Faruma",sans-serif}
 .ch-pg span{position:absolute;bottom:8px;inset-inline-start:8px;background:var(--k);color:#fff;border-radius:8px;padding:2px 9px;font-size:12px}
 @media (max-width:620px){.ch-pages{grid-template-columns:1fr}}
 .cti a{color:inherit}.cti a:hover{color:var(--p)}
+.nd-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px}
+.nd-t{font-size:30px!important;line-height:1.55!important;margin:6px 0 18px!important}
+.nd-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:20px}
+.nd-m{min-width:0;display:flex;align-items:center;gap:12px;background:#F8F8FA;border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.nd-m small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+html[lang=dv] .nd-m small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.nd-m b{display:block;overflow-wrap:anywhere;font-size:16px;color:var(--text);line-height:1.5;font-weight:600}
+.nd-ic{flex:none;width:42px;height:42px;border-radius:12px;background:#fff;color:var(--p);display:grid;place-items:center;box-shadow:0 2px 6px rgba(15,23,42,.06)}
+.nd-dl{background:#FFF1F2;border-color:#FECDD3}.nd-dl .nd-ic{background:var(--p);color:#fff}
+.nd-dl em{display:inline-block;margin-top:2px;font-style:normal;font-size:13px;background:var(--p);color:#fff;border-radius:99px;padding:1px 10px}
+.nd-dl.over{background:#F3F4F6;border-color:var(--line)}.nd-dl.over .nd-ic,.nd-dl.over em{background:#9CA3AF}
+.nd-body{background:#FCFCFD;border:1px solid var(--line);border-inline-start:4px solid var(--p);border-radius:16px;padding:18px 20px}
+.nd-body p{line-height:2!important;margin-bottom:12px!important}.nd-body p:last-child{margin-bottom:0!important}
+.nd-share{display:inline-flex;align-items:center;gap:8px;background:var(--k);color:#fff;border:0;cursor:pointer}
+.files{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+@media (max-width:620px){.nd-t{font-size:25px!important}.nd-meta{grid-template-columns:1fr;gap:8px}.nd-m{padding:10px 12px}.nd-ic{width:38px;height:38px}.nd-body{padding:14px 16px}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -445,7 +461,7 @@ const STAFF=[{name_dv:"އަބްދުﷲ ކިނާނަތު ޤާސިމް",name_en:"A
   {name_dv:"ފިލްޖީ ޖޯސް",name_en:"Filgy Jose",role:"teacher",title_dv:"ޓީޗަރ (ބިޒްނަސް ސްޓަޑީޒް)",title_en:"Teacher (Business Studies)",duty_dv:"ހެނދުނު ސެޝަންގެ އިންޗާޖު",duty_en:"Morning Session In-charge",phone:"7219240",email:"filgy.jose@kondeyschool.edu.mv",smt:"1",photo:"/img/filgy-jose.jpg"}];
 
 
-const IC={
+const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',hash:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 9h14M5 15h14M10 4 8 20M16 4l-2 16"/></svg>',share:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>',
   cap:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg>',
   users:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-2-5-4-5.6"/></svg>',
   book:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2z"/><path d="M8 7h8M8 11h6"/></svg>',
@@ -549,19 +565,29 @@ let NTYPE="all";
 function newsPage(){return pageHead("ޚަބަރު","News")+`<div class="pb"><div class="wrap"><div class="panel">${NEWS.length?`<div class="grid3">${sortD(NEWS).map(newsCard).join("")}</div>`:empty("އަދި ޚަބަރެއް ނެތް","No news yet")}</div></div></div>`;}
 function noticesBody(){const L=sortD(NOTICES).filter(n=>NTYPE==="all"||(n.type||"notice")===NTYPE);return L.length?`<div class="nl">${L.map(noticeItem).join("")}</div>`:empty("މިވަގުތު އިޢުލާނެއް ނެތް","No notices right now");}
 function noticesPage(){NTYPE="all";return pageHead("އިޢުލާން","Notices")+`<div class="pb"><div class="wrap"><div class="panel"><div class="chips">${[["all","ހުރިހާ","All"],...Object.entries(TYPES).map(([k,v])=>[k,...v])].map(([k,d,e])=>`<button type="button" data-nt="${k}" class="${k==="all"?"on":""}">${bi(d,e)}</button>`).join("")}</div><div id="ntList">${noticesBody()}</div></div></div></div>`;}
+function noticeHead(o,t){
+  let dl="";
+  if(o.deadline){const d0=new Date();d0.setHours(0,0,0,0);const dd=Math.round((new Date(o.deadline+"T00:00:00")-d0)/864e5);
+    const st=dd<0?bi("ސުންގަޑި ހަމަވެއްޖެ","Closed"):dd===0?bi("މިއަދު ފަހު ދުވަސް","Last day today"):bi(`<span class="num">${dd}</span> ދުވަސް ބާކީ`,`${dd} days left`);
+    dl=`<div class="nd-m nd-dl${dd<0?" over":""}"><span class="nd-ic">${IC.clock}</span><div><small>${bi("ސުންގަޑި","Deadline")}</small><b>${nDate(o.deadline)}</b><em>${st}</em></div></div>`;}
+  return `<div class="nd-top"><span class="tag ${esc(o.type||"notice")}">${bi(t[0],t[1])}</span></div>
+    <h1 class="h nd-t">${L2(o,"title")}</h1>
+    <div class="nd-meta">
+      <div class="nd-m"><span class="nd-ic">${IC.cal}</span><div><small>${bi("ތާރީޚު","Date")}</small><b>${nDate(o.date)}</b></div></div>
+      ${o.number?`<div class="nd-m"><span class="nd-ic">${IC.hash}</span><div><small>${bi("ނަންބަރު","Number")}</small><b class="num" dir="ltr">${esc(o.number)}</b></div></div>`:""}
+      ${dl}
+    </div>`;}
 function detail(o,back,backDv,backEn,isNotice){
   if(!o) return pageHead("ނުފެނުނު","Not found")+`<div class="pb"><div class="wrap"><div class="panel">${empty("މި ސަފްޙާ ނުފެނުނު","Page not found")}</div></div></div>`;
   const im=safeUrl(o.img), ph=(o.photos||[]).map(safeUrl).filter(Boolean), t=TYPES[o.type]||TYPES.notice, pdf=safeUrl(o.pdf);
   return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel"><article class="art">
     <a class="back" href="#${back}">${IC.back}${bi(backDv,backEn)}</a>
-    ${isNotice?`<span class="tag ${esc(o.type||"notice")}">${bi(t[0],t[1])}</span>`:""}
-    <div class="nc-d">${nDate(o.date)}${o.number?` · <span class="num">${esc(o.number)}</span>`:""}</div>
-    <h1 class="h">${L2(o,"title")}</h1>
-    ${o.deadline?`<div class="ni-dl" style="font-size:16px">${bi("ސުންގަޑި:","Deadline:")} ${nDate(o.deadline)}</div>`:""}
+    ${isNotice?noticeHead(o,t):`<div class="nc-d">${nDate(o.date)}</div>
+    <h1 class="h">${L2(o,"title")}</h1>`}
     ${im?`<div class="cover"><img src="${esc(im)}" alt=""></div>`:""}
-    <div class="body">${bi(paras(o.body_dv||o.body_en),paras(o.body_en||o.body_dv))}</div>
+    <div class="body${isNotice?" nd-body":""}">${bi(paras(o.body_dv||o.body_en),paras(o.body_en||o.body_dv))}</div>
     ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
-    <div class="files">${pdf?`<a class="btn btn-p" href="${esc(pdf)}" target="_blank" rel="noopener">${bi("ލިޔުން ބައްލަވާ (PDF)","Open document (PDF)")}</a>`:""}${safeUrl(o.source)?`<a class="more" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}</div>
+    <div class="files">${isNotice?`<button type="button" class="btn nd-share" data-share>${IC.share}${bi("ޙިއްސާކުރައްވާ","Share")}</button>`:""}${pdf?`<a class="btn btn-p" href="${esc(pdf)}" target="_blank" rel="noopener">${bi("ލިޔުން ބައްލަވާ (PDF)","Open document (PDF)")}</a>`:""}${safeUrl(o.source)?`<a class="more" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}</div>
   </article></div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
@@ -701,6 +727,7 @@ document.getElementById("langBtn").onclick=()=>setLang(document.documentElement.
 document.getElementById("burger").onclick=()=>document.getElementById("mnav").classList.add("open");
 document.getElementById("mnav").addEventListener("click",e=>{if(e.target.id==="mnav"||e.target.closest("[data-close]"))e.currentTarget.classList.remove("open");});
 document.addEventListener("click",e=>{
+  const sh=e.target.closest("[data-share]");if(sh){const u=location.href,tt=document.querySelector(".nd-t")?.innerText||document.title;if(navigator.share){navigator.share({title:tt,url:u}).catch(()=>{});}else{navigator.clipboard?.writeText(u).then(()=>{sh.querySelector(".dv")&&(sh.querySelector(".dv").textContent="ލިންކް ކޮޕީކުރެވިއްޖެ");});}return;}
   const nt=e.target.closest("[data-nt]");if(nt){NTYPE=nt.dataset.nt;nt.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===nt));document.getElementById("ntList").innerHTML=noticesBody();reveal();return;}
   const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();
   openLB([...a.closest(".mt-gal").querySelectorAll("a[data-lb]")].map(x=>x.href),+a.dataset.lb);
