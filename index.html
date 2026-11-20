@@ -181,9 +181,9 @@ html[lang=dv] .evi small{font-family:"KondeyHeading","Faruma",sans-serif;font-si
 .sc-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
 .sc b{display:block;font-size:17px;line-height:1.5}
 html[lang=en] .sc b{font-size:15.5px}
-.sc span{display:block;color:var(--muted);font-size:14px}
-html[lang=dv] .sc span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
-.sc .tag{margin-top:8px}
+.sc>span{display:block;color:var(--muted);font-size:14px}
+html[lang=dv] .sc>span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.sc .tag{margin-top:8px}.sc-ct{display:flex;flex-direction:column;gap:6px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line)}.sc-ct a{display:inline-flex;font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;align-items:center;justify-content:center;gap:6px;color:#4B5563;font-size:13px;word-break:break-all}.sc-ct a:hover{color:var(--p)}.sc-ct svg{flex:0 0 auto;color:var(--p)}
 .grp-h{font-size:22px;color:var(--p);margin:30px 0 14px;display:flex;align-items:center;gap:10px}
 .grp-h::after{content:"";flex:1;height:1px;background:var(--line)}
 /* classes */
@@ -305,11 +305,12 @@ let INFO={name_dv:"ކޮނޑޭ ސްކޫލް",name_en:"Kondey School",motto_dv:"ހ
   intro_en:"Kondey School is a proud institution that has been serving the community of Ga. Kondey since its establishment on June 30, 1980. For over four decades, we have been dedicated to providing quality education and shaping the minds of generations of learners.",
   website:"kondeyschool.edu.mv",opened:"1980-06-30",students:51,teachers:12,staff:4,phone:"6820097",email:"",address_dv:"މުޙައްމަދު އަމީން މަގު، ގއ.ކޮނޑޭ، 16070",address_en:"Mohamed Ameen Magu, GA. Kondey, 16070",
   facebook:"https://www.facebook.com/KondeySchool/",instagram:"https://www.instagram.com/ga.kondey_school/",x:"https://x.com/kondeyschool",
-  logo:"/logo.png",hero:"",principal_dv:"",principal_en:"",principal_photo:"",principal_msg_dv:"",principal_msg_en:""};
+  logo:"/logo.png",hero:"",principal_dv:"އަބްދުﷲ ކިނާނަތު ޤާސިމް",principal_en:"Abdulla Kinanath Qasim",principal_photo:"/img/principal.jpg",principal_msg_dv:"",principal_msg_en:""};
 const NEWS=[{id:"classrooms-2023",title_dv:"ކޮނޑޭ ސްކޫލަށް 4 ކްލާސްރޫމް އިމާރާތްކުރުމުގެ މަސައްކަތް ހަވާލުކޮށްފި",title_en:"Contract signed to build four classrooms at Kondey School",date:"2023-04-19",
   body_dv:"ކޮނޑޭ ސްކޫލަށް 4 ކްލާސްރޫމް އިމާރާތްކުރުމުގެ މަސައްކަތް ތަޢުލީމީ ވުޒާރާއިން ކުންފުންޏަކާ ހަވާލުކޮށްފިއެވެ. މި މަސައްކަތް ނިންމަން ދީފައިވާ މުއްދަތަކީ 180 ދުވަހެވެ.",
   body_en:"The Ministry of Education has contracted a company to build four classrooms at Kondey School. The project is to be completed within 180 days.",img:"",source:"https://psmnews.mv/en/119759"}];
-const NOTICES=[], STAFF=[], ALBUMS=[], EVENTS=[], CLASSES=[];
+const NOTICES=[], ALBUMS=[], EVENTS=[], CLASSES=[];
+const STAFF=[{name_dv:"އަބްދުﷲ ކިނާނަތު ޤާސިމް",name_en:"Abdulla Kinanath Qasim",role:"principal",phone:"7222422",email:"principal@kondeyschool.edu.mv",photo:"/img/principal.jpg"}];
 const DB={news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES};
 
 const IC={
@@ -407,7 +408,7 @@ function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the scho
 const nDateTxt=d=>{const y=String(d||"").slice(0,4);return y||"—";};
 function staffPage(){
   const ord=Object.keys(ROLES), L=STAFF.slice().sort((a,b)=>(ord.indexOf(a.role)-ord.indexOf(b.role))||((+a.order||0)-(+b.order||0)));
-  const card=s=>{const ph=safeUrl(s.photo),r=ROLES[s.role]||ROLES.teacher;return `<div class="sc reveal"><div class="sc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((s.name_dv||s.name_en||"?").trim().charAt(0))}</span>`}</div><b class="h">${L2(s,"name")}</b><span>${bi(r[0],r[1])}</span>${s.subject_dv||s.subject_en?`<span class="tag">${L2(s,"subject")}</span>`:""}</div>`;};
+  const card=s=>{const ph=safeUrl(s.photo),r=ROLES[s.role]||ROLES.teacher;return `<div class="sc reveal"><div class="sc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((s.name_dv||s.name_en||"?").trim().charAt(0))}</span>`}</div><b class="h">${L2(s,"name")}</b><span>${bi(r[0],r[1])}</span>${s.subject_dv||s.subject_en?`<span class="tag">${L2(s,"subject")}</span>`:""}${s.phone||s.email?`<div class="sc-ct">${s.phone?`<a href="tel:+960${esc(String(s.phone).replace(/\D/g,""))}">${IC.phone.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="num">${esc(s.phone)}</span></a>`:""}${s.email?`<a href="mailto:${esc(s.email)}">${IC.mail.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="ltr">${esc(s.email)}</span></a>`:""}</div>`:""}</div>`;};
   const groups=[["lead",["principal","deputy","leading"],"ލީޑަރޝިޕް ޓީމް","Leadership team"],["teach",["teacher"],"މުދައްރިސުން","Teachers"],["oth",["admin","support"],"އިދާރީ އަދި އެހީތެރި މުވައްޒަފުން","Administrative & support staff"]];
   const body=STAFF.length?groups.map(([g,rs,dv,en])=>{const G=L.filter(s=>rs.includes(s.role||"teacher"));return G.length?`<h2 class="grp-h h">${bi(dv,en)}</h2><div class="sg">${G.map(card).join("")}</div>`:"";}).join(""):empty("މުވައްޒަފުންގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Staff details coming soon");
   return pageHead("މުވައްޒަފުން","Staff")+`<div class="pb"><div class="wrap"><div class="panel">${body}</div></div></div>`;}
