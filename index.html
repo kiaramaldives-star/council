@@ -1229,6 +1229,7 @@ html[lang=en] .ti-v{font-family:inherit}
 @media (max-width:640px){.ag-list li{display:grid;grid-template-columns:auto 1fr;row-gap:6px}.ag-r{grid-column:2;justify-self:start}.ag-i{padding:10px 12px}.ag-ic{width:34px;height:34px}}
 .mn-text .ag-list{padding:0!important;margin:0!important}.mn-text .ag-list li{margin:0}.ag-i:not(.wide) b{white-space:nowrap}@media (max-width:400px){.ag-info{grid-template-columns:1fr}}
 .ag-info b .num,.ag-t .num,.ag-foot .num{unicode-bidi:isolate;direction:ltr;display:inline-block}
+.ag-foot{align-items:center!important;text-align:center}
 </style>
 </head>
 <body>
@@ -1939,7 +1940,7 @@ function agRender(t){
   });
   return `${info.length?`<div class="ag-info">${info.map(([k,v])=>`<div class="ag-i${k==="ތަން"||k==="ރިޔާސަތު"?" wide":""}"><span class="ag-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]||IC["ތާރީޚު"]}</svg></span><div><small>${esc2(k)}</small><b>${esc2(v).replace(/(\d[\d:]*)/g,'<span class="num">$1</span>')}</b></div></div>`).join("")}</div>`:""}
   ${items.length?`<h4 class="ag-h">${esc2(head||"ހުށަހަޅާ މައްސަލަތައް")}</h4><ol class="ag-list">${items.map(([tx,res],i)=>`<li><span class="ag-n num">${i+1}</span><span class="ag-t">${esc2(tx).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>${res?`<em class="ag-r">${esc2(res)}</em>`:""}</li>`).join("")}</ol>`:""}
-  ${foot.length?`<div class="ag-foot">${foot.map(f=>`<span>${esc2(f).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>`).join("")}</div>`:""}`;
+  ${(foot=foot.filter(f=>/\d/.test(f))).length?`<div class="ag-foot">${foot.map(f=>`<span>${esc2(f).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>`).join("")}</div>`:""}`;
 }
 function meetViewer(m,doc){
   const DL='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
