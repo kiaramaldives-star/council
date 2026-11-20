@@ -41,7 +41,7 @@ html[lang=en] .h{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800}
 .soc a:hover{background:#111;color:#fff}
 .lang{background:#fff;color:var(--p);border:0;border-radius:9px;padding:4px 12px;font-weight:800;font-family:"Plus Jakarta Sans",sans-serif;font-size:13px}
 /* header */
-.head{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.head{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .head .wrap{display:flex;align-items:center;justify-content:space-between;height:78px;gap:16px}
 .brand{display:flex;align-items:center;gap:12px}
 .logo{width:54px;height:54px;border-radius:50%;background:var(--ps);display:grid;place-items:center;overflow:hidden;flex:0 0 auto;border:2px solid #fff;box-shadow:0 0 0 2px var(--ps)}
@@ -493,7 +493,7 @@ html[lang=dv] .sm-g>.en,html[lang=en] .sm-g>.dv{display:none}
 @media (max-width:620px){.fn{padding:14px;gap:10px}.fn-ic{width:44px;height:44px}.fn b{font-size:17px}.fn-go{width:32px;height:32px}}
 html[lang=dv] .fn,html[lang=dv] .fn :not(.num):not(svg):not(path){font-family:"KondeyHeading","Faruma",sans-serif!important}html[lang=dv] .fn b.h{font-size:21px;font-weight:400}html[lang=dv] .fn small,html[lang=dv] .fn-lbl{font-size:14.5px}
 .nav-dd{position:relative;display:flex}.nav-dd>a{display:inline-flex;align-items:center;gap:5px}.dd-c{transition:transform .2s}
-.nav-sub{position:absolute;top:100%;inset-inline-start:0;min-width:210px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(15,23,42,.14);padding:8px;display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s;z-index:80;margin-top:6px}
+.nav-sub{position:absolute;top:100%;inset-inline-start:0;min-width:210px;background:#fff!important;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(15,23,42,.14);padding:8px;display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s;z-index:80;margin-top:6px}
 .nav-dd::after{content:"";position:absolute;top:100%;left:0;right:0;height:10px}
 .nav-dd:hover .nav-sub,.nav-dd:focus-within .nav-sub{opacity:1;visibility:visible;transform:none}.nav-dd:hover .dd-c{transform:rotate(180deg)}
 .nav-sub a{display:block;white-space:nowrap}
@@ -594,7 +594,7 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={about:[["about/motto","މޮޓޯ","Motto"],["about/vision","ތަޞައްވަރު","Vision"],["about/mission","މުހިންމަތު","Mission"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const SUBMENU={about:[["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
 const PARENT={staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
