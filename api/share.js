@@ -46,19 +46,24 @@ module.exports = async (req, res) => {
     }
   } catch (e) { /* fall back to site card */ }
 
+  const ua = String(req.headers["user-agent"] || "");
+  const isBot = /facebookexternalhit|facebot|meta-externalagent|twitterbot|whatsapp|viber|telegrambot|slackbot|linkedinbot|discordbot|skypeuripreview|pinterest|embedly|googlebot|bingbot|applebot|redditbot|vkshare|line-poker|kakaotalk|snapchat|instagram/i.test(ua);
+  const self = origin + "/s/" + type + "/" + id;
   const full = title === SITE ? `${SITE} | Kondey Council` : `${title} | ${SITE}`;
   res.setHeader("Content-Type", "text/html; charset=utf-8");
   res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=86400");
+  res.setHeader("Vary", "User-Agent");
   res.status(200).send(`<!DOCTYPE html><html lang="dv" dir="rtl"><head><meta charset="utf-8">
 <title>${esc(full)}</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${esc(target)}">
+<link rel="canonical" href="${esc(SECTION[type] && id ? self : origin + "/")}">
 <meta property="og:type" content="${kind}">
 <meta property="og:site_name" content="${esc(SITE)} · Kondey Council">
 <meta property="og:locale" content="dv_MV">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:url" content="${esc(origin + req.url)}">
+<meta property="og:url" content="${esc(SECTION[type] && id ? self : origin + "/")}">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image" content="${esc(image)}">
 <meta property="og:image:alt" content="${esc(title)}">
 <meta name="twitter:card" content="summary_large_image">
@@ -66,7 +71,7 @@ module.exports = async (req, res) => {
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${esc(image)}">
 <meta name="theme-color" content="#C8102E">
-<meta http-equiv="refresh" content="0;url=${esc(target)}">
-</head><body><script>location.replace(${JSON.stringify(target)})</script>
+${isBot ? "" : `<meta http-equiv="refresh" content="0;url=${esc(target)}">`}
+</head><body>${isBot ? "" : `<script>location.replace(${JSON.stringify(target)})</script>`}
 <p><a href="${esc(target)}">${esc(title)}</a></p></body></html>`);
 };
