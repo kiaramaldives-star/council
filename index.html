@@ -540,6 +540,7 @@ html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
 @media (max-width:760px){.org-ds{grid-template-columns:1fr}.org-br{margin:0;height:26px}.org-br i{display:none}.org-br::before{height:26px}.org-dl{grid-template-columns:1fr}}
 .ld{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px 10px;color:var(--muted)}.ld-s{width:36px;height:36px;border-radius:50%;border:4px solid var(--ps);border-top-color:var(--p);animation:ldr .8s linear infinite}@keyframes ldr{to{transform:rotate(360deg)}}
 .evi-st{display:inline-block;font-size:12px;border-radius:99px;padding:0 9px;vertical-align:middle;color:#fff;line-height:1.8}.evi-st.ok{background:#16A34A}.evi-st.no{background:#DC2626}html[lang=dv] .evi-st{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
+.evi-tp{display:inline-flex;align-items:center;gap:6px;background:#F3F4F6;border-radius:99px;padding:2px 10px 2px 3px;font-size:13px;color:#374151;line-height:1.5}html[dir=rtl] .evi-tp{padding:2px 3px 2px 10px}.evi-tp img,.evi-tp i{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:top;flex:none}.evi-tp i{display:grid;place-items:center;background:var(--ps);color:var(--p);font-style:normal;font-size:13px}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -678,10 +679,16 @@ function newsCard(n){const im=safeUrl(n.img)||(Array.isArray(n.photos)&&safeUrl(
 function dateBox(d){if(!d)return`<div class="ni-d">${IC.cal}</div>`;const [y,m,dd]=d.split("-").map(Number);return `<div class="ni-d"><b class="num">${dd}</b><span>${bi(DV_MONTHS[m-1],EN_MONTHS[m-1].slice(0,3))}</span></div>`;}
 function noticeItem(n){const t=TYPES[n.type]||TYPES.notice;
   return `<a class="ni reveal" href="#notice-${esc(n.id)}">${dateBox(n.date)}<div class="ni-m"><span class="tag ${esc(n.type||"notice")}">${bi(t[0],t[1])}</span><h3 class="h">${L2(n,"title")}</h3>${n.deadline?`<div class="ni-dl">${bi("ސުންގަޑި:","Deadline:")} ${nDate(n.deadline)}</div>`:""}</div><span class="ni-go">${IC.arr}</span></a>`;}
+function findStaff(dv,en){const n=x=>String(x||"").toLowerCase().replace(/[^a-z\u0780-\u07bf\ufdf2]/g,"");const d=n(dv),e2=n(en);
+  return STAFF.find(s=>{const sd=n(s.name_dv),se=n(s.name_en);return (d&&sd&&(sd===d||sd.startsWith(d)))||(e2&&se&&(se===e2||se.startsWith(e2)||e2.startsWith(se)));});}
+function evTeachers(e){const D=String(e.teacher_dv||"").split(/\s*[،,]\s*/).filter(Boolean),E=String(e.teacher_en||"").split(/\s*,\s*/).filter(Boolean),N=Math.max(D.length,E.length);
+  let out="";for(let i=0;i<N;i++){const st=findStaff(D[i],E[i]),ph=st&&safeUrl(st.photo),dv=D[i]||E[i]||"",en=E[i]||D[i]||"";
+    out+=`<span class="evi-tp">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<i class="h">${esc(dv.trim().charAt(0))}</i>`}${bi(esc(dv),esc(en))}</span>`;}
+  return out;}
 function eventItem(e){const t=EVT[e.type]||EVT.event,today=isoD(new Date()),end=e.end||e.date,st=end<today?"past":(e.date<=today?"now":"");const days=e.end&&e.end!==e.date?Math.round((new Date(e.end)-new Date(e.date))/864e5)+1:0;
   return `<div class="evi ${esc(e.type||"event")} ${st} reveal">${dateBox(e.date)}<div class="evi-m"><h4 class="h">${L2(e,"title")}${st==="now"?` <span class="evi-now">${bi("ކުރިއަށްދަނީ","On now")}</span>`:""}${st==="past"?(e.status==="done"?` <span class="evi-st ok">${bi("ކުރިއަށް ގެންގޮސްފައި","Carried out")}</span>`:` <span class="evi-st no">${bi("ކުރިއަށް ނުގެންދެވޭ","Not carried out")}</span>`):""}</h4>
     <small>${e.end&&e.end!==e.date?`${nDate(e.date)} – ${nDate(e.end)} · ${bi(`<span class="num">${days}</span> ދުވަސް`,`${days} days`)}`:nDate(e.date)}${e.type&&e.type!=="event"?` · ${bi(t[0],t[1])}`:""}</small>
-    ${e.teacher_dv||e.teacher_en||e.audience_dv||e.audience_en?`<div class="evi-x">${e.teacher_dv||e.teacher_en?`<span class="evi-t">${IC.users.replace(/width="\d+" height="\d+"/,'width="14" height="14"')}${L2(e,"teacher")}</span>`:""}${e.audience_dv||e.audience_en?`<span class="evi-a">${L2(e,"audience")}</span>`:""}</div>`:""}</div></div>`;}
+    ${e.teacher_dv||e.teacher_en||e.audience_dv||e.audience_en?`<div class="evi-x">${e.teacher_dv||e.teacher_en?evTeachers(e):""}${e.audience_dv||e.audience_en?`<span class="evi-a">${L2(e,"audience")}</span>`:""}</div>`:""}</div></div>`;}
 function loadingHTML(){return `<div class="ld"><span class="ld-s"></span><span>${bi("ލޯޑުވަނީ...","Loading...")}</span></div>`;}
 const empty=(dv,en)=>DB_LOADING?loadingHTML():`<div class="empty">${bi(dv,en)}</div>`;
 function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap"><h1 class="h">${bi(dv,en)}</h1></div></section>`;}
