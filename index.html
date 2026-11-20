@@ -2526,7 +2526,7 @@ function awResults(){
     k(`<span class="num">${new Set(L.map(r=>r.party)).size}</span>`,"ފަރާތްތައް","Suppliers","good");
   const list=L.length?`<div class="aw-list">${L.map((r,i)=>`<article class="aw-card">
       <div class="aw-n num">${i+1}</div>
-      <div class="aw-main"><b class="aw-p">${bi(esc2(r.pdv),esc2(r.project))}</b><span class="aw-c">${bi(esc2(r.cdv),esc2(r.council))}</span>
+      <div class="aw-main"><b class="aw-p">${bi(esc2(r.pdv),esc2(r.project))}</b>
         <div class="aw-meta"><span><small>${bi("އެވޯޑް ކުރި ފަރާތް","Awarded to")}</small><b>${bi(esc2(r.adv),`<span class="lt">${esc2(r.party)}</span>`)}</b></span>
           <span><small>${bi("ތާރީޚު","Date")}</small><b>${r.iso?nDate(r.iso):esc2(r.date)}</b></span>
           <span><small>${bi("މުއްދަތު","Duration")}</small><b>${awDur(r.dur)}</b></span></div></div>

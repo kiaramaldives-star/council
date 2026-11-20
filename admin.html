@@ -480,7 +480,6 @@ function awItem(x={},i){const o=(k,t)=>`<option value="${k}" ${String(x.dur_u||"
   return `<div class="awl-it"><div class="awl-hd"><b>އެވޯޑް <span class="awl-no"></span></b><button type="button" class="btn ghost" data-awdel>ފޮހެލާ ✕</button></div>
     <div class="awl-g">
       ${F("project_dv","މަސައްކަތުގެ ނަން (ދިވެހިން)","Project name (Dhivehi)")}${F("project","މަސައްކަތުގެ ނަން (އިނގިރޭސިން)","Project name (English)",1)}
-      ${F("council_dv","އިދާރާ (ދިވެހިން)","Council (Dhivehi)",0,"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ")}${F("council","އިދާރާ (އިނގިރޭސިން)","Council (English)",1,"Secretariat Of The Kondey Council")}
       ${F("party_dv","އެވޯޑް ކުރި ފަރާތް (ދިވެހިން)","Awarded party (Dhivehi)")}${F("party","އެވޯޑް ކުރި ފަރާތް (އިނގިރޭސިން)","Awarded party (English)",1)}
       <label class="awf"><span>ފައިސާގެ ބާވަތް <i>Currency</i></span><select data-af="currency"><option value="MVR" ${x.currency!=="USD"?"selected":""}>ރުފިޔާ (MVR)</option><option value="USD" ${x.currency==="USD"?"selected":""}>ޑޮލަރު (USD)</option></select></label>
       <label class="awf"><span>އަގު <i>Awarded price</i></span><input data-af="price" type="number" step="0.01" class="ltr" dir="ltr" value="${esc(x.price??"")}"></label>
