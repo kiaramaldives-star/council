@@ -1517,7 +1517,7 @@ html[lang=dv] .at-tbl th:nth-child(2),html[lang=dv] .at-tbl td:nth-child(2){left
 .at-top .at-who{flex:1}
 .at-nm{display:inline-flex;align-items:center;gap:8px}
 .at-card.open .at-av:not(.sm){width:72px;height:72px}
-.aw-kpis{grid-template-columns:repeat(3,1fr)}.aw-kpis .at-k b{font-size:22px}
+html[lang=dv] .aw-p,html[lang=dv] .aw-c{font-family:"Faruma",sans-serif}html[lang=dv] .aw-p{font-size:17px}.aw-kpis{grid-template-columns:repeat(3,1fr)}.aw-kpis .at-k b{font-size:22px}
 .aw-list{display:grid;gap:14px}
 .aw-card{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;transition:box-shadow .2s}
 .aw-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
@@ -2501,27 +2501,29 @@ document.addEventListener("click",e=>{
 /* ---- PROCUREMENT AWARDS (ޕްރޮކިއުމަންޓް އެވޯޑް) — one record per month: {month:"YYYY-MM", rows}
    rows = pasted from the Excel "Procurement award data sheet": Project name · Council · Awarded party · Currency · Awarded price · Date (dd/mm/yyyy) · Duration
    Edited in admin.html (section "awards"). ---- */
-const AWARDS=[{month:"2026-10",rows:`Accommodation For Dharus Team	Secretariat Of The Kondey Council	Kondey Garden Villa	MVR	1,400.00	12/10/2026	1 day`}];
+/* Optional Dhivehi columns after Duration: Project (Dhivehi) · Council (Dhivehi) · Awarded party (Dhivehi). */
+const AW_DV={"secretariat of the kondey council":"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ","secretariat of the kondey counil":"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ"};
+const AWARDS=[{month:"2026-10",rows:`Accommodation For Dharus Team	Secretariat Of The Kondey Council	Kondey Garden Villa	MVR	1,400.00	12/10/2026	1 day	ދަރުސް ޓީމަށް ތިބެވޭނެ ޖާގައިގެ އިންތިޒާމް	ކޮނޑޭ ކައުންސިލްގެ އިދާރާ	ކޮނޑޭ ގާޑަން ވިލާ`}];
 let AWM="all", AWQ="";
 function awParse(rec){return String(rec.rows||"").split(/\r?\n/).map(l=>l.split("\t").map(x=>x.trim())).filter(c=>c.length>=5&&c[0]).map(c=>{
   if(/^\d+$/.test(c[0])&&c.length>=8) c=c.slice(1);
-  const [project,council,party,cur,price,date,dur]=c; const d=(date||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  return {project,council,party,cur:cur||"MVR",price:parseFloat(String(price||"").replace(/,/g,""))||0,iso:d?`${d[3]}-${d[2].padStart(2,"0")}-${d[1].padStart(2,"0")}`:"",date:date||"",dur:dur||"",month:rec.month};});}
+  const [project,council,party,cur,price,date,dur,pdv,cdv,adv]=c; const d=(date||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  return {pdv:pdv||AW_DV[attKey(project)]||project,cdv:cdv||AW_DV[attKey(council)]||(/kondey\s*coun/i.test(council)?"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ":council),adv:adv||AW_DV[attKey(party)]||party,project,council,party,cur:cur||"MVR",price:parseFloat(String(price||"").replace(/,/g,""))||0,iso:d?`${d[3]}-${d[2].padStart(2,"0")}-${d[1].padStart(2,"0")}`:"",date:date||"",dur:dur||"",month:rec.month};});}
 function awAll(){return AWARDS.slice().sort((a,b)=>String(b.month).localeCompare(a.month)).flatMap(awParse);}
-const awMoney=(n,c)=>`<span class="num">${c==="MVR"?"MVR ":c+" "}${n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}</span>`;
+const awMoney=(n,c)=>{const v=n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return bi(`<span class="num">${v}</span> ${c==="MVR"?"ރުފިޔާ":c==="USD"?"ޑޮލަރު":esc2(c)}`,`<span class="num">${esc2(c)} ${v}</span>`);};
 function awDur(t){const m=String(t).match(/^(\d+)\s*(day|days|week|weeks|month|months|year|years)$/i);if(!m)return esc2(t);
   const dv={day:"ދުވަސް",week:"ހަފްތާ",month:"މަސް",year:"އަހަރު"}[m[2].toLowerCase().replace(/s$/,"")];return bi(`<span class="num">${m[1]}</span> ${dv}`,esc2(t));}
 function awResults(){
   let L=awAll(); if(AWM!=="all") L=L.filter(r=>r.month===AWM);
-  const q=AWQ.toLowerCase(); if(q) L=L.filter(r=>(r.project+" "+r.party+" "+r.council).toLowerCase().includes(q));
+  const q=AWQ.toLowerCase(); if(q) L=L.filter(r=>(r.project+" "+r.party+" "+r.council+" "+r.pdv+" "+r.cdv+" "+r.adv).toLowerCase().includes(q));
   const tot={}; L.forEach(r=>tot[r.cur]=(tot[r.cur]||0)+r.price);
   const k=(v,dv,en,c="")=>`<div class="at-k ${c}"><b class="num">${v}</b><span>${bi(dv,en)}</span></div>`;
   const sum=k(`<span class="num">${L.length}</span>`,"އެވޯޑް ކުރި މަސައްކަތް","Contracts awarded")+k(Object.entries(tot).map(([c,n])=>awMoney(n,c)).join("<br>")||awMoney(0,"MVR"),"ޖުމްލަ އަގު","Total value","lv")+
     k(`<span class="num">${new Set(L.map(r=>r.party)).size}</span>`,"ފަރާތްތައް","Suppliers","good");
   const list=L.length?`<div class="aw-list">${L.map((r,i)=>`<article class="aw-card">
       <div class="aw-n num">${i+1}</div>
-      <div class="aw-main"><b class="aw-p">${esc2(r.project)}</b><span class="aw-c">${esc2(r.council)}</span>
-        <div class="aw-meta"><span><small>${bi("އެވޯޑް ކުރި ފަރާތް","Awarded to")}</small><b class="lt">${esc2(r.party)}</b></span>
+      <div class="aw-main"><b class="aw-p">${bi(esc2(r.pdv),esc2(r.project))}</b><span class="aw-c">${bi(esc2(r.cdv),esc2(r.council))}</span>
+        <div class="aw-meta"><span><small>${bi("އެވޯޑް ކުރި ފަރާތް","Awarded to")}</small><b>${bi(esc2(r.adv),`<span class="lt">${esc2(r.party)}</span>`)}</b></span>
           <span><small>${bi("ތާރީޚު","Date")}</small><b>${r.iso?nDate(r.iso):esc2(r.date)}</b></span>
           <span><small>${bi("މުއްދަތު","Duration")}</small><b>${awDur(r.dur)}</b></span></div></div>
       <div class="aw-price"><small>${bi("އަގު","Price")}</small><b>${awMoney(r.price,r.cur)}</b></div></article>`).join("")}</div>`:mdEmpty();
