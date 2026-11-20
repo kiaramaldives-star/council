@@ -538,6 +538,7 @@ html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
 .org-dh b{display:block;font-size:19px}.org-dh small{opacity:.85;font-size:13px}
 .org-dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;padding:12px}
 @media (max-width:760px){.org-ds{grid-template-columns:1fr}.org-br{margin:0;height:26px}.org-br i{display:none}.org-br::before{height:26px}.org-dl{grid-template-columns:1fr}}
+.ld{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px 10px;color:var(--muted)}.ld-s{width:36px;height:36px;border-radius:50%;border:4px solid var(--ps);border-top-color:var(--p);animation:ldr .8s linear infinite}@keyframes ldr{to{transform:rotate(360deg)}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -580,6 +581,7 @@ html[lang=en] .foot-b p.h{font-family:"Plus Jakarta Sans",sans-serif;font-size:1
 <script>
 /* ===== Kondey School website — Dhivehi first, English second.
    Content is edited in admin.html (Supabase table "school_content"). Built-in data below is used if the database can't be reached. ===== */
+var DB_LOADING=!/[?&]nodb\b/.test(location.search);
 const SB_URL="https://tmjjrhdwuoencmtmolvs.supabase.co", SB_KEY="sb_publishable_BG4KiDiwGlQUmMb9vDqG2g_KvrRmhdx";
 const bi=(dv,en)=>`<span class="dv">${dv}</span><span class="en">${en??dv}</span>`;
 const esc=x=>String(x??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
@@ -679,7 +681,8 @@ function eventItem(e){const t=EVT[e.type]||EVT.event,today=isoD(new Date()),end=
   return `<div class="evi ${esc(e.type||"event")} ${st} reveal">${dateBox(e.date)}<div class="evi-m"><h4 class="h">${L2(e,"title")}${st==="now"?` <span class="evi-now">${bi("ކުރިއަށްދަނީ","On now")}</span>`:""}</h4>
     <small>${e.end&&e.end!==e.date?`${nDate(e.date)} – ${nDate(e.end)} · ${bi(`<span class="num">${days}</span> ދުވަސް`,`${days} days`)}`:nDate(e.date)}${e.type&&e.type!=="event"?` · ${bi(t[0],t[1])}`:""}</small>
     ${e.teacher_dv||e.teacher_en||e.audience_dv||e.audience_en?`<div class="evi-x">${e.teacher_dv||e.teacher_en?`<span class="evi-t">${IC.users.replace(/width="\d+" height="\d+"/,'width="14" height="14"')}${L2(e,"teacher")}</span>`:""}${e.audience_dv||e.audience_en?`<span class="evi-a">${L2(e,"audience")}</span>`:""}</div>`:""}</div></div>`;}
-const empty=(dv,en)=>`<div class="empty">${bi(dv,en)}</div>`;
+function loadingHTML(){return `<div class="ld"><span class="ld-s"></span><span>${bi("ލޯޑުވަނީ...","Loading...")}</span></div>`;}
+const empty=(dv,en)=>DB_LOADING?loadingHTML():`<div class="empty">${bi(dv,en)}</div>`;
 function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap"><h1 class="h">${bi(dv,en)}</h1></div></section>`;}
 const stat=(ic,v,dv,en)=>`<div class="st reveal"><span class="st-ic">${IC[ic]}</span><div><b class="num">${v}</b><span>${bi(dv,en)}</span></div></div>`;
 function aboutBlocks(){return `<div class="about"><div class="about-txt reveal"><div class="eyebrow">${bi("އަޅުގަނޑުމެންގެ ވާހަކަ","Our story")}</div><h2 class="h" style="font-size:32px;color:var(--p);margin-bottom:14px;line-height:1.35">${bi("ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހުގެ ތަޢުލީމީ ޙިދުމަތް","Over four decades of education")}</h2>${bi(paras(INFO.intro_dv),paras(INFO.intro_en))}</div>
@@ -745,6 +748,7 @@ function noticeHead(o,t){
       ${dl}
     </div>`;}
 function detail(o,back,backDv,backEn,isNotice){
+  if(!o&&DB_LOADING) return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel">${loadingHTML()}</div></div></div>`;
   if(!o) return pageHead("ނުފެނުނު","Not found")+`<div class="pb"><div class="wrap"><div class="panel">${empty("މި ސަފްޙާ ނުފެނުނު","Page not found")}</div></div></div>`;
   const im=safeUrl(o.img), ph=(o.photos||[]).map(safeUrl).filter(Boolean), t=TYPES[o.type]||TYPES.notice, pdf=safeUrl(o.pdf);
   return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel"><article class="art">
@@ -1074,15 +1078,16 @@ const TT=document.getElementById("totop");addEventListener("scroll",()=>TT.class
 
 const DB={news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
 async function loadDB(){
-  if(/[?&]nodb\b/.test(location.search)) return;
+  if(!DB_LOADING) return;
   try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});
     if(!r.ok) return; const rows=await r.json(); if(!rows.length) return;
     const clean=v=>typeof v==="string"?v.replace(/<[^>]*>/g,""):Array.isArray(v)?v.map(clean):v&&typeof v==="object"?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,clean(x)])):v;
     const by={}; rows.forEach(x=>(by[x.section]=by[x.section]||[]).push(clean(x.data)));
     for(const [k,arr] of Object.entries(DB)) if(by[k]) arr.splice(0,arr.length,...by[k]);
     if(by.info&&by.info[0]) INFO={...INFO,...by.info[0]};
-    header(); setLang(document.documentElement.lang); route();
+    DB_LOADING=false; header(); setLang(document.documentElement.lang); route();
   }catch(e){}
+  if(DB_LOADING){DB_LOADING=false;route();}
 }
 let L0="dv";try{L0=localStorage.getItem("ks_lang")||"dv"}catch(_){}
 header(); setLang(L0); route(); loadDB();
