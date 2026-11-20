@@ -1358,6 +1358,19 @@ html[lang=en] .mc h3,html[lang=en] .mc-role,html[lang=en] .mc-term h3,html[lang=
 .pd-back,.pd-back span{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400}
 .pd-back{font-size:18px}
 html[lang=en] .pd-back,html[lang=en] .pd-back span{font-family:"Plus Jakarta Sans",sans-serif!important;font-weight:600;font-size:15px}
+
+.ac-img{position:relative}
+.ac-count{position:absolute;bottom:10px;left:10px;display:flex;align-items:center;gap:5px;background:rgba(17,24,39,.72);color:#fff;border-radius:999px;padding:4px 10px;font-size:13px;backdrop-filter:blur(4px)}
+.ac-count b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+.ab-meta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.ab-meta>span{display:inline-flex;align-items:center;gap:6px;background:#F7F8FA;border:1px solid #EEF0F3;border-radius:999px;padding:5px 12px;font-family:"Faruma",sans-serif;font-size:14px;color:#374151}
+.ab-meta svg{color:var(--gold)}.ab-meta b{font-family:"Plus Jakarta Sans",sans-serif}
+.ab-desc{font-family:"Faruma",sans-serif;font-size:17px;line-height:1.9;color:#374151;margin:0 0 16px;white-space:pre-line}
+.ab-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px;gap:10px}
+.ab-grid a{aspect-ratio:auto!important;height:100%}
+.ab-grid a.big{grid-column:span 2;grid-row:span 2}
+.ab-src{display:inline-block;margin-top:16px;color:var(--gold);font-family:"Faruma",sans-serif}
+@media (max-width:640px){.ab-grid{grid-template-columns:1fr 1fr;grid-auto-rows:130px;gap:8px}}
 </style>
 </head>
 <body>
@@ -2797,11 +2810,19 @@ $("#projectGrid").addEventListener("click",e=>{const c=e.target.closest(".proj")
 $("#projectGrid").addEventListener("keydown",e=>{const c=e.target.closest(".proj");if(c&&(e.key==="Enter"||e.key===" ")){e.preventDefault();go("#project-"+c.dataset.id)}});
 
 let ACSHOW=8;
+/* photo albums */
+function actId(a,i){return String(a.id||((a.url||"").replace(/\/$/,"").split("/").pop())||("a"+i)).replace(/[^\w-]/g,"");}
+function albumPhotos(a){const L=[].concat(a.img?[a.img]:[],Array.isArray(a.photos)?a.photos:[]);return L.filter((u,i)=>u&&L.indexOf(u)===i);}
+function albumPage(a){const P=albumPhotos(a);
+  return `<div class="ab-meta"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>${nDate(a.date)}</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>${bi(`<b class="num">${P.length}</b> ފޮޓޯ`,`<b class="num">${P.length}</b> photos`)}</span></div>
+  ${a.body?`<p class="ab-desc" dir="rtl">${esc2(a.body)}</p>`:""}
+  ${P.length?`<div class="mt-gal ab-grid">${P.map((u,i)=>`<a href="${u}" data-lb="${i}" class="${i===0&&P.length>2?"big":""}"><img src="${u}" alt="" loading="lazy"></a>`).join("")}</div>`:mdEmpty()}
+  ${a.url?`<a class="ab-src" href="${a.url}" target="_blank" rel="noopener">${bi("kondey.gov.mv ގައި ބައްލަވާ","View on kondey.gov.mv")} ↗</a>`:""}`;}
 function renderAct(){
   const g=$("#actGrid"); if(!g) return;
-  g.innerHTML=ACTIVITIES.slice(0,ACSHOW).map(a=>{const y=a.date.slice(0,4);return `<a class="ac-card" href="${a.url||"#activities"}" ${a.url?'target="_blank" rel="noopener"':""}>
+  g.innerHTML=ACTIVITIES.slice(0,ACSHOW).map((a,i)=>{const y=(a.date||"").slice(0,4),P=albumPhotos(a);return `<a class="ac-card" href="#album-${actId(a,i)}">
     <div class="ac-top"><span class="ac-tag">${bi("ފޮޓޯ "+y,"Photos "+y)}</span><span class="ac-date">${nDate(a.date)}</span></div>
-    <div class="ac-img"><img src="${a.img}" alt="" loading="lazy"></div>
+    <div class="ac-img"><img src="${P[0]||""}" alt="" loading="lazy">${P.length>1?`<span class="ac-count"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><b class="num">${P.length}</b></span>`:""}</div>
     <h4 dir="rtl">${a.dv}</h4></a>`}).join("");
   $("#actMore").hidden=ACTIVITIES.length<=ACSHOW;
 }
@@ -3112,11 +3133,12 @@ function route(){
   const annP=key.startsWith("iulaan-")?ANNOUNCEMENTS.find(x=>"iulaan-"+x.id===key):null;
   const prP=key.startsWith("press-")?PRESS.find(x=>"press-"+x.id===key):null;
   const nwP=key.startsWith("news-")?NEWS.find(x=>"news-"+x.id===key):null;
+  const abP=key.startsWith("album-")?ACTIVITIES.find((x,i)=>"album-"+actId(x,i)===key):null;
   const mvM=key.match(/^meeting-(\d+)-(\d+)-(agenda|minutes|decisions)$/), mvP=mvM?MEETINGS.find(x=>x.term==+mvM[1]&&x.no==+mvM[2]):null;
-  const mkey=MEDIA_PAGES[key]?key:((staffP||annP||prP||mvP||nwP)?key:null);
+  const mkey=MEDIA_PAGES[key]?key:((staffP||annP||prP||mvP||nwP||abP)?key:null);
   const pg=pid!=null?"projectPage":(mkey?"mediaPage":(csub?"councilPage":pages[h]));
   $("#mediaPage").hidden=!mkey;
-  if(mkey){const T=staffP?["މުވައްޒަފުން","Staff"]:annP?[annP.dv,annP.en||annP.dv]:prP?[prP.dv,prP.en||prP.dv]:nwP?[nwP.title,nwP.title]:mvP?["ކައުންސިލް ބައްދަލުވުން","Council Meeting"]:MEDIA_PAGES[mkey];$("#mediaTitle").innerHTML=bi(T[0],T[1]);$("#mediaTitle").classList.toggle("nd-head",!!(nwP||annP||prP));$("#mediaBody").innerHTML=staffP?staffProfile(staffP):annP?backLink(annP.kind==="tender"&&!/^#announcements|^#jobs/.test(PREV||"")?"#procurement":annP.kind==="job"?"#jobs":"#announcements",annP.kind==="tender"?["ބީލަންތަކަށް","Back to tenders"]:annP.kind==="job"?["ވަޒީފާތަކަށް","Back to jobs"]:["އިޢުލާންތަކަށް","Back to announcements"])+annDetail(annP):prP?backLink("#press",["ނޫސް ބަޔާންތަކަށް","Back to press releases"])+pressDetail(prP):nwP?backLink("#news",["ޚަބަރުތަކަށް","Back to news"])+newsDetail(nwP):mvP?backLink("#meetings",["ބައްދަލުވުންތަކަށް","Back to meetings"])+meetViewer(mvP,mvM[3]):mediaBody(mkey);if(mkey==="rules")$("#lwGrid").innerHTML=rulesCards();if(mkey==="landuse"){LUX.sel.clear();LUX.W=0;setTimeout(luxInit,0);}$("#mediaBody").classList.toggle("plain",mkey==="council-staff"||mkey==="news"||(mkey==="press"&&PRESS.length>0)||mkey==="reports"||mkey==="rules");}
+  if(mkey){const T=abP?[abP.dv,abP.en||abP.dv]:staffP?["މުވައްޒަފުން","Staff"]:annP?[annP.dv,annP.en||annP.dv]:prP?[prP.dv,prP.en||prP.dv]:nwP?[nwP.title,nwP.title]:mvP?["ކައުންސިލް ބައްދަލުވުން","Council Meeting"]:MEDIA_PAGES[mkey];$("#mediaTitle").innerHTML=bi(T[0],T[1]);$("#mediaTitle").classList.toggle("nd-head",!!(nwP||annP||prP));$("#mediaBody").innerHTML=abP?backLink("#activities",["ފޮޓޯ ގެލަރީއަށް","Back to photo gallery"])+albumPage(abP):staffP?staffProfile(staffP):annP?backLink(annP.kind==="tender"&&!/^#announcements|^#jobs/.test(PREV||"")?"#procurement":annP.kind==="job"?"#jobs":"#announcements",annP.kind==="tender"?["ބީލަންތަކަށް","Back to tenders"]:annP.kind==="job"?["ވަޒީފާތަކަށް","Back to jobs"]:["އިޢުލާންތަކަށް","Back to announcements"])+annDetail(annP):prP?backLink("#press",["ނޫސް ބަޔާންތަކަށް","Back to press releases"])+pressDetail(prP):nwP?backLink("#news",["ޚަބަރުތަކަށް","Back to news"])+newsDetail(nwP):mvP?backLink("#meetings",["ބައްދަލުވުންތަކަށް","Back to meetings"])+meetViewer(mvP,mvM[3]):mediaBody(mkey);if(mkey==="rules")$("#lwGrid").innerHTML=rulesCards();if(mkey==="landuse"){LUX.sel.clear();LUX.W=0;setTimeout(luxInit,0);}$("#mediaBody").classList.toggle("plain",mkey==="council-staff"||mkey==="news"||(mkey==="press"&&PRESS.length>0)||mkey==="reports"||mkey==="rules");}
   $("#projectPage").hidden=pid==null;
   if(pid!=null){const P=PROJECTS[pid];$("#projPageTitle").innerHTML=bi(P.dv,P.en);$("#projPageBody").innerHTML=projectDetails(P);}
   const CT={intro:["ތަޢާރަފު","Introduction"],mission:["މިޝަން އަދި ވިޝަން","Mission and Vision"],members:["ކައުންސިލް މެމްބަރުން","Council Members"],services:["ކައުންސިލުން ފޯރުކޮށްދޭ ޚިދުމަތްތައް","Services Provided by the Council"],structure:["އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational Structure"]};
