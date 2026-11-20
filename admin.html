@@ -128,6 +128,16 @@ button,input,select,textarea{font:inherit}
 .att-s button.on.p{background:#16A34A;color:#fff}.att-s button.on.l{background:#F59E0B;color:#fff}.att-s button.on.a{background:#DC2626;color:#fff}
 .att-x{border:0;background:#F3F4F6;border-radius:50%;width:28px;height:28px;cursor:pointer}
 .att-add{margin-top:8px;border-style:dashed;width:100%}
+.awl-list{display:grid;gap:14px;counter-reset:aw}
+.awl-it{border:1px solid #e5e7eb;border-radius:14px;padding:14px;background:#fafafa;counter-increment:aw}
+.awl-no::before{content:counter(aw)}
+.awl-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.awl-g{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.awf{display:flex;flex-direction:column;gap:4px}
+.awf>span{font-size:13px;color:#4b5563}.awf>span i{font-style:normal;font-family:system-ui;font-size:11px;color:#9ca3af}
+.awf input,.awf select{width:100%}
+.awf-d{display:flex;gap:8px}.awf-d input{flex:0 0 90px}.awf-d select{flex:1}
+@media (max-width:640px){.awl-g{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -199,9 +209,8 @@ const SECTIONS={
  attendance:{dv:"ހާޒިރީ ރިޕޯޓް",en:"Attendance report",title:x=>`${x.month||""} ހާޒިރީ ރިޕޯޓް`,sub:x=>`${String(x.rows||"").split(/\n/).filter(l=>/\t\d+\t/.test(l)).length} މީހުން`,fields:[
    T("month","މަސް (މިސާލު 2026-11)","Month, e.g. 2026-11","text",{ltr:1}),
    T("rows","ރިޕޯޓް (އެކްސެލުން ކޮޕީކޮށް މިތަނަށް ޕޭސްޓް ކުރޭ)","Report rows — copy the rows from Excel (Emp ID … RL, same column order as the printed report) and paste here","textarea",{rows:14,ltr:1,help:"Emp ID · Name · Designation · Worked · Absent · Late · Short · Absent Time · Late Time · Holidays · Week Offs · PH Worked · WO Worked · AL · MLC · EL · PL · ML · MC · CL · PM · PMNP · HL · UL · NP15 · RL"})]},
- awards:{dv:"ޕްރޮކިއުމަންޓް އެވޯޑް",en:"Procurement awards",title:x=>`${x.month||""} ޕްރޮކިއުމަންޓް އެވޯޑް`,sub:x=>`${String(x.rows||"").split(/\n/).filter(l=>l.split("\t").length>=5).length} އެވޯޑް`,fields:[
-   T("month","މަސް (މިސާލު 2026-11)","Month, e.g. 2026-11","text",{ltr:1}),
-   T("rows","ޑޭޓާ ޝީޓް (އެކްސެލުން ކޮޕީކޮށް މިތަނަށް ޕޭސްޓް ކުރޭ)","Award rows — copy the rows from the Excel data sheet and paste here (the # column can be included or left out)","textarea",{rows:8,ltr:1,help:"Project Name · Council · Awarded Party · Currency · Awarded Price · Date (dd/mm/yyyy) · Duration · then add 3 more Excel columns in Dhivehi: Project (ދިވެހިން) · Council (ދިވެހިން) · Awarded Party (ދިވެހިން)"})]},
+ awards:{dv:"ޕްރޮކިއުމަންޓް އެވޯޑް",en:"Procurement awards",title:x=>`${x.month||""} ޕްރޮކިއުމަންޓް އެވޯޑް`,sub:x=>`${(x.items||[]).length||String(x.rows||"").split(/\n/).filter(l=>l.split("\t").length>=5).length} އެވޯޑް`,fields:[
+   T("month","މަސް","Month","month"),T("items","އެވޯޑްތައް","Awards","awlist")]},
  island:{dv:"ރަށުގެ ތަފާސްހިސާބު",en:"Island statistics",single:1,title:x=>`ޖުމްލަ އާބާދީ ${x.total||""}`,sub:x=>`ފިރިހެން ${x.male||""} · އަންހެން ${x.female||""} · ${x.area||""} ހެކްޓަރު`,fields:[
    T("total","ޖުމްލަ އާބާދީ","Total population","number"),T("male","ފިރިހެން","Male","number"),T("female","އަންހެން","Female","number"),
    T("households","ގޭބިސީ (ހުސްކޮށް ބާއްވައިފިނަމަ ނުދައްކާނެ)","Households (blank = hidden)","number"),T("area","ބިމުގެ ބޮޑުމިން (ހެކްޓަރު)","Land area (hectares)","number"),
@@ -326,6 +335,15 @@ function fieldHTML(f,v){
       <div class="att-list">${L.map(attRow).join("")}</div>
       <button type="button" class="att-add" data-attadd>+ އެހެން ނަމެއް އިތުރުކުރޭ <span class="en">Add another name</span></button>
       <input type="hidden" data-k="${f.k}" value="${esc(JSON.stringify(saved))}"></div>`;}
+  if(f.type==="month") return `<div class="fld">${lab}<input data-k="${f.k}" type="month" class="ltr" value="${esc(v)}"></div>`;
+  if(f.type==="awlist"){
+    let L=Array.isArray(v)?v:[];
+    if(!L.length&&EDIT?.data?.rows) L=String(EDIT.data.rows).split(/\r?\n/).map(l=>l.split("\t").map(x=>x.trim())).filter(c=>c.length>=5&&c[0]).map(c=>{if(/^\d+$/.test(c[0])&&c.length>=8)c=c.slice(1);
+      const d=(c[5]||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/),du=(c[6]||"").match(/^(\d+)\s*(day|week|month|year)/i);
+      return {project:c[0],council:c[1],party:c[2],currency:c[3]||"MVR",price:parseFloat(String(c[4]).replace(/,/g,""))||"",date:d?`${d[3]}-${d[2].padStart(2,"0")}-${d[1].padStart(2,"0")}`:"",dur_n:du?du[1]:"",dur_u:du?du[2].toLowerCase():"day",project_dv:c[7]||"",council_dv:c[8]||"",party_dv:c[9]||""};});
+    if(!L.length) L=[{}];
+    return `<div class="fld awl" data-awl="${f.k}">${lab}<div class="awl-list">${L.map(awItem).join("")}</div>
+      <button type="button" class="att-add" data-awadd>+ އިތުރު އެވޯޑެއް <span class="en">Add another award</span></button></div>`;}
   if(f.type==="date") return `<div class="fld">${lab}<input data-k="${f.k}" type="date" value="${esc(v)}"></div>`;
   if(f.type==="datetime") return `<div class="fld">${lab}<input data-k="${f.k}" type="datetime-local" value="${esc((v||"").replace(" ","T"))}"></div>`;
   if(f.type==="number") return `<div class="fld">${lab}<input data-k="${f.k}" type="number" class="ltr" value="${v??""}"></div>`;
@@ -455,6 +473,23 @@ async function upload(file,folder){
   await api(`/storage/v1/object/media/${path}`,{method:"POST",headers:{"Content-Type":file.type||"application/octet-stream","x-upsert":"true"},body:file});
   return pubUrl(path);
 }
+
+/* procurement award block: every column is its own box */
+function awItem(x={},i){const o=(k,t)=>`<option value="${k}" ${String(x.dur_u||"day")===k?"selected":""}>${t}</option>`;
+  const F=(k,dv,en,ltr,ph)=>`<label class="awf"><span>${dv} <i>${en}</i></span><input data-af="${k}" type="text"${ltr?' class="ltr" dir="ltr"':' dir="rtl"'} value="${esc(x[k]??"")}" ${ph?`placeholder="${esc(ph)}"`:""}></label>`;
+  return `<div class="awl-it"><div class="awl-hd"><b>އެވޯޑް <span class="awl-no"></span></b><button type="button" class="btn ghost" data-awdel>ފޮހެލާ ✕</button></div>
+    <div class="awl-g">
+      ${F("project_dv","މަސައްކަތުގެ ނަން (ދިވެހިން)","Project name (Dhivehi)")}${F("project","މަސައްކަތުގެ ނަން (އިނގިރޭސިން)","Project name (English)",1)}
+      ${F("council_dv","އިދާރާ (ދިވެހިން)","Council (Dhivehi)",0,"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ")}${F("council","އިދާރާ (އިނގިރޭސިން)","Council (English)",1,"Secretariat Of The Kondey Council")}
+      ${F("party_dv","އެވޯޑް ކުރި ފަރާތް (ދިވެހިން)","Awarded party (Dhivehi)")}${F("party","އެވޯޑް ކުރި ފަރާތް (އިނގިރޭސިން)","Awarded party (English)",1)}
+      <label class="awf"><span>ފައިސާގެ ބާވަތް <i>Currency</i></span><select data-af="currency"><option value="MVR" ${x.currency!=="USD"?"selected":""}>ރުފިޔާ (MVR)</option><option value="USD" ${x.currency==="USD"?"selected":""}>ޑޮލަރު (USD)</option></select></label>
+      <label class="awf"><span>އަގު <i>Awarded price</i></span><input data-af="price" type="number" step="0.01" class="ltr" dir="ltr" value="${esc(x.price??"")}"></label>
+      <label class="awf"><span>ތާރީޚު <i>Date</i></span><input data-af="date" type="date" class="ltr" value="${esc(x.date||"")}"></label>
+      <label class="awf"><span>މުއްދަތު <i>Duration</i></span><div class="awf-d"><input data-af="dur_n" type="number" min="0" class="ltr" dir="ltr" value="${esc(x.dur_n??"")}"><select data-af="dur_u">${o("day","ދުވަސް")}${o("week","ހަފްތާ")}${o("month","މަސް")}${o("year","އަހަރު")}</select></div></label>
+    </div></div>`;}
+document.addEventListener("click",e=>{
+  if(e.target.closest("[data-awadd]")){const L=e.target.closest(".awl").querySelector(".awl-list");L.insertAdjacentHTML("beforeend",awItem({}));L.lastElementChild.querySelector("input").focus();return;}
+  const d=e.target.closest("[data-awdel]");if(d){const it=d.closest(".awl-it");if(it.parentNode.children.length>1)it.remove();else it.querySelectorAll("input").forEach(x=>x.value="");}});
 async function saveEdit(){
   const sec=SECTIONS[CUR], m=$("#edMsg"); const btn=$("#save"); btn.disabled=true; m.className="msg"; m.textContent="ސޭވް ކުރަނީ… Saving…";
   try{
@@ -462,6 +497,7 @@ async function saveEdit(){
     for(const f of sec.fields){
       if(f.type==="hiddenid"){ if(!d.id) d.id=Date.now().toString(36); continue; }
       if(f.type==="hiddenfixed"){ d[f.k]=d[f.k]||f.def; continue; }
+      if(f.type==="awlist"){d[f.k]=[...document.querySelectorAll(`#ed [data-awl="${f.k}"] .awl-it`)].map(it=>{const o={};it.querySelectorAll("[data-af]").forEach(x=>o[x.dataset.af]=x.type==="number"?(x.value===""?"":Number(x.value)):x.value.trim());return o;}).filter(o=>o.project||o.project_dv||o.party||o.party_dv);delete d.rows;continue;}
       if(f.type==="attendance"){try{d[f.k]=JSON.parse($(`#ed [data-k="${f.k}"]`)?.value||"[]")}catch(_){d[f.k]=[]}continue;}
       if(f.type==="gallery"){let L=[];try{L=JSON.parse($(`#ed [data-k="${f.k}"]`)?.value||"[]")}catch(_){}
         for(const file of (PENDG[f.k]||[]).filter(Boolean)){m.textContent=`ފޮޓޯ އަޕްލޯޑް ކުރަނީ… Uploading photos (${L.length+1})`;L.push(await upload(await shrink(file,1800),CUR));}

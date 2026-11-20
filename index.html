@@ -2501,11 +2501,15 @@ document.addEventListener("click",e=>{
 /* ---- PROCUREMENT AWARDS (ޕްރޮކިއުމަންޓް އެވޯޑް) — one record per month: {month:"YYYY-MM", rows}
    rows = pasted from the Excel "Procurement award data sheet": Project name · Council · Awarded party · Currency · Awarded price · Date (dd/mm/yyyy) · Duration
    Edited in admin.html (section "awards"). ---- */
-/* Optional Dhivehi columns after Duration: Project (Dhivehi) · Council (Dhivehi) · Awarded party (Dhivehi). */
+/* Each award is entered in admin.html with separate boxes (Dhivehi + English). Older records pasted from Excel (rows) still work. */
 const AW_DV={"secretariat of the kondey council":"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ","secretariat of the kondey counil":"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ"};
-const AWARDS=[{month:"2026-10",rows:`Accommodation For Dharus Team	Secretariat Of The Kondey Council	Kondey Garden Villa	MVR	1,400.00	12/10/2026	1 day	ދަރުސް ޓީމަށް ތިބެވޭނެ ޖާގައިގެ އިންތިޒާމް	ކޮނޑޭ ކައުންސިލްގެ އިދާރާ	ކޮނޑޭ ގާޑަން ވިލާ`}];
+const AWARDS=[{month:"2026-10",items:[{project_dv:"ދަރުސް ޓީމަށް ތިބެވޭނެ ޖާގައިގެ އިންތިޒާމް",project:"Accommodation For Dharus Team",council_dv:"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ",council:"Secretariat Of The Kondey Council",party_dv:"ކޮނޑޭ ގާޑަން ވިލާ",party:"Kondey Garden Villa",currency:"MVR",price:1400,date:"2026-10-12",dur_n:1,dur_u:"day"}]}];
 let AWM="all", AWQ="";
-function awParse(rec){return String(rec.rows||"").split(/\r?\n/).map(l=>l.split("\t").map(x=>x.trim())).filter(c=>c.length>=5&&c[0]).map(c=>{
+function awParse(rec){
+  if(Array.isArray(rec.items)&&rec.items.length) return rec.items.map(x=>{const n=+x.dur_n||0,u=x.dur_u||"day";
+    return {project:x.project||x.project_dv||"",pdv:x.project_dv||x.project||"",council:x.council||"Secretariat Of The Kondey Council",cdv:x.council_dv||"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ",
+      party:x.party||x.party_dv||"",adv:x.party_dv||x.party||"",cur:x.currency||"MVR",price:+x.price||0,iso:x.date||"",date:x.date||"",dur:n?`${n} ${u}${n>1?"s":""}`:"",month:rec.month};});
+  return String(rec.rows||"").split(/\r?\n/).map(l=>l.split("\t").map(x=>x.trim())).filter(c=>c.length>=5&&c[0]).map(c=>{
   if(/^\d+$/.test(c[0])&&c.length>=8) c=c.slice(1);
   const [project,council,party,cur,price,date,dur,pdv,cdv,adv]=c; const d=(date||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   return {pdv:pdv||AW_DV[attKey(project)]||project,cdv:cdv||AW_DV[attKey(council)]||(/kondey\s*coun/i.test(council)?"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ":council),adv:adv||AW_DV[attKey(party)]||party,project,council,party,cur:cur||"MVR",price:parseFloat(String(price||"").replace(/,/g,""))||0,iso:d?`${d[3]}-${d[2].padStart(2,"0")}-${d[1].padStart(2,"0")}`:"",date:date||"",dur:dur||"",month:rec.month};});}
