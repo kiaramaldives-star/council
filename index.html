@@ -520,6 +520,24 @@ html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
 .mn-s a.on{color:var(--p)!important;background:var(--ps)!important}
 .mn-soc{display:flex;justify-content:center;gap:26px;padding:26px 0 30px;margin-top:auto;color:#4B5563}
 .mn-soc a{padding:0!important;background:none!important;color:#4B5563!important;display:grid!important}.mn-soc svg{width:24px;height:24px}
+.org-top{display:flex;flex-direction:column;align-items:center;gap:6px}
+.org-n{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px 12px;min-width:0}
+.org-n.lead{flex-direction:column;text-align:center;padding:16px 26px;border:2px solid var(--p);box-shadow:0 12px 28px rgba(200,16,46,.15);border-radius:22px}
+.org-ph{flex:none;width:46px;height:46px;border-radius:50%;overflow:hidden;background:var(--ps);display:grid;place-items:center;color:var(--p);font-size:20px}
+.org-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
+.org-n.lead .org-ph{width:96px;height:96px;font-size:36px;border:3px solid #fff;box-shadow:0 0 0 3px var(--p)}
+.org-i{min-width:0}.org-i b{display:block;font-size:15.5px;line-height:1.5}.org-i small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5}
+.org-n.lead .org-i b{font-size:20px}
+.org-role{background:var(--p);color:#fff;border-radius:99px;padding:2px 14px;font-size:14px}
+.org-br{position:relative;height:46px;margin:0 25%}.org-br::before{content:"";position:absolute;left:50%;top:0;height:22px;border-left:3px solid var(--p)}
+.org-br i{position:absolute;left:0;right:0;top:22px;height:24px;border:3px solid var(--p);border-bottom:0;border-radius:14px 14px 0 0}
+.org-ds{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.org-d{border-radius:20px;border:1px solid var(--line);background:#FAFAFB;overflow:hidden}
+.org-dh{display:flex;align-items:center;gap:12px;padding:14px 16px;color:#fff;background:var(--k)}.org-d.acd .org-dh{background:linear-gradient(120deg,var(--p),#7A0A1C)}
+.org-dic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.15);display:grid;place-items:center}.org-dic svg{width:22px;height:22px}
+.org-dh b{display:block;font-size:19px}.org-dh small{opacity:.85;font-size:13px}
+.org-dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;padding:12px}
+@media (max-width:760px){.org-ds{grid-template-columns:1fr}.org-br{margin:0;height:26px}.org-br i{display:none}.org-br::before{height:26px}.org-dl{grid-template-columns:1fr}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -613,8 +631,8 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={about:[["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
-const PARENT={staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
+const SUBMENU={about:[["structure","އިދާރީ ހަރުމަ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const PARENT={structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -772,6 +790,17 @@ function activitiesPage(){
     <div class="act-top"><div><h2 class="h">${bi(`ހަރަކާތްތަކުގެ ކަލަންޑަރު <span class="num">${yrs.join(" / ")}</span>`,`Activity Calendar ${yrs.join(" / ")}`)}</h2><small>${bi(`ޖުމްލަ <span class="num">${ev.length}</span> ހަރަކާތް · ކުރިއަށް އޮތް <span class="num">${up.length}</span>`,`${ev.length} activities · ${up.length} upcoming`)}</small></div></div>
     ${next?`<div class="ac-next" style="margin:14px 0"><div class="ac-cd"><b class="num">${Math.round((new Date(next.date)-new Date(today))/864e5)}</b><small>${bi("ދުވަސް","days")}</small></div><div><small>${bi("ކުރިއަށް އޮތް ހަރަކާތް","Next activity")}</small><b class="h">${L2(next,"title")}</b><span>${nDate(next.date)}${next.teacher_dv||next.teacher_en?` · ${L2(next,"teacher")}`:""}</span></div></div>`:""}
     ${ev.length?groups:empty("ހަރަކާތްތައް ވަރަށް އަވަހަށް","Activities coming soon")}
+  </div></div></div>`;}
+function structurePage(){
+  const node=(s,cls="")=>{const ph=safeUrl(s.photo);return `<div class="org-n ${cls}"><div class="org-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((s.name_dv||s.name_en||"?").trim().charAt(0))}</span>`}</div><div class="org-i"><b class="h">${L2(s,"name")}</b><small>${s.title_dv||s.title_en?L2(s,"title"):bi(...(ROLES[s.role]||ROLES.teacher))}</small></div></div>`;};
+  const pr=STAFF.find(s=>s.role==="principal")||{name_dv:INFO.principal_dv,name_en:INFO.principal_en,photo:INFO.principal_photo,role:"principal"};
+  const ord=(a,b)=>(+a.order||0)-(+b.order||0);
+  const ac=STAFF.filter(s=>s!==pr&&["teacher","deputy","leading"].includes(s.role||"teacher")).sort(ord), ad=STAFF.filter(s=>s!==pr&&["admin","support"].includes(s.role)).sort((a,b)=>(a.role==="admin"?0:1)-(b.role==="admin"?0:1)||ord(a,b));
+  const dept=(dv,en,ic,L,c)=>`<div class="org-d ${c}"><div class="org-dh"><span class="org-dic">${ic}</span><div><b class="h">${bi(dv,en)}</b><small>${bi(`<span class="num">${L.length}</span> މުވައްޒަފުން`,`${L.length} staff`)}</small></div></div><div class="org-dl">${L.map(x=>node(x)).join("")||empty("މުވައްޒަފުން ނެތް","No staff")}</div></div>`;
+  return pageHead("އިދާރީ ހަރުމަ","Organisational structure")+`<div class="pb"><div class="wrap"><div class="panel org">
+    <div class="org-top">${node(pr,"lead")}</div>
+    <div class="org-br"><i></i></div>
+    <div class="org-ds">${dept("ތަޢުލީމީ ޑިޕާޓްމަންޓް","Academic Department",IC.cap,ac,"acd")}${dept("އިދާރީ ޑިޕާޓްމަންޓް","Administration Department",IC.users,ad,"adm")}</div>
   </div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
@@ -1006,7 +1035,7 @@ function route(){
   else if(h.startsWith("notice-")){html=detail(NOTICES.find(n=>n.id===h.slice(7)),"notices","އިޢުލާންތަކަށް","Back to notices",1);key="notices";}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
-  else html=({home,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
