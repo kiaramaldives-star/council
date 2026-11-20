@@ -1446,6 +1446,73 @@ html[lang=en] .cs-pop button{font-family:"Plus Jakarta Sans",sans-serif;font-siz
 #searchInput,#munFilter,#lwQ,.search-ov input,input[type=search]{font-family:"KondeyHeading","Faruma",sans-serif!important}
 #searchInput::placeholder,#munFilter::placeholder,#lwQ::placeholder,input[type=search]::placeholder{font-family:"KondeyHeading","Faruma",sans-serif}
 html[lang=en] #searchInput,html[lang=en] #munFilter,html[lang=en] #lwQ,html[lang=en] input[type=search]{font-family:"Plus Jakarta Sans",sans-serif!important}
+/* staff attendance report */
+.at-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.at-month{width:220px}
+.at-title{color:#6B7280;font-size:14px}
+html[lang=dv] .at-title{font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+.at-kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px}
+.at-k{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.03)}
+.at-k b{display:block;font-size:26px;font-weight:800;color:var(--navy);line-height:1.1}
+.at-k span{display:block;margin-top:6px;color:#6B7280;font-size:12.5px}
+html[lang=dv] .at-k span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.at-k.late b{color:#D97706}.at-k.lv b{color:#2563EB}.at-k.good b{color:#059669}
+.at-tools{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.at-tools input{flex:1;min-width:200px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px 14px;font-size:15px;outline:none}
+.at-tools input:focus{border-color:var(--gold)}
+.at-sort{width:200px}
+.at-view{display:flex;background:#E6ECF3;border-radius:12px;padding:4px;gap:4px}
+.at-view button{border:0;background:none;border-radius:9px;padding:7px 10px;color:#4B5563;cursor:pointer;display:grid;place-items:center}
+.at-view button.on{background:#fff;color:var(--gold);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.at-chipsbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.at-chipsbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;cursor:pointer;color:#4B5563;font-size:13.5px}
+html[lang=dv] .at-chipsbar button{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.at-chipsbar button.on{background:var(--gold);border-color:var(--gold);color:#fff}
+.at-chipsbar .mt-count{margin-inline-start:auto}
+.at-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.at-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;cursor:pointer;transition:box-shadow .2s,transform .2s;position:relative}
+.at-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+.at-card.at-ok{border-color:rgba(5,150,105,.35)}
+.at-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.at-who{min-width:0}
+.at-name{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-size:15.5px;color:var(--text)}
+.at-des{display:block;font-family:"Plus Jakarta Sans",sans-serif;color:#6B7280;font-size:13px;margin-top:2px}
+.at-id{display:inline-block;margin-top:6px;background:var(--navy-soft);color:var(--navy);border-radius:6px;padding:2px 8px;font-size:11.5px;font-weight:700}
+.at-w{text-align:center;background:var(--gold-soft);border-radius:14px;padding:6px 12px;flex:0 0 auto}
+.at-w b{display:block;font-size:24px;font-weight:800;color:var(--gold);line-height:1.1}
+.at-w span{font-size:11.5px;color:var(--navy)}
+html[lang=dv] .at-w span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
+.at-bar{display:flex;height:8px;border-radius:99px;overflow:hidden;background:#F1F2F4;margin:14px 0 12px;direction:ltr}
+.at-bar i,.at-legend i{display:block;height:100%}
+.s-w{background:#10B981}.s-l{background:#3B82F6}.s-a{background:#EF4444}.s-o{background:#D1D5DB}
+.at-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ac-c{border-radius:8px;padding:4px 9px;font-size:12.5px;background:#F3F4F6;color:#374151;display:inline-flex;gap:4px;align-items:center}
+html[lang=dv] .ac-c{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.ac-c b{font-weight:800}.ac-c small{opacity:.75;font-size:11.5px}
+.ac-c.late{background:#FEF3C7;color:#92400E}.ac-c.short{background:#FFEDD5;color:#9A3412}.ac-c.abs{background:#FEE2E2;color:#991B1B}
+.ac-c.lv{background:#DBEAFE;color:#1E40AF}.ac-c.good{background:#D1FAE5;color:#065F46}
+.at-more{display:none;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.at-card.open .at-more{display:grid}
+.at-more div{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:#6B7280}
+html[lang=dv] .at-more div{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13.5px}
+.at-more b{color:var(--text)}
+.at-tw{overflow-x:auto;direction:ltr;background:#fff;border:1px solid var(--line);border-radius:16px;-webkit-overflow-scrolling:touch}
+.at-tbl{border-collapse:collapse;width:100%;font-size:13px;direction:ltr;white-space:nowrap}
+.at-tbl th{position:sticky;top:0;background:var(--navy);color:#fff;padding:10px 8px;font-weight:600;text-align:center}
+html[lang=dv] .at-tbl th{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px;white-space:normal;min-width:60px}
+.at-tbl td{padding:8px;border-bottom:1px solid var(--line);text-align:center}
+.at-tbl td.t{text-align:left;font-family:"Plus Jakarta Sans",sans-serif}
+.at-tbl td.z{color:#C4C8CF}.at-tbl td.hl{background:#FEF3C7;color:#92400E;font-weight:700}
+.at-tbl tbody tr:hover td{background:#FAF5F6}
+.at-tbl th:nth-child(2),.at-tbl td:nth-child(2){position:sticky;left:0;background:#fff;z-index:1}
+.at-tbl th:nth-child(2){background:var(--navy);z-index:2}
+.at-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:22px;color:#6B7280;font-size:13px}
+html[lang=dv] .at-legend{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.at-legend span{display:inline-flex;align-items:center;gap:6px}
+.at-legend i{width:12px;height:12px;border-radius:4px}
+@media (max-width:900px){.at-kpis{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.at-kpis{grid-template-columns:repeat(2,1fr);gap:8px}.at-k{padding:12px 8px}.at-k b{font-size:22px}
+  .at-month,.at-sort{width:auto;flex:1}.at-tools input{min-width:100%}.at-grid{grid-template-columns:1fr}.at-chipsbar{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}.at-chipsbar button{flex:0 0 auto}.at-chipsbar .mt-count{flex:0 0 auto}}
 </style>
 </head>
 <body>
@@ -1484,7 +1551,7 @@ html[lang=en] #searchInput,html[lang=en] #munFilter,html[lang=en] #lwQ,html[lang
         <a href="#president"><span class="dv">ރައީސް</span><span class="en">President</span></a>
         <a href="#projects"><span class="dv">ޕްރޮޖެކްޓްތައް</span><span class="en">Projects</span></a>
         <a href="#island"><span class="dv">ރަށް</span><span class="en">Island</span></a>
-        <div class="nav-dd nav-mega"><a href="#news"><span class="dv">މީޑިއާ ސެންޓަރ</span><span class="en">Media Center</span><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a><div class="dd-menu dd-mega"><a href="#news"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="mm-t"><span class="dv">ޚަބަރު</span><span class="en">News</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#announcements"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 7a7 7 0 0 1 0 10"/></svg></span><span class="mm-t"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#press"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="15" height="16" rx="2"/><path d="M18 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2M7 8h7M7 12h7M7 16h4"/></svg></span><span class="mm-t"><span class="dv">ނޫސް ބަޔާން</span><span class="en">Press releases</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#activities"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 4-11 7 7z"/><path d="M14 4v2M19 9h2M17.5 6.5 19 5M12 9l1-1M15 12l1-1"/></svg></span><span class="mm-t"><span class="dv">ފޮޓޯ ގެލަރީ</span><span class="en">Photo gallery</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#meetings"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v4M8 20h8"/></svg></span><span class="mm-t"><span class="dv">ކައުންސިލްގެ ބައްދަލުވުންތައް</span><span class="en">Council meetings</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#wdc-meetings"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18a5 5 0 0 1-5-5V9a5 5 0 0 1 10 0v4a5 5 0 0 1-5 5zM9 18v3"/><path d="M17 9a4 4 0 0 1 0 6M19.5 7a7 7 0 0 1 0 10"/></svg></span><span class="mm-t"><span class="dv">އތމ ކޮމެޓީ ބައްދަލުވުންތައް</span><span class="en">WDC meetings</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#landuse"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10l10-6 10 6z"/></svg></span><span class="mm-t"><span class="dv">ލޭންޑް ޔޫސް ޕްލޭން</span><span class="en">Land use plan</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#statistics"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></svg></span><span class="mm-t"><span class="dv">ތަފާސް ހިސާބުތައް</span><span class="en">Statistics</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#rules"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2zM22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/></svg></span><span class="mm-t"><span class="dv">ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް</span><span class="en">Laws, regulations & policies</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#reports"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="mm-t"><span class="dv">ރިޕޯޓްތައް</span><span class="en">Reports</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#gallery"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="mm-t"><span class="dv">ގެލަރީ</span><span class="en">Gallery</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#map"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></svg></span><span class="mm-t"><span class="dv">ކޮނޑޭގެ މެޕް</span><span class="en">Map of Kondey</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a></div></div>
+        <div class="nav-dd nav-mega"><a href="#news"><span class="dv">މީޑިއާ ސެންޓަރ</span><span class="en">Media Center</span><svg class="chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a><div class="dd-menu dd-mega"><a href="#news"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></span><span class="mm-t"><span class="dv">ޚަބަރު</span><span class="en">News</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#announcements"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 7a7 7 0 0 1 0 10"/></svg></span><span class="mm-t"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#press"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="15" height="16" rx="2"/><path d="M18 8h2a1 1 0 0 1 1 1v9a2 2 0 0 1-2 2M7 8h7M7 12h7M7 16h4"/></svg></span><span class="mm-t"><span class="dv">ނޫސް ބަޔާން</span><span class="en">Press releases</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#activities"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 4-11 7 7z"/><path d="M14 4v2M19 9h2M17.5 6.5 19 5M12 9l1-1M15 12l1-1"/></svg></span><span class="mm-t"><span class="dv">ފޮޓޯ ގެލަރީ</span><span class="en">Photo gallery</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#meetings"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v4M8 20h8"/></svg></span><span class="mm-t"><span class="dv">ކައުންސިލްގެ ބައްދަލުވުންތައް</span><span class="en">Council meetings</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#wdc-meetings"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18a5 5 0 0 1-5-5V9a5 5 0 0 1 10 0v4a5 5 0 0 1-5 5zM9 18v3"/><path d="M17 9a4 4 0 0 1 0 6M19.5 7a7 7 0 0 1 0 10"/></svg></span><span class="mm-t"><span class="dv">އތމ ކޮމެޓީ ބައްދަލުވުންތައް</span><span class="en">WDC meetings</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#landuse"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10l10-6 10 6z"/></svg></span><span class="mm-t"><span class="dv">ލޭންޑް ޔޫސް ޕްލޭން</span><span class="en">Land use plan</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#statistics"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6"/></svg></span><span class="mm-t"><span class="dv">ތަފާސް ހިސާބުތައް</span><span class="en">Statistics</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#rules"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5h6a4 4 0 0 1 4 4v11a3 3 0 0 0-3-3H2zM22 5h-6a4 4 0 0 0-4 4v11a3 3 0 0 1 3-3h7z"/></svg></span><span class="mm-t"><span class="dv">ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް</span><span class="en">Laws, regulations & policies</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#reports"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="mm-t"><span class="dv">ރިޕޯޓްތައް</span><span class="en">Reports</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#attendance"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg></span><span class="mm-t"><span class="dv">ހާޒިރީ ރިޕޯޓް</span><span class="en">Attendance report</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#gallery"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="mm-t"><span class="dv">ގެލަރީ</span><span class="en">Gallery</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a><a href="#map"><span class="mm-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></svg></span><span class="mm-t"><span class="dv">ކޮނޑޭގެ މެޕް</span><span class="en">Map of Kondey</span></span><span class="mm-go"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></span></a></div></div>
         <a href="#jobs"><span class="dv">ވަޒީފާ</span><span class="en">Jobs</span></a>
         <a href="#procurement"><span class="dv">ޕްރޮކިއުމަންޓްތައް</span><span class="en">Procurement</span></a>
       </nav>
@@ -1512,7 +1579,7 @@ html[lang=en] #searchInput,html[lang=en] #munFilter,html[lang=en] #lwQ,html[lang
     <a class="m-item" href="#island"><span class="m-t"><span class="dv">ރަށް</span><span class="en">Island</span></span><span class="m-btn"><svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span></a>
     <div class="m-item m-group">
       <div class="m-row"><a class="m-t" href="#news"><span class="dv">މީޑިއާ ސެންޓަރ</span><span class="en">Media Center</span></a><button class="m-btn m-tog" aria-label="Open submenu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button></div>
-      <div class="m-sub"><div><a href="#news"><span class="dv">ޚަބަރު</span><span class="en">News</span></a><a href="#announcements"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span></a><a href="#press"><span class="dv">ނޫސް ބަޔާން</span><span class="en">Press releases</span></a><a href="#activities"><span class="dv">ފޮޓޯ ގެލަރީ</span><span class="en">Photo gallery</span></a><a href="#meetings"><span class="dv">ކައުންސިލްގެ ބައްދަލުވުންތައް</span><span class="en">Council meetings</span></a><a href="#wdc-meetings"><span class="dv">އތމ ކޮމެޓީ ބައްދަލުވުންތައް</span><span class="en">WDC meetings</span></a><a href="#landuse"><span class="dv">ލޭންޑް ޔޫސް ޕްލޭން</span><span class="en">Land use plan</span></a><a href="#statistics"><span class="dv">ތަފާސް ހިސާބުތައް</span><span class="en">Statistics</span></a><a href="#rules"><span class="dv">ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް</span><span class="en">Laws, regulations & policies</span></a><a href="#reports"><span class="dv">ރިޕޯޓްތައް</span><span class="en">Reports</span></a><a href="#gallery"><span class="dv">ގެލަރީ</span><span class="en">Gallery</span></a><a href="#map"><span class="dv">ކޮނޑޭގެ މެޕް</span><span class="en">Map of Kondey</span></a></div></div>
+      <div class="m-sub"><div><a href="#news"><span class="dv">ޚަބަރު</span><span class="en">News</span></a><a href="#announcements"><span class="dv">އިޢުލާންތައް</span><span class="en">Announcements</span></a><a href="#press"><span class="dv">ނޫސް ބަޔާން</span><span class="en">Press releases</span></a><a href="#activities"><span class="dv">ފޮޓޯ ގެލަރީ</span><span class="en">Photo gallery</span></a><a href="#meetings"><span class="dv">ކައުންސިލްގެ ބައްދަލުވުންތައް</span><span class="en">Council meetings</span></a><a href="#wdc-meetings"><span class="dv">އތމ ކޮމެޓީ ބައްދަލުވުންތައް</span><span class="en">WDC meetings</span></a><a href="#landuse"><span class="dv">ލޭންޑް ޔޫސް ޕްލޭން</span><span class="en">Land use plan</span></a><a href="#statistics"><span class="dv">ތަފާސް ހިސާބުތައް</span><span class="en">Statistics</span></a><a href="#rules"><span class="dv">ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް</span><span class="en">Laws, regulations & policies</span></a><a href="#reports"><span class="dv">ރިޕޯޓްތައް</span><span class="en">Reports</span></a><a href="#attendance"><span class="dv">ހާޒިރީ ރިޕޯޓް</span><span class="en">Attendance report</span></a><a href="#gallery"><span class="dv">ގެލަރީ</span><span class="en">Gallery</span></a><a href="#map"><span class="dv">ކޮނޑޭގެ މެޕް</span><span class="en">Map of Kondey</span></a></div></div>
     </div>
     <a class="m-item" href="#jobs"><span class="m-t"><span class="dv">ވަޒީފާ</span><span class="en">Jobs</span></span><span class="m-btn"><svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span></a>
     <a class="m-item" href="#procurement"><span class="m-t"><span class="dv">ޕްރޮކިއުމަންޓްތައް</span><span class="en">Procurement</span></span><span class="m-btn"><svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span></a>
@@ -1948,7 +2015,7 @@ const STATS = [
 /* contractor, awarded (date the contract was awarded) and days (duration) are SAMPLE values — replace with real ones */
 /* ---- Media Center pages ---- */
 const MEDIA_HASHES=["#news","#announcements","#press","#activities","#meetings","#wdc-meetings","#landuse","#statistics","#rules","#reports","#gallery","#map"];
-const MEDIA_PAGES={"council-wdc":["އތމ ކޮމެޓީ މެންބަރުން","WDC members"],"council-smt":["ސީނިއަރ މެނޭޖްމަންޓް ޓީމް","Senior management team"],"council-units":["ޔުނިޓްތަކުގެ އިސްވެރިން","Unit heads"],"council-staff":["މުވައްޒަފުން","Staff"],"council-info":["މަޢުލޫމާތު ޑައިރެކްޓްރީ","Information directory"],news:["ޚަބަރު","News"],press:["ނޫސް ބަޔާން","Press releases"],"wdc-meetings":["އތމ ކޮމެޓީ ބައްދަލުވުންތައް","WDC meetings"],landuse:["ލޭންޑް ޔޫސް ޕްލޭން","Land use plan"],statistics:["ތަފާސް ހިސާބުތައް","Statistics"],rules:["ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް","Laws, regulations & policies"],reports:["ރިޕޯޓްތައް","Reports"],gallery:["ގެލަރީ","Gallery"],map:["ކޮނޑޭގެ މެޕް","Map of Kondey"]};
+const MEDIA_PAGES={"council-wdc":["އތމ ކޮމެޓީ މެންބަރުން","WDC members"],"council-smt":["ސީނިއަރ މެނޭޖްމަންޓް ޓީމް","Senior management team"],"council-units":["ޔުނިޓްތަކުގެ އިސްވެރިން","Unit heads"],"council-staff":["މުވައްޒަފުން","Staff"],"council-info":["މަޢުލޫމާތު ޑައިރެކްޓްރީ","Information directory"],news:["ޚަބަރު","News"],press:["ނޫސް ބަޔާން","Press releases"],"wdc-meetings":["އތމ ކޮމެޓީ ބައްދަލުވުންތައް","WDC meetings"],landuse:["ލޭންޑް ޔޫސް ޕްލޭން","Land use plan"],statistics:["ތަފާސް ހިސާބުތައް","Statistics"],rules:["ޤާނޫނާއި ޤަވައިދު އަދި އުޞޫލުތައް","Laws, regulations & policies"],reports:["ރިޕޯޓްތައް","Reports"],attendance:["ހާޒިރީ ރިޕޯޓް","Attendance report"],gallery:["ގެލަރީ","Gallery"],map:["ކޮނޑޭގެ މެޕް","Map of Kondey"]};
 function mdEmpty(dv,en){return `<div class="md-empty"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6"/></svg><p>${bi(dv||"މިވަގުތު މި ބައިގައި އެއްވެސް މަޢުލޫމާތެއް ނެތް",en||"Nothing has been published here yet")}</p></div>`}
 
 /* ---- staff page ---- */
@@ -2204,6 +2271,140 @@ function reportCards(){
   return {html,more:list.length>RSHOW,total:list.length};
 }
 function reportsRender(){const r=reportCards();$("#rpGrid").innerHTML=r.html;$("#rpMore").hidden=!r.more;$("#rpCount").textContent=r.total;}
+
+/* ---- STAFF ATTENDANCE (ހާޒިރީ ރިޕޯޓް) — one record per month: {month:"YYYY-MM", note, rows}
+   rows = the monthly report pasted from Excel (tab-separated, same column order as the printed report).
+   Edited in admin.html (section "attendance"). ---- */
+const ATTENDANCE=[{month:"2026-10",rows:`KC0002	Nasru Mohamed Didi	Council President	9	0	0	2	00:02	00:00	0	8	0	0	5	0	8	0	0	0	0	0	0	0	0	0	0
+KC0004	Aishath Shifza Ibrahim	Council Vice-President	16	0	1	5	00:05	00:03	0	8	0	0	0	0	4	0	0	2	0	0	0	0	0	0	0
+KC0006	Suadha Hassan Didi	WDC President	21	0	0	1	00:01	00:00	0	8	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0009	Hawwa Didi	Sweeper, Grade 1	25	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0010	Mariyam Ali	Sweeper, Grade 1	26	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0011	Amir Saeed	Secretary General	11	0	0	0	00:00	00:00	0	6	0	0	13	0	0	0	0	0	0	0	0	0	0	0	0
+KC0012	Mohamed Zuhair	Assistant Council Executive	26	0	0	1	00:02	00:00	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0014	Maryam Shuhana	Associate Council Officer	25	0	0	1	00:01	00:00	0	4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0015	Aishath Sajuman Saeed	Associate Council Officer	23	0	0	0	00:00	00:00	0	3	0	1	0	1	0	0	0	2	0	0	0	0	0	0	0
+KC0016	Nazeera Sulaiman Didi	Associate Council Officer	25	0	0	0	00:00	00:00	0	3	0	1	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0017	Jifleena Ismail	Preschool Teacher	17	0	0	0	00:00	00:00	0	3	0	0	0	4	0	0	0	2	0	0	0	0	0	0	4
+KC0018	Mariyam Zimna	Preschool Teacher	23	0	0	0	00:00	00:00	0	3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	4
+KC0019	Hidhayathulla Hassan Didi	Council Assistant	26	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0021	Dhon Didi	Council Assistant	19	0	0	0	00:00	00:00	0	4	0	0	2	0	0	0	0	5	0	0	0	0	0	0	0
+KC0022	Zuhaira Abdul Gafoor	Council Assistant	24	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0
+KC0023	Hassan Ibrahim Didi	Miskithu Assistant Grade 1	29	0	5	0	00:00	05:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0
+KC0024	Adam Saeed	Miskithu Assistant Grade 1	29	0	0	0	00:00	00:00	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0025	Ahmed Reehan	Waste Management Laborer, Grade 1	25	0	0	0	00:00	00:00	0	3	0	1	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0026	Ahmed Saeed	Driver	26	0	0	0	00:00	00:00	0	0	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0027	Abdulla Ibrahim Didi	Waste Management Laborer, Grade 1	24	0	0	0	00:00	00:00	0	2	0	2	0	0	0	0	0	2	0	0	0	0	0	0	0
+KC0029	Aminath Habeeba	Sweeper, Grade 1	25	0	1	0	00:00	00:02	0	4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0030	Dhon Didi	Sweeper, Grade 1	9	0	0	0	00:00	00:00	0	6	0	0	15	0	0	0	0	0	0	0	0	0	0	0	0
+KC0031	Khadeeja Umar	Sweeper, Grade 1	4	0	0	0	00:00	00:00	0	7	0	0	18	0	0	0	0	1	0	0	0	0	0	0	0
+KC0033	Maryam Umar	Sweeper, Grade 1	25	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0034	Fathimath Abdulla Didi	Sweeper, Grade 1	26	0	1	0	00:00	00:08	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0035	Maryam Ibrahim Didi	Sweeper, Grade 1	4	0	0	0	00:00	00:00	0	6	0	0	20	0	0	0	0	0	0	0	0	0	0	0	0
+KC0036	Husham Ahmed	Sweeper, Grade 1	9	0	5	0	00:00	00:18	0	7	0	0	8	0	6	0	0	0	0	0	0	0	0	0	0
+KC0038	Ahmed Solih	Sweeper, Grade 1	24	0	11	0	00:00	00:38	0	4	0	0	0	1	0	0	0	1	0	0	0	0	0	0	0
+KC0039	Aishath Abdulla Didi	Sweeper, Grade 1	25	0	0	0	00:00	00:00	0	4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0
+KC0043	Mohamed Jazlan	Council Assistant	24	0	0	0	00:00	00:00	0	2	0	2	0	0	0	0	0	2	0	0	0	0	0	0	0
+KC0044	Aminath Rasheeda	Sweeper, Grade 1	26	0	4	1	00:19	00:06	0	2	0	2	0	0	0	0	0	0	0	0	0	0	0	0	0
+KC0045	Mohamed Shavin Saeed	Council Member	17	0	0	1	00:01	00:00	0	8	0	0	0	1	2	0	0	2	0	0	0	0	0	0	0
+WDC0046	Khalidha Hussain	WDC Vice-President	22	0	0	0	00:00	00:00	0	8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+WDC0047	Zuhaira Abdul Gafoor	WDC Member	22	0	0	0	00:00	00:00	0	8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+-	Ibrahim Ahmed Didi	Council Assistant (Wage)	28	0	0	0	00:00	00:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		0
+-	Ramzeen Mohamed	Council Assistant (Wage)	30	0	0	0	00:00	00:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		0
+-	Mohamed Atheef	Council Assistant (Wage)	30	0	0	0	00:00	00:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		0
+-	Naveez Thoufeeg	Council Assistant (Wage)	30	0	0	0	00:00	00:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		0
+-	Mohamed Sadig	Council Assistant (Wage)	30	0	0	0	00:00	00:00	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0		0`}];
+const ATT_COLS=["id","name","des","w","ab","la","sh","abt","lat","hol","wo","phw","wow","AL","MLC","EL","PL","ML","MC","CL","PM","PMNP","HL","UL","NP15","RL"];
+const ATT_LEAVE=["AL","MLC","EL","PL","ML","MC","CL","PM","PMNP","HL","UL","NP15","RL"];
+const ATT_LBL={w:["ހާޒިރުވި ދުވަސް","Worked"],ab:["ހާޒިރުނުވި","Absent"],la:["ލަސްވި ފަހަރު","Late"],sh:["ގަޑި ހަމަނުވި","Short"],
+  abt:["ހާޒިރުނުވި ގަޑި","Absent time"],lat:["ލަސްވި ގަޑި","Late time"],hol:["ބަންދު ދުވަސް","Holidays"],wo:["ހަފްތާ ބަންދު","Week offs"],
+  phw:["ބަންދު ދުވަހު މަސައްކަތްކުރި","PH worked"],wow:["ހަފްތާ ބަންދުގައި މަސައްކަތްކުރި","WO worked"],
+  AL:["އަހަރީ ޗުއްޓީ","Annual leave"],ML:["ވިހެއުމުގެ ޗުއްޓީ","Maternity leave"],PL:["ބަފައިންގެ ޗުއްޓީ","Paternity leave"],MC:["ސެޓްފިކެޓާއެކު ސަލާމަތީ ޗުއްޓީ","Medical (certificate)"]};
+let ATTM=null, ATTQ="", ATTF="all", ATTS="id", ATTV="cards";
+function attParse(rec){
+  return String(rec.rows||"").split(/\r?\n/).map(l=>l.split("\t").map(s=>s.trim())).filter(c=>c.length>=6&&/^\d+$/.test(c[3]||"")).map(c=>{
+    const o={};ATT_COLS.forEach((k,i)=>{const v=c[i]??"";o[k]=i<3||k==="abt"||k==="lat"?v:(+v||0);});
+    o.id=o.id==="-"?"":o.id; o.leave=ATT_LEAVE.reduce((s,k)=>s+o[k],0);
+    o.wage=/wage/i.test(o.des); return o;});
+}
+const attMin=t=>{const m=String(t||"").match(/^(\d+):(\d+)$/);return m?(+m[1])*60+(+m[2]):0;};
+const attTime=n=>`${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`;
+const attMonth=m=>{const [y,mm]=m.split("-").map(Number);return bi(`${DV_MONTHS[mm-1]} <span class="num">${y}</span>`,`${EN_MONTHS[mm-1]} ${y}`);};
+const attMonthTxt=m=>{const [y,mm]=m.split("-").map(Number);return document.documentElement.lang==="en"?`${EN_MONTHS[mm-1]} ${y}`:`${DV_MONTHS[mm-1]} ${y}`;};
+function attGroup(r){return r.wage?"wage":/council (president|vice|member)|wdc/i.test(r.des)?"members":"staff";}
+function attRows(){
+  const rec=ATTENDANCE.find(x=>x.month===ATTM)||ATTENDANCE[0]; if(!rec) return [];
+  let L=attParse(rec); const q=ATTQ.toLowerCase();
+  if(q) L=L.filter(r=>(r.name+" "+r.des+" "+r.id).toLowerCase().includes(q));
+  if(ATTF==="late") L=L.filter(r=>r.la>0||r.sh>0);
+  else if(ATTF==="leave") L=L.filter(r=>r.leave>0);
+  else if(ATTF==="perfect") L=L.filter(r=>!r.la&&!r.sh&&!r.ab&&!r.leave);
+  else if(ATTF!=="all") L=L.filter(r=>attGroup(r)===ATTF);
+  const S={id:(a,b)=>0,name:(a,b)=>a.name.localeCompare(b.name),w:(a,b)=>b.w-a.w,la:(a,b)=>(b.la-a.la)||(attMin(b.lat)-attMin(a.lat)),leave:(a,b)=>b.leave-a.leave};
+  return L.slice().sort(S[ATTS]||S.id);
+}
+function attCard(r){
+  const tot=Math.max(1,r.w+r.wo+r.hol+r.leave+r.ab), seg=(n,c,t)=>n?`<i class="${c}" style="width:${n/tot*100}%" title="${t}: ${n}"></i>`:"";
+  const chips=[r.la?`<span class="ac-c late">${bi("ލަސްވި","Late")} <b class="num">${r.la}</b>${attMin(r.lat)?` <small class="num">${r.lat}</small>`:""}</span>`:"",
+    r.sh?`<span class="ac-c short">${bi("ގަޑި ހަމަނުވި","Short")} <b class="num">${r.sh}</b>${attMin(r.abt)?` <small class="num">${r.abt}</small>`:""}</span>`:"",
+    r.ab?`<span class="ac-c abs">${bi("ހާޒިރުނުވި","Absent")} <b class="num">${r.ab}</b></span>`:"",
+    ...ATT_LEAVE.filter(k=>r[k]).map(k=>`<span class="ac-c lv" title="${ATT_LBL[k]?ATT_LBL[k][1]:k}"><span class="num">${k}</span> <b class="num">${r[k]}</b></span>`)].join("");
+  const ok=!r.la&&!r.sh&&!r.ab&&!r.leave;
+  return `<article class="at-card${ok?" at-ok":""}" data-atid="${esc2(r.id||r.name)}">
+    <div class="at-top"><div class="at-who"><b class="at-name">${esc2(r.name)}</b><span class="at-des">${esc2(r.des)}</span>${r.id?`<span class="at-id num">${esc2(r.id)}</span>`:""}</div>
+      <div class="at-w"><b class="num">${r.w}</b><span>${bi("ދުވަސް","days")}</span></div></div>
+    <div class="at-bar">${seg(r.w,"s-w",ATT_LBL.w[1])}${seg(r.leave,"s-l","Leave")}${seg(r.ab,"s-a","Absent")}${seg(r.wo+r.hol,"s-o","Off")}</div>
+    <div class="at-chips">${chips||`<span class="ac-c good">${bi("ފުރިހަމަ ހާޒިރީ","Full attendance")} ✓</span>`}</div>
+    <div class="at-more">${ATT_COLS.slice(3).map(k=>`<div><span>${ATT_LBL[k]?bi(ATT_LBL[k][0],ATT_LBL[k][1]):`<span class="num">${k}</span>`}</span><b class="num">${r[k]}</b></div>`).join("")}</div>
+  </article>`;
+}
+function attTable(L){
+  const H=["id","name","des",...ATT_COLS.slice(3)];
+  return `<div class="at-tw"><table class="at-tbl"><thead><tr>${H.map(k=>`<th>${k==="id"?"ID":k==="name"?bi("ނަން","Name"):k==="des"?bi("މަޤާމު","Designation"):ATT_LBL[k]&&ATT_COLS.indexOf(k)<13?bi(ATT_LBL[k][0],ATT_LBL[k][1]):`<span class="num">${k}</span>`}</th>`).join("")}</tr></thead>
+    <tbody>${L.map(r=>`<tr>${H.map(k=>{const v=r[k];const z=v===0||v==="00:00";return `<td class="${k==="name"||k==="des"?"t":"num"}${z?" z":""}${(k==="la"||k==="lat")&&!z?" hl":""}">${esc2(v===""?"-":v)}</td>`;}).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+function attSummary(L){
+  const n=L.length, w=L.reduce((s,r)=>s+r.w,0), la=L.reduce((s,r)=>s+r.la,0), lt=L.reduce((s,r)=>s+attMin(r.lat),0),
+    lv=L.reduce((s,r)=>s+r.leave,0), perfect=L.filter(r=>!r.la&&!r.sh&&!r.ab&&!r.leave).length;
+  const k=(v,dv,en,c="")=>`<div class="at-k ${c}"><b class="num">${v}</b><span>${bi(dv,en)}</span></div>`;
+  return k(n,"މުވައްޒަފުން","Staff")+k(w.toLocaleString("en-US"),"ހާޒިރުވި ޖުމްލަ ދުވަސް","Days worked")+k(la,"ލަސްވި ފަހަރު","Late arrivals","late")+
+    k(attTime(lt),"ލަސްވި ޖުމްލަ ގަޑި","Total late time","late")+k(lv,"ޗުއްޓީ ދުވަސް","Leave days","lv")+k(perfect,"ފުރިހަމަ ހާޒިރީ","Full attendance","good");
+}
+function attResults(){
+  const L=attRows();
+  return {sum:attSummary(L),list:L.length?(ATTV==="table"?attTable(L):`<div class="at-grid">${L.map(attCard).join("")}</div>`):mdEmpty(),n:L.length};
+}
+function attendancePage(){
+  if(!ATTENDANCE.length) return mdEmpty();
+  const months=ATTENDANCE.map(x=>x.month).filter(Boolean).sort().reverse();
+  if(!ATTM||!months.includes(ATTM)) ATTM=months[0];
+  const r=attResults(), en=document.documentElement.lang==="en";
+  const F=[["all","ހުރިހާ","All"],["staff","މުވައްޒަފުން","Staff"],["members","ކައުންސިލް / އތމ","Council / WDC"],["wage","ވޭޖް","Wage"],["late","ލަސްވި","Late"],["leave","ޗުއްޓީ","On leave"],["perfect","ފުރިހަމަ","Full attendance"]];
+  const so=[["id","އައިޑީ","ID"],["name","ނަން","Name"],["w","ހާޒިރުވި ދުވަސް","Days worked"],["la","ލަސްވުން","Most late"],["leave","ޗުއްޓީ","Most leave"]];
+  return `<div class="at-head">
+      <label class="pf-select at-month"><select id="atMonth" aria-label="Month">${months.map(m=>`<option value="${m}"${m===ATTM?" selected":""}>${attMonthTxt(m)}</option>`).join("")}</select></label>
+      <div class="at-title">${bi("ސެކްރެޓޭރިއޭޓް އޮފް ދަ ކޮނޑޭ ކައުންސިލް","Secretariat of the Kondey Council")} · <span id="atMlbl">${attMonth(ATTM)}</span></div></div>
+    <div class="at-kpis" id="atKpis">${r.sum}</div>
+    <div class="at-tools">
+      <input type="search" id="atQ" value="${esc2(ATTQ)}" placeholder="${en?"Search name or designation":"ނަން ނުވަތަ މަޤާމު ހޯދާ"}" aria-label="Search">
+      <label class="pf-select at-sort"><select id="atSort" aria-label="Sort">${so.map(([k,d,e])=>`<option value="${k}"${k===ATTS?" selected":""} data-dv="${d}" data-en="${e}">${en?e:d}</option>`).join("")}</select></label>
+      <div class="at-view"><button type="button" data-atv="cards" class="${ATTV==="cards"?"on":""}" aria-label="Cards"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></button><button type="button" data-atv="table" class="${ATTV==="table"?"on":""}" aria-label="Table"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M3 12h18M3 19h18"/></svg></button></div>
+    </div>
+    <div class="at-chipsbar">${F.map(([k,d,e])=>`<button type="button" data-atf="${k}" class="${k===ATTF?"on":""}">${bi(d,e)}</button>`).join("")}<span class="mt-count"><b class="num" id="atCount">${r.n}</b> ${bi("މީހުން","people")}</span></div>
+    <div id="atList">${r.list}</div>
+    <div class="at-legend"><span><i class="s-w"></i>${bi("ހާޒިރުވި","Worked")}</span><span><i class="s-l"></i>${bi("ޗުއްޓީ","Leave")}</span><span><i class="s-a"></i>${bi("ހާޒިރުނުވި","Absent")}</span><span><i class="s-o"></i>${bi("ބަންދު","Off days")}</span></div>
+    <p class="rp-src">${bi("ކާޑަށް ފިތާލުމުން ފުރިހަމަ ތަފްސީލު ފެންނާނެއެވެ.","Tap a card to see every column.")}</p>`;
+}
+function attRefresh(){const r=attResults();const k=document.getElementById("atKpis");if(!k)return;k.innerHTML=r.sum;document.getElementById("atList").innerHTML=r.list;document.getElementById("atCount").textContent=r.n;}
+document.addEventListener("input",e=>{if(e.target.id==="atQ"){ATTQ=e.target.value.trim();attRefresh();}});
+document.addEventListener("change",e=>{
+  if(e.target.id==="atMonth"){ATTM=e.target.value;const l=document.getElementById("atMlbl");if(l)l.innerHTML=attMonth(ATTM);attRefresh();}
+  if(e.target.id==="atSort"){ATTS=e.target.value;attRefresh();}});
+document.addEventListener("click",e=>{
+  const f=e.target.closest("[data-atf]");if(f){ATTF=f.dataset.atf;f.parentNode.querySelectorAll("[data-atf]").forEach(b=>b.classList.toggle("on",b===f));attRefresh();return;}
+  const v=e.target.closest("[data-atv]");if(v){ATTV=v.dataset.atv;v.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===v));attRefresh();return;}
+  const c=e.target.closest(".at-card");if(c)c.classList.toggle("open");});
+
 function reportsPage(){
   RSHOW=12;const r=reportCards();const en=document.documentElement.lang==="en";
   return `<div class="mt-bar"><div class="mt-tabs rp-tabs">${Object.entries(RTYPES).filter(([k])=>k==="all"||REPORTS.some(x=>x.type===k)).map(([k,v])=>`<button type="button" data-rtype="${k}" class="${RTYPE===k?"on":""}">${bi(v[0],v[1])}</button>`).join("")}</div>
@@ -2382,6 +2583,7 @@ function mediaBody(k){
   if(k==="landuse") return landusePage();
   if(k==="rules") return rulesPage();
   if(k==="reports") return reportsPage();
+  if(k==="attendance") return attendancePage();
   if(k==="press") return pressPage();
   if(k==="council-wdc") return wdcPage();
   if(k==="council-staff") return staffPage();
@@ -3247,7 +3449,7 @@ function membersToTerms(rows,target){
   target.splice(0,target.length,...Object.keys(by).map(Number).sort((a,b)=>b-a).map(t=>{const [dv,en]=termLabel(t);return {dv,en,members:by[t]};}));
 }
 
-const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS,reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY};
+const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS,reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY,attendance:ATTENDANCE};
 
 /* photo viewer: swipe, thumbnails, slideshow, download (albums + meeting photos) */
 document.addEventListener("click",e=>{const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();

@@ -196,6 +196,9 @@ const SECTIONS={
  wdc:{dv:"އ.ތ.މ ކޮމިޓީ",en:"WDC members",title:x=>x.dv,img:"photo",sub:x=>`${x.term} ވަނަ ދައުރު · ${({pres:"ރައީސް",vp:"ނައިބް ރައީސް",mem:"މެމްބަރ"})[x.pos]||""}`,fields:[
    T("term","ދައުރު","Term (e.g. 5)","number",{def:5}),T("pos","މަޤާމު","Position","select",{opts:[["pres","ކޮމިޓީގެ ރައީސް"],["vp","ކޮމިޓީގެ ނައިބް ރައީސް"],["mem","ކޮމިޓީގެ މެމްބަރ"]]}),
    T("dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),T("phone","އޮފީސް ފޯނު","Office phone","text",{ltr:1}),T("mobile","މޮބައިލް","Mobile","text",{ltr:1}),T("email","އީމެއިލް","Email","text",{ltr:1}),T("photo","ފޮޓޯ","Photo","image")]},
+ attendance:{dv:"ހާޒިރީ ރިޕޯޓް",en:"Attendance report",title:x=>`${x.month||""} ހާޒިރީ ރިޕޯޓް`,sub:x=>`${String(x.rows||"").split(/\n/).filter(l=>/\t\d+\t/.test(l)).length} މީހުން`,fields:[
+   T("month","މަސް (މިސާލު 2026-11)","Month, e.g. 2026-11","text",{ltr:1}),
+   T("rows","ރިޕޯޓް (އެކްސެލުން ކޮޕީކޮށް މިތަނަށް ޕޭސްޓް ކުރޭ)","Report rows — copy the rows from Excel (Emp ID … RL, same column order as the printed report) and paste here","textarea",{rows:14,ltr:1,help:"Emp ID · Name · Designation · Worked · Absent · Late · Short · Absent Time · Late Time · Holidays · Week Offs · PH Worked · WO Worked · AL · MLC · EL · PL · ML · MC · CL · PM · PMNP · HL · UL · NP15 · RL"})]},
  island:{dv:"ރަށުގެ ތަފާސްހިސާބު",en:"Island statistics",single:1,title:x=>`ޖުމްލަ އާބާދީ ${x.total||""}`,sub:x=>`ފިރިހެން ${x.male||""} · އަންހެން ${x.female||""} · ${x.area||""} ހެކްޓަރު`,fields:[
    T("total","ޖުމްލަ އާބާދީ","Total population","number"),T("male","ފިރިހެން","Male","number"),T("female","އަންހެން","Female","number"),
    T("households","ގޭބިސީ (ހުސްކޮށް ބާއްވައިފިނަމަ ނުދައްކާނެ)","Households (blank = hidden)","number"),T("area","ބިމުގެ ބޮޑުމިން (ހެކްޓަރު)","Land area (hectares)","number"),
@@ -307,7 +310,7 @@ function fieldHTML(f,v){
       <span class="tb-sp"></span>
       <button type="button" data-cmd="undo" title="Undo">↶</button><button type="button" data-cmd="redo" title="Redo">↷</button>
       <button type="button" data-cmd="prev" class="tb-prev" title="Preview">ޕްރިވިއު</button>
-    </div>`:""}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="rtl" ${rich?`data-rich="${agk?"ag":"mn"}"`:""}>${esc(v)}</textarea>${rich?`<div class="pv" data-pv="${f.k}" hidden></div><div class="tb-foot"><span data-cnt="${f.k}"></span></div>`:""}${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;}
+    </div>`:""}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="${f.ltr?"ltr":"rtl"}"${f.ltr?' style="white-space:pre;overflow-x:auto;font-family:monospace;font-size:12px;tab-size:12"':""} ${rich?`data-rich="${agk?"ag":"mn"}"`:""}>${esc(v)}</textarea>${rich?`<div class="pv" data-pv="${f.k}" hidden></div><div class="tb-foot"><span data-cnt="${f.k}"></span></div>`:""}${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;}
   if(f.type==="select") return `<div class="fld">${lab}<select data-k="${f.k}">${f.opts.map(([k,t])=>`<option value="${k}" ${String(v??"")===k?"selected":""}>${t}</option>`).join("")}</select></div>`;
   if(f.type==="gallery"){const L=Array.isArray(v)?v:[];return `<div class="fld gal" data-gal="${f.k}">${lab}<div class="gal-grid">${L.map(u=>`<div class="gal-it" data-url="${esc(u)}"><img src="${esc(u)}" alt=""><button type="button" class="gal-x" data-galrm title="Remove">✕</button></div>`).join("")}<label class="gal-add"><input type="file" accept="image/*" multiple data-galin="${f.k}" hidden><span>+</span><small>ފޮޓޯ އިތުރުކުރޭ<br>Add photos</small></label></div><input type="hidden" data-k="${f.k}" value="${esc(JSON.stringify(L))}"></div>`;}
   if(f.type==="attendance"){
@@ -404,7 +407,7 @@ document.addEventListener("keydown",e=>{
     const v=ta.value,s=v.lastIndexOf("\n",ta.selectionStart-1)+1,line=v.slice(s,ta.selectionStart);let m;
     if(m=line.match(/^(\d+)[.)]\s+(.*)$/)){e.preventDefault();if(!m[2].trim()){ta.setSelectionRange(s,ta.selectionStart);insertAt(ta,"");return;}insertAt(ta,"\n"+(+m[1]+1)+". ");return;}
     if(m=line.match(/^-\s+(.*)$/)){e.preventDefault();if(!m[1].trim()){ta.setSelectionRange(s,ta.selectionStart);insertAt(ta,"");return;}insertAt(ta,"\n- ");return;}}
-  if(THAANA&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&TK[e.key]&&(el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&el.type==="text"&&el.getAttribute("dir")!=="ltr"&&!el.classList.contains("ltr")))&&!/(^en$|_en$|En$|email|ref|time|url|link)/i.test(el.dataset.k||"")){
+  if(THAANA&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&TK[e.key]&&((el.tagName==="TEXTAREA"&&el.getAttribute("dir")!=="ltr")||(el.tagName==="INPUT"&&el.type==="text"&&el.getAttribute("dir")!=="ltr"&&!el.classList.contains("ltr")))&&!/(^en$|_en$|En$|email|ref|time|url|link)/i.test(el.dataset.k||"")){
     e.preventDefault();insertAt(el,TK[e.key]);}
 });
 
@@ -494,7 +497,7 @@ async function importSite(){
     const fr=document.createElement("iframe"); fr.style.display="none"; fr.src="index.html?nodb=1"; document.body.appendChild(fr);
     await new Promise((res,rej)=>{fr.onload=res;setTimeout(()=>rej(new Error("Could not load index.html")),60000);});
     const w=fr.contentWindow;
-    const data=w.eval(`({news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS.map(({dv,en,...m})=>m),reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY,
+    const data=w.eval(`({news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS.map(({dv,en,...m})=>m),reports:REPORTS,rules:RULES,attendance:ATTENDANCE,staff:STAFF,projects:PROJECTS,directory:DIRECTORY,
       island:[{total:STATS[0].n,male:STATS[1].n,female:STATS[2].n,area:(STATS.find(x=>x.icon==="map")||{}).n,updated_dv:"ސެޕްޓެމްބަރު 2023",updated_en:"September 2023"}],
       councillors:COUNCIL_TERMS.flatMap(t=>t.members.map(m=>({term:/ފުރަތަމަ/.test(t.dv)?1:parseInt(t.dv)||0,...m}))),
       wdc:WDC_TERMS.flatMap(t=>t.members.map(m=>({term:/ފުރަތަމަ/.test(t.dv)?1:parseInt(t.dv)||0,...m})))})`);
