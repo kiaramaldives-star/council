@@ -303,7 +303,7 @@ let INFO={name_dv:"ކޮނޑޭ ސްކޫލް",name_en:"Kondey School",motto_dv:"ހ
   mission_en:"Kondey School will be a school which will produce \"Well civilised educated and cultured students\" with abundant love for Islam.",
   intro_dv:"ކޮނޑޭ ސްކޫލް ހުޅުވީ 30 ޖޫން 1980 ގައެވެ. އެދުވަހުން ފެށިގެން ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހު، ގއ.ކޮނޑޭގެ ދަރިވަރުންނަށް ފެންވަރު ރަނގަޅު ތަޢުލީމު ދިނުމަށާއި ކޮންމެ ޖީލެއްގެ ދަރިވަރުން ތަރުބިއްޔަތުކުރުމަށް މި ސްކޫލް މަސައްކަތްކުރަމުން ގެންދެއެވެ.",
   intro_en:"Kondey School is a proud institution that has been serving the community of Ga. Kondey since its establishment on June 30, 1980. For over four decades, we have been dedicated to providing quality education and shaping the minds of generations of learners.",
-  opened:"1980-06-30",students:51,teachers:12,staff:4,phone:"6820097",email:"",address_dv:"މުޙައްމަދު އަމީން މަގު، ގއ.ކޮނޑޭ، 16070",address_en:"Mohamed Ameen Magu, GA. Kondey, 16070",
+  website:"kondeyschool.edu.mv",opened:"1980-06-30",students:51,teachers:12,staff:4,phone:"6820097",email:"",address_dv:"މުޙައްމަދު އަމީން މަގު، ގއ.ކޮނޑޭ، 16070",address_en:"Mohamed Ameen Magu, GA. Kondey, 16070",
   facebook:"https://www.facebook.com/KondeySchool/",instagram:"https://www.instagram.com/ga.kondey_school/",x:"https://x.com/kondeyschool",
   logo:"/logo.png",hero:"",principal_dv:"",principal_en:"",principal_photo:"",principal_msg_dv:"",principal_msg_en:""};
 const NEWS=[{id:"classrooms-2023",title_dv:"ކޮނޑޭ ސްކޫލަށް 4 ކްލާސްރޫމް އިމާރާތްކުރުމުގެ މަސައްކަތް ހަވާލުކޮށްފި",title_en:"Contract signed to build four classrooms at Kondey School",date:"2023-04-19",
@@ -343,7 +343,7 @@ function header(){
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
   const m=MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
   document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`).join("");
-  const tel=(INFO.phone||"").replace(/\D/g,""), host=location.host||"";
+  const tel=(INFO.phone||"").replace(/\D/g,""), host=(INFO.website||"kondeyschool.edu.mv").replace(/^https?:\/\//,"").replace(/\/$/,"");
   const FI={phone:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
     web:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5S9.4 5.3 12 2.5z"/></svg>',
     mail:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>',
