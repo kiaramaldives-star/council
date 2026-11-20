@@ -1248,11 +1248,11 @@ html[lang=en] .ti-v{font-family:inherit}
 .mt-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:8px}
 .mt-gal a{display:block;aspect-ratio:4/3;border-radius:14px;overflow:hidden;border:1px solid #EEF0F3;background:#F3F4F6}
 .mt-gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.mt-gal a:hover img{transform:scale(1.04)}
-.lb{position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,.92);display:flex;align-items:center;justify-content:center;padding:20px}
-.lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
-.lb button{position:absolute;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
-.lb .lb-x{top:16px;right:16px}.lb .lb-p{left:12px;top:50%;transform:translateY(-50%)}.lb .lb-n{right:12px;top:50%;transform:translateY(-50%)}
-.lb .lb-c{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font:600 14px "Plus Jakarta Sans",sans-serif}
+.mt-lb{position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,.92);display:flex;align-items:center;justify-content:center;padding:20px}
+.mt-lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.mt-lb button{position:absolute;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
+.mt-lb .lb-x{top:16px;right:16px}.mt-lb .lb-p{left:12px;top:50%;transform:translateY(-50%)}.mt-lb .lb-n{right:12px;top:50%;transform:translateY(-50%)}
+.mt-lb .lb-c{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font:600 14px "Plus Jakarta Sans",sans-serif}
 .att-sum{font-family:"Faruma",sans-serif;color:#4B5563;margin:-4px 0 10px;font-size:15px}.att-sum .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;color:#111827}
 .att-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:18px}
 .att-c{display:flex;align-items:center;gap:12px;border:1px solid #EEF0F3;border-radius:14px;padding:12px 14px;background:#fff}
@@ -3143,7 +3143,7 @@ const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:
 /* attendance photo viewer */
 document.addEventListener("click",e=>{const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();
   const L=[...a.parentNode.querySelectorAll("a")].map(x=>x.href);let i=+a.dataset.lb;
-  const d=document.createElement("div");d.className="lb";
+  const d=document.createElement("div");d.className="mt-lb";
   const draw=()=>d.innerHTML=`<img src="${L[i]}" alt=""><button class="lb-x" aria-label="Close">✕</button>${L.length>1?`<button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c">${i+1} / ${L.length}</div>`:""}`;
   const close=()=>{d.remove();document.removeEventListener("keydown",key);};
   const key=ev=>{if(ev.key==="Escape")close();if(ev.key==="ArrowRight"){i=(i+1)%L.length;draw();}if(ev.key==="ArrowLeft"){i=(i-1+L.length)%L.length;draw();}};
