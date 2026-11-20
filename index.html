@@ -1943,7 +1943,7 @@ function termsHTML(TERMS,POS){
     </article>`;}).join("")}</div></div>`).join("");
 }
 function wdcPage(){
-  return `<p class="wdc-intro">${bi("ހުވަދުއަތޮޅު އުތުރުބުރީ ކޮނޑޭ އަންހެނުންގެ ތަރައްޤީއަށް މަސައްކަތްކުރާ ކޮމިޓީ","Ga. Kondey Women's Development Committee")}</p>`+termsHTML(WDC_TERMS,WDC_POS);
+  return termsHTML(WDC_TERMS,WDC_POS);
 }
 document.addEventListener("DOMContentLoaded",()=>{const av=document.querySelector(".resp-wrap .mem-av img");if(av)COUNCIL_TERMS[0].members[0].photo=av.src;const el=document.getElementById("cmTerms");if(el)el.innerHTML=termsHTML(COUNCIL_TERMS,COUNCIL_POS);});
 
