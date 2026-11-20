@@ -134,7 +134,7 @@ html[lang=en] .motto-c p{font-family:"Plus Jakarta Sans",sans-serif;font-weight:
 .pm q{display:block;position:relative;font-size:18px;line-height:1.95;color:#374151;quotes:none;text-align:start;padding-top:6px}
 .pm q p{margin:0 0 12px}.pm q p:last-child{margin-bottom:0}
 .pm q::before{content:"”";position:absolute;inset-inline-end:-4px;top:-38px;font-family:Georgia,serif;font-size:90px;line-height:1;color:var(--p);opacity:.12;pointer-events:none}
-.pm .eyebrow{margin-bottom:12px}
+html .pm .eyebrow{margin-bottom:14px}html[lang=dv] .pm .eyebrow{font-size:24px}html[lang=en] .pm .eyebrow{font-size:18px}
 .pm-n{margin-top:18px;padding-inline-start:14px;border-inline-start:4px solid var(--p);text-align:start}
 .pm-n{margin-top:16px}.pm-n b{display:block;font-size:20px;color:var(--p)}.pm-n span{color:var(--muted)}
 html[lang=dv] .pm-n span{font-family:"KondeyHeading","Faruma",sans-serif}
@@ -510,7 +510,7 @@ function aboutBlocks(){return `<div class="about"><div class="about-txt reveal">
     <div class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
     <div class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
-  return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><div class="eyebrow">${bi("ޕްރިންސިޕަލްގެ ބަސްފުޅު","Principal's message")}</div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
+  return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><div class="eyebrow">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
 const years=()=>+INFO.years||new Date().getFullYear()-Number(String(INFO.opened||"1980").slice(0,4));
 
