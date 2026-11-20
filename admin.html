@@ -208,7 +208,7 @@ const SECTIONS={
  events:{dv:"ހަރަކާތްތަކުގެ ކަލަންޑަރު",en:"Activity calendar",title:x=>x.title_dv||x.title_en,sub:x=>`${x.date||""}${x.end?" – "+x.end:""}`,fields:[
    T("title_dv","ނަން (ދިވެހިން)","Title (Dhivehi)"),T("title_en","ނަން (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("type","ބާވަތް","Type","select",{opts:[["event","ހަރަކާތް"],["holiday","ބަންދު"],["exam","އިމްތިޙާން"]]}),
-   T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date")]},
+   T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date"),T("teacher_dv","ޒިންމާދާރު ޓީޗަރ (ދިވެހިން)","Teacher in charge (Dhivehi)"),T("teacher_en","ޒިންމާދާރު ޓީޗަރ (އިނގިރޭސިން)","Teacher in charge (English)","text",{ltr:1}),T("audience_dv","ބައިވެރިވާނީ (ދިވެހިން)","Target audience (Dhivehi), e.g. ހުރިހާ ގްރޭޑެއް"),T("audience_en","ބައިވެރިވާނީ (އިނގިރޭސިން)","Target audience (English)","text",{ltr:1})]},
  schedule:{dv:"ދުވަހުގެ ތާވަލު",en:"Daily schedule",title:x=>x.activity_dv||x.activity_en,sub:x=>`${x.date||""} · ${x.start||""} – ${x.end||""}`,fields:[
    T("date","ތާރީޚު","Date","date"),
    T("start","ފަށާ ގަޑި (މިސާލު 06:43)","Start time (24-hour, e.g. 06:43 or 13:30)","text",{ltr:1,ph:"06:43"}),
