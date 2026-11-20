@@ -501,6 +501,25 @@ html[lang=dv] .fn,html[lang=dv] .fn :not(.num):not(svg):not(path){font-family:"K
 .mnav-sub a{font-size:16px!important;padding:9px 12px!important;color:#4B5563}
 .vm-c.hl{box-shadow:0 0 0 3px var(--p),0 12px 30px rgba(200,16,46,.2);transition:box-shadow .3s}
 @media (min-width:981px){.head .wrap{justify-content:flex-start;gap:24px}.nav{flex:1;justify-content:space-between}.nav a{padding:9px 10px}}
+.mnav-p{inset:0!important;width:auto!important;padding:0 20px!important;gap:0!important;animation:mnf .2s ease!important}
+@keyframes mnf{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.mn-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 0;position:sticky;top:0;background:#fff;z-index:2}
+.mn-b{display:flex!important;align-items:center;gap:10px;padding:0!important;background:none!important}.mn-b .logo{width:44px;height:44px}.mn-b b{font-size:20px;color:var(--p)}
+.mn-x{width:42px;height:42px;border-radius:50%;border:0;background:none;color:#374151;display:grid;place-items:center;cursor:pointer}
+.mn-l{display:grid;margin-top:6px}
+.mn-i{width:100%;display:flex!important;align-items:center;justify-content:space-between;gap:10px;padding:16px 4px!important;border:0;border-bottom:1px solid #EEF0F3;border-radius:0!important;background:none!important;font:inherit;color:var(--text)!important;cursor:pointer;text-align:start}
+.mn-i .h{font-size:19px}html[lang=en] .mn-i .h{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:16px}
+.mn-i.on .h{color:var(--p)}
+.mn-c{flex:none;width:30px;height:30px;border-radius:50%;background:#EEF0F6;color:#4B5563;display:grid;place-items:center;transition:.2s}
+html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
+.mn-g.open>.mn-i{border-bottom-color:transparent;box-shadow:0 6px 12px -10px rgba(15,23,42,.3)}
+.mn-g.open .mn-c{background:var(--p);color:#fff;transform:rotate(180deg)}
+.mn-s{display:none;grid-template-columns:1fr 1fr;gap:4px 14px;padding:8px 4px 16px;border-bottom:1px solid #EEF0F3}
+.mn-g.open .mn-s{display:grid;animation:mnf .2s ease}
+.mn-s a{padding:9px 6px!important;font-size:16px!important;color:#4B5563!important;background:none!important;border-radius:10px!important;display:block!important}
+.mn-s a.on{color:var(--p)!important;background:var(--ps)!important}
+.mn-soc{display:flex;justify-content:center;gap:26px;padding:26px 0 30px;margin-top:auto;color:#4B5563}
+.mn-soc a{padding:0!important;background:none!important;color:#4B5563!important;display:grid!important}.mn-soc svg{width:24px;height:24px}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -600,6 +619,10 @@ const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacan
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
 
+function mnavHTML(SI){const chev=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>`,go=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+  const items=MENU.map(([k,d,e])=>SUBMENU[k]?`<div class="mn-g"><button type="button" class="mn-i" data-mtog data-k="${k}"><span class="h">${bi(d,e)}</span><span class="mn-c">${chev}</span></button><div class="mn-s">${[[k,d,e],...SUBMENU[k]].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div></div>`:`<a class="mn-i" href="#${k}" data-k="${k}"><span class="h">${bi(d,e)}</span><span class="mn-c go">${go}</span></a>`).join("");
+  const soc=["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")+(INFO.phone?`<a href="tel:+960${esc(String(INFO.phone).replace(/\D/g,""))}" aria-label="phone">${IC.phone.replace(/width="\d+" height="\d+"/,'width="24" height="24"')}</a>`:"");
+  return `<div class="mn-h"><a class="mn-b" href="#home"><span class="logo">${logoHTML()}</span><b class="h">${L2(INFO,"name")}</b></a><button class="mn-x" type="button" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="mn-l">${items}</div><div class="mn-soc">${soc}</div>`;}
 function logoHTML(){const u=safeUrl(INFO.logo);return u?`<img src="${esc(u)}" alt="" onerror="this.replaceWith(document.createRange().createContextualFragment(IC.cap))">`:IC.cap;}
 function header(){
   document.getElementById("hLogo").innerHTML=logoHTML();
@@ -607,7 +630,7 @@ function header(){
   const ph=(INFO.phone||"").trim();const tp=document.getElementById("topPhone");tp.href="tel:+960"+ph.replace(/\D/g,"");tp.querySelector("span").textContent=ph;
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
   const m=MENU.map(([k,d,e])=>SUBMENU[k]?`<div class="nav-dd"><a href="#${k}" data-k="${k}">${bi(d,e)}<svg class="dd-c" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a><div class="nav-sub">${SUBMENU[k].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div></div>`:`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
-  document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`+(SUBMENU[k]?`<div class="mnav-sub">${SUBMENU[k].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div>`:"")).join("");
+  document.getElementById("nav").innerHTML=m;
   const tel=(INFO.phone||"").replace(/\D/g,""), host=(INFO.website||"kondeyschool.edu.mv").replace(/^https?:\/\//,"").replace(/\/$/,"");
   const FI={phone:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
     web:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5S9.4 5.3 12 2.5z"/></svg>',
@@ -616,6 +639,7 @@ function header(){
   const SI={facebook:'<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8.6v-7.7H10v-3h2.6V9.1c0-2.6 1.6-4 3.9-4 1.1 0 2.1.1 2.3.1v2.7h-1.6c-1.3 0-1.5.6-1.5 1.5v1.9h3l-.4 3h-2.6V22H20a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>',
     instagram:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
     x:'<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="3"/><path fill="#fff" d="M16.4 5.5h2.1l-4.6 5.3 5.4 7.2h-4.2l-3.3-4.4-3.8 4.4H5.9l4.9-5.7L5.6 5.5h4.3l3 4z"/></svg>'};
+  document.getElementById("mnavP").innerHTML=mnavHTML(SI);
   document.getElementById("foot").innerHTML=`<div class="foot-c"><div class="wrap"><div class="fr-list">
       ${tel?`<a class="fr" href="tel:+960${esc(tel)}">${FI.phone}<span class="num">${esc(INFO.phone)}</span></a>`:""}
       ${host?`<a class="fr" href="/">${FI.web}<span class="ltr">${esc(host)}</span></a>`:""}
@@ -996,7 +1020,7 @@ function setLang(l){document.documentElement.lang=l;document.documentElement.dir
   document.title=l==="en"?`${INFO.name_en} · GA. Kondey`:`${INFO.name_dv} · ގއ.ކޮނޑޭ`;}
 document.getElementById("langBtn").onclick=()=>setLang(document.documentElement.lang==="en"?"dv":"en");
 document.getElementById("burger").onclick=()=>document.getElementById("mnav").classList.add("open");
-document.getElementById("mnav").addEventListener("click",e=>{if(e.target.id==="mnav"||e.target.closest("[data-close]"))e.currentTarget.classList.remove("open");});
+document.getElementById("mnav").addEventListener("click",e=>{const tg=e.target.closest("[data-mtog]");if(tg){tg.parentNode.classList.toggle("open");return;}if(e.target.id==="mnav"||e.target.closest("[data-close]"))e.currentTarget.classList.remove("open");});
 document.addEventListener("click",e=>{
   if(acClick(e))return;
   const sh=e.target.closest("[data-share]");if(sh){const u=location.href,tt=document.querySelector(".nd-t")?.innerText||document.title;if(navigator.share){navigator.share({title:tt,url:u}).catch(()=>{});}else{navigator.clipboard?.writeText(u).then(()=>{sh.querySelector(".dv")&&(sh.querySelector(".dv").textContent="ލިންކް ކޮޕީކުރެވިއްޖެ");});}return;}
