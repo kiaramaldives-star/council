@@ -83,7 +83,7 @@ button,input,select,textarea{font:inherit}
 .reqs{display:grid;gap:6px;margin-bottom:8px}.reqs .chk{display:flex;align-items:center;gap:10px;direction:rtl;text-align:right;cursor:pointer;margin:0;padding:8px 10px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px}
 .reqs .chk input{width:18px;height:18px;flex:none;margin:0;accent-color:#C8102E}
 .etabs{display:flex;gap:6px;flex-wrap:wrap;background:#F1F2F4;border-radius:14px;padding:5px;margin:4px 0 16px;position:sticky;top:-24px;z-index:2}
-.etab{flex:1;min-width:90px;border:0;background:none;border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;color:#4B5563;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;position:relative}
+.etab{flex:1;min-width:64px;border:0;background:none;border-radius:10px;padding:9px 10px;font:inherit;font-size:15px;color:#4B5563;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;position:relative}
 .etab .en{font-size:11px;color:#9CA3AF}
 .etab.on{background:#fff;color:#C8102E;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .etab .dot{position:absolute;top:8px;left:10px;width:8px;height:8px;border-radius:50%;background:#D1D5DB}
@@ -93,6 +93,24 @@ button,input,select,textarea{font:inherit}
 .mchip.ok{border:1px solid #BBF7D0;background:#F0FDF4;color:#15803D}
 .mchip:hover{border-color:#C8102E;color:#C8102E}
 @media (max-width:700px){.mchips{order:3;width:100%;margin:6px 0 0}.row{flex-wrap:wrap}}
+.edhead{display:flex;align-items:center;gap:10px;justify-content:space-between}.edhead h3{margin:0}
+.kbtog{flex:none;border:1px solid #E5E7EB;background:#fff;border-radius:10px;padding:6px 10px;font:inherit;font-size:13px;color:#6B7280;cursor:pointer}
+.kbtog.on{border-color:#C8102E;color:#C8102E;background:#FFF5F6}
+.tb{display:flex;flex-wrap:wrap;gap:4px;align-items:center;background:#F8F9FB;border:1px solid #E5E7EB;border-bottom:0;border-radius:12px 12px 0 0;padding:6px}
+.tb button{border:0;background:#fff;border:1px solid #E5E7EB;border-radius:8px;padding:5px 9px;font:inherit;font-size:13px;color:#374151;cursor:pointer;line-height:1.5}
+.tb button:hover{border-color:#C8102E;color:#C8102E}
+.tb button.on{background:#C8102E;border-color:#C8102E;color:#fff}
+.tb-sp{flex:1}
+.tb+textarea{border-top-left-radius:0!important;border-top-right-radius:0!important}
+.pv{border:1px solid #E5E7EB;border-radius:0 0 12px 12px;padding:16px;min-height:200px;max-height:520px;overflow:auto;background:#fff;direction:rtl;text-align:right;font-family:"Faruma",sans-serif;line-height:1.9}
+.pv h4{color:#C8102E;margin:10px 0 6px}.pv ol,.pv ul{padding-inline-start:22px}.pv-empty{color:#9CA3AF}
+.tb-foot{display:flex;justify-content:flex-start;font-size:12px;color:#9CA3AF;margin-top:4px;direction:rtl}
+.pv .ag-info{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}.pv .ag-i{display:flex;gap:10px;align-items:center;background:#F8F9FB;border:1px solid #EEF0F3;border-radius:12px;padding:8px 10px}.pv .ag-i.wide{grid-column:1/-1}
+.pv .ag-ic{width:30px;height:30px;border-radius:9px;background:#FDE3E7;color:#C8102E;display:grid;place-items:center;flex:none}.pv .ag-i small{display:block;color:#6B7280;font-size:12px}.pv .ag-i b{font-weight:400}
+.pv .ag-h{color:#C8102E}.pv .ag-list{list-style:none;padding:0;display:grid;gap:8px}.pv .ag-list li{display:flex;align-items:center;gap:10px;border:1px solid #EEF0F3;border-radius:12px;padding:8px 10px}
+.pv .ag-n{width:26px;height:26px;border-radius:8px;background:#C8102E;color:#fff;display:grid;place-items:center;flex:none;font-size:13px;font-weight:700}.pv .ag-t{flex:1}
+.pv .ag-r{font-style:normal;font-size:12px;background:#EEF0F3;border-radius:999px;padding:2px 8px;color:#4B5563}.pv .ag-foot{margin-top:12px;border-top:1px dashed #E5E7EB;padding-top:8px;color:#6B7280;font-size:13px;display:flex;flex-direction:column}
+@media (max-width:520px){.etab{font-size:13px;padding:8px 4px}.etab .en{font-size:10px}.etabs{gap:3px;flex-wrap:nowrap}}
 </style>
 </head>
 <body>
@@ -259,7 +277,18 @@ function fieldHTML(f,v){
       <textarea data-reqx rows="3" dir="rtl" placeholder="އިތުރު ލިޔުމެއް (ކޮންމެ ލިޔުމެއް ވަކި ލައިނެއްގައި)">${esc(extra.join("\n"))}</textarea>
       <span class="hint">ސްޓޭންޑަރޑް ލިޔުންތައް ޓިކް ކޮށް، އިތުރު ލިޔުމެއް ބޭނުންނަމަ ތިރީގައި ލިޔޭ · Tick the standard documents; add any others below, one per line</span>
       <input type="hidden" data-k="${f.k}" value="${esc(val)}"></div>`;}
-  if(f.type==="textarea") return `<div class="fld">${lab}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="rtl">${esc(v)}</textarea>${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;
+  if(f.type==="textarea"){const rich=(f.rows||4)>=6, agk=/^(agendaText|decisionsText)$/.test(f.k);
+    return `<div class="fld">${lab}${rich?`<div class="tb" data-for="${f.k}">
+      <button type="button" data-cmd="h" title="Heading">ސުރުޚީ</button>
+      <button type="button" data-cmd="ol" title="Numbered list">1. ނަންބަރު</button>
+      <button type="button" data-cmd="ul" title="Bullet list">• ބުލެޓް</button>
+      ${agk?`<button type="button" data-cmd="info" title="Place, time, date, chair">މަޢުލޫމާތު</button><button type="button" data-cmd="tag" title="Add tag to this line">— ޓެގް</button><button type="button" data-cmd="tpl" title="Insert template">ޓެމްޕްލޭޓް</button>`:""}
+      <button type="button" data-cmd="renum" title="Fix numbering">ނަންބަރު ރަނގަޅުކުރޭ</button>
+      <button type="button" data-cmd="clean" title="Clean pasted text">ސާފުކުރޭ</button>
+      <span class="tb-sp"></span>
+      <button type="button" data-cmd="undo" title="Undo">↶</button><button type="button" data-cmd="redo" title="Redo">↷</button>
+      <button type="button" data-cmd="prev" class="tb-prev" title="Preview">ޕްރިވިއު</button>
+    </div>`:""}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="rtl" ${rich?`data-rich="${agk?"ag":"mn"}"`:""}>${esc(v)}</textarea>${rich?`<div class="pv" data-pv="${f.k}" hidden></div><div class="tb-foot"><span data-cnt="${f.k}"></span></div>`:""}${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;}
   if(f.type==="select") return `<div class="fld">${lab}<select data-k="${f.k}">${f.opts.map(([k,t])=>`<option value="${k}" ${String(v??"")===k?"selected":""}>${t}</option>`).join("")}</select></div>`;
   if(f.type==="date") return `<div class="fld">${lab}<input data-k="${f.k}" type="date" value="${esc(v)}"></div>`;
   if(f.type==="datetime") return `<div class="fld">${lab}<input data-k="${f.k}" type="datetime-local" value="${esc((v||"").replace(" ","T"))}"></div>`;
@@ -270,6 +299,73 @@ function fieldHTML(f,v){
   return `<div class="fld">${lab}<input data-k="${f.k}" type="text"${ltr} value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}></div>`;
 }
 let TAB0=null;
+/* ---------- text editor helpers ---------- */
+function mnRender(t){
+  const esc=x=>x.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+  let out="",list=null;
+  const close=()=>{if(list){out+=`</${list}>`;list=null;}};
+  t.trim().split(/\n/).forEach(l=>{l=l.trim();
+    if(!l){close();return;}
+    let mm;
+    if(mm=l.match(/^#\s+(.*)/)){close();out+=`<h4>${esc(mm[1])}</h4>`;}
+    else if(mm=l.match(/^-\s+(.*)/)){if(list!=="ul"){close();out+="<ul>";list="ul";}out+=`<li>${esc(mm[1])}</li>`;}
+    else if(mm=l.match(/^\d+[.)]\s+(.*)/)){if(list!=="ol"){close();out+="<ol>";list="ol";}out+=`<li>${esc(mm[1])}</li>`;}
+    else{close();out+=`<p>${esc(l)}</p>`;}
+  });close();return out;
+}
+/* agenda / decisions: "Key: value" lines -> info cards, "1. item — result" -> numbered rows */
+function agRender(t){
+  const L=(t||"").split("\n").map(x=>x.trim()).filter(Boolean); let info=[],items=[],foot=[],head="",started=false;
+  const IC={"ތަން":'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',"ގަޑި":'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',"ތާރީޚު":'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',"ރިޔާސަތު":'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>'};
+  L.forEach(l=>{let m;
+    if(m=l.match(/^#\s+(.*)/)){head=m[1];started=true;}
+    else if(m=l.match(/^\d+[.)]\s+(.*)/)){started=true;const [tx,res]=m[1].split(/\s+[—–-]\s+(?=[^—–-]+$)/);items.push([tx,res||""]);}
+    else if(!started&&(m=l.match(/^([^:]{1,24}):\s*(.+)$/))) info.push([m[1].trim(),m[2]]);
+    else foot.push(l);
+  });
+  return `${info.length?`<div class="ag-info">${info.map(([k,v])=>`<div class="ag-i${k==="ތަން"||k==="ރިޔާސަތު"?" wide":""}"><span class="ag-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]||IC["ތާރީޚު"]}</svg></span><div><small>${esc(k)}</small><b>${esc(v).replace(/(\d[\d:]*)/g,'<span class="num">$1</span>')}</b></div></div>`).join("")}</div>`:""}
+  ${items.length?`<h4 class="ag-h">${esc(head||"ހުށަހަޅާ މައްސަލަތައް")}</h4><ol class="ag-list">${items.map(([tx,res],i)=>`<li><span class="ag-n num">${i+1}</span><span class="ag-t">${esc(tx).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>${res?`<em class="ag-r">${esc(res)}</em>`:""}</li>`).join("")}</ol>`:""}
+  ${foot.length?`<div class="ag-foot">${foot.map(f=>`<span>${esc(f).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>`).join("")}</div>`:""}`;
+}
+const TK={q:"ް",w:"އ",e:"ެ",r:"ރ",t:"ތ",y:"ޔ",u:"ު",i:"ި",o:"ޮ",p:"ޕ",a:"ަ",s:"ސ",d:"ދ",f:"ފ",g:"ގ",h:"ހ",j:"ޖ",k:"ކ",l:"ލ",z:"ޒ",x:"×",c:"ޗ",v:"ވ",b:"ބ",n:"ނ",m:"މ",
+ Q:"ޤ",W:"ޢ",E:"ޭ",R:"ޜ",T:"ޓ",Y:"ޠ",U:"ޫ",I:"ީ",O:"ޯ",P:"÷",A:"ާ",S:"ށ",D:"ޑ",F:"ﷲ",G:"ޣ",H:"ޙ",J:"ޛ",K:"ޚ",L:"ޅ",Z:"ޡ",X:"ޘ",C:"ޝ",V:"ޥ",B:"ޞ",N:"ޏ",M:"ޟ",",":"،",";":"؛","?":"؟"};
+let THAANA=(()=>{try{const v=localStorage.getItem("thaanaKb");if(v)return v==="1"}catch(e){}return matchMedia("(pointer:fine)").matches})();
+function insertAt(ta,text){ta.focus();if(!document.execCommand("insertText",false,text)){const s=ta.selectionStart,e=ta.selectionEnd;ta.setRangeText(text,s,e,"end");}ta.dispatchEvent(new Event("input",{bubbles:true}));}
+function lineRange(ta){const v=ta.value,s=v.lastIndexOf("\n",ta.selectionStart-1)+1;let e=v.indexOf("\n",ta.selectionEnd);if(e<0)e=v.length;return [s,e];}
+function mapLines(ta,fn){const [s,e]=lineRange(ta);ta.focus();ta.setSelectionRange(s,e);const out=ta.value.slice(s,e).split("\n").map(fn).join("\n");insertAt(ta,out);ta.setSelectionRange(s,s+out.length);}
+function edCount(ta){const c=document.querySelector(`[data-cnt="${ta.dataset.k}"]`);if(!c)return;const v=ta.value.trim();c.textContent=`${v?v.split(/\s+/).length:0} ބަސް · ${v.split("\n").filter(Boolean).length} ލައިން · ${ta.value.length} chars`;}
+function edPreview(ta){const p=document.querySelector(`[data-pv="${ta.dataset.k}"]`);if(!p||p.hidden)return;
+  p.innerHTML=ta.value.trim()?(ta.dataset.rich==="ag"&&/^\s*\d+[.)]\s/m.test(ta.value)?agRender(ta.value):mnRender(ta.value)):'<p class="pv-empty">ލިޔުމެއް ނެތް</p>';}
+function edCmd(btn){
+  const k=btn.closest(".tb").dataset.for, ta=document.querySelector(`#ed textarea[data-k="${k}"]`), c=btn.dataset.cmd;
+  if(c==="undo"||c==="redo"){ta.focus();document.execCommand(c);return;}
+  if(c==="prev"){const p=document.querySelector(`[data-pv="${k}"]`);p.hidden=!p.hidden;btn.classList.toggle("on",!p.hidden);ta.hidden=!p.hidden?true:false;edPreview(ta);return;}
+  if(c==="h") return mapLines(ta,l=>l.startsWith("# ")?l.slice(2):"# "+l.replace(/^(\d+[.)]|-)\s+/,""));
+  if(c==="ul") return mapLines(ta,l=>l.startsWith("- ")?l.slice(2):"- "+l.replace(/^(#|\d+[.)])\s+/,""));
+  if(c==="ol"){let n=0;return mapLines(ta,l=>/^\d+[.)]\s/.test(l)?l.replace(/^\d+[.)]\s+/,""):(++n)+". "+l.replace(/^(#|-)\s+/,""));}
+  if(c==="tag"){const tg=prompt("ޓެގް (e.g. އިދާރާއިން)","އިދާރާއިން");if(!tg)return;return mapLines(ta,l=>l.trim()?l.replace(/\s+[—–]\s+[^—–]*$/,"")+" — "+tg:l);}
+  if(c==="info"){const [s]=lineRange(ta);ta.setSelectionRange(s,s);return insertAt(ta,"ތަން: ކޮނޑޭ ކައުންސިލް އިދާރާ\nގަޑި: \nތާރީޚު: \nރިޔާސަތު: \n\n");}
+  if(c==="tpl"){if(ta.value.trim()&&!confirm("މިހާރު ލިޔެފައިވާ ލިޔުމުގެ ފަހަތަށް ޓެމްޕްލޭޓް އިތުރުކުރަންތަ؟ / Add the template after the current text?"))return;
+    const DVM=["ޖަނަވަރީ","ފެބްރުއަރީ","މާޗް","އޭޕްރިލް","މެއި","ޖޫން","ޖުލައި","އޮގަސްޓް","ސެޕްޓެމްބަރ","އޮކްޓޫބަރ","ނޮވެމްބަރ","ޑިސެމްބަރ"],dr=$("#ed [data-k=date]")?.value||"",dm=dr.match(/^(\d{4})-(\d\d)-(\d\d)$/),d=dm?`${+dm[3]} ${DVM[+dm[2]-1]} ${dm[1]}`:dr;ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);
+    return insertAt(ta,(ta.value.trim()?"\n\n":"")+`ތަން: ކޮނޑޭ ކައުންސިލް އިދާރާ\nގަޑި: 10:00\nތާރީޚު: ${d}\nރިޔާސަތު: ނަސްރު މުޙައްމަދު ދީދީ، ކޮނޑޭ ކައުންސިލް ރައީސް\n\n# ހުށަހަޅާ މައްސަލަތައް\n1. ކުރީގެ ބައްދަލުވުމުގެ ޔައުމިއްޔާ ފާސްކުރުން. — އިދާރާއިން\n2.  — އިދާރާއިން\n3.  — އިދާރާއިން\n`);}
+  if(c==="renum"){let n=0;ta.focus();ta.select();return insertAt(ta,ta.value.split("\n").map(l=>/^\s*\d+[.)]\s/.test(l)?l.replace(/^\s*\d+[.)]\s+/,(++n)+". "):(l.trim()&&!/^\s*\d/.test(l)&&!l.startsWith("  ")?(n=n,l):l)).join("\n"));}
+  if(c==="clean"){ta.focus();ta.select();return insertAt(ta,ta.value.replace(/\r/g,"").replace(/[ \t ]+/g," ").replace(/ *\n */g,"\n").replace(/\n{3,}/g,"\n\n").replace(/^\s*[•●▪◦]\s*/gm,"- ").trim());}
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".tb [data-cmd]");if(b){e.preventDefault();edCmd(b);}
+  const kb=e.target.closest("#kbTog");if(kb){THAANA=!THAANA;try{localStorage.setItem("thaanaKb",THAANA?"1":"0")}catch(_){}kb.classList.toggle("on",THAANA);kb.querySelector("b").textContent=THAANA?"ތާނަ":"ABC";}});
+document.addEventListener("input",e=>{const ta=e.target.closest("#ed textarea[data-rich]");if(ta){edCount(ta);edPreview(ta);}});
+document.addEventListener("keydown",e=>{
+  const el=e.target; if(!el.closest||!el.closest("#ed"))return;
+  const ta=el.matches("textarea[data-rich]")?el:null;
+  if(ta&&(e.ctrlKey||e.metaKey)&&!e.altKey){const m={"1":"ol","h":"h","l":"ul"}[e.key.toLowerCase()];if(m&&e.shiftKey){e.preventDefault();edCmd(ta.closest(".fld").querySelector(`[data-cmd="${m}"]`));return;}}
+  if(ta&&e.key==="Enter"&&!e.shiftKey&&!e.ctrlKey){ // continue lists
+    const v=ta.value,s=v.lastIndexOf("\n",ta.selectionStart-1)+1,line=v.slice(s,ta.selectionStart);let m;
+    if(m=line.match(/^(\d+)[.)]\s+(.*)$/)){e.preventDefault();if(!m[2].trim()){ta.setSelectionRange(s,ta.selectionStart);insertAt(ta,"");return;}insertAt(ta,"\n"+(+m[1]+1)+". ");return;}
+    if(m=line.match(/^-\s+(.*)$/)){e.preventDefault();if(!m[1].trim()){ta.setSelectionRange(s,ta.selectionStart);insertAt(ta,"");return;}insertAt(ta,"\n- ");return;}}
+  if(THAANA&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&e.key.length===1&&TK[e.key]&&(el.tagName==="TEXTAREA"||(el.tagName==="INPUT"&&el.type==="text"&&el.getAttribute("dir")!=="ltr"&&!el.classList.contains("ltr")))&&!/(^en$|_en$|En$|email|ref|time|url|link)/i.test(el.dataset.k||"")){
+    e.preventDefault();insertAt(el,TK[e.key]);}
+});
+
 function openEditor(r){
   EDIT=r; PEND={}; const sec=SECTIONS[CUR]; const d=r?r.data:Object.fromEntries(sec.fields.filter(f=>f.def!=null).map(f=>[f.k,f.def]));
   if(!r&&sec.fields.some(f=>f.k==="date")) d.date=new Date(Date.now()+5*3600e3).toISOString().slice(0,10);
@@ -278,11 +374,12 @@ function openEditor(r){
      ${sec.tabs.map(([k])=>`<div class="pane" data-pane="${k}" ${k===(TAB0||"main")?"":"hidden"}>${sec.fields.filter(f=>(f.tab||"main")===k).map(f=>fieldHTML(f,d[f.k])).join("")}</div>`).join("")}`
     :sec.fields.map(f=>fieldHTML(f,d[f.k])).join("");
   TAB0=null;
-  $("#ed").innerHTML=`<h3>${r?"ބަދަލު ގެންނަ":"އަލަށް އިތުރުކުރޭ"} — ${sec.title&&r?esc(sec.title(d)):sec.dv}</h3>${body}
+  $("#ed").innerHTML=`<div class="edhead"><h3>${r?"ބަދަލު ގެންނަ":"އަލަށް އިތުރުކުރޭ"} — ${sec.title&&r?esc(sec.title(d)):sec.dv}</h3><button type="button" id="kbTog" class="kbtog${THAANA?" on":""}" title="Thaana phonetic keyboard (type English letters to get Thaana)">⌨ <b>${THAANA?"ތާނަ":"ABC"}</b></button></div>${body}
     <label class="chk"><input type="checkbox" id="pub" ${!r||r.published?"checked":""}> ވެބްސައިޓުގައި ދައްކާ <span class="en">Show on website</span></label>
     <div class="msg" id="edMsg"></div>
     <div class="edfoot"><button class="btn" id="save">ސޭވް ކުރޭ <span class="en" style="color:#fff">Save</span></button><button class="btn ghost" id="cancel">ކެންސަލް</button></div>`;
   $("#ov").hidden=false;
+  $$("#ed textarea[data-rich]").forEach(edCount);
   $("#cancel").onclick=()=>{$("#ov").hidden=true;};
   $("#ed").onchange=e=>{const f=e.target.closest("[data-file]");if(!f||!f.files[0])return;PEND[f.dataset.file]=f.files[0];
     if(f.dataset.img){const p=$(`[data-prev="${f.dataset.file}"]`);p.src=URL.createObjectURL(f.files[0]);}};
