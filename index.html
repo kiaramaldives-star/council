@@ -1517,7 +1517,7 @@ html[lang=dv] .at-tbl th:nth-child(2),html[lang=dv] .at-tbl td:nth-child(2){left
 .at-top .at-who{flex:1}
 .at-nm{display:inline-flex;align-items:center;gap:8px}
 .at-card.open .at-av:not(.sm){width:72px;height:72px}
-html[lang=dv] .aw-p,html[lang=dv] .aw-c,html[lang=dv] .aw-price b{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=dv] .aw-p{font-size:19px}html[lang=dv] .aw-c{font-size:15px}.aw-cur{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400;font-size:.72em;opacity:.85;margin-inline-start:3px;vertical-align:.05em;direction:rtl;unicode-bidi:isolate}.aw-kpis{grid-template-columns:repeat(3,1fr)}.aw-kpis .at-k b{font-size:22px}
+html[lang=dv] .aw-p,html[lang=dv] .aw-c,html[lang=dv] .aw-price b{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=dv] .aw-p{font-size:19px}html[lang=dv] .aw-c{font-size:15px}.aw-mny{direction:ltr;unicode-bidi:isolate;display:inline-block}.aw-cur{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400;font-size:.72em;opacity:.85;margin:0 3px;vertical-align:.05em;direction:rtl;unicode-bidi:isolate}.aw-kpis{grid-template-columns:repeat(3,1fr)}.aw-kpis .at-k b{font-size:22px}
 .aw-list{display:grid;gap:14px}
 .aw-card{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;transition:box-shadow .2s}
 .aw-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
@@ -2510,7 +2510,7 @@ function awParse(rec){return String(rec.rows||"").split(/\r?\n/).map(l=>l.split(
   const [project,council,party,cur,price,date,dur,pdv,cdv,adv]=c; const d=(date||"").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
   return {pdv:pdv||AW_DV[attKey(project)]||project,cdv:cdv||AW_DV[attKey(council)]||(/kondey\s*coun/i.test(council)?"ކޮނޑޭ ކައުންސިލްގެ އިދާރާ":council),adv:adv||AW_DV[attKey(party)]||party,project,council,party,cur:cur||"MVR",price:parseFloat(String(price||"").replace(/,/g,""))||0,iso:d?`${d[3]}-${d[2].padStart(2,"0")}-${d[1].padStart(2,"0")}`:"",date:date||"",dur:dur||"",month:rec.month};});}
 function awAll(){return AWARDS.slice().sort((a,b)=>String(b.month).localeCompare(a.month)).flatMap(awParse);}
-const awMoney=(n,c)=>{const v=n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return bi(`<span class="num">${v}</span> <span class="aw-cur">${c==="MVR"?"ރުފިޔާ":c==="USD"?"ޑޮލަރު":esc2(c)}</span>`,`<span class="num">${esc2(c)} ${v}</span>`);};
+const awMoney=(n,c)=>{const v=n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});return bi(`<span class="aw-mny"><span class="aw-cur">${c==="MVR"?"ރުފިޔާ":c==="USD"?"ޑޮލަރު":esc2(c)}</span> <span class="num">${v}</span></span>`,`<span class="num">${esc2(c)} ${v}</span>`);};
 function awDur(t){const m=String(t).match(/^(\d+)\s*(day|days|week|weeks|month|months|year|years)$/i);if(!m)return esc2(t);
   const dv={day:"ދުވަސް",week:"ހަފްތާ",month:"މަސް",year:"އަހަރު"}[m[2].toLowerCase().replace(/s$/,"")];return bi(`<span class="num">${m[1]}</span> ${dv}`,esc2(t));}
 function awResults(){
