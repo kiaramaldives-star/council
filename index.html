@@ -19,6 +19,7 @@
 :root{--p:#C8102E;--p2:#A50D26;--ps:rgba(200,16,46,.08);--a:#C8102E;--as:rgba(17,17,17,.07);--k:#111111;--bg:#F7F8FC;--text:#1F2937;--muted:#6B7280;--line:#E8EBF2;--r:20px}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{overflow-x:clip}
+html{background:#F4F4F6;overscroll-behavior-y:none}body{overscroll-behavior-y:none}
 body{font-family:"Faruma",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;touch-action:pan-y pinch-zoom}
 html[lang=en] body{font-family:"Plus Jakarta Sans",sans-serif;line-height:1.6}
 html[lang=dv] .en,html[lang=en] .dv{display:none!important}
@@ -217,7 +218,7 @@ html[lang=dv] .sc>span{font-family:"KondeyHeading","Faruma",sans-serif;font-size
 html[lang=en] .ph h1{font-size:34px}
 .crumb{opacity:.8;font-size:14px;position:relative;z-index:1;display:flex;gap:6px;align-items:center}
 html[lang=dv] .crumb{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
-.pb{margin-top:-56px;position:relative;z-index:2;padding-bottom:70px}
+.pb{margin-top:-56px;position:relative;z-index:2;padding-bottom:28px}
 .panel{background:#fff;border-radius:28px;padding:30px;border:1px solid var(--line);box-shadow:0 12px 30px rgba(15,23,42,.05)}
 .art{max-width:820px;margin:0 auto}
 .art h1{font-size:32px;line-height:1.5;color:var(--text);margin:8px 0 14px}
@@ -367,8 +368,8 @@ html[lang=dv] .ch-note{font-family:"KondeyHeading","Faruma",sans-serif}
 @media (max-width:620px){.ch-pages{grid-template-columns:1fr}}
 .cti a{color:inherit}.cti a:hover{color:var(--p)}
 /* footer */
-.foot{background:#F4F4F6;margin-top:20px;color:#3F4A5C}
-.foot-c{background:#fff;padding:34px 0}
+.foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
+.foot-c{background:#fff;padding:22px 0}
 .fr-list{display:flex;flex-direction:column;gap:22px;max-width:720px}
 .fr{display:flex;align-items:center;gap:26px;border-inline-start:4px solid #E5E7EB;padding:10px 26px;color:#3F4A5C;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:20px;transition:border-color .2s,color .2s}
 .fr:hover{border-color:var(--p);color:var(--p)}
@@ -376,7 +377,7 @@ html[lang=dv] .ch-note{font-family:"KondeyHeading","Faruma",sans-serif}
 .fr:hover svg{color:var(--p)}
 .fr .h{font-weight:400;font-size:20px}
 html[lang=en] .fr .h{font-weight:700;font-size:18px}
-.foot-b{text-align:center;padding:34px 20px 40px}
+.foot-b{text-align:center;padding:26px 20px 24px}
 .foot-soc{display:flex;justify-content:center;gap:30px;margin-bottom:26px;direction:ltr}
 .foot-soc a{width:40px;height:40px;display:grid;place-items:center;color:#9CA3AF;transition:color .2s,transform .2s}
 .foot-soc a:hover{color:var(--p);transform:translateY(-2px)}
