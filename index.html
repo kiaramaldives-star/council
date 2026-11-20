@@ -1238,6 +1238,14 @@ html[lang=en] .ti-v{font-family:inherit}
 .lb button{position:absolute;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
 .lb .lb-x{top:16px;right:16px}.lb .lb-p{left:12px;top:50%;transform:translateY(-50%)}.lb .lb-n{right:12px;top:50%;transform:translateY(-50%)}
 .lb .lb-c{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font:600 14px "Plus Jakarta Sans",sans-serif}
+.att-sum{font-family:"Faruma",sans-serif;color:#4B5563;margin:-4px 0 10px;font-size:15px}.att-sum .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;color:#111827}
+.att-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:18px}
+.att-c{display:flex;align-items:center;gap:12px;border:1px solid #EEF0F3;border-radius:14px;padding:12px 14px;background:#fff}
+.att-c div{flex:1;min-width:0}.att-c b{display:block;font-family:"Faruma",sans-serif;font-weight:400;font-size:16px;color:#111827;line-height:1.7}.att-c small{display:block;font-family:"Faruma",sans-serif;font-size:13px;color:#6B7280}
+.att-av{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:#FDE3E7;color:var(--gold);font-family:"Faruma",sans-serif;font-size:18px}
+.att-c em{font-style:normal;font-family:"Faruma",sans-serif;font-size:13px;border-radius:999px;padding:3px 10px;background:#DCFCE7;color:#15803D;white-space:nowrap}
+.att-c.l em{background:#FEF3C7;color:#B45309}.att-c.a em{background:#FEE2E2;color:#B91C1C}.att-c.a{opacity:.85}
+html[lang=en] .att-c b,html[lang=en] .att-c small,html[lang=en] .att-c em,html[lang=en] .att-sum{font-family:inherit}
 </style>
 </head>
 <body>
@@ -1959,7 +1967,7 @@ function meetViewer(m,doc){
   return `<article class="ad mtv">
     <div class="ad-meta"><span class="mt-no num">${m.no}</span><span class="mt-type ${m.type}">${m.type==="kuhli"?bi("ކުއްލި","Special"):bi("އާންމު","Regular")}</span><span class="mt-date">${CLOCK}${nDate(m.date)}</span></div>
     <h2 class="ad-title">${bi(m.dv,m.en)}</h2>
-    <div class="mt-tabs mv-tabs">${tab("agenda","އެޖެންޑާ","Agenda",m.agendaPdf)}${tab("minutes","ޔައުމިއްޔާ","Minutes",m.minutesPdf||m.minutesText||(m.minutesPhotos||[]).length)}${tab("decisions","ނިންމުންތައް","Decisions",m.decisionsPdf||m.decisionsText||(m.decisionsPhotos||[]).length)}</div>
+    <div class="mt-tabs mv-tabs">${tab("agenda","އެޖެންޑާ","Agenda",m.agendaPdf)}${tab("minutes","ޔައުމިއްޔާ","Minutes",m.minutesPdf||m.minutesText||(m.minutesPhotos||[]).length||(m.attendance||[]).length)}${tab("decisions","ނިންމުންތައް","Decisions",m.decisionsPdf||m.decisionsText||(m.decisionsPhotos||[]).length)}</div>
     ${pdf?`${TXT?`${(doc==="minutes"&&m.minutesPartial)?`<div class="mn-note mn-warn">${DOC}<p>${bi("މި ލިޔުން ލިޔެފައިވަނީ ސްކޭން ކޮށްފައިވާ PDF ކިޔައިގެންނެވެ. ރަސްމީ ލިޔުމަކީ ތިރީގައިވާ PDF އެވެ.","This text was copied from the scanned PDF. The official document is the PDF below.")}</p></div>`:""}<div class="mn-text${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?" ag":""}" dir="rtl">${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?agRender(TXT):mnRender(TXT)}</div>`:`<div class="mn-note">${DOC}<p>${doc==="minutes"?bi("މި ޔައުމިއްޔާގެ ލިޔުން އަދި މި ޞަފްޙާއަށް ލިޔެވިފައެއް ނުވޭ. ތިރީގައިވާ PDF ބައްލަވާ.","The text of these minutes has not been added yet. Please see the PDF below."):bi("މި އެޖެންޑާގެ ލިޔުން އަދި މި ޞަފްޙާއަށް ލިޔެވިފައެއް ނުވޭ. ތިރީގައިވާ PDF ބައްލަވާ.","The text of this agenda has not been added yet. Please see the PDF below.")}</p></div>`}
     <h3 class="ad-h">${bi("ރިފަރެންސް","Reference")}</h3>
     ${isImg?`<a class="mn-img" href="${pdf}" target="_blank" rel="noopener"><img src="${pdf}" alt="" loading="lazy"></a>`:""}
@@ -1968,8 +1976,11 @@ function meetViewer(m,doc){
       <div class="doc-body"><small>${bi("ރިފަރެންސް ލިޔުން","Reference document")}</small><b>${doc==="decisions"?bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ ނިންމުންތައް"),"Decisions — "+m.en):doc==="minutes"?bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ ޔައުމިއްޔާ"),"Minutes — "+m.en):bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ އެޖެންޑާ"),"Agenda — "+m.en)}</b><span class="doc-meta">${FT} · kondey.gov.mv</span></div>
       <span class="doc-btn">${DL}${bi("ބައްލަވާ",isImg?"View":"View PDF")}</span>
     </a>`:pdf?`<div class="ad-pdf"><a class="ad-ph" href="${pdf}" target="_blank" rel="noopener">${DOC}<b>${doc==="minutes"?bi("ޔައުމިއްޔާ","Minutes"):bi("އެޖެންޑާ","Agenda")}</b><span>PDF</span></a><iframe src="${pdf}#view=FitH" title="PDF" loading="lazy"></iframe></div>
-    <div class="ad-btns"><a class="ad-dl" href="${pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:(TXT?`<div class="mn-text${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?" ag":""}" dir="rtl">${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?agRender(TXT):mnRender(TXT)}</div>`:PH.length?"":mdEmpty("މި ލިޔުން އަދި ޝާއިޢުކޮށްފައެއް ނުވޭ","This document has not been published yet"))}
-    ${PH.length?`<h3 class="ad-h">${bi("ހާޒިރީ","Attendance")}</h3><div class="mt-gal">${PH.map((u,i)=>`<a href="${u}" target="_blank" rel="noopener" data-lb="${i}"><img src="${u}" alt="Attendance photo ${i+1}" loading="lazy"></a>`).join("")}</div>`:""}
+    <div class="ad-btns"><a class="ad-dl" href="${pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:(TXT?`<div class="mn-text${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?" ag":""}" dir="rtl">${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?agRender(TXT):mnRender(TXT)}</div>`:(PH.length||(doc!=="agenda"&&(m.attendance||[]).length))?"":mdEmpty("މި ލިޔުން އަދި ޝާއިޢުކޮށްފައެއް ނުވޭ","This document has not been published yet"))}
+    ${(doc!=="agenda"&&(m.attendance||[]).length)?(()=>{const A=m.attendance, S={p:["ހާޒިރު","Present"],l:["ޗުއްޓީ","Leave"],a:["ނުހާޒިރު","Absent"]}, np=A.filter(x=>x.status==="p").length;
+      return `<h3 class="ad-h">${bi("ހާޒިރީ","Attendance")}</h3><div class="att-sum">${bi(`<span class="num">${A.length}</span> މެމްބަރުންގެ ތެރެއިން <span class="num">${np}</span> މެމްބަރުން ހާޒިރުވި`,`${np} of ${A.length} present`)}</div>
+      <div class="att-grid">${A.map(x=>`<div class="att-c ${x.status}"><span class="att-av">${esc2((x.name||"?").trim().charAt(0))}</span><div><b>${esc2(x.name)}</b>${x.pos?`<small>${esc2(x.pos)}</small>`:""}</div><em>${bi(...(S[x.status]||S.p))}</em></div>`).join("")}</div>`;})():""}
+    ${PH.length?`<h3 class="ad-h">${bi(m.attendance&&m.attendance.length?"ހާޒިރީގެ ފޮޓޯ":"ހާޒިރީ","Attendance photos")}</h3><div class="mt-gal">${PH.map((u,i)=>`<a href="${u}" target="_blank" rel="noopener" data-lb="${i}"><img src="${u}" alt="Attendance photo ${i+1}" loading="lazy"></a>`).join("")}</div>`:""}
     <div class="mv-nav">
       ${older?`<a href="#meeting-${older.term}-${older.no}-${doc}">${bi(`<span class="num">${older.no}</span> ވަނަ ބައްދަލުވުން`,`Meeting ${older.no}`)}</a>`:"<span></span>"}
       <a href="#meetings" class="pd-back">${bi("ބައްދަލުވުންތަކަށް","All meetings")}</a>

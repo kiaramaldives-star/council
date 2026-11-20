@@ -117,6 +117,17 @@ button,input,select,textarea{font:inherit}
 .gal-x{position:absolute;top:4px;left:4px;width:26px;height:26px;border-radius:50%;border:0;background:rgba(17,24,39,.75);color:#fff;font-size:12px;cursor:pointer}
 .gal-add{aspect-ratio:1;border:2px dashed #D1D5DB;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;color:#6B7280;text-align:center;background:#fff}
 .gal-add span{font-size:26px;line-height:1;color:#C8102E}.gal-add small{font-size:11px;line-height:1.4}.gal-add:hover{border-color:#C8102E}
+.att-all{display:flex;gap:6px;margin:8px 0}.att-all button,.att-add{border:1px solid #E5E7EB;background:#fff;border-radius:10px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;color:#374151}
+.att-all button:first-child{border-color:#BBF7D0;background:#F0FDF4;color:#15803D}
+.att-list{display:grid;gap:8px}
+.att-r{display:flex;align-items:center;gap:10px;border:1px solid #E5E7EB;border-radius:14px;padding:10px 12px;background:#fff;flex-wrap:wrap}
+.att-n{flex:1;min-width:150px;display:flex;flex-direction:column;gap:4px}.att-n b{font-weight:400;font-size:16px}.att-n small{color:#6B7280;font-size:12px}
+.att-in{border:1px solid #E5E7EB;border-radius:8px;padding:6px 8px;font:inherit;font-size:15px;direction:rtl}.att-in.sm{font-size:13px}
+.att-s{display:flex;background:#F1F2F4;border-radius:10px;padding:3px;gap:2px}
+.att-s button{border:0;background:none;border-radius:8px;padding:6px 10px;font:inherit;font-size:13px;color:#6B7280;cursor:pointer}
+.att-s button.on.p{background:#16A34A;color:#fff}.att-s button.on.l{background:#F59E0B;color:#fff}.att-s button.on.a{background:#DC2626;color:#fff}
+.att-x{border:0;background:#F3F4F6;border-radius:50%;width:28px;height:28px;cursor:pointer}
+.att-add{margin-top:8px;border-style:dashed;width:100%}
 </style>
 </head>
 <body>
@@ -166,12 +177,13 @@ const SECTIONS={
    T("pdf","އިޢުލާނުގެ PDF","Announcement PDF","file"),T("url","kondey.gov.mv ލިންކް","Original link (optional)","url"),T("id","","","hiddenid")]},
  press:{dv:"ނޫސް ބަޔާން",en:"Press releases",title:x=>x.dv,fields:[T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("body","ތަފްޞީލް","Text","textarea",{rows:8}),T("pdf","PDF","PDF","file"),T("id","","","hiddenid")]},
  activities:{dv:"ހަރަކާތްތައް",en:"Activities",title:x=>x.dv,img:"img",fields:[T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("img","ފޮޓޯ","Photo","image"),T("url","ލިންކް","Link (optional)","url")]},
- meetings:{dv:"ކައުންސިލް ބައްދަލުވުންތައް",en:"Council meetings",tabs:[["main","ބައްދަލުވުން","Meeting"],["agenda","އެޖެންޑާ","Agenda"],["minutes","ޔައުމިއްޔާ","Minutes"],["decisions","ނިންމުންތައް","Decisions"]],title:x=>`${x.term} ވަނަ ދައުރުގެ ${x.no} ވަނަ ${x.type==="kuhli"?"ކުއްލި":"އާންމު"} ބައްދަލުވުން`,fields:[
+ meetings:{dv:"ކައުންސިލް ބައްދަލުވުންތައް",en:"Council meetings",tabs:[["main","ބައްދަލުވުން","Meeting"],["attendance","ހާޒިރީ","Attendance"],["agenda","އެޖެންޑާ","Agenda"],["minutes","ޔައުމިއްޔާ","Minutes"],["decisions","ނިންމުންތައް","Decisions"]],title:x=>`${x.term} ވަނަ ދައުރުގެ ${x.no} ވަނަ ${x.type==="kuhli"?"ކުއްލި":"އާންމު"} ބައްދަލުވުން`,fields:[
    T("no","ބައްދަލުވުމުގެ ނަންބަރު","Meeting no.","number"),T("term","ދައުރު","Term","number",{def:5}),T("type","ބާވަތް","Type","select",{opts:[["aanmu","އާންމު"],["kuhli","ކުއްލި"]]}),T("date","ތާރީޚު","Date","date"),
    T("agendaPdf","އެޖެންޑާ PDF","Agenda PDF","file",{tab:"agenda"}),T("agendaText","އެޖެންޑާގެ ލިޔުން","Agenda text","textarea",{...{rows:10,help:"# heading · 1. numbered item · - bullet · Key: value = info card · 1. item — tag = item with tag"},tab:"agenda"}),
    T("minutesPdf","ޔައުމިއްޔާ PDF","Minutes PDF","file",{tab:"minutes"}),T("minutesText","ޔައުމިއްޔާގެ ލިޔުން","Minutes text","textarea",{rows:14,help:"# = heading · 1. = numbered · - = bullet",tab:"minutes"}),
    T("decisionsPdf","ނިންމުންތައް (PDF ނުވަތަ ފޮޓޯ)","Decisions (PDF or photo)","file",{tab:"decisions"}),T("decisionsText","ނިންމުންތަކުގެ ލިޔުން","Decisions text","textarea",{...{rows:10,help:"# heading · 1. numbered item · - bullet · Key: value = info card · 1. item — tag = item with tag"},tab:"decisions"}),
    T("agenda","އެޖެންޑާ ލިންކް (kondey.gov.mv)","Agenda page link","url",{tab:"agenda"}),T("minutes","ޔައުމިއްޔާ ލިންކް (kondey.gov.mv)","Minutes page link","url",{tab:"minutes"}),
+   T("attendance","މެމްބަރުންގެ ހާޒިރީ","Members attendance","attendance",{tab:"attendance"}),
    T("minutesPhotos","ހާޒިރީގެ ފޮޓޯ","Attendance photos","gallery",{tab:"minutes"}),T("decisionsPhotos","ހާޒިރީގެ ފޮޓޯ","Attendance photos","gallery",{tab:"decisions"})]},
  reports:{dv:"ރިޕޯޓުތައް",en:"Reports",title:x=>x.dv,fields:[T("type","ބާވަތް","Type","select",{opts:[["expense","ޚަރަދު"],["income","އާމްދަނީ"],["attendance","ހާޟިރީ"],["procurement","ޕްރޮކިއުމަންޓް"],["other","އެހެނިހެން"]]}),T("dv","ސުރުޚީ","Title"),T("date","ތާރީޚު","Date","date"),T("pdf","PDF","PDF","file"),T("url","ލިންކް","Link (optional)","url")]},
  rules:{dv:"ޤަވާއިދު / އުޞޫލު",en:"Rules & regulations",title:x=>x.dv,fields:[T("type","ބާވަތް","Type","select",{opts:[["regulation","ޤަވާއިދު"],["policy","އުޞޫލު"]]}),T("dv","ސުރުޚީ","Title","textarea",{rows:2}),T("date","ތާރީޚު","Date","date"),T("pdf","PDF","PDF","file"),T("url","ލިންކް","Link (optional)","url")]},
@@ -298,6 +310,16 @@ function fieldHTML(f,v){
     </div>`:""}<textarea data-k="${f.k}" rows="${f.rows||4}" dir="rtl" ${rich?`data-rich="${agk?"ag":"mn"}"`:""}>${esc(v)}</textarea>${rich?`<div class="pv" data-pv="${f.k}" hidden></div><div class="tb-foot"><span data-cnt="${f.k}"></span></div>`:""}${f.help?`<span class="hint">${f.help}</span>`:""}</div>`;}
   if(f.type==="select") return `<div class="fld">${lab}<select data-k="${f.k}">${f.opts.map(([k,t])=>`<option value="${k}" ${String(v??"")===k?"selected":""}>${t}</option>`).join("")}</select></div>`;
   if(f.type==="gallery"){const L=Array.isArray(v)?v:[];return `<div class="fld gal" data-gal="${f.k}">${lab}<div class="gal-grid">${L.map(u=>`<div class="gal-it" data-url="${esc(u)}"><img src="${esc(u)}" alt=""><button type="button" class="gal-x" data-galrm title="Remove">✕</button></div>`).join("")}<label class="gal-add"><input type="file" accept="image/*" multiple data-galin="${f.k}" hidden><span>+</span><small>ފޮޓޯ އިތުރުކުރޭ<br>Add photos</small></label></div><input type="hidden" data-k="${f.k}" value="${esc(JSON.stringify(L))}"></div>`;}
+  if(f.type==="attendance"){
+    const term=+($("#ed [data-k=term]")?.value||EDIT?.data?.term||5);
+    const POS={pres:"ރައީސް",vp:"ނައިބް ރައީސް",vp1:"ފުރަތަމަ ނައިބް ރައީސް",mem:"މެމްބަރ"}, ord={pres:0,vp:1,vp1:1,mem:2};
+    const mem=ROWS.filter(r=>r.section==="councillors"&&+r.data.term===term).map(r=>r.data).sort((x,y)=>(ord[x.pos]??3)-(ord[y.pos]??3)).map(x=>({name:x.dv,pos:POS[x.pos]||"މެމްބަރ",status:""}));
+    const saved=Array.isArray(v)?v:[]; const L=saved.length?saved.concat(mem.filter(m=>!saved.some(s=>s.name===m.name))):mem;
+    return `<div class="fld att" data-att="${f.k}">${lab}<span class="hint">ކައުންސިލް މެމްބަރުން ފެންނަނީ "ކައުންސިލް މެމްބަރުން" ބައިން · Names come from the Councillors section (term ${term})</span>
+      <div class="att-all"><button type="button" data-attall="p">✓ ހުރިހާ މެމްބަރުން ހާޒިރު</button><button type="button" data-attall="">ސާފުކުރޭ</button></div>
+      <div class="att-list">${L.map(attRow).join("")}</div>
+      <button type="button" class="att-add" data-attadd>+ އެހެން ނަމެއް އިތުރުކުރޭ <span class="en">Add another name</span></button>
+      <input type="hidden" data-k="${f.k}" value="${esc(JSON.stringify(saved))}"></div>`;}
   if(f.type==="date") return `<div class="fld">${lab}<input data-k="${f.k}" type="date" value="${esc(v)}"></div>`;
   if(f.type==="datetime") return `<div class="fld">${lab}<input data-k="${f.k}" type="datetime-local" value="${esc((v||"").replace(" ","T"))}"></div>`;
   if(f.type==="number") return `<div class="fld">${lab}<input data-k="${f.k}" type="number" class="ltr" value="${v??""}"></div>`;
@@ -307,6 +329,18 @@ function fieldHTML(f,v){
   return `<div class="fld">${lab}<input data-k="${f.k}" type="text"${ltr} value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}></div>`;
 }
 let TAB0=null, PENDG={};
+const ATT=[["p","ހާޒިރު","Present"],["l","ޗުއްޓީ","Leave"],["a","ނުހާޒިރު","Absent"]];
+function attRow(m){return `<div class="att-r" data-name="${esc(m.name)}" data-pos="${esc(m.pos||"")}"><div class="att-n">${m.custom||!m.pos?`<input class="att-in" value="${esc(m.name)}" placeholder="ނަން / Name"><input class="att-in sm" value="${esc(m.pos||"")}" placeholder="މަޤާމު / Role">`:`<b>${esc(m.name)}</b><small>${esc(m.pos)}</small>`}</div>
+  <div class="att-s">${ATT.map(([k,dv,en])=>`<button type="button" data-st="${k}" class="${m.status===k?"on "+k:""}" title="${en}">${dv}</button>`).join("")}</div>${m.custom||!m.pos?`<button type="button" class="att-x" data-attrm title="Remove">✕</button>`:""}</div>`;}
+function attSync(box){const L=[...box.querySelectorAll(".att-r")].map(r=>{const ins=r.querySelectorAll(".att-in");return {...(ins.length?{custom:1}:{}),name:ins.length?ins[0].value.trim():r.dataset.name,pos:ins.length?ins[1].value.trim():r.dataset.pos,status:r.querySelector(".att-s .on")?.dataset.st||""};}).filter(x=>x.name&&x.status);
+  box.querySelector("[data-k]").value=JSON.stringify(L);}
+document.addEventListener("click",e=>{const box=e.target.closest("[data-att]");if(!box)return;
+  const st=e.target.closest("[data-st]");if(st){const on=st.classList.contains("on");st.parentNode.querySelectorAll("button").forEach(b=>b.className="");if(!on)st.className="on "+st.dataset.st;attSync(box);return;}
+  const all=e.target.closest("[data-attall]");if(all){box.querySelectorAll(".att-s").forEach(s=>{s.querySelectorAll("button").forEach(b=>b.className="");if(all.dataset.attall)s.querySelector(`[data-st="${all.dataset.attall}"]`).className="on "+all.dataset.attall;});attSync(box);return;}
+  if(e.target.closest("[data-attadd]")){box.querySelector(".att-list").insertAdjacentHTML("beforeend",attRow({name:"",pos:"",status:"p",custom:1}));box.querySelector(".att-r:last-child .att-in").focus();attSync(box);return;}
+  if(e.target.closest("[data-attrm]")){e.target.closest(".att-r").remove();attSync(box);}});
+document.addEventListener("input",e=>{const box=e.target.closest("[data-att]");if(box)attSync(box);});
+
 /* ---------- text editor helpers ---------- */
 function mnRender(t){
   const esc=x=>x.replace(/&/g,"&amp;").replace(/</g,"&lt;");
@@ -422,6 +456,7 @@ async function saveEdit(){
     for(const f of sec.fields){
       if(f.type==="hiddenid"){ if(!d.id) d.id=Date.now().toString(36); continue; }
       if(f.type==="hiddenfixed"){ d[f.k]=d[f.k]||f.def; continue; }
+      if(f.type==="attendance"){try{d[f.k]=JSON.parse($(`#ed [data-k="${f.k}"]`)?.value||"[]")}catch(_){d[f.k]=[]}continue;}
       if(f.type==="gallery"){let L=[];try{L=JSON.parse($(`#ed [data-k="${f.k}"]`)?.value||"[]")}catch(_){}
         for(const file of (PENDG[f.k]||[]).filter(Boolean)){m.textContent=`ފޮޓޯ އަޕްލޯޑް ކުރަނީ… Uploading photos (${L.length+1})`;L.push(await upload(await shrink(file,1800),CUR));}
         d[f.k]=L;continue;}
