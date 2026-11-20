@@ -1428,7 +1428,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .md-card.plain{margin-top:-86px}
   .nd-bar{bottom:8px}
 }
-html,body{max-width:100%;overflow-x:clip}
+html,body{overflow-x:clip}body{touch-action:pan-y pinch-zoom}
+.mt-lb{touch-action:pan-x pan-y pinch-zoom}
 </style>
 </head>
 <body>
@@ -3297,7 +3298,7 @@ async function loadDB(){
 /* opening a shared link: wait for the latest content instead of flashing the home page */
 const BOOT=/^#(news|iulaan|press|meeting|staff)-/.test(location.hash)&&!/[?&]nodb\b/.test(location.search);
 if(BOOT){document.documentElement.classList.add("booting");setTimeout(()=>document.documentElement.classList.remove("booting"),8000);}
-addEventListener("orientationchange",()=>setTimeout(()=>{if(scrollX)scrollTo(0,scrollY);},350));
+const fixX=()=>{if(scrollX||document.documentElement.scrollLeft)scrollTo(0,scrollY);};addEventListener("orientationchange",()=>{setTimeout(fixX,300);setTimeout(fixX,800);});addEventListener("resize",()=>setTimeout(fixX,200));addEventListener("scroll",()=>{if(scrollX)fixX();},{passive:true});
 route();
 loadDB().finally(()=>document.documentElement.classList.remove("booting"));
 $("#yr").textContent=new Date().getFullYear();
