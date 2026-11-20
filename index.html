@@ -726,7 +726,7 @@ function home(){
         <p class="motto">${L2(INFO,"motto")}</p>
         <div class="hero-btns"><a class="btn btn-a" href="#about">${bi("ސުކޫލާއި ބެހޭ","About the school")}</a><a class="btn btn-g" href="#notices">${bi("އިޢުލާންތައް","Notices")}</a></div></div>
       <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></div></div></section>
-    <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></section>
+    <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އިދާރީ މުވައްޒަފުން","Administrative staff")}</div></section>
     ${featuredNotices()}
     <section class="sec"><div class="wrap">${aboutBlocks()}</div></section>
     ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</h2></div></div>${principalBlock()}</div></section>`:""}
@@ -742,7 +742,7 @@ function home(){
 function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the school")+`<div class="pb"><div class="wrap"><div class="panel">${aboutBlocks()}</div>
   <a class="panel reveal" href="#charter" style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px"><span><b class="h" style="font-size:22px;color:var(--p)">${bi("ސަރވިސް ޗާޓަރ","Service charter")}</b><br><span style="color:var(--muted)">${bi("ސުކޫލުން ދޭ ހިދުމަތްތަކާއި، ހިދުމަތް ދޭ ގޮތް","Our services and how we provide them")}</span></span><span class="ni-go">${IC.arr}</span></a>
   ${principalBlock()?`<div style="margin-top:24px"><div class="sec-h"><div><h2 class="h">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</h2></div></div>${principalBlock()}</div>`:""}
-  <div class="stats" style="margin-top:18px"><div class="wrap" style="padding:0">${stat("cal",nDateTxt(INFO.opened),"ހުޅުވި ތާރީޚު","Opened")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></div></div></div>`;}
+  <div class="stats" style="margin-top:18px"><div class="wrap" style="padding:0">${stat("cal",nDateTxt(INFO.opened),"ހުޅުވި ތާރީޚު","Opened")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އިދާރީ މުވައްޒަފުން","Administrative staff")}</div></div></div></div>`;}
 const nDateTxt=d=>{const y=String(d||"").slice(0,4);return y||"—";};
 function staffPage(){
   const ord=Object.keys(ROLES), L=STAFF.slice().sort((a,b)=>(ord.indexOf(a.role)-ord.indexOf(b.role))||((+a.order||0)-(+b.order||0)));
