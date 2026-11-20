@@ -709,7 +709,7 @@ function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
   return pageHead("ދަރިވަރުން","Students")+`<div class="pb"><div class="wrap"><div class="panel">
-    <div class="sec-h"><div><div class="eyebrow">${bi("ކްލާސްތައް","Classes")}</div><h2 class="h">${bi("ގްރޭޑްތަކާއި ކްލާސްތައް","Grades & classes")}</h2></div>${total?`<span class="more"><span class="num">${total}</span> ${bi("ދަރިވަރުން","students")}</span>`:""}</div>
+    <div class="sec-h"><div><h2 class="h">${bi("ގްރޭޑްތަކާއި ކްލާސްތައް","Grades & classes")}</h2></div>${total?`<span class="more"><span class="num">${total}</span> ${bi("ދަރިވަރުން","students")}</span>`:""}</div>
     ${CLASSES.length?studentStats():empty("ކްލާސްތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Class details coming soon")}
   </div></div></div>`;}
 function albumCard(a){const ph=(a.photos||[]).map(safeUrl).filter(Boolean),c=safeUrl(a.cover)||ph[0];
