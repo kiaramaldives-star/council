@@ -244,16 +244,27 @@ html[lang=dv] .cti small{font-family:"KondeyHeading","Faruma",sans-serif;font-si
 .map{margin-top:16px;border-radius:24px;overflow:hidden;border:1px solid var(--line);height:360px;background:var(--ps)}
 .map iframe{width:100%;height:100%;border:0}
 /* footer */
-.foot{background:#0B0B0B;color:#CBD5E1;padding:50px 0 24px;margin-top:20px}
-.foot .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
-.foot h4{color:#fff;font-size:18px;margin-bottom:12px}
-.foot a{display:block;padding:4px 0;opacity:.85}.foot a:hover{opacity:1;color:#FF3550}
-html[lang=dv] .foot a:not(.ltr){font-family:"KondeyHeading","Faruma",sans-serif}.foot a.ltr{font-family:"Plus Jakarta Sans",sans-serif}
-.foot .brand b{color:#fff}.foot .brand small{color:#94A3B8}
-.foot-b{border-top:1px solid rgba(255,255,255,.08);margin-top:30px;padding-top:18px;text-align:center;font-size:13px;opacity:.7;grid-column:1/-1}
+.foot{background:#F4F4F6;margin-top:20px;color:#3F4A5C}
+.foot-c{background:#fff;padding:34px 0}
+.fr-list{display:flex;flex-direction:column;gap:22px;max-width:720px}
+.fr{display:flex;align-items:center;gap:26px;border-inline-start:4px solid #E5E7EB;padding:10px 26px;color:#3F4A5C;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:20px;transition:border-color .2s,color .2s}
+.fr:hover{border-color:var(--p);color:var(--p)}
+.fr svg{flex:0 0 auto;color:#475569}
+.fr:hover svg{color:var(--p)}
+.fr .h{font-weight:400;font-size:20px}
+html[lang=en] .fr .h{font-weight:700;font-size:18px}
+.foot-b{text-align:center;padding:34px 20px 40px}
+.foot-soc{display:flex;justify-content:center;gap:30px;margin-bottom:26px;direction:ltr}
+.foot-soc a{width:40px;height:40px;display:grid;place-items:center;color:#9CA3AF;transition:color .2s,transform .2s}
+.foot-soc a:hover{color:var(--p);transform:translateY(-2px)}
+.foot-b p{font-family:"Plus Jakarta Sans",sans-serif;font-size:19px;color:#4B5563;margin-top:10px}
+.foot-b p.h{font-family:"KondeyHeading","Faruma",sans-serif;font-size:21px}
+html[lang=en] .foot-b p.h{font-family:"Plus Jakarta Sans",sans-serif;font-size:19px;font-weight:500}
+.totop{position:fixed;right:20px;bottom:24px;z-index:60;width:58px;height:58px;border-radius:50%;border:0;background:var(--p);color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(200,16,46,.35);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.reveal.in{opacity:1;transform:none}
-@media (max-width:980px){.nav{display:none}.burger{display:grid;place-items:center}.hero .wrap{grid-template-columns:1fr;padding-top:40px;padding-bottom:100px}.hero-card{display:none}.stats .wrap{grid-template-columns:repeat(2,1fr)}.about,.two{grid-template-columns:1fr}.grid3{grid-template-columns:repeat(2,1fr)}.foot .wrap{grid-template-columns:1fr 1fr}.foot .wrap>div:first-child{grid-column:1/-1}.ct{grid-template-columns:1fr}}
-@media (max-width:620px){.top-l a.em{display:none}.head .wrap{height:68px}.logo{width:46px;height:46px}.brand b{font-size:21px}.hero h1{font-size:42px}html[lang=en] .hero h1{font-size:36px}.hero p.motto{font-size:18px}.st{padding:14px;gap:10px}.st-ic{width:42px;height:42px;border-radius:12px}.st b{font-size:23px}.sec{padding:48px 0}.sec-h h2{font-size:28px}.grid3{grid-template-columns:1fr}.pm{grid-template-columns:1fr;padding:20px;text-align:center}.pm-ph{width:160px;height:190px;margin:0 auto}.panel{padding:18px;border-radius:22px}.ph h1{font-size:32px}.art h1{font-size:26px}.foot .wrap{grid-template-columns:1fr}.sg{grid-template-columns:repeat(2,1fr);gap:10px}.sc{padding:16px 10px}.sc-ph{width:84px;height:84px}.pg{grid-template-columns:repeat(3,1fr);gap:6px}.pg a{border-radius:10px}}
+@media (max-width:980px){.nav{display:none}.burger{display:grid;place-items:center}.hero .wrap{grid-template-columns:1fr;padding-top:40px;padding-bottom:100px}.hero-card{display:none}.stats .wrap{grid-template-columns:repeat(2,1fr)}.about,.two{grid-template-columns:1fr}.grid3{grid-template-columns:repeat(2,1fr)}.ct{grid-template-columns:1fr}}
+@media (max-width:620px){.top-l a.em{display:none}.head .wrap{height:68px}.logo{width:46px;height:46px}.brand b{font-size:21px}.hero h1{font-size:42px}html[lang=en] .hero h1{font-size:36px}.hero p.motto{font-size:18px}.st{padding:14px;gap:10px}.st-ic{width:42px;height:42px;border-radius:12px}.st b{font-size:23px}.sec{padding:48px 0}.sec-h h2{font-size:28px}.grid3{grid-template-columns:1fr}.pm{grid-template-columns:1fr;padding:20px;text-align:center}.pm-ph{width:160px;height:190px;margin:0 auto}.panel{padding:18px;border-radius:22px}.ph h1{font-size:32px}.art h1{font-size:26px}.fr{font-size:17px;gap:18px;padding:8px 18px}.fr .h{font-size:17px}.foot-soc{gap:22px}.foot-b p{font-size:16px}.sg{grid-template-columns:repeat(2,1fr);gap:10px}.sc{padding:16px 10px}.sc-ph{width:84px;height:84px}.pg{grid-template-columns:repeat(3,1fr);gap:6px}.pg a{border-radius:10px}}
 </style>
 </head>
 <body>
@@ -268,7 +279,8 @@ html[lang=dv] .foot a:not(.ltr){font-family:"KondeyHeading","Faruma",sans-serif}
 </div></header>
 <div class="mnav" id="mnav"><div class="mnav-p" id="mnavP"></div></div>
 <main id="app"></main>
-<footer class="foot"><div class="wrap" id="foot"></div></footer>
+<footer class="foot" id="foot"></footer>
+<button class="totop" id="totop" type="button" aria-label="Back to top"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></svg></button>
 
 <script>
 /* ===== Kondey School website — Dhivehi first, English second.
@@ -331,11 +343,22 @@ function header(){
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
   const m=MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
   document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`).join("");
-  document.getElementById("foot").innerHTML=`<div><a class="brand" href="#home"><span class="logo">${logoHTML()}</span><span><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></span></a>
-      <p style="margin-top:14px;opacity:.8">${L2(INFO,"motto")}</p></div>
-    <div><h4 class="h">${bi("ލިންކްތައް","Links")}</h4>${MENU.slice(1,6).map(([k,d,e])=>`<a href="#${k}">${bi(d,e)}</a>`).join("")}</div>
-    <div><h4 class="h">${bi("ގުޅުއްވާ","Contact")}</h4><a href="tel:+960${esc((INFO.phone||"").replace(/\D/g,""))}"><span class="num">${esc(INFO.phone)}</span></a>${INFO.email?`<a href="mailto:${esc(INFO.email)}"><span class="ltr">${esc(INFO.email)}</span></a>`:""}<a>${L2(INFO,"address")}</a></div>
-    <div class="foot-b">© <span class="num">${new Date().getFullYear()}</span> ${L2(INFO,"name")}</div>`;
+  const tel=(INFO.phone||"").replace(/\D/g,""), host=location.host||"";
+  const FI={phone:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
+    web:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5S9.4 5.3 12 2.5z"/></svg>',
+    mail:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg>',
+    pin:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>'};
+  const SI={facebook:'<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8.6v-7.7H10v-3h2.6V9.1c0-2.6 1.6-4 3.9-4 1.1 0 2.1.1 2.3.1v2.7h-1.6c-1.3 0-1.5.6-1.5 1.5v1.9h3l-.4 3h-2.6V22H20a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>',
+    instagram:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    x:'<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="3"/><path fill="#fff" d="M16.4 5.5h2.1l-4.6 5.3 5.4 7.2h-4.2l-3.3-4.4-3.8 4.4H5.9l4.9-5.7L5.6 5.5h4.3l3 4z"/></svg>'};
+  document.getElementById("foot").innerHTML=`<div class="foot-c"><div class="wrap"><div class="fr-list">
+      ${tel?`<a class="fr" href="tel:+960${esc(tel)}"><span class="num">${esc(INFO.phone)}</span>${FI.phone}</a>`:""}
+      ${host?`<a class="fr" href="/"><span class="ltr">${esc(host)}</span>${FI.web}</a>`:""}
+      ${INFO.email?`<a class="fr" href="mailto:${esc(INFO.email)}"><span class="ltr">${esc(INFO.email)}</span>${FI.mail}</a>`:""}
+      <div class="fr"><span class="h">${L2(INFO,"address")}</span>${FI.pin}</div>
+    </div></div></div>
+    <div class="foot-b"><div class="foot-soc">${["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")}</div>
+      <p dir="ltr">All Rights Reserved (c) <span class="num">${new Date().getFullYear()}</span></p><p class="h">${L2(INFO,"name")}</p></div>`;
 }
 const sortD=a=>a.slice().sort((x,y)=>String(y.date||"").localeCompare(x.date||""));
 const t2=(o,k)=>o[k+"_dv"]||o[k+"_en"]||o[k]||"";
@@ -461,6 +484,7 @@ document.addEventListener("click",e=>{
   document.body.appendChild(d);document.body.style.overflow="hidden";show(i);
 });
 addEventListener("hashchange",route);
+const TT=document.getElementById("totop");addEventListener("scroll",()=>TT.classList.toggle("show",scrollY>500),{passive:true});TT.onclick=()=>scrollTo({top:0,behavior:"smooth"});
 
 async function loadDB(){
   if(/[?&]nodb\b/.test(location.search)) return;
