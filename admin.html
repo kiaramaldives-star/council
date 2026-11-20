@@ -316,7 +316,7 @@ function fieldHTML(f,v){
     const mem=ROWS.filter(r=>r.section==="councillors"&&+r.data.term===term).map(r=>r.data).sort((x,y)=>(ord[x.pos]??3)-(ord[y.pos]??3)).map(x=>({name:x.dv,pos:POS[x.pos]||"މެމްބަރ",status:""}));
     const saved=Array.isArray(v)?v:[]; const L=saved.length?saved.concat(mem.filter(m=>!saved.some(s=>s.name===m.name))):mem;
     return `<div class="fld att" data-att="${f.k}">${lab}<span class="hint">ކައުންސިލް މެމްބަރުން ފެންނަނީ "ކައުންސިލް މެމްބަރުން" ބައިން · Names come from the Councillors section (term ${term})</span>
-      <div class="att-all"><button type="button" data-attall="p">✓ ހުރިހާ މެމްބަރުން ހާޒިރު</button><button type="button" data-attall="">ސާފުކުރޭ</button></div>
+      <div class="att-all"><button type="button" data-attall="p">✓ ހުރިހާ މެމްބަރުން ހާޒިރުވި</button><button type="button" data-attall="">ސާފުކުރޭ</button></div>
       <div class="att-list">${L.map(attRow).join("")}</div>
       <button type="button" class="att-add" data-attadd>+ އެހެން ނަމެއް އިތުރުކުރޭ <span class="en">Add another name</span></button>
       <input type="hidden" data-k="${f.k}" value="${esc(JSON.stringify(saved))}"></div>`;}
@@ -329,7 +329,7 @@ function fieldHTML(f,v){
   return `<div class="fld">${lab}<input data-k="${f.k}" type="text"${ltr} value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}></div>`;
 }
 let TAB0=null, PENDG={};
-const ATT=[["p","ހާޒިރު","Present"],["l","ޗުއްޓީ","Leave"],["a","ނުހާޒިރު","Absent"]];
+const ATT=[["p","ހާޒިރުވި","Present"],["l","ޗުއްޓީ","Leave"],["a","ނުހާޒިރު","Absent"]];
 function attRow(m){return `<div class="att-r" data-name="${esc(m.name)}" data-pos="${esc(m.pos||"")}"><div class="att-n">${m.custom||!m.pos?`<input class="att-in" value="${esc(m.name)}" placeholder="ނަން / Name"><input class="att-in sm" value="${esc(m.pos||"")}" placeholder="މަޤާމު / Role">`:`<b>${esc(m.name)}</b><small>${esc(m.pos)}</small>`}</div>
   <div class="att-s">${ATT.map(([k,dv,en])=>`<button type="button" data-st="${k}" class="${m.status===k?"on "+k:""}" title="${en}">${dv}</button>`).join("")}</div>${m.custom||!m.pos?`<button type="button" class="att-x" data-attrm title="Remove">✕</button>`:""}</div>`;}
 function attSync(box){const L=[...box.querySelectorAll(".att-r")].map(r=>{const ins=r.querySelectorAll(".att-in");return {...(ins.length?{custom:1}:{}),name:ins.length?ins[0].value.trim():r.dataset.name,pos:ins.length?ins[1].value.trim():r.dataset.pos,status:r.querySelector(".att-s .on")?.dataset.st||""};}).filter(x=>x.name&&x.status);
