@@ -1517,24 +1517,48 @@ html[lang=dv] .at-tbl th:nth-child(2),html[lang=dv] .at-tbl td:nth-child(2){left
 .at-top .at-who{flex:1}
 .at-nm{display:inline-flex;align-items:center;gap:8px}
 .at-card.open .at-av:not(.sm){width:72px;height:72px}
-html[lang=dv] .aw-p,html[lang=dv] .aw-c,html[lang=dv] .aw-price b{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=dv] .aw-p{font-size:19px}html[lang=dv] .aw-c{font-size:15px}.aw-mny{direction:ltr;unicode-bidi:isolate;display:inline-block}.aw-cur{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400;font-size:.72em;opacity:.85;margin:0 3px;vertical-align:.05em;direction:rtl;unicode-bidi:isolate}.aw-pr{width:260px;position:relative}.aw-pr select{color:transparent!important;-webkit-text-fill-color:transparent!important}.aw-prl{position:absolute;inset:0 18px 0 44px;display:flex;align-items:center;pointer-events:none;z-index:1;color:#1f2937;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px;white-space:nowrap;overflow:hidden}html[lang=en] .aw-prl{font-family:"Plus Jakarta Sans",sans-serif;font-size:15px}.aw-prl .num{font-size:15px;margin-inline-end:4px}@media (max-width:620px){.aw-pr{width:100%}}.aw-kpis{grid-template-columns:repeat(3,1fr)}.aw-kpis .at-k b{font-size:22px}
-.aw-list{display:grid;gap:14px}
-.aw-card{display:flex;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;transition:box-shadow .2s}
-.aw-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
-.aw-n{flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:800}
-.aw-main{flex:1;min-width:0}
-.aw-p{display:block;line-height:1.4;font-family:"Plus Jakarta Sans",sans-serif;font-size:16.5px;color:var(--text)}
-.aw-c{display:block;font-family:"Plus Jakarta Sans",sans-serif;color:#6B7280;font-size:13px;margin-top:3px}
-.aw-meta{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:12px}
-.aw-meta>span{display:flex;flex-direction:column;gap:2px}
-.aw-meta small,.aw-price small{color:#6B7280;font-size:12px}
-html[lang=dv] .aw-meta small,html[lang=dv] .aw-price small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13.5px}
-.aw-meta b{white-space:nowrap;line-height:1.5;font-family:"Plus Jakarta Sans",sans-serif;font-size:14px;color:var(--text);font-weight:600}
-html[lang=dv] .aw-meta b{white-space:nowrap;line-height:1.5;font-family:"KondeyHeading","Faruma",sans-serif;font-size:15.5px}
-html[lang=dv] .aw-meta b.lt{font-family:"Plus Jakarta Sans",sans-serif}
-.aw-price{flex:0 0 auto;text-align:center;background:#ECFDF5;border-radius:14px;padding:10px 16px}
-.aw-price b{display:block;color:#047857;font-size:18px;font-weight:800;margin-top:2px}
-@media (max-width:620px){.aw-kpis{grid-template-columns:1fr 1fr}.aw-kpis .at-k:first-child{grid-column:1/-1}.aw-card{flex-wrap:wrap;padding:14px}.aw-price{width:100%;display:flex;justify-content:space-between;align-items:center}}
+html[lang=dv] .aw-p,html[lang=dv] .aw-c,html[lang=dv] .aw-price b{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=dv] .aw-p{font-size:19px}html[lang=dv] .aw-c{font-size:15px}.aw-mny{direction:ltr;unicode-bidi:isolate;display:inline-block}.aw-cur{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400;font-size:.72em;opacity:.85;margin:0 3px;vertical-align:.05em;direction:rtl;unicode-bidi:isolate}.aw-pr{width:260px;position:relative}.aw-pr select{color:transparent!important;-webkit-text-fill-color:transparent!important}.aw-prl{position:absolute;inset:0 18px 0 44px;display:flex;align-items:center;pointer-events:none;z-index:1;color:#1f2937;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px;white-space:nowrap;overflow:hidden}html[lang=en] .aw-prl{font-family:"Plus Jakarta Sans",sans-serif;font-size:15px}.aw-prl .num{font-size:15px;margin-inline-end:4px}@media (max-width:620px){.aw-pr{width:100%}}.aw-hero{position:relative;overflow:hidden;border-radius:22px;padding:24px 26px;background:linear-gradient(135deg,var(--gold) 0%,var(--navy) 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:16px;box-shadow:0 12px 30px rgba(200,16,46,.22)}
+.aw-hero::after{content:"";position:absolute;inset-inline-start:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.aw-hero-main{flex:1;min-width:200px;position:relative;z-index:1}.aw-hero-main>span{display:block;font-size:14px;opacity:.85}
+html[lang=dv] .aw-hero-main>span,html[lang=dv] .aw-hero-st>div>span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.aw-hero-main b{display:block;font-size:32px;font-weight:800;margin-top:4px;line-height:1.2}
+.aw-hero-main .aw-cur{color:#fff;opacity:.85}
+.aw-hero-st{display:flex;gap:10px;position:relative;z-index:1}
+.aw-hero-st>div{background:rgba(255,255,255,.14);border-radius:16px;padding:10px 18px;text-align:center;min-width:86px;backdrop-filter:blur(4px)}
+.aw-hero-st b{display:block;font-size:24px;font-weight:800;line-height:1.1}
+.aw-hero-st>div>span{font-size:12.5px;opacity:.85}
+.aw-filters{display:grid;grid-template-columns:1fr 1fr 1.4fr;gap:10px;margin-bottom:14px}
+.aw-sel,.aw-filters .aw-pr{width:auto}
+.aw-search{position:relative;display:flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 14px;gap:8px;color:#9CA3AF}
+.aw-search:focus-within{border-color:var(--gold);color:var(--gold)}
+.aw-search input{flex:1;border:0;outline:0;background:none;padding:13px 0;font-size:15px;min-width:0}
+.aw-count{color:#6B7280;font-size:14px;margin:4px 2px 12px}
+html[lang=dv] .aw-count{font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+.aw-count b{color:var(--gold);font-size:16px}
+.aw-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.aw-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 18px 0;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+.aw-card::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:#10B981}
+.aw-card.hi::before{background:var(--gold)}
+.aw-card:hover{box-shadow:0 10px 28px rgba(0,0,0,.08);transform:translateY(-2px)}
+.aw-top{display:flex;gap:12px;align-items:flex-start}
+.aw-n{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-weight:800;font-size:15px}
+.aw-p{margin:0;font-family:"Plus Jakarta Sans",sans-serif;font-size:17px;font-weight:700;line-height:1.45;color:var(--text)}
+html[lang=dv] .aw-p{font-family:"KondeyHeading","Faruma",sans-serif;font-size:20px;font-weight:400;line-height:1.7}
+.aw-party{display:flex;gap:10px;align-items:center;margin:14px 0 12px;background:var(--bg);border-radius:14px;padding:10px 12px}
+.aw-ic{flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:#fff;color:var(--navy);display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.aw-party small,.aw-foot small{display:block;color:#6B7280;font-size:12px}
+html[lang=dv] .aw-party small,html[lang=dv] .aw-foot small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13.5px}
+.aw-party b{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-size:15px;color:var(--text);margin-top:1px}
+html[lang=dv] .aw-party b{font-family:"KondeyHeading","Faruma",sans-serif;font-size:17px;font-weight:400}
+.aw-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.aw-pills>span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13.5px;color:#374151;white-space:nowrap}
+html[lang=dv] .aw-pills>span{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.aw-pills svg{color:var(--gold);flex:0 0 auto}
+.aw-foot{margin:auto -18px 0;padding:14px 18px;border-top:1px dashed var(--line);background:linear-gradient(0deg,#FAFAFB,#fff);display:flex;justify-content:space-between;align-items:center}
+.aw-foot b{font-size:21px;font-weight:800;color:var(--navy)}
+.aw-card.lo .aw-foot b{color:#047857}
+@media (max-width:760px){.aw-filters{grid-template-columns:1fr 1fr}.aw-search{grid-column:1/-1}}@media (max-width:480px){.aw-filters{grid-template-columns:1fr}}
+@media (max-width:620px){.aw-hero{padding:20px}.aw-hero-main b{font-size:28px}.aw-hero-st{width:100%}.aw-hero-st>div{flex:1}.aw-list{grid-template-columns:1fr}}
 .at-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:22px;color:#6B7280;font-size:13px}
 html[lang=dv] .at-legend{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
 .at-legend span{display:inline-flex;align-items:center;gap:6px}
@@ -2522,16 +2546,18 @@ function awResults(){
   if(AWP==="lo") L=L.filter(r=>r.price<35000); else if(AWP==="hi") L=L.filter(r=>r.price>=35000);
   const q=AWQ.toLowerCase(); if(q) L=L.filter(r=>(r.project+" "+r.party+" "+r.council+" "+r.pdv+" "+r.cdv+" "+r.adv).toLowerCase().includes(q));
   const tot={}; L.forEach(r=>tot[r.cur]=(tot[r.cur]||0)+r.price);
-  const k=(v,dv,en,c="")=>`<div class="at-k ${c}"><b class="num">${v}</b><span>${bi(dv,en)}</span></div>`;
-  const sum=k(`<span class="num">${L.length}</span>`,"އެވޯޑް ކުރި މަސައްކަތް","Contracts awarded")+k(Object.entries(tot).map(([c,n])=>awMoney(n,c)).join("<br>")||awMoney(0,"MVR"),"ޖުމްލަ އަގު","Total value","lv")+
-    k(`<span class="num">${new Set(L.map(r=>r.party)).size}</span>`,"ފަރާތްތައް","Suppliers","good");
-  const list=L.length?`<div class="aw-list">${L.map((r,i)=>`<article class="aw-card">
-      <div class="aw-n num">${i+1}</div>
-      <div class="aw-main"><b class="aw-p">${bi(esc2(r.pdv),esc2(r.project))}</b>
-        <div class="aw-meta"><span><small>${bi("އެވޯޑް ކުރި ފަރާތް","Awarded to")}</small><b>${bi(esc2(r.adv),`<span class="lt">${esc2(r.party)}</span>`)}</b></span>
-          <span><small>${bi("ތާރީޚު","Date")}</small><b>${r.iso?nDate(r.iso):esc2(r.date)}</b></span>
-          <span><small>${bi("މުއްދަތު","Duration")}</small><b>${awDur(r.dur)}</b></span></div></div>
-      <div class="aw-price"><small>${bi("އަގު","Price")}</small><b>${awMoney(r.price,r.cur)}</b></div></article>`).join("")}</div>`:mdEmpty();
+  const IC={cal:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>',
+    clk:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    shop:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg>'};
+  const sum=`<div class="aw-hero">
+      <div class="aw-hero-main"><span>${bi("ޖުމްލަ އަގު","Total value")}</span><b>${Object.entries(tot).map(([c,n])=>awMoney(n,c)).join("<br>")||awMoney(0,"MVR")}</b></div>
+      <div class="aw-hero-st"><div><b class="num">${L.length}</b><span>${bi("އެވޯޑް","Awards")}</span></div><div><b class="num">${new Set(L.map(r=>r.party)).size}</b><span>${bi("ފަރާތް","Suppliers")}</span></div></div>
+    </div>`;
+  const list=L.length?`<div class="aw-list">${L.map((r,i)=>`<article class="aw-card ${r.price>=35000?"hi":"lo"}">
+      <div class="aw-top"><span class="aw-n num">${i+1}</span><h3 class="aw-p">${bi(esc2(r.pdv),esc2(r.project))}</h3></div>
+      <div class="aw-party"><span class="aw-ic">${IC.shop}</span><div><small>${bi("އެވޯޑް ކުރި ފަރާތް","Awarded to")}</small><b>${bi(esc2(r.adv),esc2(r.party))}</b></div></div>
+      <div class="aw-pills"><span>${IC.cal}${r.iso?nDate(r.iso):esc2(r.date)}</span>${r.dur?`<span>${IC.clk}${awDur(r.dur)}</span>`:""}</div>
+      <div class="aw-foot"><small>${bi("އެވޯޑް ކުރި އަގު","Awarded price")}</small><b>${awMoney(r.price,r.cur)}</b></div></article>`).join("")}</div>`:mdEmpty();
   return {sum,list,n:L.length};
 }
 function awPrl(){const T={all:["ހުރިހާ އަގެއް","All amounts"],lo:[`<span class="num">35,000</span> ރުފިޔާއަށްވުރެ ދަށް`,`Below MVR 35,000`],hi:[`<span class="num">35,000</span> ރުފިޔާއަށްވުރެ މަތި`,`MVR 35,000 and above`]}[AWP]||["",""];return bi(T[0],T[1]);}
@@ -2539,11 +2565,13 @@ function awardsPage(){
   if(!AWARDS.length) return mdEmpty();
   const months=[...new Set(AWARDS.map(x=>x.month).filter(Boolean))].sort().reverse(); AWM=months[0]; AWQ=""; AWP="all";
   const r=awResults(), en=document.documentElement.lang==="en";
-  return `<div class="at-head"><label class="pf-select at-month"><select id="awMonth" aria-label="Month">${months.map(m=>`<option value="${m}"${m===AWM?" selected":""}>${attMonthTxt(m)}</option>`).join("")}<option value="all" data-dv="ހުރިހާ މަހެއް" data-en="All months">${en?"All months":"ހުރިހާ މަހެއް"}</option></select></label>
-      <div class="at-title">${bi("ޕްރޮކިއުމަންޓް އެވޯޑް ޑޭޓާ ޝީޓް","Procurement award data sheet")}</div></div>
-    <div class="at-kpis aw-kpis" id="awKpis">${r.sum}</div>
-    <div class="at-tools"><label class="pf-select aw-pr"><span class="aw-prl" id="awPrl">${awPrl()}</span><select id="awPrice" aria-label="Price"><option value="all" data-dv="ހުރިހާ އަގެއް" data-en="All amounts">${en?"All amounts":"ހުރިހާ އަގެއް"}</option><option value="lo" data-dv="35,000 ރުފިޔާއަށްވުރެ ދަށް" data-en="Below MVR 35,000">${en?"Below MVR 35,000":"35,000 ރުފިޔާއަށްވުރެ ދަށް"}</option><option value="hi" data-dv="35,000 ރުފިޔާއަށްވުރެ މަތި" data-en="MVR 35,000 and above">${en?"MVR 35,000 and above":"35,000 ރުފިޔާއަށްވުރެ މަތި"}</option></select></label>
-      <input type="search" id="awQ" placeholder="${en?"Search project or supplier":"މަސައްކަތް ނުވަތަ ފަރާތް ހޯދާ"}" aria-label="Search"><span class="mt-count"><b class="num" id="awCount">${r.n}</b> ${bi("އެވޯޑް","awards")}</span></div>
+  return `<div id="awKpis">${r.sum}</div>
+    <div class="aw-filters">
+      <label class="pf-select aw-sel"><select id="awMonth" aria-label="Month">${months.map(m=>`<option value="${m}"${m===AWM?" selected":""}>${attMonthTxt(m)}</option>`).join("")}<option value="all" data-dv="ހުރިހާ މަހެއް" data-en="All months">${en?"All months":"ހުރިހާ މަހެއް"}</option></select></label>
+      <label class="pf-select aw-sel aw-pr"><span class="aw-prl" id="awPrl">${awPrl()}</span><select id="awPrice" aria-label="Price"><option value="all" data-dv="ހުރިހާ އަގެއް" data-en="All amounts">${en?"All amounts":"ހުރިހާ އަގެއް"}</option><option value="lo">${en?"Below MVR 35,000":"35,000 ރުފިޔާއަށްވުރެ ދަށް"}</option><option value="hi">${en?"MVR 35,000 and above":"35,000 ރުފިޔާއަށްވުރެ މަތި"}</option></select></label>
+      <div class="aw-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" id="awQ" placeholder="${en?"Search project or supplier":"މަސައްކަތް ނުވަތަ ފަރާތް ހޯދާ"}" aria-label="Search"></div>
+    </div>
+    <div class="aw-count"><b class="num" id="awCount">${r.n}</b> ${bi("އެވޯޑް ފެނުނު","awards found")}</div>
     <div id="awList">${r.list}</div>`;
 }
 function awRefresh(){const r=awResults();const k=document.getElementById("awKpis");if(!k)return;k.innerHTML=r.sum;document.getElementById("awList").innerHTML=r.list;document.getElementById("awCount").textContent=r.n;}
