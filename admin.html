@@ -193,7 +193,7 @@ const SECTIONS={
    T("photos","އިތުރު ފޮޓޯ","More photos","gallery"),T("source","ލިންކް (ބޭނުންނަމަ)","Link (optional)","url"),T("id","","","hiddenid")]},
  notices:{dv:"އިޢުލާން",en:"Notices",title:x=>x.title_dv||x.title_en,sub:x=>`${({notice:"އިޢުލާން",vacancy:"ވަޒީފާ",tender:"ބީލަން",circular:"ސަރކިއުލަރ",student:"ދަރިވަރުންނަށް"})[x.type]||""} · ${x.date||""}`,fields:[
    T("type","ބާވަތް","Type","select",{opts:[["notice","އިޢުލާން"],["vacancy","ވަޒީފާ"],["tender","ބީލަން"],["circular","ސަރކިއުލަރ"],["student","ދަރިވަރުންނަށް"]]}),
-   T("number","އިޢުލާން ނަންބަރު","Notice number","text",{ltr:1}),T("title_dv","ސުރުޚީ (ދިވެހިން)","Title (Dhivehi)","textarea",{rows:2}),T("title_en","ސުރުޚީ (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
+   T("number","އިޢުލާން ނަންބަރު","Notice number","text",{ltr:1}),T("featured","ފުރަތަމަ ސަފްޙާގައި މުހިންމު އިޢުލާނެއްގެ ގޮތުގައި ދައްކަންތަ؟","Show on home page as featured notice?","select",{opts:[["","ނޫން (No)"],["1","އާން (Yes)"]]}),T("title_dv","ސުރުޚީ (ދިވެހިން)","Title (Dhivehi)","textarea",{rows:2}),T("title_en","ސުރުޚީ (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("date","ތާރީޚު","Date","date"),T("deadline","ސުންގަޑި (ބޭނުންނަމަ)","Deadline (optional)","date"),
    T("body_dv","ތަފްޞީލް (ދިވެހިން)","Details (Dhivehi)","textarea",{rows:8}),T("body_en","ތަފްޞީލް (އިނގިރޭސިން)","Details (English)","textarea",{rows:6,ltr:1}),
    T("pdf","PDF","PDF","file"),T("id","","","hiddenid")]},

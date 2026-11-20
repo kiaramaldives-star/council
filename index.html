@@ -480,6 +480,17 @@ html[lang=dv] .sm-g>.en,html[lang=en] .sm-g>.dv{display:none}
 .act-top h2{font-size:24px;color:var(--p)}.act-top small{color:var(--muted)}
 .act-mh{font-size:18px;color:var(--k);margin:20px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--p);display:inline-block}.act-mh.past{color:var(--muted);border-color:var(--line)}
 .nav a.on,.nav a.on:hover{background:var(--p);color:#fff!important}.nav a.on:hover{background:#A50D26}
+.fn-sec{padding:22px 0 0}.fn-g{display:grid;gap:10px}
+.fn{display:flex;align-items:center;gap:14px;border-radius:20px;padding:16px 18px;color:#fff;background:linear-gradient(120deg,var(--p),#7A0A1C 60%,#0B0B0B);box-shadow:0 12px 28px rgba(200,16,46,.22);position:relative;overflow:hidden}
+.fn::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.07)}
+.fn-ic{flex:none;width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.15);display:grid;place-items:center;animation:fnp 2s ease-in-out infinite}
+@keyframes fnp{50%{transform:scale(1.08)}}
+.fn-m{flex:1;min-width:0}.fn-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px}
+.fn-lbl{font-size:13px;opacity:.85}.fn .tag{background:#fff!important;color:var(--p)!important}
+.fn b{display:block;font-size:19px;line-height:1.55}.fn small{opacity:.85;font-size:13.5px}
+.fn-dl{display:inline-block;white-space:nowrap;background:#FDE047;color:#111;border-radius:99px;padding:0 8px;font-weight:700}
+.fn-go{flex:none;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--p);display:grid;place-items:center}
+@media (max-width:620px){.fn{padding:14px;gap:10px}.fn-ic{width:44px;height:44px}.fn b{font-size:17px}.fn-go{width:32px;height:32px}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -626,6 +637,11 @@ function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)retu
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
 const years=()=>+INFO.years||new Date().getFullYear()-Number(String(INFO.opened||"1980").slice(0,4));
 
+function featuredNotices(){const t=isoD(new Date()),L=sortD(NOTICES).filter(n=>String(n.featured)==="1"&&(!n.deadline||n.deadline>=t)).slice(0,3);if(!L.length)return"";
+  return `<section class="fn-sec"><div class="wrap"><div class="fn-g">${L.map(n=>{const ty=TYPES[n.type]||TYPES.notice,dd=n.deadline?Math.round((new Date(n.deadline+"T00:00:00")-new Date(t+"T00:00:00"))/864e5):null;
+    return `<a class="fn reveal" href="#notice-${esc(n.id)}"><span class="fn-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>
+      <div class="fn-m"><div class="fn-top"><span class="fn-lbl">${bi("މުހިންމު އިޢުލާން","Featured notice")}</span><span class="tag ${esc(n.type||"notice")}">${bi(ty[0],ty[1])}</span></div><b class="h">${L2(n,"title")}</b>
+      <small>${nDate(n.date)}${dd!==null?` · <span class="fn-dl">${dd===0?bi("މިއަދު ފަހު ދުވަސް","Last day today"):bi(`ސުންގަޑި: <span class="num">${dd}</span> ދުވަސް ބާކީ`,`Deadline: ${dd} days left`)}</span>`:""}</small></div><span class="fn-go">${IC.arr}</span></a>`;}).join("")}</div></div></section>`;}
 function home(){
   const hero=safeUrl(INFO.hero), up=EVENTS.filter(e=>(e.end||e.date||"")>=new Date().toISOString().slice(0,10)).sort((a,b)=>String(a.date).localeCompare(b.date)).slice(0,5);
   return `<section class="hero">${hero?`<div class="hero-bg" style="background-image:url('${esc(hero)}')"></div>`:""}<div class="wrap">
@@ -635,6 +651,7 @@ function home(){
         <div class="hero-btns"><a class="btn btn-a" href="#about">${bi("ސުކޫލާއި ބެހޭ","About the school")}</a><a class="btn btn-g" href="#notices">${bi("އިޢުލާންތައް","Notices")}</a></div></div>
       <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></div></div></section>
     <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></section>
+    ${featuredNotices()}
     <section class="sec"><div class="wrap">${aboutBlocks()}</div></section>
     ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</h2></div></div>${principalBlock()}</div></section>`:""}
     <section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("އެންމެ ފަހުގެ ޚަބަރު","Latest news")}</h2></div><a class="more" href="#news">${bi("ހުރިހާ ޚަބަރެއް","All news")} ${IC.arr}</a></div>
