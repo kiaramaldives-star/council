@@ -551,6 +551,7 @@ html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
 .sk-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}.sk-box{height:64px;border-radius:16px}
 .sk-body{display:grid;gap:10px;border:1px solid var(--line);border-radius:16px;padding:16px}
 .head .brand .logo{width:58px;height:58px}.head .brand b{font-size:27px;line-height:1.4}html[lang=en] .head .brand b{font-size:21px}@media (max-width:620px){.head .brand .logo{width:52px;height:52px}.head .brand b{font-size:25px}}
+.nav a{white-space:nowrap}@media (max-width:1180px){.nav{display:none!important}.burger{display:grid!important;place-items:center}.head .wrap{justify-content:space-between!important}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -644,7 +645,7 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   ig:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
-const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
+const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
 const SUBMENU={about:[["structure","އިދާރީ ހަރުމަ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
 const PARENT={structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
@@ -825,6 +826,10 @@ function structurePage(){
     <div class="org-top">${node(pr,"lead")}</div>
     <div class="org-br"><i></i></div>
     <div class="org-ds">${dept("ތަޢުލީމީ ޑިޕާޓްމަންޓް","Academic Department",IC.cap,ac,"acd")}${dept("އިދާރީ ޑިޕާޓްމަންޓް","Administration Department",IC.users,ad,"adm")}</div>
+  </div></div></div>`;}
+function studentNoticesPage(){const t=isoD(new Date()),L=sortD(NOTICES).filter(n=>n.type==="student"),cur=L.filter(n=>!n.deadline||n.deadline>=t),old=L.filter(n=>n.deadline&&n.deadline<t);
+  return pageHead("ދަރިވަރުންގެ އިޢުލާން","Student notices")+`<div class="pb"><div class="wrap"><div class="panel">
+    ${L.length?`${cur.length?`<div class="nl">${cur.map(noticeItem).join("")}</div>`:""}${old.length?`<h2 class="grp-h h">${bi("ސުންގަޑި ހަމަވެފައިވާ","Closed")}</h2><div class="nl" style="opacity:.7">${old.map(noticeItem).join("")}</div>`:""}`:empty("މިވަގުތު ދަރިވަރުންނަށް އިޢުލާނެއް ނެތް","No student notices right now")}
   </div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
@@ -1056,10 +1061,10 @@ function contactPage(){return pageHead("ގުޅުއްވާ","Contact")+`<div class
 function route(){
   const h=decodeURIComponent(location.hash.slice(1))||"home"; let html, key=h;
   if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
-  else if(h.startsWith("notice-")){html=detail(NOTICES.find(n=>n.id===h.slice(7)),"notices","އިޢުލާންތަކަށް","Back to notices",1);key="notices";}
+  else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):detail(o,"notices","އިޢުލާންތަކަށް","Back to notices",1);key=st?"snotices":"notices";}}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
-  else html=({home,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
