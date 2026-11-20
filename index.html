@@ -3006,7 +3006,19 @@ async function loadDB(){
   try{
     const r=await fetch(`${SB_URL}/rest/v1/content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});
     if(!r.ok) return; const rows=await r.json(); if(!rows.length) return;
-    const by={}; rows.forEach(x=>(by[x.section]=by[x.section]||[]).push(x.data));
+    /* clean everything that comes from the database before it is shown */
+    const URLK=/^(img|photo|pdf|url|link|src|agenda|minutes|agendaPdf|minutesPdf|decisionsPdf|file|doc|image|cover)$/i;
+    const clean=(v,k)=>{
+      if(typeof v==="string"){
+        let t=v.replace(/<\s*\/?\s*(script|iframe|object|embed|style|link|meta|base|form|svg|math)\b[^>]*>/gi,"")
+               .replace(/\son\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,"")
+               .replace(/javascript\s*:/gi,"").replace(/vbscript\s*:/gi,"");
+        if(k&&URLK.test(k)&&t&&!/^(https?:\/\/|\/|docs\/|documents\/|data:image\/(png|jpe?g|webp|gif);|#)/i.test(t.trim())&&/^[a-z][a-z0-9+.-]*:/i.test(t.trim())) t="";
+        return t;}
+      if(Array.isArray(v)) return v.map(x=>clean(x));
+      if(v&&typeof v==="object"){const o={};for(const [kk,vv] of Object.entries(v)) o[kk]=clean(vv,kk);return o;}
+      return v;};
+    const by={}; rows.forEach(x=>(by[x.section]=by[x.section]||[]).push(clean(x.data)));
     for(const [k,arr] of Object.entries(DB_SECTIONS)) if(by[k]) arr.splice(0,arr.length,...by[k]);
     if(by.councillors) membersToTerms(by.councillors,COUNCIL_TERMS);
     if(by.wdc) membersToTerms(by.wdc,WDC_TERMS);
