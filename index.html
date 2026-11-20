@@ -2451,7 +2451,7 @@ function attResults(){
 function attendancePage(){
   if(!ATTENDANCE.length) return mdEmpty();
   const months=ATTENDANCE.map(x=>x.month).filter(Boolean).sort().reverse();
-  if(!ATTM||!months.includes(ATTM)) ATTM=months[0];
+  ATTM=months[0]; /* always open on the most recent month */
   const r=attResults(), en=document.documentElement.lang==="en";
   const F=[["all","ހުރިހާ","All"],["staff","މުވައްޒަފުން","Staff"],["members","ކައުންސިލް / އތމ","Council / WDC"],["wage","ވޭޖް","Wage"],["late","ލަސްވި","Late"],["leave","ޗުއްޓީ","On leave"],["perfect","ފުރިހަމަ","Full attendance"]];
   const so=[["id","އައިޑީ","ID"],["name","ނަން","Name"],["w","ހާޒިރުވި ދުވަސް","Days worked"],["la","ލަސްވުން","Most late"],["leave","ޗުއްޓީ","Most leave"]];
