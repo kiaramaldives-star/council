@@ -451,6 +451,15 @@ html[lang=dv] .nd-m small{font-family:"KondeyHeading","Faruma",sans-serif;font-s
 .ac-pdf{margin-top:16px;display:inline-flex}
 @media (max-width:620px){.ac-terms{grid-template-columns:1fr}.ac-d{font-size:14px;border-radius:8px}.ac-g{gap:3px}.ac-top h2{font-size:22px}.ac-ext div{flex-direction:column;gap:0}}
 .st-r{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-top:1px dashed var(--line)}.st-r:first-of-type{border-top:0}.st-r>span{font-size:14px;line-height:1.6}.st-r b{flex:none;min-width:32px;height:32px;border-radius:10px;background:var(--p);color:#fff;display:grid;place-items:center;font-size:15px}
+.sm-g{display:grid;gap:8px;margin-top:12px}.sm-g>.dv,.sm-g>.en{display:contents}
+html[lang=dv] .sm-g>.en,html[lang=en] .sm-g>.dv{display:none}
+.sm-c{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:#fff;border-inline-start:4px solid var(--p)}
+.sm-c.core{background:#F8F8FA;border-inline-start-color:var(--k)}.sm-c.opt{border-inline-start-color:#0891B2;background:#F0FDFF}
+.sm-h{display:flex;justify-content:space-between;align-items:center;gap:10px}.sm-h b{font-size:16px;line-height:1.5}
+.sm-n{flex:none;display:inline-flex;align-items:center;gap:4px;background:var(--p);color:#fff;border-radius:99px;padding:2px 10px;font-size:14px}.sm-n::after{content:"";width:14px;height:14px;background:currentColor;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E") center/contain no-repeat}
+.sm-c.core .sm-n{background:var(--k)}.sm-c.opt .sm-n{background:#0891B2}
+.sm-tag{display:inline-block;margin-top:6px;font-size:12.5px;background:#CFFAFE;color:#0E7490;border-radius:99px;padding:1px 10px}
+.sm-c .clc-s{margin-top:8px}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -653,7 +662,10 @@ function detail(o,back,backDv,backEn,isNotice){
     ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
     <div class="files">${isNotice?`<button type="button" class="btn nd-share" data-share>${IC.share}${bi("ޙިއްސާކުރައްވާ","Share")}</button>`:""}${pdf?`<a class="btn btn-p" href="${esc(pdf)}" target="_blank" rel="noopener">${bi("ލިޔުން ބައްލަވާ (PDF)","Open document (PDF)")}</a>`:""}${safeUrl(o.source)?`<a class="more" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}</div>
   </article></div></div></div>`;}
-function stRows(t){return String(t||"").split("\n").map(x=>x.trim()).filter(Boolean).map(l=>{const m=l.match(/^(.*?)[:：]\s*(\d+)/);return m?`<div class="st-r"><span>${numify(esc(m[1]))}</span><b><span class="num">${m[2]}</span></b></div>`:`<div class="st-r"><span>${esc(l)}</span></div>`;}).join("");}
+function stRows(t){return String(t||"").split("\n").map(x=>x.trim()).filter(Boolean).map(l=>{
+  const m=l.match(/^(.*?)\s*(?:\(([^)]*)\))?\s*[:：]\s*(\d+)/); if(!m)return `<div class="sm-c"><b class="h">${esc(l)}</b></div>`;
+  const opt=/އިޚްތިޔާރީ|optional/i.test(m[2]||""), subs=opt?[]:String(m[2]||"").split(/[،,]\s*/).filter(Boolean);
+  return `<div class="sm-c${opt?" opt":""}"><div class="sm-h"><b class="h">${esc(m[1])}</b><span class="sm-n"><span class="num">${m[3]}</span></span></div>${opt?`<span class="sm-tag">${bi("އިޚްތިޔާރީ މާއްދާ","Optional subject")}</span>`:""}${subs.length?`<div class="clc-s">${subs.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}</div>`;}).join("");}
 function classTeacher(c){
   if(!c.teacher_dv&&!c.teacher_en)return `<div class="ct-card none">${bi("ކްލާސް ޓީޗަރ ކަނޑައަޅާފައެއް ނުވޭ","Class teacher not set")}</div>`;
   const st=STAFF.find(s=>(c.teacher_en&&s.name_en===c.teacher_en)||(c.teacher_dv&&s.name_dv===c.teacher_dv))||{};
@@ -674,7 +686,7 @@ function studentStats(){
     <div class="cl2">${C.map(c=>`<div class="clc2 reveal"><div class="clc2-h"><h3 class="h">${L2(c,"name")}</h3><span class="clc2-n"><b class="num">${esc(c.students||0)}</b> ${bi("ދަރިވަރުން","students")}</span></div>
       ${c.girls||c.boys?`<div class="clc2-gb"><span class="g">${bi("އަންހެން","Girls")} <b class="num">${+c.girls||0}</b></span><span class="b">${bi("ފިރިހެން","Boys")} <b class="num">${+c.boys||0}</b></span></div>`:""}
       ${classTeacher(c)}
-      ${c.streams_dv||c.streams_en?`<div class="clc2-st"><small>${bi("ސްޓްރީމްތަކާއި ދަރިވަރުން","Streams & students")}</small>${bi(stRows(c.streams_dv||c.streams_en),stRows(c.streams_en||c.streams_dv))}</div>`:""}
+      ${c.streams_dv||c.streams_en?`<div class="sm-g">${c.subjects_dv||c.subjects_en?`<div class="sm-c core"><div class="sm-h"><b class="h">${bi("ހުރިހާ ދަރިވަރުން ކިޔަވާ މާއްދާތައް","Subjects for all students")}</b><span class="sm-n"><span class="num">${esc(c.students||0)}</span></span></div><div class="clc-s">${bi(String(c.subjects_dv||c.subjects_en).split(/[،,]\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""),String(c.subjects_en||c.subjects_dv).split(/,\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""))}</div></div>`:""}${bi(stRows(c.streams_dv||c.streams_en),stRows(c.streams_en||c.streams_dv))}</div>`:""}
     </div>`).join("")}</div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
