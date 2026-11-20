@@ -247,6 +247,49 @@ html[lang=dv] .cti small{font-family:"KondeyHeading","Faruma",sans-serif;font-si
 .ch-search:focus-within{border-color:var(--p);color:var(--p)}
 .ch-search input{flex:1;border:0;outline:0;background:none;padding:13px 0;font-size:16px;min-width:0;font-family:inherit}
 html[lang=dv] .ch-search input{font-family:"KondeyHeading","Faruma",sans-serif}
+.sc-nav{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#111,#3A0A12);border-radius:20px;padding:12px;color:#fff}
+.sc-nav .chv-b{background:rgba(255,255,255,.12);color:#fff;box-shadow:none}.sc-nav .chv-b:hover{background:var(--p)}
+.sc-date{flex:1;text-align:center;position:relative}
+.sc-date b{font-size:22px;display:block;line-height:1.5}
+html[lang=en] .sc-date b{font-size:18px}
+.sc-date input{margin-top:6px;border:0;border-radius:10px;padding:6px 10px;font-family:"Plus Jakarta Sans",sans-serif;background:rgba(255,255,255,.12);color:#fff;color-scheme:dark}
+.sc-quick{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 6px}
+.sc-quick button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-family:"KondeyHeading","Faruma",sans-serif;font-size:14.5px;color:#4B5563}
+html[lang=en] .sc-quick button{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:13px}
+.sc-quick button:first-child{background:var(--p);border-color:var(--p);color:#fff}
+.sc-quick button.on{border-color:var(--k);color:var(--k);background:var(--as)}
+.sc-sum{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:10px 0 16px;color:#4B5563;font-family:"KondeyHeading","Faruma",sans-serif;font-size:16px}
+html[lang=en] .sc-sum{font-family:"Plus Jakarta Sans",sans-serif;font-size:14px}
+.sc-sum b{color:var(--k);font-size:18px}
+.sc-live{display:inline-flex;align-items:center;gap:6px;color:#047857}
+.sc-live i{width:9px;height:9px;border-radius:50%;background:#10B981;box-shadow:0 0 0 0 rgba(16,185,129,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+.sc-vf{display:flex;gap:6px;flex-wrap:wrap;margin-inline-start:auto}
+.sc-vf button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:5px 12px;font:inherit;font-size:14px;color:#4B5563}
+.sc-vf button.on{background:var(--k);border-color:var(--k);color:#fff}
+.sc-list{display:grid;gap:12px}
+.sc-it{display:grid;grid-template-columns:120px 1fr;gap:14px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;position:relative;overflow:hidden;transition:box-shadow .2s}
+.sc-it::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:#D1D5DB}
+.sc-it.now::before{background:#10B981}.sc-it.next::before{background:var(--p)}
+.sc-it.now{border-color:#10B981;box-shadow:0 10px 26px rgba(16,185,129,.12)}
+.sc-it.done{opacity:.6}
+.sc-tm{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);border-radius:14px;padding:10px 6px;text-align:center}
+.sc-tm b{font-size:16px;color:var(--k);line-height:1.3}
+.sc-tm small{font-size:13px;color:var(--muted);line-height:1.3}
+html[lang=dv] .sc-tm b,html[lang=dv] .sc-tm small{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400}
+.sc-tm .num{font-weight:800}
+.sc-line{width:2px;height:14px;background:var(--line);margin:4px 0}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sc-c h3{font-size:18.5px;line-height:1.6}
+html[lang=en] .sc-c h3{font-size:16px;line-height:1.4}
+.sc-st{flex:0 0 auto;border-radius:999px;padding:2px 10px;font-size:12.5px;background:var(--as);color:#4B5563;font-family:"KondeyHeading","Faruma",sans-serif}
+html[lang=en] .sc-st{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+.sc-st.now{background:#D1FAE5;color:#047857}.sc-st.next{background:var(--ps);color:var(--p)}
+.sc-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;color:#4B5563;font-size:14.5px}
+html[lang=dv] .sc-meta{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15.5px}
+.sc-meta span{display:inline-flex;align-items:center;gap:6px}.sc-meta svg{color:var(--p);flex:0 0 auto}
+.sc-prog{height:6px;border-radius:99px;background:#E5E7EB;margin-top:10px;overflow:hidden}.sc-prog i{display:block;height:100%;background:#10B981}
+@media (max-width:620px){.sc-it{grid-template-columns:92px 1fr;padding:12px;gap:10px}.sc-date b{font-size:18px}.sc-tm b{font-size:14px}.sc-vf{margin-inline-start:0}}
 .ch-txt p{margin:0 0 8px;font-size:16.5px;line-height:1.9;color:#374151}
 html[lang=en] .ch-txt p{font-size:15px;line-height:1.6}
 .ch-txt ul{margin:0 0 8px;padding-inline-start:22px}
@@ -415,7 +458,7 @@ const IC={
   ig:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
-const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["charter","ސަރވިސް ޗާޓަރ","Service charter"],["staff","މުވައްޒަފުން","Staff"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
+const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["charter","ސަރވިސް ޗާޓަރ","Service charter"],["staff","މުވައްޒަފުން","Staff"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -583,6 +626,48 @@ function charterPage(){CHQ="";
         <p class="fb-t">${bi("ޝަކުވާތަކަށް ބަލައި، ހާލަތާއި ނިންމުން 3 ދުވަހުގެ ތެރޭގައި އަންގާނެއެވެ.","We will update you on your complaint within 3 days.").replace(/\d/,m=>`<span class="num">${m}</span>`)}</p></div>
       <a class="fb-qr" href="${CHARTER.feedback}" target="_blank" rel="noopener"><img src="/charter/qr.png" alt="QR"><small>${bi("ކިއު.އާރް ކޯޑު ސްކޭން ކުރައްވާ","Scan the QR code")}</small></a></div></div>
   </div></div></div>`;}
+
+/* Daily schedule: one record per activity {date,start,end,activity_dv/en,staff_dv/en,venue_dv/en}; edited in admin.html (section "schedule"). */
+const SCHEDULE=[{"date": "2026-11-16", "start": "06:43", "end": "10:00", "activity_dv": "ޔޫ.ކޭ.ޖީ ސެޝަން ވަގުތު", "activity_en": "UKG Session Time", "staff_dv": "ސީނިއަރ މެނޭޖްމަންޓް ޓީމް", "staff_en": "SMT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "06:43", "end": "11:20", "activity_dv": "ކީ ސްޓޭޖް 1 އަދި 2 ގެ ސެޝަން ވަގުތު", "activity_en": "KS1 and KS2 Session Time", "staff_dv": "ސީނިއަރ މެނޭޖްމަންޓް ޓީމް", "staff_en": "SMT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "06:43", "end": "12:00", "activity_dv": "ކީ ސްޓޭޖް 3 އަދި ގްރޭޑް 9", "activity_en": "KS3 and Grade 9", "staff_dv": "ސީނިއަރ މެނޭޖްމަންޓް ޓީމް", "staff_en": "SMT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "06:43", "end": "10:40", "activity_dv": "ކީ ސްޓޭޖް 5 ގެ ސެޝަން ވަގުތު", "activity_en": "KS5 Session Time", "staff_dv": "ސީނިއަރ މެނޭޖްމަންޓް ޓީމް", "staff_en": "SMT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "10:15", "end": "13:20", "activity_dv": "އެލް.ކޭ.ޖީ ސެޝަން ވަގުތު", "activity_en": "LKG Session Time", "staff_dv": "ސީނިއަރ މެނޭޖްމަންޓް ޓީމް", "staff_en": "SMT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "11:20", "end": "12:15", "activity_dv": "ޕްރައިޒް ޑޭގެ ހާއްސަ އައިޓަމުގެ ޕްރެކްޓިސް (ބްރޭކާއެކު)", "activity_en": "Prizeday Special Item practice (with break)", "staff_dv": "ޢާއިޝަތު ޝުޒީ", "staff_en": "Aishath Shuzee", "venue_dv": "ހޯލު", "venue_en": "Hall"}, {"date": "2026-11-16", "start": "11:20", "end": "12:00", "activity_dv": "ކީ ސްޓޭޖް 1 އަދި 2 ގެ ތާވަލުކުރެވިފައިވާ ފޯކަސް އެކްސްޓްރާ", "activity_en": "KS1 and KS2 Scheduled Focus Extra", "staff_dv": "ގްރޭޑް ލީޑިންގ ޓީޗަރ", "staff_en": "Grade LT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "13:00", "end": "13:45", "activity_dv": "ޕްރެކްޓިސް (ޕްރައިޒް ޓޭބަލް)", "activity_en": "Practice (Prize table)", "staff_dv": "ޝިޔާނާ، ޝަރަފިއްޔާ", "staff_en": "Shiyana, Sharafiyya", "venue_dv": "ހޯލު", "venue_en": "Hall"}, {"date": "2026-11-16", "start": "13:30", "end": "15:00", "activity_dv": "ގްރޭޑް 6 ގެ އެކްސްޓްރާ ކްލާސް (ތާވަލާ އެއްގޮތަށް)", "activity_en": "Grade 6 Extra Class as scheduled", "staff_dv": "ގްރޭޑް ލީޑިންގ ޓީޗަރ", "staff_en": "Grade LT", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "14:15", "end": "15:00", "activity_dv": "އައްތަރުތީލު ހިފްޡު ކްލާސް", "activity_en": "Ah'Thartheel Hifz Class", "staff_dv": "ޢާއިޝަތު ޝުޒީ", "staff_en": "Aishath Shuzee", "venue_dv": "ކްލާސްރޫމް", "venue_en": "Classroom"}, {"date": "2026-11-16", "start": "16:30", "end": "17:30", "activity_dv": "ޔޫ.ކޭ.ޖީ އެސެމްބްލީ ޕްރެކްޓިސް", "activity_en": "UKG Assembly practice", "staff_dv": "ހައްވާ ހުބައިބާ، ޢަފީފާ އަޙްމަދު", "staff_en": "Hawwa Hubaiba, Afiya Ahmed", "venue_dv": "ހޯލު", "venue_en": "Hall"}];
+const DV_DAYS=["އާދިއްތަ","ހޯމަ","އަންގާރަ","ބުދަ","ބުރާސްފަތި","ހުކުރު","ހޮނިހިރު"],EN_DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+let SCD="",SCV="all",SCT=null;
+const isoD=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const toMin=t=>{const m=String(t||"").match(/(\d{1,2}):(\d{2})/);return m?(+m[1])*60+(+m[2]):0;};
+function t12(t){let m=toMin(t),h=Math.floor(m/60),mm=String(m%60).padStart(2,"0"),pm=h>=12;h=h%12||12;return bi(`<span class="num">${h}:${mm}</span> ${pm?"މެންދުރުފަހު":"ހެނދުނު"}`,`${h}:${mm} ${pm?"PM":"AM"}`);}
+const scDates=()=>[...new Set(SCHEDULE.map(x=>x.date).filter(Boolean))].sort();
+function scDefault(){const t=isoD(new Date()),D=scDates();if(!D.length||D.includes(t))return t;const past=D.filter(d=>d<=t);return past.length?past[past.length-1]:D[0];}
+function scDayTitle(d){const x=new Date(d+"T00:00:00");return bi(`${DV_DAYS[x.getDay()]}، ${nDate(d).match(/<span class="dv">(.*?)<\/span><span class="en">/)[1]}`,`${EN_DAYS[x.getDay()]}, ${EN_MONTHS[x.getMonth()]} ${x.getDate()}, ${x.getFullYear()}`);}
+function scBody(){
+  const now=new Date(),today=isoD(now),nm=now.getHours()*60+now.getMinutes();
+  let L=SCHEDULE.filter(x=>x.date===SCD).sort((a,b)=>toMin(a.start)-toMin(b.start)||toMin(a.end)-toMin(b.end));
+  const venues=[...new Set(L.map(x=>x.venue_dv).filter(Boolean))];
+  if(SCV!=="all")L=L.filter(x=>x.venue_dv===SCV);
+  const st=x=>SCD<today||(SCD===today&&toMin(x.end)<=nm)?"done":SCD===today&&toMin(x.start)<=nm?"now":"next";
+  const lab={done:["ނިމިއްޖެ","Finished"],now:["ދަނީ","Happening now"],next:["ކުރިއަށް","Upcoming"]};
+  const live=L.filter(x=>st(x)==="now").length;
+  return `<div class="sc-sum"><span><b class="num">${L.length}</b> ${bi("ހަރަކާތް","activities")}</span>${SCD===today&&live?`<span class="sc-live"><i></i><b class="num">${live}</b> ${bi("ހަރަކާތެއް މިހާރު ދަނީ","happening now")}</span>`:""}
+    ${venues.length>1?`<div class="sc-vf">${[["all","ހުރިހާ ތަނެއް","All venues"],...venues.map(v=>[v,v,(SCHEDULE.find(x=>x.venue_dv===v)||{}).venue_en||v])].map(([k,d,e])=>`<button type="button" data-scv="${esc(k)}" class="${SCV===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}</div>
+  ${L.length?`<div class="sc-list">${L.map(x=>{const s0=st(x),dur=toMin(x.end)-toMin(x.start);return `<div class="sc-it ${s0}">
+      <div class="sc-tm"><b>${t12(x.start)}</b><span class="sc-line"></span><small>${t12(x.end)}</small></div>
+      <div class="sc-c"><div class="sc-top"><h3 class="h">${L2(x,"activity")}</h3><span class="sc-st ${s0}">${bi(lab[s0][0],lab[s0][1])}</span></div>
+        <div class="sc-meta">${x.staff_dv||x.staff_en?`<span>${icS("users",15)}${L2(x,"staff")}</span>`:""}${x.venue_dv||x.venue_en?`<span>${icS("pin",15)}${L2(x,"venue")}</span>`:""}${dur>0?`<span>${icS("cal",15)}${bi(dur>=60?`<span class="num">${Math.floor(dur/60)}</span> ގަޑިއިރު${dur%60?` <span class="num">${dur%60}</span> މިނެޓް`:""}`:`<span class="num">${dur}</span> މިނެޓް`,dur>=60?`${Math.floor(dur/60)} h${dur%60?` ${dur%60} min`:""}`:`${dur} min`)}</span>`:""}</div>
+        ${s0==="now"?`<div class="sc-prog"><i style="width:${Math.min(100,Math.max(0,(nm-toMin(x.start))/Math.max(1,dur)*100))}%"></i></div>`:""}</div></div>`;}).join("")}</div>`
+   :empty("މި ދުވަހަށް ތާވަލެއް ނެތް","No schedule for this day")}`;}
+function schedulePage(){SCD=scDefault();SCV="all";
+  const D=scDates(),today=isoD(new Date());
+  return pageHead("ދުވަހުގެ ތާވަލު","Daily schedule")+`<div class="pb"><div class="wrap"><div class="panel">
+    <div class="sc-nav"><button type="button" class="chv-b" data-scd="-1" aria-label="Previous day">${IC.back}</button>
+      <div class="sc-date"><b class="h" id="scTitle">${scDayTitle(SCD)}</b><input type="date" id="scPick" value="${SCD}" aria-label="Date"></div>
+      <button type="button" class="chv-b" data-scd="1" aria-label="Next day">${IC.arr}</button></div>
+    <div class="sc-quick"><button type="button" data-scgo="${today}">${bi("މިއަދު","Today")}</button>${D.slice(-6).map(d=>`<button type="button" data-scgo="${d}" class="${d===SCD?"on":""}">${scDayTitle(d)}</button>`).join("")}</div>
+    <div id="scBody">${scBody()}</div></div></div></div>`;}
+function scGo(d){SCD=d;const t=document.getElementById("scTitle");if(!t)return;t.innerHTML=scDayTitle(d);document.getElementById("scPick").value=d;document.querySelectorAll("[data-scgo]").forEach(b=>b.classList.toggle("on",b.dataset.scgo===d&&b!==document.querySelector("[data-scgo]")));SCV="all";document.getElementById("scBody").innerHTML=scBody();}
+document.addEventListener("click",e=>{
+  const n=e.target.closest("[data-scd]");if(n){const d=new Date(SCD+"T00:00:00");d.setDate(d.getDate()+(+n.dataset.scd));scGo(isoD(d));return;}
+  const g=e.target.closest("[data-scgo]");if(g){scGo(g.dataset.scgo);return;}
+  const v=e.target.closest("[data-scv]");if(v){SCV=v.dataset.scv;document.getElementById("scBody").innerHTML=scBody();}});
+document.addEventListener("change",e=>{if(e.target.id==="scPick"&&e.target.value)scGo(e.target.value);});
+setInterval(()=>{if(document.getElementById("scBody")&&SCD===isoD(new Date()))document.getElementById("scBody").innerHTML=scBody();},60000);
 function contactBlock(){const ph=(INFO.phone||"").replace(/\D/g,"");
   return `<div class="sec-h"><div><h2 class="h">${bi("އަޅުގަނޑުމެންނަށް ގުޅުއްވާ","Contact us")}</h2></div></div>
   <div class="ct"><a class="cti reveal" href="tel:+960${esc(ph)}"><span class="st-ic">${IC.phone}</span><small>${bi("ފޯނު","Phone")}</small><b><span class="num">${esc(INFO.phone)}</span></b></a>
@@ -596,7 +681,7 @@ function route(){
   if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
   else if(h.startsWith("notice-")){html=detail(NOTICES.find(n=>n.id===h.slice(7)),"notices","އިޢުލާންތަކަށް","Back to notices",1);key="notices";}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
-  else html=({home,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key));
   document.getElementById("mnav").classList.remove("open");
@@ -630,7 +715,7 @@ document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value
 
 const TT=document.getElementById("totop");addEventListener("scroll",()=>TT.classList.toggle("show",scrollY>500),{passive:true});TT.onclick=()=>scrollTo({top:0,behavior:"smooth"});
 
-const DB={news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC};
+const DB={news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
 async function loadDB(){
   if(/[?&]nodb\b/.test(location.search)) return;
   try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});

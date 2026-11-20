@@ -209,6 +209,13 @@ const SECTIONS={
    T("title_dv","ނަން (ދިވެހިން)","Title (Dhivehi)"),T("title_en","ނަން (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("type","ބާވަތް","Type","select",{opts:[["event","ހަރަކާތް"],["holiday","ބަންދު"],["exam","އިމްތިޙާން"]]}),
    T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date")]},
+ schedule:{dv:"ދުވަހުގެ ތާވަލު",en:"Daily schedule",title:x=>x.activity_dv||x.activity_en,sub:x=>`${x.date||""} · ${x.start||""} – ${x.end||""}`,fields:[
+   T("date","ތާރީޚު","Date","date"),
+   T("start","ފަށާ ގަޑި (މިސާލު 06:43)","Start time (24-hour, e.g. 06:43 or 13:30)","text",{ltr:1,ph:"06:43"}),
+   T("end","ނިމޭ ގަޑި (މިސާލު 10:00)","Finish time (24-hour, e.g. 15:00)","text",{ltr:1,ph:"10:00"}),
+   T("activity_dv","ހަރަކާތް (ދިވެހިން)","Activity (Dhivehi)","textarea",{rows:2}),T("activity_en","ހަރަކާތް (އިނގިރޭސިން)","Activity (English)","text",{ltr:1}),
+   T("staff_dv","އިންޗާޖު މުވައްޒަފު (ދިވެހިން)","Staff in-charge (Dhivehi)"),T("staff_en","އިންޗާޖު މުވައްޒަފު (އިނގިރޭސިން)","Staff in-charge (English)","text",{ltr:1}),
+   T("venue_dv","ތަން (ދިވެހިން)","Venue (Dhivehi), e.g. ކްލާސްރޫމް / ހޯލު"),T("venue_en","ތަން (އިނގިރޭސިން)","Venue (English)","text",{ltr:1})]},
  chsec:{dv:"ސަރވިސް ޗާޓަރ – ބައިތައް",en:"Service charter – sections",title:x=>x.title_dv||x.title_en,sub:x=>`ތަރުތީބު ${x.order||""}`,fields:[
    T("title_dv","ސުރުޚީ (ދިވެހިން)","Heading (Dhivehi)"),T("title_en","ސުރުޚީ (އިނގިރޭސިން)","Heading (English)","text",{ltr:1}),
    T("body_dv","ލިޔުން","Text — start a line with • for a bullet; write 'Label: value' for a row","textarea",{rows:10}),
