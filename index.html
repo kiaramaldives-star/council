@@ -510,7 +510,7 @@ function aboutBlocks(){return `<div class="about"><div class="about-txt reveal">
     <div class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
     <div class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
-  return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><div class="eyebrow">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
+  return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
 const years=()=>+INFO.years||new Date().getFullYear()-Number(String(INFO.opened||"1980").slice(0,4));
 
@@ -524,7 +524,7 @@ function home(){
       <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></div></div></section>
     <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></section>
     <section class="sec"><div class="wrap">${aboutBlocks()}</div></section>
-    ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap">${principalBlock()}</div></section>`:""}
+    ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</h2></div></div>${principalBlock()}</div></section>`:""}
     <section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("އެންމެ ފަހުގެ ޚަބަރު","Latest news")}</h2></div><a class="more" href="#news">${bi("ހުރިހާ ޚަބަރެއް","All news")} ${IC.arr}</a></div>
       ${NEWS.length?`<div class="grid3">${sortD(NEWS).slice(0,3).map(newsCard).join("")}</div>`:empty("އަދި ޚަބަރެއް ނެތް","No news yet")}</div></section>
     <section class="sec"><div class="wrap two">
@@ -536,7 +536,7 @@ function home(){
 }
 function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the school")+`<div class="pb"><div class="wrap"><div class="panel">${aboutBlocks()}</div>
   <a class="panel reveal" href="#charter" style="display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px"><span><b class="h" style="font-size:22px;color:var(--p)">${bi("ސަރވިސް ޗާޓަރ","Service charter")}</b><br><span style="color:var(--muted)">${bi("ސުކޫލުން ދޭ ހިދުމަތްތަކާއި، ހިދުމަތް ދޭ ގޮތް","Our services and how we provide them")}</span></span><span class="ni-go">${IC.arr}</span></a>
-  ${principalBlock()?`<div style="margin-top:18px">${principalBlock()}</div>`:""}
+  ${principalBlock()?`<div style="margin-top:24px"><div class="sec-h"><div><h2 class="h">${bi("ޕްރިންސިޕަލްގެ ބަސް","Principal's message")}</h2></div></div>${principalBlock()}</div>`:""}
   <div class="stats" style="margin-top:18px"><div class="wrap" style="padding:0">${stat("cal",nDateTxt(INFO.opened),"ހުޅުވި ތާރީޚު","Opened")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></div></div></div>`;}
 const nDateTxt=d=>{const y=String(d||"").slice(0,4);return y||"—";};
 function staffPage(){
