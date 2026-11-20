@@ -2832,8 +2832,10 @@ addEventListener("popstate",()=>{CUR=location.hash;route();if(typeof markMenu===
 const menu=$("#menu");
 $("#menuBtn").onclick=()=>{menu.classList.add("open");document.body.style.overflow="hidden"};
 $("#menuClose").onclick=()=>{menu.classList.remove("open");document.body.style.overflow=""};
-menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{menu.classList.remove("open");document.body.style.overflow=""}));
+menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{if(a.matches(".m-group .m-row .m-t"))return;menu.classList.remove("open");document.body.style.overflow=""}));
 menu.querySelectorAll(".m-tog").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();const g=b.closest(".m-group");const o=g.classList.toggle("open");b.setAttribute("aria-expanded",o)}));
+/* tapping a group name (e.g. މީޑިއާ ސެންޓަރ) opens its list instead of jumping to the first page */
+menu.querySelectorAll(".m-group .m-row .m-t").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();e.stopPropagation();a.closest(".m-row").querySelector(".m-tog").click();}));
 function markMenu(){const h=CUR;menu.querySelectorAll("a[href^='#']").forEach(a=>a.classList.toggle("active",!!h&&h!=="#top"&&a.getAttribute("href")===h));
   menu.querySelectorAll(".m-group").forEach(g=>{if([...g.querySelectorAll(".m-sub a")].some(a=>a.getAttribute("href")===h)){g.classList.add("open")}})}
 markMenu();
