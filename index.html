@@ -2565,8 +2565,7 @@ function awardsPage(){
   if(!AWARDS.length) return mdEmpty();
   const months=[...new Set(AWARDS.map(x=>x.month).filter(Boolean))].sort().reverse(); AWM=months[0]; AWQ=""; AWP="all";
   const r=awResults(), en=document.documentElement.lang==="en";
-  return `<div id="awKpis">${r.sum}</div>
-    <div class="aw-filters">
+  return `<div class="aw-filters">
       <label class="pf-select aw-sel"><select id="awMonth" aria-label="Month">${months.map(m=>`<option value="${m}"${m===AWM?" selected":""}>${attMonthTxt(m)}</option>`).join("")}<option value="all" data-dv="ހުރިހާ މަހެއް" data-en="All months">${en?"All months":"ހުރިހާ މަހެއް"}</option></select></label>
       <label class="pf-select aw-sel aw-pr"><span class="aw-prl" id="awPrl">${awPrl()}</span><select id="awPrice" aria-label="Price"><option value="all" data-dv="ހުރިހާ އަގެއް" data-en="All amounts">${en?"All amounts":"ހުރިހާ އަގެއް"}</option><option value="lo">${en?"Below MVR 35,000":"35,000 ރުފިޔާއަށްވުރެ ދަށް"}</option><option value="hi">${en?"MVR 35,000 and above":"35,000 ރުފިޔާއަށްވުރެ މަތި"}</option></select></label>
       <div class="aw-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" id="awQ" placeholder="${en?"Search project or supplier":"މަސައްކަތް ނުވަތަ ފަރާތް ހޯދާ"}" aria-label="Search"></div>
@@ -2574,7 +2573,7 @@ function awardsPage(){
     <div class="aw-count"><b class="num" id="awCount">${r.n}</b> ${bi("އެވޯޑް ފެނުނު","awards found")}</div>
     <div id="awList">${r.list}</div>`;
 }
-function awRefresh(){const r=awResults();const k=document.getElementById("awKpis");if(!k)return;k.innerHTML=r.sum;document.getElementById("awList").innerHTML=r.list;document.getElementById("awCount").textContent=r.n;}
+function awRefresh(){const r=awResults();if(!document.getElementById("awList"))return;document.getElementById("awList").innerHTML=r.list;document.getElementById("awCount").textContent=r.n;}
 document.addEventListener("input",e=>{if(e.target.id==="awQ"){AWQ=e.target.value.trim();awRefresh();}});
 document.addEventListener("change",e=>{if(e.target.id==="awMonth"){AWM=e.target.value;awRefresh();}if(e.target.id==="awPrice"){AWP=e.target.value;const l=document.getElementById("awPrl");if(l)l.innerHTML=awPrl();awRefresh();}});
 
