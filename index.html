@@ -262,7 +262,7 @@ html[lang=dv] .foot a:not(.ltr){font-family:"KondeyHeading","Faruma",sans-serif}
   <div class="top-l"><div class="soc" id="soc"></div><button class="lang" id="langBtn" type="button">EN</button></div>
 </div></div>
 <header class="head"><div class="wrap">
-  <a class="brand" href="#home"><span class="logo" id="hLogo"></span><span><b class="h" id="hName"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">ގއ.ކޮނޑޭ</span><span class="en">GA. Kondey</span></small></span></a>
+  <a class="brand" href="#home"><span class="logo" id="hLogo"></span><span><b class="h" id="hName"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.</span><span class="en">GA. Kondey, Maldives.</span></small></span></a>
   <nav class="nav" id="nav"></nav>
   <button class="burger" id="burger" type="button" aria-label="Menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
@@ -331,7 +331,7 @@ function header(){
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
   const m=MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
   document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`).join("");
-  document.getElementById("foot").innerHTML=`<div><a class="brand" href="#home"><span class="logo">${logoHTML()}</span><span><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ","GA. Kondey")}</small></span></a>
+  document.getElementById("foot").innerHTML=`<div><a class="brand" href="#home"><span class="logo">${logoHTML()}</span><span><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></span></a>
       <p style="margin-top:14px;opacity:.8">${L2(INFO,"motto")}</p></div>
     <div><h4 class="h">${bi("ލިންކްތައް","Links")}</h4>${MENU.slice(1,6).map(([k,d,e])=>`<a href="#${k}">${bi(d,e)}</a>`).join("")}</div>
     <div><h4 class="h">${bi("ގުޅުއްވާ","Contact")}</h4><a href="tel:+960${esc((INFO.phone||"").replace(/\D/g,""))}"><span class="num">${esc(INFO.phone)}</span></a>${INFO.email?`<a href="mailto:${esc(INFO.email)}"><span class="ltr">${esc(INFO.email)}</span></a>`:""}<a>${L2(INFO,"address")}</a></div>
@@ -365,7 +365,7 @@ function home(){
         <h1 class="h">${bi(`މަރުޙަބާ <em>${esc(INFO.name_dv)}</em> އަށް`,`Welcome to <em>${esc(INFO.name_en)}</em>`)}</h1>
         <p class="motto">${L2(INFO,"motto")}</p>
         <div class="hero-btns"><a class="btn btn-a" href="#about">${bi("ސުކޫލާއި ބެހޭ","About the school")}</a><a class="btn btn-g" href="#notices">${bi("އިޢުލާންތައް","Notices")}</a></div></div>
-      <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ","GA. Kondey")}</small></div></div></section>
+      <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></div></div></section>
     <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></section>
     <section class="sec"><div class="wrap">${aboutBlocks()}</div></section>
     ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap">${principalBlock()}</div></section>`:""}
