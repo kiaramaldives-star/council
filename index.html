@@ -541,6 +541,15 @@ html[dir=rtl] .mn-c.go svg{transform:scaleX(-1)}
 .ld{display:flex;flex-direction:column;align-items:center;gap:12px;padding:40px 10px;color:var(--muted)}.ld-s{width:36px;height:36px;border-radius:50%;border:4px solid var(--ps);border-top-color:var(--p);animation:ldr .8s linear infinite}@keyframes ldr{to{transform:rotate(360deg)}}
 .evi-st{display:inline-block;font-size:12px;border-radius:99px;padding:0 9px;vertical-align:middle;color:#fff;line-height:1.8}.evi-st.ok{background:#16A34A}.evi-st.no{background:#DC2626}html[lang=dv] .evi-st{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
 .evi-tp{display:inline-flex;align-items:center;gap:6px;background:#F3F4F6;border-radius:99px;padding:2px 10px 2px 3px;font-size:13px;color:#374151;line-height:1.5}html[dir=rtl] .evi-tp{padding:2px 3px 2px 10px}.evi-tp img,.evi-tp i{width:26px;height:26px;border-radius:50%;object-fit:cover;object-position:top;flex:none}.evi-tp i{display:grid;place-items:center;background:var(--ps);color:var(--p);font-style:normal;font-size:13px}
+.sk{display:block;border-radius:10px;background:linear-gradient(90deg,#ECEDF0 25%,#F6F7F9 37%,#ECEDF0 63%);background-size:400% 100%;animation:skm 1.3s ease infinite}
+@keyframes skm{0%{background-position:100% 50%}100%{background-position:0 50%}}
+.sk-wrap{display:grid;gap:12px;padding:6px 0}
+.sk-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:#fff}
+.sk-av{flex:none;width:56px;height:56px;border-radius:14px}.sk-col{flex:1;display:grid;gap:8px}
+.sk-l{height:14px}.sk-l.sm{height:11px}
+.sk-tag{width:110px;height:26px;border-radius:99px}.sk-h{height:26px;border-radius:8px}
+.sk-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}.sk-box{height:64px;border-radius:16px}
+.sk-body{display:grid;gap:10px;border:1px solid var(--line);border-radius:16px;padding:16px}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -689,7 +698,9 @@ function eventItem(e){const t=EVT[e.type]||EVT.event,today=isoD(new Date()),end=
   return `<div class="evi ${esc(e.type||"event")} ${st} reveal">${dateBox(e.date)}<div class="evi-m"><h4 class="h">${L2(e,"title")}${st==="now"?` <span class="evi-now">${bi("ކުރިއަށްދަނީ","On now")}</span>`:""}${st==="past"?(e.status==="done"?` <span class="evi-st ok">${bi("ކުރިއަށް ގެންގޮސްފައި","Carried out")}</span>`:` <span class="evi-st no">${bi("ކުރިއަށް ނުގެންދެވޭ","Not carried out")}</span>`):""}</h4>
     <small>${e.end&&e.end!==e.date?`${nDate(e.date)} – ${nDate(e.end)} · ${bi(`<span class="num">${days}</span> ދުވަސް`,`${days} days`)}`:nDate(e.date)}${e.type&&e.type!=="event"?` · ${bi(t[0],t[1])}`:""}</small>
     ${e.teacher_dv||e.teacher_en||e.audience_dv||e.audience_en?`<div class="evi-x">${e.teacher_dv||e.teacher_en?evTeachers(e):""}${e.audience_dv||e.audience_en?`<span class="evi-a">${L2(e,"audience")}</span>`:""}</div>`:""}</div></div>`;}
-function loadingHTML(){return `<div class="ld"><span class="ld-s"></span><span>${bi("ލޯޑުވަނީ...","Loading...")}</span></div>`;}
+function loadingHTML(kind){const row=`<div class="sk-row"><span class="sk sk-av"></span><div class="sk-col"><span class="sk sk-l" style="width:70%"></span><span class="sk sk-l sm" style="width:45%"></span></div></div>`;
+  if(kind==="detail")return `<div class="sk-wrap" aria-label="Loading"><span class="sk sk-tag"></span><span class="sk sk-h" style="width:85%"></span><span class="sk sk-h" style="width:55%"></span><div class="sk-meta"><span class="sk sk-box"></span><span class="sk sk-box"></span></div><div class="sk-body">${[100,96,100,88,92,60].map(w=>`<span class="sk sk-l" style="width:${w}%"></span>`).join("")}</div></div>`;
+  return `<div class="sk-wrap" aria-label="Loading">${row+row+row}</div>`;}
 const empty=(dv,en)=>DB_LOADING?loadingHTML():`<div class="empty">${bi(dv,en)}</div>`;
 function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap"><h1 class="h">${bi(dv,en)}</h1></div></section>`;}
 const stat=(ic,v,dv,en)=>`<div class="st reveal"><span class="st-ic">${IC[ic]}</span><div><b class="num">${v}</b><span>${bi(dv,en)}</span></div></div>`;
@@ -756,7 +767,7 @@ function noticeHead(o,t){
       ${dl}
     </div>`;}
 function detail(o,back,backDv,backEn,isNotice){
-  if(!o&&DB_LOADING) return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel">${loadingHTML()}</div></div></div>`;
+  if(!o&&DB_LOADING) return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel">${loadingHTML("detail")}</div></div></div>`;
   if(!o) return pageHead("ނުފެނުނު","Not found")+`<div class="pb"><div class="wrap"><div class="panel">${empty("މި ސަފްޙާ ނުފެނުނު","Page not found")}</div></div></div>`;
   const im=safeUrl(o.img), ph=(o.photos||[]).map(safeUrl).filter(Boolean), t=TYPES[o.type]||TYPES.notice, pdf=safeUrl(o.pdf);
   return pageHead(isNotice?"އިޢުލާން":"ޚަބަރު",isNotice?"Notice":"News")+`<div class="pb"><div class="wrap"><div class="panel"><article class="art">
