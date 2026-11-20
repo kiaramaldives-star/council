@@ -387,6 +387,28 @@ html[lang=dv] .nd-m small{font-family:"KondeyHeading","Faruma",sans-serif;font-s
 .nd-share{display:inline-flex;align-items:center;gap:8px;background:var(--k);color:#fff;border:0;cursor:pointer}
 .files{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
 @media (max-width:620px){.nd-t{font-size:25px!important}.nd-meta{grid-template-columns:1fr;gap:8px}.nd-m{padding:10px 12px}.nd-ic{width:38px;height:38px}.nd-body{padding:14px 16px}}
+.ss{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ss-c{background:#F8F8FA;border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.ss-c b{font-size:30px;line-height:1.2;color:var(--k)}.ss-c>span:last-child{color:var(--muted);font-size:14px}
+.ss-ic{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--p);display:grid;place-items:center;margin-bottom:4px}.ss-ic svg{width:20px;height:20px}
+.ss-c.g .ss-ic{color:#DB2777}.ss-c.b .ss-ic{color:#2563EB}
+.ss-new{margin-top:12px;background:#FFF1F2;border:1px solid #FECDD3;color:var(--p);border-radius:14px;padding:10px 14px;text-align:center;font-size:15px}
+.ss-h{font-size:22px;color:var(--p);margin:24px 0 12px}
+.gb{display:grid;gap:8px}.gb-r{display:grid;grid-template-columns:88px 1fr 30px;align-items:center;gap:10px}
+.gb-n{font-size:15px}.gb-r>b{font-size:16px;text-align:center}
+.gb-t{height:16px;background:#F3F4F6;border-radius:99px;overflow:hidden}.gb-f{height:100%;display:flex;border-radius:99px;overflow:hidden}
+.gb-f i,.gb-k i{display:block}.g{--c:#EC4899}.b{--c:#3B82F6}.gb-f i{background:var(--c);height:100%}
+.gb-k{display:flex;gap:18px;justify-content:center;margin-top:10px;color:var(--muted);font-size:14px}.gb-k span{display:flex;align-items:center;gap:6px}.gb-k i{width:12px;height:12px;border-radius:4px;background:var(--c)}
+.cl2{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.clc2{border:1px solid var(--line);border-radius:18px;padding:14px 16px;background:#fff;border-top:4px solid var(--p)}
+.clc2-h{display:flex;justify-content:space-between;align-items:center;gap:8px}.clc2-h h3{font-size:20px}
+.clc2-n{background:var(--k);color:#fff;border-radius:99px;padding:2px 12px;font-size:13px}
+.clc2-gb{display:flex;gap:8px;margin-top:8px}.clc2-gb span{font-size:13px;border-radius:99px;padding:2px 10px;background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.clc2-t{margin-top:8px;font-size:14px;color:var(--muted)}.clc2-t b{color:var(--text);font-weight:600}
+.clc-s{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.clc-s span{font-size:13px;background:#F3F4F6;border-radius:8px;padding:2px 8px;color:#374151}
+.clc2-st{margin-top:10px;background:#F8F8FA;border-radius:12px;padding:10px 12px;font-size:14px}.clc2-st small{display:block;color:var(--p);margin-bottom:4px}.clc2-st p{margin:0 0 4px}
+.sc-gr{display:flex;align-items:center;justify-content:center;gap:4px;font-size:12.5px;color:var(--muted);margin-top:4px}.sc-gr svg{width:13px;height:13px}
+@media (max-width:620px){.ss{grid-template-columns:repeat(2,1fr)}.ss-c b{font-size:26px}.gb-r{grid-template-columns:76px 1fr 26px}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -557,7 +579,7 @@ function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the scho
 const nDateTxt=d=>{const y=String(d||"").slice(0,4);return y||"—";};
 function staffPage(){
   const ord=Object.keys(ROLES), L=STAFF.slice().sort((a,b)=>(ord.indexOf(a.role)-ord.indexOf(b.role))||((+a.order||0)-(+b.order||0)));
-  const card=(s,noDuty)=>{const ph=safeUrl(s.photo),r=ROLES[s.role]||ROLES.teacher;return `<div class="sc reveal"><div class="sc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((s.name_dv||s.name_en||"?").trim().charAt(0))}</span>`}</div><b class="h">${L2(s,"name")}</b><span>${s.title_dv||s.title_en?L2(s,"title"):bi(r[0],r[1])}</span>${!noDuty&&(s.duty_dv||s.duty_en)?`<span class="tag">${L2(s,"duty")}</span>`:""}${s.subject_dv||s.subject_en?`<span class="tag">${L2(s,"subject")}</span>`:""}${s.phone||s.email?`<div class="sc-ct">${s.phone?`<a href="tel:+960${esc(String(s.phone).replace(/\D/g,""))}">${IC.phone.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="num">${esc(s.phone)}</span></a>`:""}${s.email?`<a href="mailto:${esc(s.email)}">${IC.mail.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="ltr">${esc(s.email)}</span></a>`:""}</div>`:""}</div>`;};
+  const card=(s,noDuty)=>{const ph=safeUrl(s.photo),r=ROLES[s.role]||ROLES.teacher;return `<div class="sc reveal"><div class="sc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((s.name_dv||s.name_en||"?").trim().charAt(0))}</span>`}</div><b class="h">${L2(s,"name")}</b><span>${s.title_dv||s.title_en?L2(s,"title"):bi(r[0],r[1])}</span>${!noDuty&&(s.duty_dv||s.duty_en)?`<span class="tag">${L2(s,"duty")}</span>`:""}${s.subject_dv||s.subject_en?`<span class="tag">${L2(s,"subject")}</span>`:""}${s.grades_dv||s.grades_en?`<small class="sc-gr">${IC.book||""}${L2(s,"grades")}</small>`:""}${s.phone||s.email?`<div class="sc-ct">${s.phone?`<a href="tel:+960${esc(String(s.phone).replace(/\D/g,""))}">${IC.phone.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="num">${esc(s.phone)}</span></a>`:""}${s.email?`<a href="mailto:${esc(s.email)}">${IC.mail.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="ltr">${esc(s.email)}</span></a>`:""}</div>`:""}</div>`;};
   const groups=[["lead",["principal","deputy","leading"],"ސީނިއަރ މެނޭޖްމަންޓް ޓީމް","Senior Management Team"],["teach",["teacher"],"މުދައްރިސުން","Teachers"],["oth",["admin","support"],"އިދާރީ އަދި އެހީތެރި މުވައްޒަފުން","Administrative & support staff"]];
   const body=STAFF.length?groups.map(([g,rs,dv,en])=>{const G=L.filter(s=>rs.includes(s.role||"teacher")||(g==="lead"&&String(s.smt)==="1"));return G.length?`<h2 class="grp-h h">${bi(dv,en)}</h2><div class="sg">${G.map(x=>card(x,g==="teach")).join("")}</div>`:"";}).join(""):empty("މުވައްޒަފުންގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Staff details coming soon");
   return pageHead("މުވައްޒަފުން","Staff")+`<div class="pb"><div class="wrap"><div class="panel">${body}</div></div></div>`;}
@@ -589,12 +611,29 @@ function detail(o,back,backDv,backEn,isNotice){
     ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
     <div class="files">${isNotice?`<button type="button" class="btn nd-share" data-share>${IC.share}${bi("ޙިއްސާކުރައްވާ","Share")}</button>`:""}${pdf?`<a class="btn btn-p" href="${esc(pdf)}" target="_blank" rel="noopener">${bi("ލިޔުން ބައްލަވާ (PDF)","Open document (PDF)")}</a>`:""}${safeUrl(o.source)?`<a class="more" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}</div>
   </article></div></div></div>`;}
+function studentStats(){
+  const C=CLASSES.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)), sum=k=>C.reduce((t,c)=>t+(+c[k]||0),0);
+  const tot=sum("students"), gi=sum("girls"), bo=sum("boys"), mx=Math.max(1,...C.map(c=>+c.students||0));
+  const card=(ic,v,dv,en,cl)=>`<div class="ss-c ${cl||""}"><span class="ss-ic">${ic}</span><b class="num">${v}</b><span>${bi(dv,en)}</span></div>`;
+  const subs=c=>{const d=String(c.subjects_dv||"").split(/[،,]\s*/).filter(Boolean),e=String(c.subjects_en||"").split(/,\s*/).filter(Boolean);return (d.length||e.length)?`<div class="clc-s">${(d.length?d:e).map((x,i)=>`<span>${bi(esc(x),esc(e[i]||x))}</span>`).join("")}</div>`:"";};
+  return `<div class="ss">${card(IC.users,tot,"ޖުމްލަ ދަރިވަރުން","Total students")}${gi||bo?card(IC.users,gi,"އަންހެން ދަރިވަރުން","Girls","g")+card(IC.users,bo,"ފިރިހެން ދަރިވަރުން","Boys","b"):""}${card(IC.cap||IC.book||"",C.length,"ކްލާސް","Classes")}</div>
+    ${INFO.admissions_next?`<div class="ss-new">${bi(`<span class="num">${+(INFO.students_year||2026)+1}</span> ވަނަ އަހަރަށް އެލް.ކޭ.ޖީ އަށް <b class="num">${esc(INFO.admissions_next)}</b> އާ ދަރިވަރުން ވަދެފައި`,`${+(INFO.students_year||2026)+1}: ${esc(INFO.admissions_next)} new students admitted to LKG`)}</div>`:""}
+    <h3 class="h ss-h">${bi("ގްރޭޑްތަކުގައި ދަރިވަރުން","Students by grade")}</h3>
+    <div class="gb">${C.map(c=>{const n=+c.students||0,g=+c.girls||0,b=+c.boys||0;return `<div class="gb-r"><span class="gb-n h">${L2(c,"name")}</span><div class="gb-t"><div class="gb-f" style="width:${n/mx*100}%">${g?`<i class="g" style="flex:${g}"></i>`:""}${b?`<i class="b" style="flex:${b}"></i>`:""}</div></div><b class="num">${n}</b></div>`;}).join("")}</div>
+    ${gi||bo?`<div class="gb-k"><span><i class="g"></i>${bi("އަންހެން","Girls")}</span><span><i class="b"></i>${bi("ފިރިހެން","Boys")}</span></div>`:""}
+    <h3 class="h ss-h">${bi("ކްލާސްތަކާއި މާއްދާތައް","Classes & subjects")}</h3>
+    <div class="cl2">${C.map(c=>`<div class="clc2 reveal"><div class="clc2-h"><h3 class="h">${L2(c,"name")}</h3><span class="clc2-n"><b class="num">${esc(c.students||0)}</b> ${bi("ދަރިވަރުން","students")}</span></div>
+      ${c.girls||c.boys?`<div class="clc2-gb"><span class="g">${bi("އަންހެން","Girls")} <b class="num">${+c.girls||0}</b></span><span class="b">${bi("ފިރިހެން","Boys")} <b class="num">${+c.boys||0}</b></span></div>`:""}
+      ${c.teacher_dv||c.teacher_en?`<div class="clc2-t">${bi("ކްލާސް ޓީޗަރ:","Class teacher:")} <b>${L2(c,"teacher")}</b></div>`:""}
+      ${subs(c)}
+      ${c.streams_dv||c.streams_en?`<div class="clc2-st"><small>${bi("ސްޓްރީމްތަކާއި އިޚްތިޔާރީ މާއްދާތައް","Streams & optional subjects")}</small>${bi(paras(c.streams_dv||c.streams_en),paras(c.streams_en||c.streams_dv))}</div>`:""}
+    </div>`).join("")}</div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
   return pageHead("ދަރިވަރުން","Students")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="sec-h"><div><div class="eyebrow">${bi("ކްލާސްތައް","Classes")}</div><h2 class="h">${bi("ގްރޭޑްތަކާއި ކްލާސްތައް","Grades & classes")}</h2></div>${total?`<span class="more"><span class="num">${total}</span> ${bi("ދަރިވަރުން","students")}</span>`:""}</div>
-    ${CLASSES.length?`<div class="cl">${CLASSES.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)).map(c=>`<div class="clc reveal"><h3 class="h">${L2(c,"name")}</h3>${c.teacher_dv||c.teacher_en?`<div class="row"><span>${bi("ކްލާސް ޓީޗަރ","Class teacher")}</span><b>${L2(c,"teacher")}</b></div>`:""}${c.students?`<div class="row"><span>${bi("ދަރިވަރުން","Students")}</span><b class="num">${esc(c.students)}</b></div>`:""}</div>`).join("")}</div>`:empty("ކްލާސްތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Class details coming soon")}
+    ${CLASSES.length?studentStats():empty("ކްލާސްތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Class details coming soon")}
     <div class="sec-h" style="margin-top:24px"><div><div class="eyebrow">${bi("ސްކޫލް ކެލެންޑަރު","School calendar")}</div><h2 class="h">${bi("ކުރިއަށް އޮތް ހަރަކާތްތައް","Upcoming")}</h2></div></div>
     ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming events")}
     ${past.length?`<h2 class="grp-h h">${bi("ފާއިތުވި","Past")}</h2><div class="ev" style="opacity:.75">${past.slice(0,10).map(eventItem).join("")}</div>`:""}
