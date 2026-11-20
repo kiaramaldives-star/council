@@ -460,6 +460,16 @@ html[lang=dv] .sm-g>.en,html[lang=en] .sm-g>.dv{display:none}
 .sm-c.core .sm-n{background:var(--k)}.sm-c.opt .sm-n{background:#0891B2}
 .sm-tag{display:inline-block;margin-top:6px;font-size:12.5px;background:#CFFAFE;color:#0E7490;border-radius:99px;padding:1px 10px}
 .sm-c .clc-s{margin-top:8px}
+.vc{background:#FAFAFB;border:1px solid var(--line);border-radius:20px;padding:16px 10px 10px}
+.vc-plot{display:flex;align-items:flex-end;justify-content:space-between;gap:6px;height:220px;direction:ltr;background:repeating-linear-gradient(to top,transparent 0,transparent 43px,#ECEDEF 43px,#ECEDEF 44px);padding-bottom:26px;position:relative}
+.vc-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.vc-t{font-size:15px;color:var(--k);margin-bottom:4px}
+.vc-bar{width:100%;max-width:46px;display:flex;flex-direction:column;border-radius:10px 10px 4px 4px;overflow:hidden;box-shadow:0 4px 10px rgba(15,23,42,.08);min-height:4px}
+.vc-bar i{display:grid;place-items:center;background:var(--c);min-height:18px}.vc-bar i.g{order:-1}
+.vc-bar i span{color:#fff;font-size:12px;font-weight:700;font-style:normal}
+.vc-l{position:absolute;bottom:-24px;font-size:12.5px;font-weight:700;color:#374151;white-space:nowrap}
+.gb-k b{color:var(--text);margin-inline-start:2px}
+@media (max-width:620px){.vc-plot{gap:4px;height:200px}.vc-bar{border-radius:8px 8px 3px 3px}.vc-l{font-size:11px}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -680,8 +690,8 @@ function studentStats(){
   return `<div class="ss">${card(IC.users,tot,"ޖުމްލަ ދަރިވަރުން","Total students")}${gi||bo?card(IC.users,gi,"އަންހެން ދަރިވަރުން","Girls","g")+card(IC.users,bo,"ފިރިހެން ދަރިވަރުން","Boys","b"):""}${card(IC.cap||IC.book||"",C.length,"ކްލާސް","Classes")}</div>
     ${INFO.admissions_next?`<div class="ss-new">${bi(`<span class="num">${+(INFO.students_year||2026)+1}</span> ވަނަ އަހަރަށް އެލް.ކޭ.ޖީ އަށް <b class="num">${esc(INFO.admissions_next)}</b> އާ ދަރިވަރުން ވަދެފައި`,`${+(INFO.students_year||2026)+1}: ${esc(INFO.admissions_next)} new students admitted to LKG`)}</div>`:""}
     <h3 class="h ss-h">${bi("ގްރޭޑްތަކުގައި ދަރިވަރުން","Students by grade")}</h3>
-    <div class="gb">${C.map(c=>{const n=+c.students||0,g=+c.girls||0,b=+c.boys||0;return `<div class="gb-r"><span class="gb-n h">${L2(c,"name")}</span><div class="gb-t"><div class="gb-f" style="width:${n/mx*100}%">${g?`<i class="g" style="flex:${g}"></i>`:""}${b?`<i class="b" style="flex:${b}"></i>`:""}</div></div><b class="num">${n}</b></div>`;}).join("")}</div>
-    ${gi||bo?`<div class="gb-k"><span><i class="g"></i>${bi("އަންހެން","Girls")}</span><span><i class="b"></i>${bi("ފިރިހެން","Boys")}</span></div>`:""}
+    <div class="vc"><div class="vc-plot">${C.map(c=>{const n=+c.students||0,g=+c.girls||0,b=+c.boys||0,sh=String(c.name_en||c.name_dv||"").replace(/^Grade\s*/i,"");return `<div class="vc-col"><b class="vc-t num">${n}</b><div class="vc-bar" style="height:${n/mx*100}%">${b?`<i class="b" style="flex:${b}">${b>0?`<span class="num">${b}</span>`:""}</i>`:""}${g?`<i class="g" style="flex:${g}">${`<span class="num">${g}</span>`}</i>`:""}</div><span class="vc-l num">${esc(sh)}</span></div>`;}).join("")}</div></div>
+    ${gi||bo?`<div class="gb-k"><span><i class="g"></i>${bi("އަންހެން","Girls")} <b class="num">${gi}</b></span><span><i class="b"></i>${bi("ފިރިހެން","Boys")} <b class="num">${bo}</b></span></div>`:""}
     <h3 class="h ss-h">${bi("ކްލާސްތަކާއި މާއްދާތައް","Classes & subjects")}</h3>
     <div class="cl2">${C.map(c=>`<div class="clc2 reveal"><div class="clc2-h"><h3 class="h">${L2(c,"name")}</h3><span class="clc2-n"><b class="num">${esc(c.students||0)}</b> ${bi("ދަރިވަރުން","students")}</span></div>
       ${c.girls||c.boys?`<div class="clc2-gb"><span class="g">${bi("އަންހެން","Girls")} <b class="num">${+c.girls||0}</b></span><span class="b">${bi("ފިރިހެން","Boys")} <b class="num">${+c.boys||0}</b></span></div>`:""}
