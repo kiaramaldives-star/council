@@ -369,7 +369,7 @@ function home(){
     <section class="stats"><div class="wrap">${stat("cal",years()+"+","އަހަރުގެ ޙިދުމަތް","Years of service")}${stat("cap",INFO.students||0,"ދަރިވަރުން","Students")}${stat("book",INFO.teachers||0,"މުދައްރިސުން","Teachers")}${stat("users",INFO.staff||0,"އެހެން މުވައްޒަފުން","Other staff")}</div></section>
     <section class="sec"><div class="wrap">${aboutBlocks()}</div></section>
     ${principalBlock()?`<section class="sec" style="padding-top:0"><div class="wrap">${principalBlock()}</div></section>`:""}
-    <section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><div class="eyebrow">${bi("އެންމެ ފަހުގެ","Latest")}</div><h2 class="h">${bi("ޚަބަރު","News")}</h2></div><a class="more" href="#news">${bi("ހުރިހާ ޚަބަރެއް","All news")} ${IC.arr}</a></div>
+    <section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("އެންމެ ފަހުގެ ޚަބަރު","Latest news")}</h2></div><a class="more" href="#news">${bi("ހުރިހާ ޚަބަރެއް","All news")} ${IC.arr}</a></div>
       ${NEWS.length?`<div class="grid3">${sortD(NEWS).slice(0,3).map(newsCard).join("")}</div>`:empty("އަދި ޚަބަރެއް ނެތް","No news yet")}</div></section>
     <section class="sec"><div class="wrap two">
       <div><div class="sec-h"><div><div class="eyebrow">${bi("އާ","New")}</div><h2 class="h">${bi("އިޢުލާން","Notices")}</h2></div><a class="more" href="#notices">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
