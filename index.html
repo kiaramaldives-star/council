@@ -284,7 +284,7 @@ const paras=t=>String(t||"").split(/\n\s*\n|\n/).map(x=>x.trim()).filter(Boolean
 const safeUrl=u=>/^(https?:\/\/|\/|data:image\/(png|jpe?g|webp|gif);)/i.test(String(u||"").trim())?String(u).trim():"";
 
 let INFO={name_dv:"ކޮނޑޭ ސްކޫލް",name_en:"Kondey School",motto_dv:"ހިތްވަރާއެކު މަސައްކަތްކުރުމުން ކާމިޔާބު ލިބޭނެއެވެ.",motto_en:"Determination leads to success.",
-  vision_dv:"ކޮނޑޭ ސްކޫލްގެ ކޮންމެ ދަރިވަރަކީ ދީނީ އަދި ޤައުމީ ރަނގަޅު އަޚްލާޤު ދައްކުވައިދޭ، ތަޢުލީމީ ގޮތުން މޮޅު، ދެކެވިދާނެ ގޮތަށް އަމަލުކުރާ، ހަރަކާތްތެރި އަދި ކުރިއަށް ގޮސް ކަންކުރާ ދަރިވަރަކަށް ތައްޔާރުކުރުން.",
+  vision_dv:"ކޮނޑޭ ސުކޫލުގައި އުގެނޭ ކޮންމެ ދަރިވަރަކީ، މާތްވެގެންވާ އިސްލާމް ދީނާއި ދިވެހި ޤައުމުދެކެ ލޯބިވާ، ޢިލްމާއި ހުނަރު ލިބި، ދުނިޔެއަށް ލޯ ހުޅުވިފައިވާ، ހުލްޤުހެޔޮ، ދުރުވިސްނޭ އަދި އިސްނަގަން ކެރޭ ދަރިވަރަކަށް ހެދުމެވެ.",
   vision_en:"To develop every student of Kondey School to represent good religious and patriotic morals, exhibit scholastic excellences, portray ethical, dynamic and initiative behaviour.",
   mission_dv:"އިސްލާމްދީނަށް ފުރިހަމަ ލޯބިލިބިފައިވާ، \"ތަހުޒީބުވެރި، ތަޢުލީމީ އަދި ސަޤާފަތްތެރި ދަރިވަރުން\" އުފައްދާ ސްކޫލަކަށް ކޮނޑޭ ސްކޫލް ހެދުން.",
   mission_en:"Kondey School will be a school which will produce \"Well civilised educated and cultured students\" with abundant love for Islam.",
@@ -350,7 +350,7 @@ function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap">
 const stat=(ic,v,dv,en)=>`<div class="st reveal"><span class="st-ic">${IC[ic]}</span><div><b class="num">${v}</b><span>${bi(dv,en)}</span></div></div>`;
 function aboutBlocks(){return `<div class="about"><div class="about-txt reveal"><div class="eyebrow">${bi("އަޅުގަނޑުމެންގެ ވާހަކަ","Our story")}</div><h2 class="h" style="font-size:32px;color:var(--p);margin-bottom:14px;line-height:1.35">${bi("ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހުގެ ތަޢުލީމީ ޙިދުމަތް","Over four decades of education")}</h2>${bi(paras(INFO.intro_dv),paras(INFO.intro_en))}</div>
   <div class="vm"><div class="vm-c motto-c reveal"><span class="st-ic">${IC.star}</span><div><h3 class="h">${bi("މޮޓޯ","Motto")}</h3><p>${L2(INFO,"motto")}</p></div></div>
-    <div class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ލަނޑުދަނޑި","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
+    <div class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
     <div class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މިޝަން","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
   return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><div class="eyebrow">${bi("ޕްރިންސިޕަލްގެ ބަސްފުޅު","Principal's message")}</div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
