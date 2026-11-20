@@ -1228,6 +1228,7 @@ html[lang=en] .ti-v{font-family:inherit}
 .ag-foot{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:18px;padding-top:14px;border-top:1px dashed #E5E7EB;font-family:"Faruma",sans-serif;font-size:14px;color:#6B7280}
 @media (max-width:640px){.ag-list li{display:grid;grid-template-columns:auto 1fr;row-gap:6px}.ag-r{grid-column:2;justify-self:start}.ag-i{padding:10px 12px}.ag-ic{width:34px;height:34px}}
 .mn-text .ag-list{padding:0!important;margin:0!important}.mn-text .ag-list li{margin:0}.ag-i:not(.wide) b{white-space:nowrap}@media (max-width:400px){.ag-info{grid-template-columns:1fr}}
+.ag-info b .num,.ag-t .num,.ag-foot .num{unicode-bidi:isolate;direction:ltr;display:inline-block}
 </style>
 </head>
 <body>
@@ -1926,11 +1927,15 @@ function mnRender(t){
 function agRender(t){
   const L=(t||"").split("\n").map(x=>x.trim()).filter(Boolean); let info=[],items=[],foot=[],head="",started=false;
   const IC={"ތަން":'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',"ގަޑި":'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',"ތާރީޚު":'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',"ރިޔާސަތު":'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>'};
+  const KEYS=/^(ތަން|ގަޑި|ތާރީޚު|ރިޔާސަތު|ވަގުތު|ދުވަސް|ހާޒިރުވި|ބައިވެރިވި)$/;
   L.forEach(l=>{let m;
-    if(m=l.match(/^#\s+(.*)/)){head=m[1];started=true;}
-    else if(m=l.match(/^\d+[.)]\s+(.*)/)){started=true;const [tx,res]=m[1].split(/\s+[—–-]\s+(?=[^—–-]+$)/);items.push([tx,res||""]);}
-    else if(!started&&(m=l.match(/^([^:]{1,24}):\s*(.+)$/))) info.push([m[1].trim(),m[2]]);
-    else foot.push(l);
+    if(m=l.match(/^#\s+(.*)/)){ if(items.length||info.length||!/(ޖެންޑާ|ޔައުމިއްޔާ|ނިންމުން)/.test(m[1])) head=m[1]; started=true; }
+    else if((m=l.match(/^(?:[-•]\s*)?([^:]{1,24}):\s*(.+)$/))&&(KEYS.test(m[1].trim())||(!started&&!/^\d/.test(l)))&&!items.length) info.push([m[1].trim(),m[2]]);
+    else if(m=l.match(/^\d+[.)]\s+(.*)$/)){started=true;let tx=m[1],res="";let r;
+      if(r=tx.match(/^(.*?)\s*\((?:ހުށަހަޅާ ފަރާތް|ހުށަހެޅީ)\s*:\s*([^)]+)\)\s*$/)){tx=r[1];res=r[2];}
+      else if(r=tx.match(/^(.*?)\s+[—–]\s+([^—–]+)$/)){tx=r[1];res=r[2];}
+      items.push([tx,res.trim()]);}
+    else foot.push(l.replace(/^[-•]\s+/,""));
   });
   return `${info.length?`<div class="ag-info">${info.map(([k,v])=>`<div class="ag-i${k==="ތަން"||k==="ރިޔާސަތު"?" wide":""}"><span class="ag-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[k]||IC["ތާރީޚު"]}</svg></span><div><small>${esc2(k)}</small><b>${esc2(v).replace(/(\d[\d:]*)/g,'<span class="num">$1</span>')}</b></div></div>`).join("")}</div>`:""}
   ${items.length?`<h4 class="ag-h">${esc2(head||"ހުށަހަޅާ މައްސަލަތައް")}</h4><ol class="ag-list">${items.map(([tx,res],i)=>`<li><span class="ag-n num">${i+1}</span><span class="ag-t">${esc2(tx).replace(/(\d+)/g,'<span class="num">$1</span>')}</span>${res?`<em class="ag-r">${esc2(res)}</em>`:""}</li>`).join("")}</ol>`:""}
