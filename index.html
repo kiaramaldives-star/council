@@ -617,7 +617,7 @@ function home(){
     <section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><h2 class="h">${bi("އެންމެ ފަހުގެ ޚަބަރު","Latest news")}</h2></div><a class="more" href="#news">${bi("ހުރިހާ ޚަބަރެއް","All news")} ${IC.arr}</a></div>
       ${NEWS.length?`<div class="grid3">${sortD(NEWS).slice(0,3).map(newsCard).join("")}</div>`:empty("އަދި ޚަބަރެއް ނެތް","No news yet")}</div></section>
     <section class="sec"><div class="wrap two">
-      <div><div class="sec-h"><div><h2 class="h">${bi("އާ އިއުލާން","New notices")}</h2></div><a class="more" href="#notices">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
+      <div><div class="sec-h"><div><h2 class="h">${bi("އިޢުލާން","Notices")}</h2></div><a class="more" href="#notices">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
         ${NOTICES.length?`<div class="nl">${sortD(NOTICES).slice(0,4).map(noticeItem).join("")}</div>`:empty("މިވަގުތު އިޢުލާނެއް ނެތް","No notices right now")}</div>
       <div><div class="sec-h"><div><h2 class="h">${bi("ކުރިއަށް އޮތް ކަލަންޑަރު","Upcoming calendar")}</h2></div><a class="more" href="#students">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
         ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming events")}</div></div></section>
