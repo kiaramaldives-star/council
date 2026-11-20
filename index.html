@@ -492,6 +492,14 @@ html[lang=dv] .sm-g>.en,html[lang=en] .sm-g>.dv{display:none}
 .fn-go{flex:none;width:38px;height:38px;border-radius:50%;background:#fff;color:var(--p);display:grid;place-items:center}
 @media (max-width:620px){.fn{padding:14px;gap:10px}.fn-ic{width:44px;height:44px}.fn b{font-size:17px}.fn-go{width:32px;height:32px}}
 html[lang=dv] .fn,html[lang=dv] .fn :not(.num):not(svg):not(path){font-family:"KondeyHeading","Faruma",sans-serif!important}html[lang=dv] .fn b.h{font-size:21px;font-weight:400}html[lang=dv] .fn small,html[lang=dv] .fn-lbl{font-size:14.5px}
+.nav-dd{position:relative;display:flex}.nav-dd>a{display:inline-flex;align-items:center;gap:5px}.dd-c{transition:transform .2s}
+.nav-sub{position:absolute;top:100%;inset-inline-start:0;min-width:210px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(15,23,42,.14);padding:8px;display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.18s;z-index:80;margin-top:6px}
+.nav-dd::after{content:"";position:absolute;top:100%;left:0;right:0;height:10px}
+.nav-dd:hover .nav-sub,.nav-dd:focus-within .nav-sub{opacity:1;visibility:visible;transform:none}.nav-dd:hover .dd-c{transform:rotate(180deg)}
+.nav-sub a{display:block;white-space:nowrap}
+.mnav-sub{display:grid;gap:2px;margin:-4px 0 6px;padding-inline-start:18px;border-inline-start:3px solid var(--ps);margin-inline-start:14px}
+.mnav-sub a{font-size:16px!important;padding:9px 12px!important;color:#4B5563}
+.vm-c.hl{box-shadow:0 0 0 3px var(--p),0 12px 30px rgba(200,16,46,.2);transition:box-shadow .3s}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -584,7 +592,9 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   ig:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
-const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["charter","ސަރވިސް ޗާޓަރ","Service charter"],["staff","މުވައްޒަފުން","Staff"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
+const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
+const SUBMENU={about:[["about/motto","މޮޓޯ","Motto"],["about/vision","ތަޞައްވަރު","Vision"],["about/mission","މުހިންމަތު","Mission"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const PARENT={staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -595,8 +605,8 @@ function header(){
   document.getElementById("hName").innerHTML=L2(INFO,"name");
   const ph=(INFO.phone||"").trim();const tp=document.getElementById("topPhone");tp.href="tel:+960"+ph.replace(/\D/g,"");tp.querySelector("span").textContent=ph;
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
-  const m=MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
-  document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`).join("");
+  const m=MENU.map(([k,d,e])=>SUBMENU[k]?`<div class="nav-dd"><a href="#${k}" data-k="${k}">${bi(d,e)}<svg class="dd-c" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a><div class="nav-sub">${SUBMENU[k].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div></div>`:`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
+  document.getElementById("nav").innerHTML=m;document.getElementById("mnavP").innerHTML=`<button class="mnav-x" type="button" data-close>✕</button>`+MENU.map(([k,d,e])=>`<a href="#${k}" data-k="${k}">${bi(d,e)}<span>${IC.arr}</span></a>`+(SUBMENU[k]?`<div class="mnav-sub">${SUBMENU[k].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div>`:"")).join("");
   const tel=(INFO.phone||"").replace(/\D/g,""), host=(INFO.website||"kondeyschool.edu.mv").replace(/^https?:\/\//,"").replace(/\/$/,"");
   const FI={phone:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>',
     web:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5S9.4 5.3 12 2.5z"/></svg>',
@@ -630,9 +640,9 @@ const empty=(dv,en)=>`<div class="empty">${bi(dv,en)}</div>`;
 function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap"><h1 class="h">${bi(dv,en)}</h1></div></section>`;}
 const stat=(ic,v,dv,en)=>`<div class="st reveal"><span class="st-ic">${IC[ic]}</span><div><b class="num">${v}</b><span>${bi(dv,en)}</span></div></div>`;
 function aboutBlocks(){return `<div class="about"><div class="about-txt reveal"><div class="eyebrow">${bi("އަޅުގަނޑުމެންގެ ވާހަކަ","Our story")}</div><h2 class="h" style="font-size:32px;color:var(--p);margin-bottom:14px;line-height:1.35">${bi("ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހުގެ ތަޢުލީމީ ޙިދުމަތް","Over four decades of education")}</h2>${bi(paras(INFO.intro_dv),paras(INFO.intro_en))}</div>
-  <div class="vm"><div class="vm-c motto-c reveal"><span class="st-ic">${IC.star}</span><div><h3 class="h">${bi("މޮޓޯ","Motto")}</h3><p>${L2(INFO,"motto")}</p></div></div>
-    <div class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
-    <div class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
+  <div class="vm"><div id="ab-motto" class="vm-c motto-c reveal"><span class="st-ic">${IC.star}</span><div><h3 class="h">${bi("މޮޓޯ","Motto")}</h3><p>${L2(INFO,"motto")}</p></div></div>
+    <div id="ab-vision" class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
+    <div id="ab-mission" class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
   return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
@@ -970,11 +980,13 @@ function route(){
   if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
   else if(h.startsWith("notice-")){html=detail(NOTICES.find(n=>n.id===h.slice(7)),"notices","އިޢުލާންތަކަށް","Back to notices",1);key="notices";}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
+  else if(h.startsWith("about/")){html=aboutPage();key=h;}
   else html=({home,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
-  document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key));
+  const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
   scrollTo(0,0); reveal();
+  if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+scrollY-110;scrollTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
 let IO; function reveal(){if(!("IntersectionObserver"in window)){document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));return;}
   IO=IO||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");IO.unobserve(e.target);}}),{rootMargin:"0px 0px -40px"});
