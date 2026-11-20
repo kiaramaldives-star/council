@@ -399,8 +399,7 @@ function home(){
         ${NOTICES.length?`<div class="nl">${sortD(NOTICES).slice(0,4).map(noticeItem).join("")}</div>`:empty("މިވަގުތު އިޢުލާނެއް ނެތް","No notices right now")}</div>
       <div><div class="sec-h"><div><h2 class="h">${bi("ކުރިއަށް އޮތް ކަލަންޑަރު","Upcoming calendar")}</h2></div><a class="more" href="#students">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
         ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming events")}</div></div></section>
-    ${ALBUMS.length?`<section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><div class="eyebrow">${bi("ފޮޓޯ","Photos")}</div><h2 class="h">${bi("ގެލަރީ","Gallery")}</h2></div><a class="more" href="#gallery">${bi("ހުރިހާ","All")} ${IC.arr}</a></div><div class="ag">${sortD(ALBUMS).slice(0,3).map(albumCard).join("")}</div></div></section>`:""}
-    <section class="sec"><div class="wrap">${contactBlock()}</div></section>`;
+    ${ALBUMS.length?`<section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><div class="eyebrow">${bi("ފޮޓޯ","Photos")}</div><h2 class="h">${bi("ގެލަރީ","Gallery")}</h2></div><a class="more" href="#gallery">${bi("ހުރިހާ","All")} ${IC.arr}</a></div><div class="ag">${sortD(ALBUMS).slice(0,3).map(albumCard).join("")}</div></div></section>`:""}`;
 }
 function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the school")+`<div class="pb"><div class="wrap"><div class="panel">${aboutBlocks()}</div>
   ${principalBlock()?`<div style="margin-top:18px">${principalBlock()}</div>`:""}
