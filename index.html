@@ -1248,11 +1248,6 @@ html[lang=en] .ti-v{font-family:inherit}
 .mt-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:8px}
 .mt-gal a{display:block;aspect-ratio:4/3;border-radius:14px;overflow:hidden;border:1px solid #EEF0F3;background:#F3F4F6}
 .mt-gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.mt-gal a:hover img{transform:scale(1.04)}
-.mt-lb{position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,.92);display:flex;align-items:center;justify-content:center;padding:20px}
-.mt-lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
-.mt-lb button{position:absolute;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
-.mt-lb .lb-x{top:16px;right:16px}.mt-lb .lb-p{left:12px;top:50%;transform:translateY(-50%)}.mt-lb .lb-n{right:12px;top:50%;transform:translateY(-50%)}
-.mt-lb .lb-c{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font:600 14px "Plus Jakarta Sans",sans-serif}
 .att-sum{font-family:"Faruma",sans-serif;color:#4B5563;margin:-4px 0 10px;font-size:15px}.att-sum .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;color:#111827}
 .att-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:18px}
 .att-c{display:flex;align-items:center;gap:12px;border:1px solid #EEF0F3;border-radius:14px;padding:12px 14px;background:#fff}
@@ -1371,6 +1366,55 @@ html[lang=en] .pd-back,html[lang=en] .pd-back span{font-family:"Plus Jakarta San
 .ab-grid a.big{grid-column:span 2;grid-row:span 2}
 .ab-src{display:inline-block;margin-top:16px;color:var(--gold);font-family:"Faruma",sans-serif}
 @media (max-width:640px){.ab-grid{grid-template-columns:1fr 1fr;grid-auto-rows:130px;gap:8px}}
+
+/* --- interactive gallery --- */
+.ac-years{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 14px;scrollbar-width:none;margin-bottom:4px}
+.ac-years::-webkit-scrollbar{display:none}
+.ac-years button{flex:none;border:1px solid #EEDFE2;background:#fff;color:#4B5563;border-radius:999px;padding:7px 16px;font:inherit;font-family:"Faruma",sans-serif;font-size:15px;cursor:pointer;transition:all .2s}
+.ac-years button .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600}
+.ac-years button.on{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 6px 16px rgba(200,16,46,.25)}
+.ac-card{transition:transform .25s,box-shadow .25s}
+.ac-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(107,15,26,.12)}
+.ac-card{isolation:isolate}.ac-img{overflow:visible}.ac-img img{border-radius:inherit}
+.ac-img.stack:before,.ac-img.stack:after{content:"";position:absolute;inset:0;border-radius:inherit;background:#E9D3D8;z-index:-1;transition:transform .3s}
+.ac-img.stack:before{transform:rotate(-3deg) translateY(4px)}
+.ac-img.stack:after{transform:rotate(2.5deg) translateY(2px);background:#F3E4E7}
+.ac-card:hover .ac-img.stack:before{transform:rotate(-6deg) translate(-6px,6px)}
+.ac-card:hover .ac-img.stack:after{transform:rotate(5deg) translate(6px,4px)}
+.ac-img img{transition:transform .5s}
+.ac-card:hover .ac-img img{transform:scale(1.04)}
+.ab-play{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;border:0;background:var(--gold);color:#fff;border-radius:999px;padding:9px 18px;font:inherit;font-family:"Faruma",sans-serif;font-size:15px;cursor:pointer;box-shadow:0 8px 20px rgba(200,16,46,.25);transition:transform .2s}
+.ab-play:hover{transform:translateY(-2px)}
+.ab-grid{display:block!important;columns:3 220px;column-gap:12px}
+.ab-grid a{display:block;break-inside:avoid;margin:0 0 12px;position:relative;border-radius:16px;overflow:hidden;background:#F1F2F4;height:auto!important;aspect-ratio:auto!important;opacity:0;transform:translateY(14px) scale(.98);transition:opacity .5s var(--d,0ms),transform .5s var(--d,0ms)}
+.ab-grid a.ld{opacity:1;transform:none}
+.ab-grid img{width:100%;height:auto!important;display:block;transition:transform .5s,filter .3s}
+.ab-grid a:hover img{transform:scale(1.06);filter:brightness(.82)}
+.ab-zoom{position:absolute;inset:0;display:grid;place-items:center;color:#fff;opacity:0;transition:opacity .25s}
+.ab-zoom svg{width:46px;height:46px;padding:12px;border-radius:50%;background:rgba(200,16,46,.85);box-sizing:border-box;transform:scale(.7);transition:transform .25s}
+.ab-grid a:hover .ab-zoom{opacity:1}.ab-grid a:hover .ab-zoom svg{transform:scale(1)}
+@media (max-width:640px){.ab-grid{columns:2;column-gap:8px}.ab-grid a{margin-bottom:8px;border-radius:12px}}
+.mt-lb{position:fixed;inset:0;z-index:9999;background:rgba(8,8,12,.96);display:flex;flex-direction:column;opacity:0;transition:opacity .2s;touch-action:pan-y}
+.mt-lb.open{opacity:1}.mt-lb.out{opacity:0}
+.lb-top{display:flex;align-items:center;gap:12px;padding:12px 14px;color:#fff}
+.lb-c{font:600 14px "Plus Jakarta Sans",sans-serif;opacity:.85;min-width:54px;direction:ltr;unicode-bidi:isolate}
+.lb-t{flex:1;text-align:center;font-family:"Faruma",sans-serif;font-size:15px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-tools{display:flex;gap:8px}
+.lb-tools>*{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;font-size:15px;cursor:pointer;text-decoration:none}
+.lb-tools>*:hover{background:rgba(255,255,255,.25)}
+.lb-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 14px;overflow:hidden}
+.lb-img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.5);opacity:0;transform:scale(.97);transition:opacity .3s,transform .35s;cursor:zoom-in}
+.lb-img.r{transform:translateX(40px)}.lb-img.l{transform:translateX(-40px)}
+.lb-img.in{opacity:1;transform:none}
+.lb-img.zoom{transform:scale(1.8);cursor:zoom-out}
+.mt-lb .lb-p,.mt-lb .lb-n{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:28px;line-height:1;cursor:pointer}
+.mt-lb .lb-p{left:12px}.mt-lb .lb-n{right:12px}
+.lb-thumbs{display:flex;gap:8px;overflow-x:auto;padding:10px 14px 16px;scrollbar-width:none;justify-content:safe center}
+.lb-thumbs::-webkit-scrollbar{display:none}
+.lb-thumbs button{flex:none;width:58px;height:58px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;background:#222;opacity:.5;cursor:pointer;transition:opacity .2s,border-color .2s,transform .2s}
+.lb-thumbs button.on{opacity:1;border-color:#fff;transform:scale(1.06)}
+.lb-thumbs img{width:100%;height:100%;object-fit:cover}
+@media (max-width:640px){.mt-lb .lb-p,.mt-lb .lb-n{display:none}.lb-thumbs button{width:48px;height:48px}}
 </style>
 </head>
 <body>
@@ -2816,17 +2860,24 @@ function albumPhotos(a){const L=[].concat(a.img?[a.img]:[],Array.isArray(a.photo
 function albumPage(a){const P=albumPhotos(a);
   return `<div class="ab-meta"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>${nDate(a.date)}</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>${bi(`<b class="num">${P.length}</b> ފޮޓޯ`,`<b class="num">${P.length}</b> photos`)}</span></div>
   ${a.body?`<p class="ab-desc" dir="rtl">${esc2(a.body)}</p>`:""}
-  ${P.length?`<div class="mt-gal ab-grid">${P.map((u,i)=>`<a href="${u}" data-lb="${i}" class="${i===0&&P.length>2?"big":""}"><img src="${u}" alt="" loading="lazy"></a>`).join("")}</div>`:mdEmpty()}
+  ${P.length>1?`<button type="button" class="ab-play" data-abplay><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>${bi("ސްލައިޑްޝޯ ބައްލަވާ","Play slideshow")}</button>`:""}
+  ${P.length?`<div class="mt-gal ab-grid">${P.map((u,i)=>`<a href="${u}" data-lb="${i}" style="--d:${Math.min(i,12)*60}ms"><img src="${u}" alt="" loading="lazy" onload="this.parentNode.classList.add('ld')"><span class="ab-zoom"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg></span></a>`).join("")}</div>`:mdEmpty()}
   ${a.url?`<a class="ab-src" href="${a.url}" target="_blank" rel="noopener">${bi("kondey.gov.mv ގައި ބައްލަވާ","View on kondey.gov.mv")} ↗</a>`:""}`;}
+let ACYEAR="all";
 function renderAct(){
   const g=$("#actGrid"); if(!g) return;
-  g.innerHTML=ACTIVITIES.slice(0,ACSHOW).map((a,i)=>{const y=(a.date||"").slice(0,4),P=albumPhotos(a);return `<a class="ac-card" href="#album-${actId(a,i)}">
+  const yrs=[...new Set(ACTIVITIES.map(a=>(a.date||"").slice(0,4)).filter(Boolean))].sort().reverse();
+  let bar=document.getElementById("acYears");
+  if(!bar){bar=document.createElement("div");bar.id="acYears";bar.className="ac-years";g.before(bar);}
+  bar.innerHTML=["all",...yrs].map(y=>`<button type="button" data-acy="${y}" class="${ACYEAR===y?"on":""}">${y==="all"?bi("ހުރިހާ","All"):`<span class="num">${y}</span>`}</button>`).join("");
+  const LIST=ACTIVITIES.map((a,i)=>[a,i]).filter(([a])=>ACYEAR==="all"||(a.date||"").startsWith(ACYEAR));
+  g.innerHTML=LIST.slice(0,ACSHOW).map(([a,i])=>{const y=(a.date||"").slice(0,4),P=albumPhotos(a);return `<a class="ac-card" href="#album-${actId(a,i)}">
     <div class="ac-top"><span class="ac-tag">${bi("ފޮޓޯ "+y,"Photos "+y)}</span><span class="ac-date">${nDate(a.date)}</span></div>
-    <div class="ac-img"><img src="${P[0]||""}" alt="" loading="lazy">${P.length>1?`<span class="ac-count"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><b class="num">${P.length}</b></span>`:""}</div>
+    <div class="ac-img${P.length>1?" stack":""}"><img src="${P[0]||""}" alt="" loading="lazy">${P.length>1?`<span class="ac-count"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg><b class="num">${P.length}</b></span>`:""}</div>
     <h4 dir="rtl">${a.dv}</h4></a>`}).join("");
-  $("#actMore").hidden=ACTIVITIES.length<=ACSHOW;
+  $("#actMore").hidden=LIST.length<=ACSHOW;
 }
-document.addEventListener("click",e=>{if(e.target.closest("#actMoreBtn")){ACSHOW+=8;renderAct();}});
+document.addEventListener("click",e=>{if(e.target.closest("#actMoreBtn")){ACSHOW+=8;renderAct();}const y=e.target.closest("[data-acy]");if(y){ACYEAR=y.dataset.acy;ACSHOW=8;renderAct();}});
 renderAct();
 
 const KIND={press:bi("ނޫސްބަޔާން","Press release"),tender:bi("ބީލަން","Tender"),job:bi("ވަޒީފާ","Job"),iulan:bi("އިޢުލާން","Notice"),notice:bi("ޢާއްމު","General")};
@@ -3168,15 +3219,36 @@ function membersToTerms(rows,target){
 
 const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS,reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY};
 
-/* attendance photo viewer */
+document.addEventListener("click",e=>{if(!e.target.closest("[data-abplay]"))return;const a=document.querySelector(".ab-grid a[data-lb]");if(a){a.click();setTimeout(()=>document.querySelector(".mt-lb .lb-play")?.click(),250);}});
+/* photo viewer: swipe, thumbnails, slideshow, download (albums + meeting photos) */
 document.addEventListener("click",e=>{const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();
-  const L=[...a.parentNode.querySelectorAll("a")].map(x=>x.href);let i=+a.dataset.lb;
-  const d=document.createElement("div");d.className="mt-lb";
-  const draw=()=>d.innerHTML=`<img src="${L[i]}" alt=""><button class="lb-x" aria-label="Close">✕</button>${L.length>1?`<button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c">${i+1} / ${L.length}</div>`:""}`;
-  const close=()=>{d.remove();document.removeEventListener("keydown",key);};
-  const key=ev=>{if(ev.key==="Escape")close();if(ev.key==="ArrowRight"){i=(i+1)%L.length;draw();}if(ev.key==="ArrowLeft"){i=(i-1+L.length)%L.length;draw();}};
-  d.onclick=ev=>{if(ev.target.closest(".lb-n")){i=(i+1)%L.length;draw();}else if(ev.target.closest(".lb-p")){i=(i-1+L.length)%L.length;draw();}else if(!ev.target.closest("img"))close();};
-  document.addEventListener("keydown",key);draw();document.body.appendChild(d);});
+  const L=[...a.closest(".mt-gal").querySelectorAll("a[data-lb]")].map(x=>x.href);let i=+a.dataset.lb,play=null;
+  const title=(document.getElementById("mediaTitle")||{}).textContent||"";
+  const d=document.createElement("div");d.className="mt-lb";d.setAttribute("role","dialog");
+  d.innerHTML=`<div class="lb-top"><span class="lb-c"></span><span class="lb-t">${esc2(title)}</span>
+      <div class="lb-tools">${L.length>1?`<button class="lb-play" aria-label="Slideshow">▶</button>`:""}<a class="lb-dl" download aria-label="Download"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></a><button class="lb-x" aria-label="Close">✕</button></div></div>
+    <div class="lb-stage"><img class="lb-img" alt=""></div>
+    ${L.length>1?`<button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button>
+    <div class="lb-thumbs">${L.map((u,k)=>`<button data-k="${k}"><img src="${u}" alt="" loading="lazy"></button>`).join("")}</div>`:""}`;
+  const img=d.querySelector(".lb-img");
+  const show=(k,dir)=>{i=(k+L.length)%L.length;img.classList.remove("in","l","r");void img.offsetWidth;img.classList.add(dir>0?"r":dir<0?"l":"f");img.src=L[i];
+    requestAnimationFrame(()=>img.classList.add("in"));
+    d.querySelector(".lb-c").textContent=L.length>1?`${i+1} / ${L.length}`:"";d.querySelector(".lb-dl").href=L[i];
+    d.querySelectorAll(".lb-thumbs button").forEach(b=>{const on=+b.dataset.k===i;b.classList.toggle("on",on);if(on)b.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});});
+    [L[i+1],L[i-1]].forEach(u=>{if(u){const p=new Image();p.src=u;}});};
+  const stop=()=>{clearInterval(play);play=null;const b=d.querySelector(".lb-play");if(b)b.textContent="▶";};
+  const close=()=>{stop();d.classList.add("out");setTimeout(()=>d.remove(),200);document.removeEventListener("keydown",key);document.body.style.overflow="";};
+  const key=ev=>{if(ev.key==="Escape")close();if(ev.key==="ArrowRight"){stop();show(i-1,-1);}if(ev.key==="ArrowLeft"){stop();show(i+1,1);}if(ev.key===" "){ev.preventDefault();d.querySelector(".lb-play")?.click();}};
+  d.addEventListener("click",ev=>{
+    if(ev.target.closest(".lb-n")){stop();show(i+1,1);}else if(ev.target.closest(".lb-p")){stop();show(i-1,-1);}
+    else if(ev.target.closest(".lb-thumbs button")){stop();const k=+ev.target.closest("button").dataset.k;show(k,k>i?1:-1);}
+    else if(ev.target.closest(".lb-play")){if(play)stop();else{ev.target.closest(".lb-play").textContent="❚❚";play=setInterval(()=>show(i+1,1),3000);}}
+    else if(ev.target.closest(".lb-x")||ev.target===d||ev.target.classList.contains("lb-stage"))close();});
+  img.addEventListener("dblclick",()=>img.classList.toggle("zoom"));
+  let sx=null,sy=0;d.addEventListener("touchstart",ev=>{if(ev.touches.length===1){sx=ev.touches[0].clientX;sy=ev.touches[0].clientY;}},{passive:true});
+  d.addEventListener("touchend",ev=>{if(sx==null)return;const dx=ev.changedTouches[0].clientX-sx,dy=ev.changedTouches[0].clientY-sy;sx=null;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)&&L.length>1){stop();show(dx<0?i+1:i-1,dx<0?1:-1);}else if(dy>90&&Math.abs(dy)>Math.abs(dx))close();});
+  document.addEventListener("keydown",key);document.body.style.overflow="hidden";document.body.appendChild(d);show(i,0);requestAnimationFrame(()=>d.classList.add("open"));});
 async function loadDB(){
   if(/[?&]nodb\b/.test(location.search)) return;
   try{
