@@ -1510,6 +1510,13 @@ html[lang=dv] .at-name,html[lang=dv] .at-des{font-family:"Faruma",sans-serif}
 html[lang=dv] .at-name{font-size:16px}html[lang=dv] .at-des{font-size:13.5px;margin-top:4px}
 html[lang=dv] .at-tbl td.t{font-family:"Faruma",sans-serif;text-align:right;direction:rtl}
 html[lang=dv] .at-tbl th:nth-child(2),html[lang=dv] .at-tbl td:nth-child(2){left:auto}
+.at-av{flex:0 0 auto;width:56px;height:56px;border-radius:50%;overflow:hidden;background:var(--gold-soft);display:grid;place-items:center;border:2px solid #fff;box-shadow:0 0 0 2px var(--gold-soft)}
+.at-av{position:relative}.at-av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.at-av.ini{color:var(--gold);font-family:"Faruma",sans-serif;font-size:22px;font-weight:700}
+.at-av.sm{width:30px;height:30px;font-size:14px;border-width:1px}
+.at-top .at-who{flex:1}
+.at-nm{display:inline-flex;align-items:center;gap:8px}
+.at-card.open .at-av:not(.sm){width:72px;height:72px}
 .at-legend{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:22px;color:#6B7280;font-size:13px}
 html[lang=dv] .at-legend{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
 .at-legend span{display:inline-flex;align-items:center;gap:6px}
@@ -2382,12 +2389,17 @@ function attDvName(r){
   const st=STAFF.find(x=>attKey(x.name_en)===k); if(st&&st.name_dv) return st.name_dv;
   for(const T of [COUNCIL_TERMS,WDC_TERMS]) for(const t of T) for(const m of (t.members||[])) if(attKey(m.en)===k&&m.dv) return m.dv;
   return r.name;}
+function attPhoto(r){const n=(r.ndv||"").replace(/\s+/g,""),e=attKey(r.name);
+  const C=[...STAFF.map(x=>[x.name_dv,x.name_en,x.photo,1]),...[COUNCIL_TERMS[0],WDC_TERMS[0]].flatMap(t=>(t&&t.members||[]).map(m=>[m.dv,m.en,m.photo]))].filter(x=>x[2]);
+  let M=C.filter(x=>(x[0]||"").replace(/\s+/g,"")===n); if(!M.length) M=C.filter(x=>attKey(x[1])===e);
+  const u=[...new Set(M.map(x=>x[2]))]; if(u.length<2) return u[0]||""; return new Set(M.map(x=>(x[0]||"").replace(/\s+/g,""))).size===1&&M.filter(x=>x[3]).length<2?u[0]:"";}
+function attAv(r,sz){return `<span class="at-av${sz?" sm":""} ini">${esc2((r.ndv||r.name||"?").trim().charAt(0))}${r.photo?`<img src="${esc2(r.photo)}" alt="" loading="lazy" onerror="this.remove()">`:""}</span>`;}
 let ATTM=null, ATTQ="", ATTF="all", ATTS="id", ATTV="cards";
 function attParse(rec){
   return String(rec.rows||"").split(/\r?\n/).map(l=>l.split("\t").map(s=>s.trim())).filter(c=>c.length>=6&&/^\d+$/.test(c[3]||"")).map(c=>{
     const o={};ATT_COLS.forEach((k,i)=>{const v=c[i]??"";o[k]=i<3||k==="abt"||k==="lat"?v:(+v||0);});
     o.id=o.id==="-"?"":o.id; o.leave=ATT_LEAVE.reduce((s,k)=>s+o[k],0);
-    o.wage=/wage/i.test(o.des); o.ndv=attDvName(o); o.ddv=ATT_DV_DES[attKey(o.des)]||o.des; return o;});
+    o.wage=/wage/i.test(o.des); o.ndv=attDvName(o); o.ddv=ATT_DV_DES[attKey(o.des)]||o.des; o.photo=attPhoto(o); return o;});
 }
 const attMin=t=>{const m=String(t||"").match(/^(\d+):(\d+)$/);return m?(+m[1])*60+(+m[2]):0;};
 const attTime=n=>`${String(Math.floor(n/60)).padStart(2,"0")}:${String(n%60).padStart(2,"0")}`;
@@ -2413,7 +2425,7 @@ function attCard(r){
     ...ATT_LEAVE.filter(k=>r[k]).map(k=>`<span class="ac-c lv" title="${ATT_LBL[k]?ATT_LBL[k][1]:k}"><span class="num">${k}</span> <b class="num">${r[k]}</b></span>`)].join("");
   const ok=!r.la&&!r.sh&&!r.ab&&!r.leave;
   return `<article class="at-card${ok?" at-ok":""}" data-atid="${esc2(r.id||r.name)}">
-    <div class="at-top"><div class="at-who"><b class="at-name">${bi(esc2(r.ndv),esc2(r.name))}</b><span class="at-des">${bi(esc2(r.ddv).replace(/\d+/g,"<span class=\"num\">$&</span>"),esc2(r.des))}</span>${r.id?`<span class="at-id num">${esc2(r.id)}</span>`:""}</div>
+    <div class="at-top">${attAv(r)}<div class="at-who"><b class="at-name">${bi(esc2(r.ndv),esc2(r.name))}</b><span class="at-des">${bi(esc2(r.ddv).replace(/\d+/g,"<span class=\"num\">$&</span>"),esc2(r.des))}</span>${r.id?`<span class="at-id num">${esc2(r.id)}</span>`:""}</div>
       <div class="at-w"><b class="num">${r.w}</b><span>${bi("ދުވަސް","days")}</span></div></div>
     <div class="at-bar">${seg(r.w,"s-w",ATT_LBL.w[1])}${seg(r.leave,"s-l","Leave")}${seg(r.ab,"s-a","Absent")}${seg(r.wo+r.hol,"s-o","Off")}</div>
     <div class="at-chips">${chips||`<span class="ac-c good">${bi("ފުރިހަމަ ހާޒިރީ","Full attendance")} ✓</span>`}</div>
@@ -2423,7 +2435,7 @@ function attCard(r){
 function attTable(L){
   const H=["id","name","des",...ATT_COLS.slice(3)];
   return `<div class="at-tw"><table class="at-tbl"><thead><tr>${H.map(k=>`<th>${k==="id"?"ID":k==="name"?bi("ނަން","Name"):k==="des"?bi("މަޤާމު","Designation"):ATT_LBL[k]&&ATT_COLS.indexOf(k)<13?bi(ATT_LBL[k][0],ATT_LBL[k][1]):`<span class="num">${k}</span>`}</th>`).join("")}</tr></thead>
-    <tbody>${L.map(r=>`<tr>${H.map(k=>{const v=r[k];const z=v===0||v==="00:00";const tx=k==="name"?bi(esc2(r.ndv),esc2(r.name)):k==="des"?bi(esc2(r.ddv).replace(/\d+/g,"<span class=\"num\">$&</span>"),esc2(r.des)):esc2(v===""?"-":v);return `<td class="${k==="name"||k==="des"?"t":"num"}${z?" z":""}${(k==="la"||k==="lat")&&!z?" hl":""}">${tx}</td>`;}).join("")}</tr>`).join("")}</tbody></table></div>`;
+    <tbody>${L.map(r=>`<tr>${H.map(k=>{const v=r[k];const z=v===0||v==="00:00";const tx=k==="name"?`<span class="at-nm">${attAv(r,1)}${bi(esc2(r.ndv),esc2(r.name))}</span>`:k==="des"?bi(esc2(r.ddv).replace(/\d+/g,"<span class=\"num\">$&</span>"),esc2(r.des)):esc2(v===""?"-":v);return `<td class="${k==="name"||k==="des"?"t":"num"}${z?" z":""}${(k==="la"||k==="lat")&&!z?" hl":""}">${tx}</td>`;}).join("")}</tr>`).join("")}</tbody></table></div>`;
 }
 function attSummary(L){
   const n=L.length, w=L.reduce((s,r)=>s+r.w,0), la=L.reduce((s,r)=>s+r.la,0), lt=L.reduce((s,r)=>s+attMin(r.lat),0),
