@@ -409,6 +409,12 @@ html[lang=dv] .nd-m small{font-family:"KondeyHeading","Faruma",sans-serif;font-s
 .clc2-st{margin-top:10px;background:#F8F8FA;border-radius:12px;padding:10px 12px;font-size:14px}.clc2-st small{display:block;color:var(--p);margin-bottom:4px}.clc2-st p{margin:0 0 4px}
 .sc-gr{display:flex;align-items:center;justify-content:center;gap:4px;font-size:12.5px;color:var(--muted);margin-top:4px}.sc-gr svg{width:13px;height:13px}
 @media (max-width:620px){.ss{grid-template-columns:repeat(2,1fr)}.ss-c b{font-size:26px}.gb-r{grid-template-columns:76px 1fr 26px}}
+.ct-card{display:flex;align-items:center;gap:12px;margin-top:12px;background:linear-gradient(135deg,#FFF5F6,#fff);border:1px solid #FBD5DB;border-radius:16px;padding:10px 12px}
+.ct-card.none{justify-content:center;color:var(--muted);font-size:14px;background:#F8F8FA;border-color:var(--line);border-style:dashed}
+.ct-ph{flex:none;width:64px;height:64px;border-radius:50%;overflow:hidden;background:var(--ps);display:grid;place-items:center;color:var(--p);font-size:24px;border:3px solid #fff;box-shadow:0 0 0 2px var(--p)}
+.ct-ph img{width:100%;height:100%;object-fit:cover;object-position:top}
+.ct-i{min-width:0}.ct-i small{display:block;color:var(--p);font-size:13px}.ct-i b{display:block;font-size:17px;line-height:1.5;color:var(--text)}
+.ct-tel{display:inline-flex;align-items:center;gap:6px;margin-top:4px;background:var(--p);color:#fff;border-radius:99px;padding:3px 12px;font-size:14px}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -611,6 +617,12 @@ function detail(o,back,backDv,backEn,isNotice){
     ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
     <div class="files">${isNotice?`<button type="button" class="btn nd-share" data-share>${IC.share}${bi("ޙިއްސާކުރައްވާ","Share")}</button>`:""}${pdf?`<a class="btn btn-p" href="${esc(pdf)}" target="_blank" rel="noopener">${bi("ލިޔުން ބައްލަވާ (PDF)","Open document (PDF)")}</a>`:""}${safeUrl(o.source)?`<a class="more" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}</div>
   </article></div></div></div>`;}
+function classTeacher(c){
+  if(!c.teacher_dv&&!c.teacher_en)return `<div class="ct-card none">${bi("ކްލާސް ޓީޗަރ ކަނޑައަޅާފައެއް ނުވޭ","Class teacher not set")}</div>`;
+  const st=STAFF.find(s=>(c.teacher_en&&s.name_en===c.teacher_en)||(c.teacher_dv&&s.name_dv===c.teacher_dv))||{};
+  const ph=safeUrl(c.teacher_photo||st.photo), tel=String(c.teacher_phone||st.phone||"").replace(/\D/g,""), nm=c.teacher_dv||c.teacher_en?L2(c,"teacher"):L2(st,"name");
+  return `<div class="ct-card"><div class="ct-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((c.teacher_dv||c.teacher_en||"?").trim().charAt(0))}</span>`}</div>
+    <div class="ct-i"><small>${bi("ކްލާސް ޓީޗަރ","Class teacher")}</small><b class="h">${nm}</b>${tel?`<a class="ct-tel" href="tel:+960${esc(tel)}">${IC.phone.replace(/width="24" height="24"/,'width="15" height="15"')}<span class="num">${esc(tel)}</span></a>`:""}</div></div>`;}
 function studentStats(){
   const C=CLASSES.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)), sum=k=>C.reduce((t,c)=>t+(+c[k]||0),0);
   const tot=sum("students"), gi=sum("girls"), bo=sum("boys"), mx=Math.max(1,...C.map(c=>+c.students||0));
@@ -624,7 +636,7 @@ function studentStats(){
     <h3 class="h ss-h">${bi("ކްލާސްތަކާއި މާއްދާތައް","Classes & subjects")}</h3>
     <div class="cl2">${C.map(c=>`<div class="clc2 reveal"><div class="clc2-h"><h3 class="h">${L2(c,"name")}</h3><span class="clc2-n"><b class="num">${esc(c.students||0)}</b> ${bi("ދަރިވަރުން","students")}</span></div>
       ${c.girls||c.boys?`<div class="clc2-gb"><span class="g">${bi("އަންހެން","Girls")} <b class="num">${+c.girls||0}</b></span><span class="b">${bi("ފިރިހެން","Boys")} <b class="num">${+c.boys||0}</b></span></div>`:""}
-      ${c.teacher_dv||c.teacher_en?`<div class="clc2-t">${bi("ކްލާސް ޓީޗަރ:","Class teacher:")} <b>${L2(c,"teacher")}</b></div>`:""}
+      ${classTeacher(c)}
       ${subs(c)}
       ${c.streams_dv||c.streams_en?`<div class="clc2-st"><small>${bi("ސްޓްރީމްތަކާއި އިޚްތިޔާރީ މާއްދާތައް","Streams & optional subjects")}</small>${bi(paras(c.streams_dv||c.streams_en),paras(c.streams_en||c.streams_dv))}</div>`:""}
     </div>`).join("")}</div>`;}
