@@ -362,7 +362,7 @@ function home(){
   const hero=safeUrl(INFO.hero), up=EVENTS.filter(e=>(e.end||e.date||"")>=new Date().toISOString().slice(0,10)).sort((a,b)=>String(a.date).localeCompare(b.date)).slice(0,5);
   return `<section class="hero">${hero?`<div class="hero-bg" style="background-image:url('${esc(hero)}')"></div>`:""}<div class="wrap">
       <div><span class="hero-tag">${IC.cap.replace(/26/g,"16")}${bi(`<span class="num">${String(INFO.opened||"1980").slice(0,4)}</span> ވަނަ އަހަރުން ފެށިގެން`,`Since ${String(INFO.opened||"1980").slice(0,4)}`)}</span>
-        <h1 class="h">${bi(`މަރުޙަބާ <em>${esc(INFO.name_dv)}</em> އަށް`,`Welcome to <em>${esc(INFO.name_en)}</em>`)}</h1>
+        <h1 class="h">${bi(`މަރުޙަބާ <em>ކޮނޑޭ ސުކޫލަށް</em>`,`Welcome to <em>${esc(INFO.name_en)}</em>`)}</h1>
         <p class="motto">${L2(INFO,"motto")}</p>
         <div class="hero-btns"><a class="btn btn-a" href="#about">${bi("ސުކޫލާއި ބެހޭ","About the school")}</a><a class="btn btn-g" href="#notices">${bi("އިޢުލާންތައް","Notices")}</a></div></div>
       <div class="hero-card"><div class="hero-logo">${logoHTML()}</div><b class="h">${L2(INFO,"name")}</b><small>${bi("ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ.","GA. Kondey, Maldives.")}</small></div></div></section>
