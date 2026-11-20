@@ -1230,6 +1230,14 @@ html[lang=en] .ti-v{font-family:inherit}
 .mn-text .ag-list{padding:0!important;margin:0!important}.mn-text .ag-list li{margin:0}.ag-i:not(.wide) b{white-space:nowrap}@media (max-width:400px){.ag-info{grid-template-columns:1fr}}
 .ag-info b .num,.ag-t .num,.ag-foot .num{unicode-bidi:isolate;direction:ltr;display:inline-block}
 .ag-foot{align-items:center!important;text-align:center}
+.mt-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:8px}
+.mt-gal a{display:block;aspect-ratio:4/3;border-radius:14px;overflow:hidden;border:1px solid #EEF0F3;background:#F3F4F6}
+.mt-gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}.mt-gal a:hover img{transform:scale(1.04)}
+.lb{position:fixed;inset:0;z-index:9999;background:rgba(10,10,15,.92);display:flex;align-items:center;justify-content:center;padding:20px}
+.lb img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.lb button{position:absolute;border:0;background:rgba(255,255,255,.15);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
+.lb .lb-x{top:16px;right:16px}.lb .lb-p{left:12px;top:50%;transform:translateY(-50%)}.lb .lb-n{right:12px;top:50%;transform:translateY(-50%)}
+.lb .lb-c{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#fff;font:600 14px "Plus Jakarta Sans",sans-serif}
 </style>
 </head>
 <body>
@@ -1945,13 +1953,13 @@ function agRender(t){
 function meetViewer(m,doc){
   const DL='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>';
   const DOC='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>';
-  const pdf=doc==="minutes"?m.minutesPdf:doc==="decisions"?m.decisionsPdf:m.agendaPdf, TXT=doc==="minutes"?m.minutesText:doc==="decisions"?m.decisionsText:m.agendaText, isImg=/\.(jpe?g|png|webp)$/i.test(pdf||""), FT=isImg?"JPG":"PDF";
+  const PH=(doc==="minutes"?m.minutesPhotos:doc==="decisions"?m.decisionsPhotos:null)||[], pdf=doc==="minutes"?m.minutesPdf:doc==="decisions"?m.decisionsPdf:m.agendaPdf, TXT=doc==="minutes"?m.minutesText:doc==="decisions"?m.decisionsText:m.agendaText, isImg=/\.(jpe?g|png|webp)$/i.test(pdf||""), FT=isImg?"JPG":"PDF";
   const i=MEETINGS.indexOf(m), newer=MEETINGS[i-1], older=MEETINGS[i+1];
   const tab=(k,dv,en,has)=>has?`<a href="#meeting-${m.term}-${m.no}-${k}" class="${doc===k?"on":""}">${bi(dv,en)}</a>`:`<span class="off">${bi(dv,en)}</span>`;
   return `<article class="ad mtv">
     <div class="ad-meta"><span class="mt-no num">${m.no}</span><span class="mt-type ${m.type}">${m.type==="kuhli"?bi("ކުއްލި","Special"):bi("އާންމު","Regular")}</span><span class="mt-date">${CLOCK}${nDate(m.date)}</span></div>
     <h2 class="ad-title">${bi(m.dv,m.en)}</h2>
-    <div class="mt-tabs mv-tabs">${tab("agenda","އެޖެންޑާ","Agenda",m.agendaPdf)}${tab("minutes","ޔައުމިއްޔާ","Minutes",m.minutesPdf)}${tab("decisions","ނިންމުންތައް","Decisions",m.decisionsPdf||m.decisionsText)}</div>
+    <div class="mt-tabs mv-tabs">${tab("agenda","އެޖެންޑާ","Agenda",m.agendaPdf)}${tab("minutes","ޔައުމިއްޔާ","Minutes",m.minutesPdf||m.minutesText||(m.minutesPhotos||[]).length)}${tab("decisions","ނިންމުންތައް","Decisions",m.decisionsPdf||m.decisionsText||(m.decisionsPhotos||[]).length)}</div>
     ${pdf?`${TXT?`${(doc==="minutes"&&m.minutesPartial)?`<div class="mn-note mn-warn">${DOC}<p>${bi("މި ލިޔުން ލިޔެފައިވަނީ ސްކޭން ކޮށްފައިވާ PDF ކިޔައިގެންނެވެ. ރަސްމީ ލިޔުމަކީ ތިރީގައިވާ PDF އެވެ.","This text was copied from the scanned PDF. The official document is the PDF below.")}</p></div>`:""}<div class="mn-text${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?" ag":""}" dir="rtl">${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?agRender(TXT):mnRender(TXT)}</div>`:`<div class="mn-note">${DOC}<p>${doc==="minutes"?bi("މި ޔައުމިއްޔާގެ ލިޔުން އަދި މި ޞަފްޙާއަށް ލިޔެވިފައެއް ނުވޭ. ތިރީގައިވާ PDF ބައްލަވާ.","The text of these minutes has not been added yet. Please see the PDF below."):bi("މި އެޖެންޑާގެ ލިޔުން އަދި މި ޞަފްޙާއަށް ލިޔެވިފައެއް ނުވޭ. ތިރީގައިވާ PDF ބައްލަވާ.","The text of this agenda has not been added yet. Please see the PDF below.")}</p></div>`}
     <h3 class="ad-h">${bi("ރިފަރެންސް","Reference")}</h3>
     ${isImg?`<a class="mn-img" href="${pdf}" target="_blank" rel="noopener"><img src="${pdf}" alt="" loading="lazy"></a>`:""}
@@ -1960,7 +1968,8 @@ function meetViewer(m,doc){
       <div class="doc-body"><small>${bi("ރިފަރެންސް ލިޔުން","Reference document")}</small><b>${doc==="decisions"?bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ ނިންމުންތައް"),"Decisions — "+m.en):doc==="minutes"?bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ ޔައުމިއްޔާ"),"Minutes — "+m.en):bi(m.dv.replace(/ބައްދަލުވުން$/,"ބައްދަލުވުމުގެ އެޖެންޑާ"),"Agenda — "+m.en)}</b><span class="doc-meta">${FT} · kondey.gov.mv</span></div>
       <span class="doc-btn">${DL}${bi("ބައްލަވާ",isImg?"View":"View PDF")}</span>
     </a>`:pdf?`<div class="ad-pdf"><a class="ad-ph" href="${pdf}" target="_blank" rel="noopener">${DOC}<b>${doc==="minutes"?bi("ޔައުމިއްޔާ","Minutes"):bi("އެޖެންޑާ","Agenda")}</b><span>PDF</span></a><iframe src="${pdf}#view=FitH" title="PDF" loading="lazy"></iframe></div>
-    <div class="ad-btns"><a class="ad-dl" href="${pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:mdEmpty("މި ލިޔުން އަދި ޝާއިޢުކޮށްފައެއް ނުވޭ","This document has not been published yet")}
+    <div class="ad-btns"><a class="ad-dl" href="${pdf}" target="_blank" rel="noopener" download>${DL}${bi("ޑައުންލޯޑް","Download")}</a><a class="ad-open" href="${pdf}" target="_blank" rel="noopener">${bi("އަލަށް ޓެބެއްގައި ހުޅުވާ","Open in new tab")}</a></div>`:(TXT?`<div class="mn-text${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?" ag":""}" dir="rtl">${doc!=="minutes"&&/^\s*\d+[.)]\s/m.test(TXT)?agRender(TXT):mnRender(TXT)}</div>`:PH.length?"":mdEmpty("މި ލިޔުން އަދި ޝާއިޢުކޮށްފައެއް ނުވޭ","This document has not been published yet"))}
+    ${PH.length?`<h3 class="ad-h">${bi("ހާޒިރީ","Attendance")}</h3><div class="mt-gal">${PH.map((u,i)=>`<a href="${u}" target="_blank" rel="noopener" data-lb="${i}"><img src="${u}" alt="Attendance photo ${i+1}" loading="lazy"></a>`).join("")}</div>`:""}
     <div class="mv-nav">
       ${older?`<a href="#meeting-${older.term}-${older.no}-${doc}">${bi(`<span class="num">${older.no}</span> ވަނަ ބައްދަލުވުން`,`Meeting ${older.no}`)}</a>`:"<span></span>"}
       <a href="#meetings" class="pd-back">${bi("ބައްދަލުވުންތަކަށް","All meetings")}</a>
@@ -2743,8 +2752,8 @@ function renderMeet(reset){
     <div class="mt-date">${CLOCK}${nDate(m.date)}</div>
     <div class="mt-links">
       ${m.agendaPdf?`<a href="#meeting-${m.term}-${m.no}-agenda">${DOC}${bi("އެޖެންޑާ","Agenda")}</a>`:`<span class="off">${DOC}${bi("އެޖެންޑާ","Agenda")}</span>`}
-      ${m.minutesPdf?`<a href="#meeting-${m.term}-${m.no}-minutes">${DOC}${bi("ޔައުމިއްޔާ","Minutes")}</a>`:`<span class="off" title="Not yet published">${DOC}${bi("ޔައުމިއްޔާ","Minutes")}</span>`}
-      ${(m.decisionsPdf||m.decisionsText)?`<a href="#meeting-${m.term}-${m.no}-decisions">${DOC}${bi("ނިންމުންތައް","Decisions")}</a>`:`<span class="off" title="Not yet published">${DOC}${bi("ނިންމުންތައް","Decisions")}</span>`}
+      ${(m.minutesPdf||m.minutesText||(m.minutesPhotos||[]).length)?`<a href="#meeting-${m.term}-${m.no}-minutes">${DOC}${bi("ޔައުމިއްޔާ","Minutes")}</a>`:`<span class="off" title="Not yet published">${DOC}${bi("ޔައުމިއްޔާ","Minutes")}</span>`}
+      ${(m.decisionsPdf||m.decisionsText||(m.decisionsPhotos||[]).length)?`<a href="#meeting-${m.term}-${m.no}-decisions">${DOC}${bi("ނިންމުންތައް","Decisions")}</a>`:`<span class="off" title="Not yet published">${DOC}${bi("ނިންމުންތައް","Decisions")}</span>`}
     </div></article>`).join(""):`<p class="an-empty">${bi("މިވަގުތު އެއްވެސް ބައްދަލުވުމެއް ނެތް","No meetings")}</p>`;
   $("#meetMore").hidden=list.length<=MSHOW;
   $("#meetCount").textContent=list.length;
@@ -3007,6 +3016,16 @@ function membersToTerms(rows,target){
 }
 
 const DB_SECTIONS={news:NEWS,announcements:ANNOUNCEMENTS,press:PRESS,activities:ACTIVITIES,meetings:MEETINGS,reports:REPORTS,rules:RULES,staff:STAFF,projects:PROJECTS,directory:DIRECTORY};
+
+/* attendance photo viewer */
+document.addEventListener("click",e=>{const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();
+  const L=[...a.parentNode.querySelectorAll("a")].map(x=>x.href);let i=+a.dataset.lb;
+  const d=document.createElement("div");d.className="lb";
+  const draw=()=>d.innerHTML=`<img src="${L[i]}" alt=""><button class="lb-x" aria-label="Close">✕</button>${L.length>1?`<button class="lb-p" aria-label="Previous">‹</button><button class="lb-n" aria-label="Next">›</button><div class="lb-c">${i+1} / ${L.length}</div>`:""}`;
+  const close=()=>{d.remove();document.removeEventListener("keydown",key);};
+  const key=ev=>{if(ev.key==="Escape")close();if(ev.key==="ArrowRight"){i=(i+1)%L.length;draw();}if(ev.key==="ArrowLeft"){i=(i-1+L.length)%L.length;draw();}};
+  d.onclick=ev=>{if(ev.target.closest(".lb-n")){i=(i+1)%L.length;draw();}else if(ev.target.closest(".lb-p")){i=(i-1+L.length)%L.length;draw();}else if(!ev.target.closest("img"))close();};
+  document.addEventListener("keydown",key);draw();document.body.appendChild(d);});
 async function loadDB(){
   if(/[?&]nodb\b/.test(location.search)) return;
   try{
