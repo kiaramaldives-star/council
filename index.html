@@ -243,6 +243,59 @@ html[lang=dv] .cti small{font-family:"KondeyHeading","Faruma",sans-serif;font-si
 .cti b{font-size:18px}
 .map{margin-top:16px;border-radius:24px;overflow:hidden;border:1px solid var(--line);height:360px;background:var(--ps)}
 .map iframe{width:100%;height:100%;border:0}
+.ch-search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0 14px;margin-bottom:14px;color:var(--muted)}
+.ch-search:focus-within{border-color:var(--p);color:var(--p)}
+.ch-search input{flex:1;border:0;outline:0;background:none;padding:13px 0;font-size:16px;min-width:0;font-family:inherit}
+html[lang=dv] .ch-search input{font-family:"KondeyHeading","Faruma",sans-serif}
+.ch-tabs{display:flex;gap:8px;margin:22px 0 18px;flex-wrap:wrap}
+.ch-tabs button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 18px;font-family:"KondeyHeading","Faruma",sans-serif;font-size:17px;color:#4B5563}
+html[lang=en] .ch-tabs button{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:14px}
+.ch-tabs button.on{background:var(--k);border-color:var(--k);color:#fff}
+.ch-pane{display:none;animation:fadeUp .3s ease}.ch-pane.on{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sv-list{display:grid;gap:12px}
+.sv{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.sv[open]{border-color:var(--p);box-shadow:0 10px 26px rgba(200,16,46,.08)}
+.sv summary{list-style:none;display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer}
+.sv summary::-webkit-details-marker{display:none}
+.sv-n{flex:0 0 auto;width:38px;height:38px;border-radius:12px;background:var(--ps);color:var(--p);display:grid;place-items:center;font-weight:800}
+.sv[open] .sv-n{background:var(--p);color:#fff}
+.sv-t{flex:1;min-width:0}
+.sv-t b{display:block;font-size:18px;line-height:1.6;color:var(--text)}
+html[lang=en] .sv-t b{font-size:16px;line-height:1.4}
+.sv-time{display:inline-flex;align-items:center;gap:6px;margin-top:4px;color:#4B5563;font-size:14px;background:var(--as);border-radius:999px;padding:2px 10px}
+html[lang=dv] .sv-time{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.sv-time svg{color:var(--p)}
+.sv-ar{flex:0 0 auto;color:var(--muted);transition:transform .25s;transform:rotate(-90deg)}
+.sv[open] .sv-ar{transform:rotate(90deg);color:var(--p)}
+.sv-b{padding:0 18px 18px;display:grid;gap:14px;border-top:1px dashed var(--line);padding-top:14px;margin:0 18px;padding-inline:0}
+.sv-how small{display:block;color:var(--muted);margin-bottom:8px}
+html[lang=dv] .sv-how small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px}
+.sv-how div,.fb-l{display:flex;flex-wrap:wrap;gap:8px}
+.sv-chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:8px 12px;font-size:14px;color:var(--text);font-family:"KondeyHeading","Faruma",sans-serif}
+html[lang=en] .sv-chip{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:13.5px}
+.sv-chip svg{color:var(--p)}
+a.sv-chip:hover,button.sv-chip:hover{border-color:var(--p);color:var(--p)}
+.fb{display:grid;grid-template-columns:1fr 220px;gap:24px;align-items:center;background:linear-gradient(135deg,#111,#3A0A12);color:#fff;border-radius:22px;padding:26px}
+.fb h3{font-size:22px;line-height:1.6;margin-bottom:14px}
+.fb .sv-chip{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff}.fb .sv-chip svg{color:#FF3550}
+.fb-qr{background:#fff;border-radius:18px;padding:12px;text-align:center;color:var(--text)}
+.fb-qr img{width:100%;height:auto;border-radius:8px}
+.fb-qr small{display:block;margin-top:6px;font-family:"KondeyHeading","Faruma",sans-serif}
+.chv{display:grid;gap:12px}
+.chv-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg);border-radius:14px;padding:8px}
+.chv-b{width:44px;height:44px;border-radius:12px;border:0;background:#fff;color:var(--p);display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.chv-b:hover{background:var(--p);color:#fff}
+.chv-c{font-family:"KondeyHeading","Faruma",sans-serif;font-size:17px}
+html[lang=en] .chv-c{font-family:"Plus Jakarta Sans",sans-serif;font-size:15px}
+.chv-pg{display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;cursor:zoom-in;box-shadow:0 10px 26px rgba(15,23,42,.06)}
+.chv-pg img{width:100%;height:auto;display:block}
+.chv-th{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x mandatory}
+.chv-th button{position:relative;flex:0 0 92px;border:2px solid transparent;border-radius:10px;padding:0;background:#fff;overflow:hidden;scroll-snap-align:center;opacity:.65}
+.chv-th button.on{border-color:var(--p);opacity:1}
+.chv-th img{width:100%;height:auto;display:block}
+.chv-th span{position:absolute;bottom:3px;inset-inline-start:3px;background:var(--k);color:#fff;border-radius:6px;padding:0 6px;font-size:11px}
+@media (max-width:620px){.ch-tabs{display:grid;grid-template-columns:1fr 1fr}.ch-tabs button{padding:10px 8px}.fb{grid-template-columns:1fr;padding:20px}.fb-qr{max-width:220px;margin:0 auto}.sv summary{padding:14px}.sv-t b{font-size:16.5px}}
 .ch-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .ch-meta{color:var(--muted);font-size:14.5px;margin-top:4px}
 html[lang=dv] .ch-meta{font-family:"KondeyHeading","Faruma",sans-serif;font-size:15.5px}
@@ -464,26 +517,57 @@ function albumPage(a){if(!a)return detail(null);const ph=(a.photos||[]).map(safe
   return pageHead("ގެލަރީ","Gallery")+`<div class="pb"><div class="wrap"><div class="panel"><a class="back" href="#gallery">${IC.back}${bi("ގެލަރީއަށް","Back to gallery")}</a><h1 class="h" style="font-size:28px;color:var(--p);margin-bottom:6px">${L2(a,"title")}</h1><div class="nc-d" style="margin-bottom:16px">${nDate(a.date)}</div>
     ${ph.length?`<div class="pg mt-gal">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:empty("ފޮޓޯއެއް ނެތް","No photos")}</div></div></div>`;}
 
-/* Service charter: the official PDF (version 1.1, approved 6 Oct 2026) shown page by page + key facts */
-const CHARTER={pdf:"/charter/kondey-school-service-charter.pdf",pages:17,version:"1.1",approved:"2026-10-06",first:"2021-09-30"};
-function charterPage(){
+/* Service charter (version 1.1, approved 6 Oct 2026). Short service titles typed from the official PDF; the exact wording is in the page images. */
+const CHARTER={pdf:"/charter/kondey-school-service-charter.pdf",pages:17,version:"1.1",approved:"2026-10-06",first:"2021-09-30",
+  feedback:"http://csc.gov.mv/page/contactus?officename=%DE%8E%DE%87.%DE%86%DE%AE%DE%82%DE%91%DE%AC+%DE%90%DE%B0%DE%86%DE%AB%DE%8D%DE%B0&eoid=j1KErJGR9cX7k996vT78_Q#hiyaalu"};
+const SERVICES=[
+  {dv:"އޮފީހުގެ ފޯނަށް އަންނަ ފޯންކޯލްތަކަށް ޖަވާބު ދިނުން",en:"Answering calls to the school office",t:["ރަސްމީ ގަޑީގައި 5 ރިންގުގެ ތެރޭގައި","Within 5 rings during office hours"],how:["phone"],pg:[9]},
+  {dv:"އިމާރާތާއި ތަކެތި ކުއްޔަށް ދޫކުރުން",en:"Renting out school buildings and equipment",t:["ބަންދުނޫން 2 – 5 ދުވަސް","2 – 5 working days"],how:["form","visit"],pg:[9,10]},
+  {dv:"ބިޑް ކުރުވާ މަސައްކަތްތަކާއި ހިދުމަތްތަކަށް އިޢުލާން ކުރުން",en:"Announcing works and services for bidding",t:["ބަންދުނޫން 7 – 12 ދުވަސް","7 – 12 working days"],how:["notice"],pg:[9,10]},
+  {dv:"އަލަށް ފެށޭ ދިރާސީ އަހަރަށް ދަރިވަރުން ވެއްދުން",en:"Admitting students for the new academic year",t:["1 މަސް","1 month"],how:["form","visit"],pg:[10,11,12]},
+  {dv:"ދަރިވަރު އެހެން ސްކޫލަކަށް ބަދަލުކުރުން",en:"Transferring a student to another school",t:["ބަންދުނޫން 3 – 5 ދުވަސް","3 – 5 working days"],how:["form","visit"],pg:[12,13,14]},
+  {dv:"ސަރުކާރާއި ދައުލަތުގެ މުއައްސަސާތަކުން ފޮނުވާ ސިޓީ",en:"Letters from government institutions",t:["ބަންދުނޫން 3 – 5 ދުވަސް","3 – 5 working days"],how:["email"],pg:[14,15]},
+  {dv:"އަމިއްލަ ފަރާތްތަކުން ފޮނުވާ ސިޓީ އަދި އީމެއިލް",en:"Letters and emails from individuals",t:["ބަންދުނޫން 3 – 5 ދުވަސް","3 – 5 working days"],how:["email","visit"],pg:[15]},
+  {dv:"އިސްތިފްސާރުތަކަށް ޖަވާބު ދިނުން",en:"Answering inquiries",t:["ބަންދުނޫން 3 – 5 ދުވަސް","3 – 5 working days"],how:["email","phone","visit"],pg:[15]}];
+const HOW={phone:["phone","ފޯނު 6820097","Phone 6820097","tel:+9606820097"],email:["mail","އީމެއިލް","Email","mailto:admin@kondeyschool.edu.mv"],visit:["pin","ރިސެޕްޝަނަށް ވަޑައިގެން","Visit reception",""],form:["book","ފޯމު ހުށަހަޅައިގެން","Submit a form",""],notice:["flag","އިޢުލާން ކުރެވޭނެ","Published as a notice","#notices"]};
+let CHP=1, CHQ="";
+const chImg=n=>`/charter/p-${String(n).padStart(2,"0")}.jpg`;
+function chServices(){const q=CHQ.toLowerCase();const L=SERVICES.map((x,i)=>({...x,i})).filter(x=>!q||(x.dv+" "+x.en).toLowerCase().includes(q));
+  return L.length?L.map(x=>`<details class="sv reveal in"><summary><span class="sv-n num">${x.i+1}</span><span class="sv-t"><b class="h">${bi(x.dv,x.en)}</b><span class="sv-time">${IC.cal.replace(/width="26" height="26"/,'width="15" height="15"')}${bi(x.t[0].replace(/\d+/g,m=>`<span class="num">${m}</span>`),x.t[1])}</span></span><span class="sv-ar">${IC.arr}</span></summary>
+    <div class="sv-b"><div class="sv-how"><small>${bi("ހިދުމަތް ލިބިގަނެވޭނެ ގޮތް","How to request")}</small><div>${x.how.map(k=>{const h=HOW[k];const tag=h[3]?"a":"span";return `<${tag} class="sv-chip"${h[3]?` href="${h[3]}"`:""}>${IC[h[0]].replace(/width="2\d" height="2\d"/,'width="16" height="16"')}${bi(h[1].replace(/\d+/g,m=>`<span class="num">${m}</span>`),h[2])}</${tag}>`;}).join("")}</div></div>
+      <div class="sv-how"><small>${bi("ފުރިހަމަ ތަފްސީލު ސަރވިސް ޗާޓަރުގައި","Full details in the charter")}</small><div>${x.pg.map(n=>`<button type="button" class="sv-chip" data-chgo="${n}">${bi(`ސަފްޙާ <span class="num">${n}</span>`,`Page ${n}`)}</button>`).join("")}</div></div></div></details>`).join(""):empty("ހިދުމަތެއް ނުފެނުނު","No matching service");}
+function chViewer(){return `<div class="chv"><div class="chv-bar"><button type="button" class="chv-b" data-chp="-1" aria-label="Previous">${IC.back}</button>
+    <span class="chv-c">${bi(`ސަފްޙާ <b class="num" id="chNo">${CHP}</b> / <span class="num">${CHARTER.pages}</span>`,`Page <b id="chNoE">${CHP}</b> of ${CHARTER.pages}`)}</span>
+    <button type="button" class="chv-b" data-chp="1" aria-label="Next">${IC.arr}</button></div>
+    <a class="chv-pg mt-gal" id="chPg"><img id="chImg" src="${chImg(CHP)}" alt=""></a>
+    <div class="chv-th">${Array.from({length:CHARTER.pages},(_,i)=>`<button type="button" data-chgo="${i+1}" class="${i+1===CHP?"on":""}"><img src="${chImg(i+1)}" alt="" loading="lazy"><span class="num">${i+1}</span></button>`).join("")}</div></div>`;}
+function chShow(n){CHP=Math.min(CHARTER.pages,Math.max(1,n));const im=document.getElementById("chImg");if(!im)return;im.src=chImg(CHP);
+  ["chNo","chNoE"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=CHP;});
+  document.querySelectorAll(".chv-th button").forEach(b=>{const on=+b.dataset.chgo===CHP;b.classList.toggle("on",on);if(on)b.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});});}
+function charterPage(){CHP=1;CHQ="";
   const card=(ic,dv,en,val)=>`<div class="cti reveal"><span class="st-ic">${IC[ic]}</span><small>${bi(dv,en)}</small><b>${val}</b></div>`;
-  const pages=Array.from({length:CHARTER.pages},(_,i)=>`/charter/p-${String(i+1).padStart(2,"0")}.jpg`);
   return pageHead("ސަރވިސް ޗާޓަރ","Service charter")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="ch-top"><div><h2 class="h" style="font-size:26px;color:var(--p);line-height:1.5">${bi("ކޮނޑޭ ސުކޫލުގެ ސަރވިސް ޗާޓަރ","Kondey School Service Charter")}</h2>
-      <p class="ch-meta">${bi(`ވަރޝަން <span class="num">${CHARTER.version}</span> · މަންޒޫރުކުރި ތާރީޚު`,`Version ${CHARTER.version} · Approved`)} ${nDate(CHARTER.approved)} · ${bi("ފުރަތަމަ ފާސްކުރީ","First approved")} ${nDate(CHARTER.first)}</p></div>
-      <a class="btn btn-p" href="${CHARTER.pdf}" target="_blank" rel="noopener" download>${bi("PDF ޑައުންލޯޑް ކުރައްވާ","Download PDF")}</a></div>
-    <div class="ct" style="margin-top:20px">
+      <p class="ch-meta">${bi(`ވަރޝަން <span class="num">${CHARTER.version}</span> · މަންޒޫރުކުރި ތާރީޚު`,`Version ${CHARTER.version} · Approved`)} ${nDate(CHARTER.approved)}</p></div>
+      <a class="btn btn-p" href="${CHARTER.pdf}" target="_blank" rel="noopener" download>${bi("PDF ޑައުންލޯޑް","Download PDF")}</a></div>
+    <div class="ch-tabs" role="tablist">${[["sv","ހިދުމަތްތައް","Services"],["ct","ގުޅުއްވާ","Contact"],["fb","ޝަކުވާ / ހިޔާލު","Feedback"],["doc","ފުރިހަމަ ޗާޓަރ","Full charter"]].map(([k,d,e],i)=>`<button type="button" data-cht="${k}" class="${i?"":"on"}">${bi(d,e)}</button>`).join("")}</div>
+    <div class="ch-pane on" data-pane="sv">
+      <div class="ch-search">${IC.book.replace(/width="26" height="26"/,'width="18" height="18"')}<input type="search" id="chQ" placeholder="${document.documentElement.lang==="en"?"Search services":"ހިދުމަތެއް ހޯދާ"}"></div>
+      <div class="sv-list" id="svList">${chServices()}</div></div>
+    <div class="ch-pane" data-pane="ct"><div class="ct">
       ${card("cal","ހިދުމަތް ލިބިގަނެވޭނެ ގަޑި","Service hours",`<span class="num">08:30 – 13:30</span>`)}
       ${card("phone","ޕްރިންސިޕަލްގެ މޯބައިލް","Principal (mobile)",`<a href="tel:+9607222422"><span class="num">7222422</span></a>`)}
       ${card("phone","ފޯނު (އޮފީސް)","Office phone",`<a href="tel:+9606820097"><span class="num">6820097</span></a>`)}
       ${card("mail","އީމެއިލް","Email",`<a href="mailto:admin@kondeyschool.edu.mv"><span class="ltr" style="font-size:15px">admin@kondeyschool.edu.mv</span></a>`)}
       ${card("pin","އެޑްރެސް","Address",`<span class="h" style="font-size:17px">${bi("ކޮނޑޭ ސުކޫލް، ގއ.ކޮނޑޭ","Kondey School, GA. Kondey")}</span>`)}
-      ${card("flag","ސޯޝަލް މީޑިއާ","Social media",`<a href="https://linktr.ee/kondeyschool" target="_blank" rel="noopener"><span class="ltr" style="font-size:15px">linktr.ee/kondeyschool</span></a>`)}
-    </div>
-    <h2 class="grp-h h">${bi("ސަރވިސް ޗާޓަރ ފުރިހަމައަށް","Full service charter")}</h2>
-    <p class="ch-note">${bi("ސަފްޙާއަކަށް ފިތާލުމުން ބޮޑުކޮށް ފެންނާނެ.","Tap a page to view it larger.")}</p>
-    <div class="ch-pages mt-gal">${pages.map((u,i)=>`<a href="${u}" data-lb="${i}" class="ch-pg reveal"><img src="${u}" alt="Page ${i+1}" loading="lazy"><span class="num">${i+1}</span></a>`).join("")}</div>
+      ${card("flag","ސޯޝަލް މީޑިއާ","Social media",`<a href="https://linktr.ee/kondeyschool" target="_blank" rel="noopener"><span class="ltr" style="font-size:15px">linktr.ee/kondeyschool</span></a>`)}</div></div>
+    <div class="ch-pane" data-pane="fb"><div class="fb">
+      <div><h3 class="h">${bi("ހިދުމަތާ ގުޅޭ ޝަކުވާ ނުވަތަ ހިޔާލު ހުށަހަޅާނެ ގޮތް","How to give feedback or make a complaint")}</h3>
+        <div class="fb-l"><span class="sv-chip">${IC.pin.replace(/width="24" height="24"/,'width="16" height="16"')}${bi("ރިސެޕްޝަން ކައުންޓަރ","Reception counter")}</span>
+          <a class="sv-chip" href="mailto:admin@kondeyschool.edu.mv">${IC.mail.replace(/width="24" height="24"/,'width="16" height="16"')}<span class="ltr">admin@kondeyschool.edu.mv</span></a>
+          <a class="sv-chip" href="${CHARTER.feedback}" target="_blank" rel="noopener">${IC.flag.replace(/width="24" height="24"/,'width="16" height="16"')}${bi("ސިވިލް ސަރވިސް ކޮމިޝަނުގެ ހިޔާލު ފޯމު","Civil Service Commission feedback form")}</a></div></div>
+      <a class="fb-qr" href="${CHARTER.feedback}" target="_blank" rel="noopener"><img src="/charter/qr.png" alt="QR"><small>${bi("ކިއު.އާރް ކޯޑު ސްކޭން ކުރައްވާ","Scan the QR code")}</small></a></div></div>
+    <div class="ch-pane" data-pane="doc">${chViewer()}</div>
   </div></div></div>`;}
 function contactBlock(){const ph=(INFO.phone||"").replace(/\D/g,"");
   return `<div class="sec-h"><div><h2 class="h">${bi("އަޅުގަނޑުމެންނަށް ގުޅުއްވާ","Contact us")}</h2></div></div>
@@ -515,14 +599,25 @@ document.getElementById("mnav").addEventListener("click",e=>{if(e.target.id==="m
 document.addEventListener("click",e=>{
   const nt=e.target.closest("[data-nt]");if(nt){NTYPE=nt.dataset.nt;nt.parentNode.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b===nt));document.getElementById("ntList").innerHTML=noticesBody();reveal();return;}
   const a=e.target.closest(".mt-gal a[data-lb]");if(!a)return;e.preventDefault();
-  const L=[...a.closest(".mt-gal").querySelectorAll("a[data-lb]")].map(x=>x.href);let i=+a.dataset.lb;
+  openLB([...a.closest(".mt-gal").querySelectorAll("a[data-lb]")].map(x=>x.href),+a.dataset.lb);
+});
+function openLB(L,i){
   const d=document.createElement("div");d.className="lb";d.innerHTML=`<img alt=""><button class="x" type="button">✕</button>${L.length>1?'<button class="p" type="button">‹</button><button class="n" type="button">›</button>':""}<span class="c"></span>`;
   const show=k=>{i=(k+L.length)%L.length;d.querySelector("img").src=L[i];d.querySelector(".c").textContent=`${i+1} / ${L.length}`;};
   d.onclick=ev=>{if(ev.target.closest(".n"))show(i+1);else if(ev.target.closest(".p"))show(i-1);else if(ev.target.closest(".x")||ev.target===d){d.remove();document.body.style.overflow="";}};
   let sx=null;d.addEventListener("touchstart",ev=>sx=ev.touches[0].clientX,{passive:true});d.addEventListener("touchend",ev=>{if(sx==null)return;const dx=ev.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)show(i+(dx<0?1:-1));sx=null;});
   document.body.appendChild(d);document.body.style.overflow="hidden";show(i);
-});
+}
 addEventListener("hashchange",route);
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-cht]");if(t){document.querySelectorAll("[data-cht]").forEach(b=>b.classList.toggle("on",b===t));document.querySelectorAll(".ch-pane").forEach(p=>p.classList.toggle("on",p.dataset.pane===t.dataset.cht));return;}
+  const g=e.target.closest("[data-chgo]");if(g){const pane=document.querySelector('[data-cht="doc"]');if(!g.closest(".chv"))pane.click();chShow(+g.dataset.chgo);if(!g.closest(".chv"))document.querySelector(".ch-tabs").scrollIntoView({behavior:"smooth"});return;}
+  const pv=e.target.closest("[data-chp]");if(pv){const rtl=document.documentElement.dir==="rtl";chShow(CHP+(+pv.dataset.chp));return;}
+  if(e.target.closest("#chPg")){e.preventDefault();const L=Array.from({length:CHARTER.pages},(_,i)=>location.origin+chImg(i+1));openLB(L,CHP-1);}
+});
+document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value.trim();document.getElementById("svList").innerHTML=chServices();}});
+let chX=null;document.addEventListener("touchstart",e=>{if(e.target.closest("#chPg"))chX=e.touches[0].clientX;},{passive:true});
+document.addEventListener("touchend",e=>{if(chX==null)return;const dx=e.changedTouches[0].clientX-chX;chX=null;if(Math.abs(dx)>50){const rtl=document.documentElement.dir==="rtl";chShow(CHP+((dx<0)!==rtl?1:-1));}});
 const TT=document.getElementById("totop");addEventListener("scroll",()=>TT.classList.toggle("show",scrollY>500),{passive:true});TT.onclick=()=>scrollTo({top:0,behavior:"smooth"});
 
 async function loadDB(){
