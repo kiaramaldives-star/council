@@ -303,7 +303,7 @@ let INFO={name_dv:"ކޮނޑޭ ސްކޫލް",name_en:"Kondey School",motto_dv:"ހ
   mission_en:"Kondey School will be a school which will produce \"Well civilised educated and cultured students\" with abundant love for Islam.",
   intro_dv:"ކޮނޑޭ ސްކޫލް ހުޅުވީ 30 ޖޫން 1980 ގައެވެ. އެދުވަހުން ފެށިގެން ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހު، ގއ.ކޮނޑޭގެ ދަރިވަރުންނަށް ފެންވަރު ރަނގަޅު ތަޢުލީމު ދިނުމަށާއި ކޮންމެ ޖީލެއްގެ ދަރިވަރުން ތަރުބިއްޔަތުކުރުމަށް މި ސްކޫލް މަސައްކަތްކުރަމުން ގެންދެއެވެ.",
   intro_en:"Kondey School is a proud institution that has been serving the community of Ga. Kondey since its establishment on June 30, 1980. For over four decades, we have been dedicated to providing quality education and shaping the minds of generations of learners.",
-  website:"kondeyschool.edu.mv",opened:"1980-06-30",students:51,teachers:12,staff:4,phone:"6820097",email:"",address_dv:"މުޙައްމަދު އަމީން މަގު، ގއ.ކޮނޑޭ، 16070",address_en:"Mohamed Ameen Magu, GA. Kondey, 16070",
+  website:"kondeyschool.edu.mv",years:49,opened:"1980-06-30",students:51,teachers:12,staff:4,phone:"6820097",email:"",address_dv:"މުޙައްމަދު އަމީން މަގު، ގއ.ކޮނޑޭ، 16070",address_en:"Mohamed Ameen Magu, GA. Kondey, 16070",
   facebook:"https://www.facebook.com/KondeySchool/",instagram:"https://www.instagram.com/ga.kondey_school/",x:"https://x.com/kondeyschool",
   logo:"/logo.png",hero:"",principal_dv:"އަބްދުﷲ ކިނާނަތު ޤާސިމް",principal_en:"Abdulla Kinanath Qasim",principal_photo:"/img/principal.jpg",principal_msg_dv:"",principal_msg_en:""};
 const NEWS=[{id:"classrooms-2023",title_dv:"ކޮނޑޭ ސްކޫލަށް 4 ކްލާސްރޫމް އިމާރާތްކުރުމުގެ މަސައްކަތް ހަވާލުކޮށްފި",title_en:"Contract signed to build four classrooms at Kondey School",date:"2023-04-19",
@@ -384,7 +384,7 @@ function aboutBlocks(){return `<div class="about"><div class="about-txt reveal">
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
   return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><div class="eyebrow">${bi("ޕްރިންސިޕަލްގެ ބަސްފުޅު","Principal's message")}</div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
-const years=()=>new Date().getFullYear()-Number(String(INFO.opened||"1980").slice(0,4));
+const years=()=>+INFO.years||new Date().getFullYear()-Number(String(INFO.opened||"1980").slice(0,4));
 
 function home(){
   const hero=safeUrl(INFO.hero), up=EVENTS.filter(e=>(e.end||e.date||"")>=new Date().toISOString().slice(0,10)).sort((a,b)=>String(a.date).localeCompare(b.date)).slice(0,5);
