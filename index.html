@@ -1263,6 +1263,9 @@ html[lang=en] .ti-v{font-family:inherit}
 html[lang=en] .att-c b,html[lang=en] .att-c small,html[lang=en] .att-c em,html[lang=en] .att-sum{font-family:inherit}
 .mt-top-info{margin:4px 0 6px}.mt-top-info .ag-info{margin-bottom:16px}.mtv .att-grid{margin-bottom:22px}
 .att-av.ph{background:#F3F4F6;overflow:hidden;width:48px;height:48px}.att-av.ph img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+html.booting body>main,html.booting body>section,html.booting #homePage,html.booting footer,html.booting .page-band{visibility:hidden}
+html.booting body:after{content:"";position:fixed;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border-radius:50%;border:4px solid #F3D3D9;border-top-color:#C8102E;animation:bootspin .8s linear infinite;z-index:9999}
+@keyframes bootspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -3091,8 +3094,11 @@ async function loadDB(){
   }catch(e){console.warn("Database not reachable, using built-in content",e);}
 }
 
+/* opening a shared link: wait for the latest content instead of flashing the home page */
+const BOOT=/^#(news|iulaan|press|meeting|staff)-/.test(location.hash)&&!/[?&]nodb\b/.test(location.search);
+if(BOOT){document.documentElement.classList.add("booting");setTimeout(()=>document.documentElement.classList.remove("booting"),8000);}
 route();
-loadDB();
+loadDB().finally(()=>document.documentElement.classList.remove("booting"));
 $("#yr").textContent=new Date().getFullYear();
 </script>
 </body>
