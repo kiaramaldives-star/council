@@ -552,7 +552,7 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   ig:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>',
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
-const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["charter","ސަރވިސް ޗާޓަރ","Service charter"],["staff","މުވައްޒަފުން","Staff"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
+const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["charter","ސަރވިސް ޗާޓަރ","Service charter"],["staff","މުވައްޒަފުން","Staff"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -619,8 +619,8 @@ function home(){
     <section class="sec"><div class="wrap two">
       <div><div class="sec-h"><div><h2 class="h">${bi("އިޢުލާން","Notices")}</h2></div><a class="more" href="#notices">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
         ${NOTICES.length?`<div class="nl">${sortD(NOTICES).slice(0,4).map(noticeItem).join("")}</div>`:empty("މިވަގުތު އިޢުލާނެއް ނެތް","No notices right now")}</div>
-      <div><div class="sec-h"><div><h2 class="h">${bi("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")}</h2></div><a class="more" href="#calendar">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
-        ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:(()=>{const t=isoD(new Date()),L=ACAL.filter(x=>x.e>=t).sort((p,q)=>p.s.localeCompare(q.s)).slice(0,4);return L.length?L.map(acItem).join(""):empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming events");})()}</div></div></section>
+      <div><div class="sec-h"><div><h2 class="h">${bi("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")}</h2></div><a class="more" href="#activities">${bi("ހުރިހާ","All")} ${IC.arr}</a></div>
+        ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming activities")}</div></div></section>
     ${ALBUMS.length?`<section class="sec" style="background:#fff"><div class="wrap"><div class="sec-h"><div><div class="eyebrow">${bi("ފޮޓޯ","Photos")}</div><h2 class="h">${bi("ގެލަރީ","Gallery")}</h2></div><a class="more" href="#gallery">${bi("ހުރިހާ","All")} ${IC.arr}</a></div><div class="ag">${sortD(ALBUMS).slice(0,3).map(albumCard).join("")}</div></div></section>`:""}`;
 }
 function aboutPage(){return pageHead("ސުކޫލާއި ބެހޭ","About the school")+`<div class="pb"><div class="wrap"><div class="panel">${aboutBlocks()}</div>
@@ -688,15 +688,19 @@ function studentStats(){
       ${classTeacher(c)}
       ${c.streams_dv||c.streams_en?`<div class="sm-g">${c.subjects_dv||c.subjects_en?`<div class="sm-c core"><div class="sm-h"><b class="h">${bi("ހުރިހާ ދަރިވަރުން ކިޔަވާ މާއްދާތައް","Subjects for all students")}</b><span class="sm-n"><span class="num">${esc(c.students||0)}</span></span></div><div class="clc-s">${bi(String(c.subjects_dv||c.subjects_en).split(/[،,]\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""),String(c.subjects_en||c.subjects_dv).split(/,\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""))}</div></div>`:""}${bi(stRows(c.streams_dv||c.streams_en),stRows(c.streams_en||c.streams_dv))}</div>`:""}
     </div>`).join("")}</div>`;}
+function activitiesPage(){
+  const today=isoD(new Date()), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
+  return pageHead("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")+`<div class="pb"><div class="wrap"><div class="panel">
+    <div class="sec-h"><div><h2 class="h">${bi("ކުރިއަށް އޮތް ހަރަކާތްތައް","Upcoming activities")}</h2></div></div>
+    ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming activities")}
+    ${past.length?`<h2 class="grp-h h">${bi("ފާއިތުވި ހަރަކާތްތައް","Past activities")}</h2><div class="ev" style="opacity:.75">${past.slice(0,20).map(eventItem).join("")}</div>`:""}
+  </div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
   return pageHead("ދަރިވަރުން","Students")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="sec-h"><div><div class="eyebrow">${bi("ކްލާސްތައް","Classes")}</div><h2 class="h">${bi("ގްރޭޑްތަކާއި ކްލާސްތައް","Grades & classes")}</h2></div>${total?`<span class="more"><span class="num">${total}</span> ${bi("ދަރިވަރުން","students")}</span>`:""}</div>
     ${CLASSES.length?studentStats():empty("ކްލާސްތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Class details coming soon")}
-    <div class="sec-h" style="margin-top:24px"><div><div class="eyebrow">${bi("ސްކޫލް ކެލެންޑަރު","School calendar")}</div><h2 class="h">${bi("ކުރިއަށް އޮތް ހަރަކާތްތައް","Upcoming")}</h2></div></div>
-    ${up.length?`<div class="ev">${up.map(eventItem).join("")}</div>`:empty("ކުރިއަށް އޮތް ހަރަކާތެއް ނެތް","No upcoming events")}
-    ${past.length?`<h2 class="grp-h h">${bi("ފާއިތުވި","Past")}</h2><div class="ev" style="opacity:.75">${past.slice(0,10).map(eventItem).join("")}</div>`:""}
   </div></div></div>`;}
 function albumCard(a){const ph=(a.photos||[]).map(safeUrl).filter(Boolean),c=safeUrl(a.cover)||ph[0];
   return `<a class="al reveal" href="#album-${esc(a.id)}">${c?`<img src="${esc(c)}" alt="" loading="lazy">`:""}<span class="al-n num">${ph.length} 📷</span><span class="al-o"><b class="h">${L2(a,"title")}</b><small>${nDate(a.date)}</small></span></a>`;}
@@ -923,7 +927,7 @@ function route(){
   if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
   else if(h.startsWith("notice-")){html=detail(NOTICES.find(n=>n.id===h.slice(7)),"notices","އިޢުލާންތަކަށް","Back to notices",1);key="notices";}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
-  else html=({home,calendar:calendarPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key));
   document.getElementById("mnav").classList.remove("open");
