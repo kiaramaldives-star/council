@@ -674,7 +674,7 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={about:[["structure","އިދާރީ ހަރުމަ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const SUBMENU={about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
 const PARENT={structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
@@ -858,7 +858,7 @@ function structurePage(){
   const ord=(a,b)=>(+a.order||0)-(+b.order||0);
   const ac=STAFF.filter(s=>s!==pr&&["teacher","deputy","leading"].includes(s.role||"teacher")).sort(ord), ad=STAFF.filter(s=>s!==pr&&["admin","support"].includes(s.role)).sort((a,b)=>(a.role==="admin"?0:1)-(b.role==="admin"?0:1)||ord(a,b));
   const dept=(dv,en,ic,L,c)=>`<div class="org-d ${c}"><div class="org-dh"><span class="org-dic">${ic}</span><div><b class="h">${bi(dv,en)}</b><small>${bi(`<span class="num">${L.length}</span> މުވައްޒަފުން`,`${L.length} staff`)}</small></div></div><div class="org-dl">${L.map(x=>node(x)).join("")||empty("މުވައްޒަފުން ނެތް","No staff")}</div></div>`;
-  return pageHead("އިދާރީ ހަރުމަ","Organisational structure")+`<div class="pb"><div class="wrap"><div class="panel org">
+  return pageHead("އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure")+`<div class="pb"><div class="wrap"><div class="panel org">
     <div class="org-top">${node(pr,"lead")}</div>
     <div class="org-br"><i></i></div>
     <div class="org-ds">${dept("ތަޢުލީމީ ޑިޕާޓްމަންޓް","Academic Department",IC.cap,ac,"acd")}${dept("އިދާރީ ޑިޕާޓްމަންޓް","Administration Department",IC.users,ad,"adm")}</div>
