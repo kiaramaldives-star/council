@@ -863,9 +863,9 @@ function studentStats(){
 function activitiesPage(){
   const today=isoD(new Date()), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)||String(a.end||"").localeCompare(String(b.end||"")));
   const up=ev.filter(e=>(e.end||e.date||"")>=today), next=up.find(e=>e.date<=today&&(e.end||e.date)>=today&&e.date===today)||up.find(e=>e.date>=today), yrs=[...new Set(ev.map(e=>String(e.date).slice(0,4)))];
-  const grp=L=>{let g="",cm="";L.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)g+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);g+=`<h3 class="act-mh h">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}g+=eventItem(e);});if(cm)g+=`</div>`;return g;};
+  const grp=L=>{let g="",cm="";L.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)g+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);g+=`<h3 class="act-mh h">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}g+=e===next?eventItem(e).replace('class="evi ','id="act-next" class="evi '):eventItem(e);});if(cm)g+=`</div>`;return g;};
   const past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
-  let groups=grp(up)+(past.length?`<details class="act-past"><summary>${bi(`ފާއިތުވި ހަރަކާތްތައް (<span class="num">${past.length}</span>)`,`Past activities (${past.length})`)}</summary>${grp(past)}</details>`:"");
+  let groups=grp(ev);
   return pageHead("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="act-top"><div><h2 class="h">${bi(`ހަރަކާތްތަކުގެ ކަލަންޑަރު <span class="num">${yrs.join(" / ")}</span>`,`Activity Calendar ${yrs.join(" / ")}`)}</h2><small>${bi(`ޖުމްލަ <span class="num">${ev.length}</span> ހަރަކާތް · ކުރިއަށް އޮތް <span class="num">${up.length}</span>`,`${ev.length} activities · ${up.length} upcoming`)}</small></div></div>
     ${next?`<div class="ac-next" style="margin:14px 0">${(()=>{const dd=Math.round((new Date(next.date)-new Date(today))/864e5);return dd<=0?`<div class="ac-cd"><b class="h" style="font-size:20px">${bi("މިއަދު","Today")}</b></div>`:`<div class="ac-cd"><b class="num">${dd}</b><small>${bi("ދުވަސް","days")}</small></div>`;})()}<div><small>${next.date===today?bi("މިއަދުގެ ހަރަކާތް","Today's activity"):bi("ކުރިއަށް އޮތް ހަރަކާތް","Next activity")}</small><b class="h">${L2(next,"title")}</b><span>${nDate(next.date)}${next.teacher_dv||next.teacher_en?` · ${L2(next,"teacher")}`:""}</span></div></div>`:""}
@@ -1135,7 +1135,7 @@ function route(){
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
-  sTo({top:0}); reveal();
+  {const an=key==="activities"&&document.getElementById("act-next");if(an){document.documentElement.style.scrollBehavior="auto";an.classList.add("in");scrollTo({top:an.getBoundingClientRect().top+scrollY-170,behavior:"instant"});}else sTo({top:0,behavior:"instant"});} reveal();
   if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-110;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
 const SCR=()=>getComputedStyle(document.body).position==="fixed"?document.body:null;
