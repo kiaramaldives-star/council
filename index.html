@@ -579,6 +579,7 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}.totop{bottom:calc(
 .hot{font-style:normal;font-size:12px;background:var(--p);color:#fff;border-radius:99px;padding:1px 9px;margin-inline-start:6px;vertical-align:middle}html[lang=dv] .hot{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
 .top-hot{display:inline-flex;align-items:center;gap:6px;margin-inline-start:14px;color:#fff;font-weight:700}.top-hot em{font-style:normal;background:var(--p);border-radius:99px;padding:0 8px;font-size:12px;font-weight:400}html[lang=dv] .top-hot em{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
 .mn-soc a.mn-hot{background:var(--p)!important;color:#fff!important;border-radius:99px!important;padding:6px 14px!important;font-weight:700;font-size:15px;display:inline-flex!important;align-items:center}
+.evi.hl{box-shadow:0 0 0 3px var(--p),0 12px 30px rgba(200,16,46,.18);transition:box-shadow .3s}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -845,11 +846,11 @@ function studentStats(){
     </div>`).join("")}</div>`;}
 function activitiesPage(){
   const today=isoD(new Date()), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)||String(a.end||"").localeCompare(String(b.end||"")));
-  const up=ev.filter(e=>(e.end||e.date||"")>=today), next=up.find(e=>e.date>=today), yrs=[...new Set(ev.map(e=>String(e.date).slice(0,4)))];
-  let groups="",cm="";ev.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)groups+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);groups+=`<h3 class="act-mh h${k<today.slice(0,7)?" past":""}">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}groups+=eventItem(e);});if(cm)groups+=`</div>`;
+  const up=ev.filter(e=>(e.end||e.date||"")>=today), next=up.find(e=>e.date<=today&&(e.end||e.date)>=today&&e.date===today)||up.find(e=>e.date>=today), yrs=[...new Set(ev.map(e=>String(e.date).slice(0,4)))];
+  let groups="",cm="";ev.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)groups+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);groups+=`<h3 class="act-mh h${k<today.slice(0,7)?" past":""}">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}groups+=(e===next||(!next&&false)?eventItem(e).replace('class="evi ','id="act-next" class="evi '):eventItem(e));});if(cm)groups+=`</div>`;
   return pageHead("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="act-top"><div><h2 class="h">${bi(`ހަރަކާތްތަކުގެ ކަލަންޑަރު <span class="num">${yrs.join(" / ")}</span>`,`Activity Calendar ${yrs.join(" / ")}`)}</h2><small>${bi(`ޖުމްލަ <span class="num">${ev.length}</span> ހަރަކާތް · ކުރިއަށް އޮތް <span class="num">${up.length}</span>`,`${ev.length} activities · ${up.length} upcoming`)}</small></div></div>
-    ${next?`<div class="ac-next" style="margin:14px 0"><div class="ac-cd"><b class="num">${Math.round((new Date(next.date)-new Date(today))/864e5)}</b><small>${bi("ދުވަސް","days")}</small></div><div><small>${bi("ކުރިއަށް އޮތް ހަރަކާތް","Next activity")}</small><b class="h">${L2(next,"title")}</b><span>${nDate(next.date)}${next.teacher_dv||next.teacher_en?` · ${L2(next,"teacher")}`:""}</span></div></div>`:""}
+    ${next?`<div class="ac-next" style="margin:14px 0">${(()=>{const dd=Math.round((new Date(next.date)-new Date(today))/864e5);return dd<=0?`<div class="ac-cd"><b class="h" style="font-size:20px">${bi("މިއަދު","Today")}</b></div>`:`<div class="ac-cd"><b class="num">${dd}</b><small>${bi("ދުވަސް","days")}</small></div>`;})()}<div><small>${next.date===today?bi("މިއަދުގެ ހަރަކާތް","Today's activity"):bi("ކުރިއަށް އޮތް ހަރަކާތް","Next activity")}</small><b class="h">${L2(next,"title")}</b><span>${nDate(next.date)}${next.teacher_dv||next.teacher_en?` · ${L2(next,"teacher")}`:""}</span></div></div>`:""}
     ${ev.length?groups:empty("ހަރަކާތްތައް ވަރަށް އަވަހަށް","Activities coming soon")}
   </div></div></div>`;}
 function structurePage(){
@@ -1105,6 +1106,7 @@ function route(){
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
   sTo({top:0}); reveal();
+  if(key==="activities"){const el=document.getElementById("act-next");if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-150;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2400);},350);}
   if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-110;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
 const SCR=()=>getComputedStyle(document.body).position==="fixed"?document.body:null;
