@@ -592,7 +592,7 @@ body{background:#F4F4F6!important}#app{background:var(--bg);display:flow-root}.f
 @media (max-width:620px){.gm-g{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.tabbar{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;padding:7px 4px!important;border-radius:26px;border:1px solid rgba(255,255,255,.55)!important;border-image:none!important;background:rgba(255,255,255,.55)!important;-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 10px 30px rgba(15,23,42,.18),inset 0 1px 0 rgba(255,255,255,.7)!important}
 .tabbar a{color:#374151}.tabbar a.on{color:var(--p);background:rgba(200,16,46,.1)}
-.foot-b{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}.totop{bottom:calc(100px + env(safe-area-inset-bottom))!important}}
+.foot-b{padding-bottom:calc(86px + env(safe-area-inset-bottom))!important}.totop{bottom:calc(100px + env(safe-area-inset-bottom))!important}}
 .act-past{margin-top:20px}.act-past>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:14px;background:#F3F4F6;color:#374151;font-weight:600}.act-past>summary::-webkit-details-marker{display:none}
 html[lang=dv] .act-past>summary{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:16px}.act-past>summary::after{content:"▾";transition:.2s}.act-past[open]>summary::after{transform:rotate(180deg)}
 .act-past .act-mh{color:var(--muted);border-color:var(--line)}
@@ -1171,6 +1171,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value.trim();document.getElementById("svList").innerHTML=chServices();}});
 
+{let ty=0;addEventListener("touchstart",e=>{ty=e.touches[0].clientY;},{passive:true});addEventListener("touchmove",e=>{if(document.getElementById("mnav").classList.contains("open")||e.touches.length>1)return;const dy=e.touches[0].clientY-ty,atEnd=Math.ceil(scrollY+innerHeight)>=document.documentElement.scrollHeight-1;if(atEnd&&dy<0&&e.cancelable)e.preventDefault();},{passive:false});}
 const TT=document.getElementById("totop");const onSc=()=>TT.classList.toggle("show",sY()>500);addEventListener("scroll",onSc,{passive:true});document.body.addEventListener("scroll",onSc,{passive:true});TT.onclick=()=>sTo({top:0,behavior:"smooth"});
 
 const PTA=[],SCOUNCIL=[];
