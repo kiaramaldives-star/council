@@ -575,6 +575,7 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}.totop{bottom:calc(
 .stc{display:flex;align-items:center;gap:10px;background:#F8F8FA;border-radius:12px;padding:6px 8px}
 .stc-ph{flex:none;width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--ps);display:grid;place-items:center}.stc-ph img{width:100%;height:100%;object-fit:cover;object-position:top}.stc-ph i{font-style:normal;color:var(--p);font-size:15px}
 .stc b{display:block;font-size:14.5px;line-height:1.45}.stc small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5}
+@media (max-width:760px){html{height:100%;overflow:hidden}body{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:none}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -1099,9 +1100,12 @@ function route(){
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
-  scrollTo(0,0); reveal();
-  if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+scrollY-110;scrollTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
+  sTo({top:0}); reveal();
+  if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-110;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
+const SCR=()=>getComputedStyle(document.body).position==="fixed"?document.body:null;
+const sY=()=>{const b=SCR();return b?b.scrollTop:scrollY;};
+const sTo=o=>{const b=SCR();(b||window).scrollTo(o);};
 function countUp(el){const t=el.textContent,m=t.match(/^(\d+)(.*)$/);if(!m||el.dataset.cu)return;el.dataset.cu=1;const n=+m[1],suf=m[2];if(n<2)return;const t0=performance.now(),d=900;const f=now=>{const p=Math.min(1,(now-t0)/d),v=Math.round(n*(1-Math.pow(1-p,3)));el.textContent=v+suf;if(p<1)requestAnimationFrame(f);};el.textContent="0"+suf;requestAnimationFrame(f);}
 let IO; function reveal(){if(!("IntersectionObserver"in window)){document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));return;}
   IO=IO||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll&&e.target.querySelectorAll(".st b.num").forEach(countUp);IO.unobserve(e.target);}}),{rootMargin:"0px 0px -40px"});
@@ -1131,7 +1135,7 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value.trim();document.getElementById("svList").innerHTML=chServices();}});
 
-const TT=document.getElementById("totop");addEventListener("scroll",()=>TT.classList.toggle("show",scrollY>500),{passive:true});TT.onclick=()=>scrollTo({top:0,behavior:"smooth"});
+const TT=document.getElementById("totop");const onSc=()=>TT.classList.toggle("show",sY()>500);addEventListener("scroll",onSc,{passive:true});document.body.addEventListener("scroll",onSc,{passive:true});TT.onclick=()=>sTo({top:0,behavior:"smooth"});
 
 const DB={news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
 async function loadDB(){
