@@ -1106,7 +1106,7 @@ function route(){
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
   sTo({top:0}); reveal();
-  if(key==="activities"){const el=document.getElementById("act-next");if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-150;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2400);},350);}
+  if(key==="activities"){const el=document.getElementById("act-next");if(el)setTimeout(()=>{el.classList.add("in");const y=el.getBoundingClientRect().top+sY()-150;sTo({top:y,behavior:"smooth"});},350);}
   if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-110;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
 const SCR=()=>getComputedStyle(document.body).position==="fixed"?document.body:null;
