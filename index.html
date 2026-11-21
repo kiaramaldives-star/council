@@ -571,6 +571,10 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}.totop{bottom:calc(
 .stats .st div{display:flex;flex-direction:column;align-items:center}
 @media (max-width:980px){.stats .st:nth-child(3)::before{display:none}.stats .st:nth-child(n+3)::after{content:"";position:absolute;top:0;left:14%;right:14%;border-top:1px solid var(--line)}}
 @media (max-width:620px){.stats .st{padding:18px 8px!important}.stats .st b{font-size:30px!important}.stats .st-ic{width:44px!important;height:44px!important}}
+.stcs{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px;display:grid;gap:6px}.stcs-h{color:var(--p);font-size:13px}html[lang=dv] .stcs-h{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.stc{display:flex;align-items:center;gap:10px;background:#F8F8FA;border-radius:12px;padding:6px 8px}
+.stc-ph{flex:none;width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--ps);display:grid;place-items:center}.stc-ph img{width:100%;height:100%;object-fit:cover;object-position:top}.stc-ph i{font-style:normal;color:var(--p);font-size:15px}
+.stc b{display:block;font-size:14.5px;line-height:1.45}.stc small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -805,6 +809,11 @@ function stRows(t){return String(t||"").split("\n").map(x=>x.trim()).filter(Bool
   const m=l.match(/^(.*?)\s*(?:\(([^)]*)\))?\s*[:：]\s*(\d+)/); if(!m)return `<div class="sm-c"><b class="h">${esc(l)}</b></div>`;
   const opt=/އިޚްތިޔާރީ|optional/i.test(m[2]||""), subs=opt?[]:String(m[2]||"").split(/[،,]\s*/).filter(Boolean);
   return `<div class="sm-c${opt?" opt":""}"><div class="sm-h"><b class="h">${esc(m[1])}</b><span class="sm-n"><span class="num">${m[3]}</span></span></div>${opt?`<span class="sm-tag">${bi("އިޚްތިޔާރީ މާއްދާ","Optional subject")}</span>`:""}${subs.length?`<div class="clc-s">${subs.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}</div>`;}).join("");}
+function subjTeachers(c){const D=String(c.subjteach_dv||"").split("\n").map(x=>x.trim()).filter(Boolean),E=String(c.subjteach_en||"").split("\n").map(x=>x.trim()).filter(Boolean),N=Math.max(D.length,E.length);if(!N)return"";
+  const sp=l=>{const i=String(l||"").lastIndexOf(":");return i<0?["",String(l||"").trim()]:[l.slice(0,i).trim(),l.slice(i+1).trim()];};let rows="";
+  for(let i=0;i<N;i++){const [sd,td]=sp(D[i]||E[i]),[se,te]=sp(E[i]||D[i]),st=findStaff(td,te),ph=st&&safeUrl(st.photo),nm=st?L2(st,"name"):bi(esc(td),esc(te));
+    rows+=`<div class="stc"><span class="stc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<i class="h">${esc((td||te||"?").charAt(0))}</i>`}</span><div><b class="h">${nm}</b><small>${bi(esc(sd),esc(se))}</small></div></div>`;}
+  return `<div class="stcs"><small class="stcs-h">${bi("މާއްދާތަކުގެ ޓީޗަރުން","Subject teachers")}</small>${rows}</div>`;}
 function classTeacher(c){
   if(!c.teacher_dv&&!c.teacher_en)return `<div class="ct-card none">${bi("ކްލާސް ޓީޗަރ ކަނޑައަޅާފައެއް ނުވޭ","Class teacher not set")}</div>`;
   const st=STAFF.find(s=>(c.teacher_en&&s.name_en===c.teacher_en)||(c.teacher_dv&&s.name_dv===c.teacher_dv))||{};
@@ -825,6 +834,7 @@ function studentStats(){
     <div class="cl2">${C.map(c=>`<div class="clc2 reveal"><div class="clc2-h"><h3 class="h">${L2(c,"name")}</h3><span class="clc2-n"><b class="num">${esc(c.students||0)}</b> ${bi("ދަރިވަރުން","students")}</span></div>
       ${c.girls||c.boys?`<div class="clc2-gb"><span class="g">${bi("އަންހެން","Girls")} <b class="num">${+c.girls||0}</b></span><span class="b">${bi("ފިރިހެން","Boys")} <b class="num">${+c.boys||0}</b></span></div>`:""}
       ${classTeacher(c)}
+      ${subjTeachers(c)}
       ${c.streams_dv||c.streams_en?`<div class="sm-g">${c.subjects_dv||c.subjects_en?`<div class="sm-c core"><div class="sm-h"><b class="h">${bi("ހުރިހާ ދަރިވަރުން ކިޔަވާ މާއްދާތައް","Subjects for all students")}</b><span class="sm-n"><span class="num">${esc(c.students||0)}</span></span></div><div class="clc-s">${bi(String(c.subjects_dv||c.subjects_en).split(/[،,]\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""),String(c.subjects_en||c.subjects_dv).split(/,\s*/).filter(Boolean).map(x=>`<span>${esc(x)}</span>`).join(""))}</div></div>`:""}${bi(stRows(c.streams_dv||c.streams_en),stRows(c.streams_en||c.streams_dv))}</div>`:""}
     </div>`).join("")}</div>`;}
 function activitiesPage(){
