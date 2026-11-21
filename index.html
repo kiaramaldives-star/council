@@ -576,6 +576,9 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}.totop{bottom:calc(
 .stc-ph{flex:none;width:36px;height:36px;border-radius:50%;overflow:hidden;background:var(--ps);display:grid;place-items:center}.stc-ph img{width:100%;height:100%;object-fit:cover;object-position:top}.stc-ph i{font-style:normal;color:var(--p);font-size:15px}
 .stc b{display:block;font-size:14.5px;line-height:1.45}.stc small{display:block;color:var(--muted);font-size:12.5px;line-height:1.5}
 @media (max-width:760px){html{background:#fff!important}body{background:#fff!important}}
+.hot{font-style:normal;font-size:12px;background:var(--p);color:#fff;border-radius:99px;padding:1px 9px;margin-inline-start:6px;vertical-align:middle}html[lang=dv] .hot{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
+.top-hot{display:inline-flex;align-items:center;gap:6px;margin-inline-start:14px;color:#fff;font-weight:700}.top-hot em{font-style:normal;background:var(--p);border-radius:99px;padding:0 8px;font-size:12px;font-weight:400}html[lang=dv] .top-hot em{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13px}
+.mn-soc a.mn-hot{background:var(--p)!important;color:#fff!important;border-radius:99px!important;padding:6px 14px!important;font-weight:700;font-size:15px;display:inline-flex!important;align-items:center}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -679,13 +682,13 @@ const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"]
 
 function mnavHTML(SI){const chev=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>`,go=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
   const items=MENU.map(([k,d,e])=>SUBMENU[k]?`<div class="mn-g"><button type="button" class="mn-i" data-mtog data-k="${k}"><span class="h">${bi(d,e)}</span><span class="mn-c">${chev}</span></button><div class="mn-s">${[[k,d,e],...SUBMENU[k]].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div></div>`:`<a class="mn-i" href="#${k}" data-k="${k}"><span class="h">${bi(d,e)}</span><span class="mn-c go">${go}</span></a>`).join("");
-  const soc=["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")+(INFO.phone?`<a href="tel:+960${esc(String(INFO.phone).replace(/\D/g,""))}" aria-label="phone">${IC.phone.replace(/width="\d+" height="\d+"/,'width="24" height="24"')}</a>`:"");
+  const soc=["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")+(INFO.hotline?`<a class="mn-hot" href="tel:+960${esc(String(INFO.hotline).replace(/\D/g,""))}"><span class="num">${esc(INFO.hotline)}</span></a>`:"")+(INFO.phone?`<a href="tel:+960${esc(String(INFO.phone).replace(/\D/g,""))}" aria-label="phone">${IC.phone.replace(/width="\d+" height="\d+"/,'width="24" height="24"')}</a>`:"");
   return `<div class="mn-h"><a class="mn-b" href="#home"><span class="logo">${logoHTML()}</span><b class="h">${L2(INFO,"name")}</b></a><button class="mn-x" type="button" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="mn-l">${items}</div><div class="mn-soc">${soc}</div>`;}
 function logoHTML(){const u=safeUrl(INFO.logo);return u?`<img src="${esc(u)}" alt="" onerror="this.replaceWith(document.createRange().createContextualFragment(IC.cap))">`:IC.cap;}
 function header(){
   document.getElementById("hLogo").innerHTML=logoHTML();
   document.getElementById("hName").innerHTML=L2(INFO,"name");
-  const ph=(INFO.phone||"").trim();const tp=document.getElementById("topPhone");tp.href="tel:+960"+ph.replace(/\D/g,"");tp.querySelector("span").textContent=ph;
+  const ph=(INFO.phone||"").trim();const tp=document.getElementById("topPhone");tp.href="tel:+960"+ph.replace(/\D/g,"");tp.querySelector("span").textContent=ph;{let th=document.getElementById("topHot");const hl=String(INFO.hotline||"").trim();if(hl){if(!th){th=document.createElement("a");th.id="topHot";th.className="ltr top-hot";tp.after(th);}th.href="tel:+960"+hl.replace(/\D/g,"");th.innerHTML=`<em>${bi("ހޮޓްލައިން","Hotline")}</em> <span class="num">${esc(hl)}</span>`;}else if(th)th.remove();}
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
   const m=MENU.map(([k,d,e])=>SUBMENU[k]?`<div class="nav-dd"><a href="#${k}" data-k="${k}">${bi(d,e)}<svg class="dd-c" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></a><div class="nav-sub">${SUBMENU[k].map(([k2,d2,e2])=>`<a href="#${k2}" data-k="${k2}">${bi(d2,e2)}</a>`).join("")}</div></div>`:`<a href="#${k}" data-k="${k}">${bi(d,e)}</a>`).join("");
   document.getElementById("nav").innerHTML=m;
@@ -700,6 +703,7 @@ function header(){
   document.getElementById("mnavP").innerHTML=mnavHTML(SI);
   document.getElementById("foot").innerHTML=`<div class="foot-c"><div class="wrap"><div class="fr-list">
       ${tel?`<a class="fr" href="tel:+960${esc(tel)}">${FI.phone}<span class="num">${esc(INFO.phone)}</span></a>`:""}
+      ${INFO.hotline?`<a class="fr fr-hot" href="tel:+960${esc(String(INFO.hotline).replace(/\D/g,""))}">${FI.phone}<span><span class="num">${esc(INFO.hotline)}</span> <em class="hot">${bi("ހޮޓްލައިން","Hotline")}</em></span></a>`:""}
       ${host?`<a class="fr" href="/">${FI.web}<span class="ltr">${esc(host)}</span></a>`:""}
       ${INFO.email?`<a class="fr" href="mailto:${esc(INFO.email)}">${FI.mail}<span class="ltr">${esc(INFO.email)}</span></a>`:""}
       <div class="fr">${FI.pin}<span class="h">${L2(INFO,"address")}</span></div>
@@ -1084,7 +1088,7 @@ document.addEventListener("change",e=>{if(e.target.id==="scPick"&&e.target.value
 setInterval(()=>{if(document.getElementById("scBody")&&SCD===isoD(new Date()))document.getElementById("scBody").innerHTML=scBody();},60000);
 function contactBlock(){const ph=(INFO.phone||"").replace(/\D/g,"");
   return `<div class="sec-h"><div><h2 class="h">${bi("އަޅުގަނޑުމެންނަށް ގުޅުއްވާ","Contact us")}</h2></div></div>
-  <div class="ct"><a class="cti reveal" href="tel:+960${esc(ph)}"><span class="st-ic">${IC.phone}</span><small>${bi("ފޯނު","Phone")}</small><b><span class="num">${esc(INFO.phone)}</span></b></a>
+  <div class="ct"><a class="cti reveal" href="tel:+960${esc(ph)}"><span class="st-ic">${IC.phone}</span><small>${bi("ފޯނު","Phone")}</small><b><span class="num">${esc(INFO.phone)}</span></b></a>${INFO.hotline?`<a class="cti reveal" href="tel:+960${esc(String(INFO.hotline).replace(/\D/g,""))}"><span class="st-ic">${IC.phone}</span><small>${bi("ހޮޓްލައިން","Hotline")}</small><b><span class="num">${esc(INFO.hotline)}</span></b></a>`:""}
     ${INFO.email?`<a class="cti reveal" href="mailto:${esc(INFO.email)}"><span class="st-ic">${IC.mail}</span><small>${bi("އީމެއިލް","Email")}</small><b style="font-size:15px"><span class="ltr">${esc(INFO.email)}</span></b></a>`:`<a class="cti reveal" href="${esc(safeUrl(INFO.facebook)||"#")}" target="_blank" rel="noopener"><span class="st-ic">${IC.fb.replace(/15/g,"24")}</span><small>${bi("ފޭސްބުކް","Facebook")}</small><b style="font-size:15px"><span class="ltr">facebook.com/KondeySchool</span></b></a>`}
     <div class="cti reveal"><span class="st-ic">${IC.pin}</span><small>${bi("އެޑްރެސް","Address")}</small><b class="h" style="font-size:17px">${L2(INFO,"address")}</b></div></div>
   <div class="map reveal"><iframe loading="lazy" title="Map" src="https://www.openstreetmap.org/export/embed.html?bbox=73.540%2C0.488%2C73.558%2C0.510&layer=mapnik&marker=0.4986%2C73.5486"></iframe></div>`;}
