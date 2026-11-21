@@ -597,6 +597,7 @@ body{background:#F4F4F6!important}#app{background:var(--bg);display:flow-root}.f
 html[lang=dv] .act-past>summary{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:16px}.act-past>summary::after{content:"▾";transition:.2s}.act-past[open]>summary::after{transform:rotate(180deg)}
 .act-past .act-mh{color:var(--muted);border-color:var(--line)}
 .sg-top{display:flex!important;justify-content:center;margin-bottom:14px}.sg-top>*{width:min(100%,340px)}
+.sc-gr{background:var(--ps);color:var(--p)!important;border-radius:99px;padding:1px 10px}.sc-gr svg{color:var(--p)}.sc-gf{margin-top:8px}.sc-gf button.on{background:var(--k)!important;border-color:var(--k)!important}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -1087,23 +1088,25 @@ function t12(t){let m=toMin(t),h=Math.floor(m/60),mm=String(m%60).padStart(2,"0"
 const scDates=()=>[...new Set(SCHEDULE.map(x=>x.date).filter(Boolean))].sort();
 function scDefault(){return isoD(new Date());}
 function scDayTitle(d){const x=new Date(d+"T00:00:00");return bi(`${DV_DAYS[x.getDay()]}، ${nDate(d).match(/<span class="dv">(.*?)<\/span><span class="en">/)[1]}`,`${EN_DAYS[x.getDay()]}, ${EN_MONTHS[x.getMonth()]} ${x.getDate()}, ${x.getFullYear()}`);}
+var SCG="all";
 function scBody(){
   const now=new Date(),today=isoD(now),nm=now.getHours()*60+now.getMinutes();
   let L=SCHEDULE.filter(x=>x.date===SCD).sort((a,b)=>toMin(a.start)-toMin(b.start)||toMin(a.end)-toMin(b.end));
   const venues=[...new Set(L.map(x=>x.venue_dv).filter(Boolean))];
   if(SCV!=="all")L=L.filter(x=>x.venue_dv===SCV);
+  const grades=[...new Set(L.map(x=>x.grade_dv).filter(Boolean))];if(SCG!=="all")L=L.filter(x=>x.grade_dv===SCG||x.grade_dv==="ހުރިހާ ގްރޭޑެއް");
   const st=x=>SCD<today||(SCD===today&&toMin(x.end)<=nm)?"done":SCD===today&&toMin(x.start)<=nm?"now":"next";
   const lab={done:["ނިމިއްޖެ","Finished"],now:["ދަނީ","Happening now"],next:["ކުރިއަށް","Upcoming"]};
   const live=L.filter(x=>st(x)==="now").length;
   return `<div class="sc-sum"><span><b class="num">${L.length}</b> ${bi("ހަރަކާތް","activities")}</span>${SCD===today&&live?`<span class="sc-live"><i></i><b class="num">${live}</b> ${bi("ހަރަކާތެއް މިހާރު ދަނީ","happening now")}</span>`:""}
-    ${venues.length>1?`<div class="sc-vf">${[["all","ހުރިހާ ތަނެއް","All venues"],...venues.map(v=>[v,v,(SCHEDULE.find(x=>x.venue_dv===v)||{}).venue_en||v])].map(([k,d,e])=>`<button type="button" data-scv="${esc(k)}" class="${SCV===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}</div>
+    ${venues.length>1?`<div class="sc-vf">${[["all","ހުރިހާ ތަނެއް","All venues"],...venues.map(v=>[v,v,(SCHEDULE.find(x=>x.venue_dv===v)||{}).venue_en||v])].map(([k,d,e])=>`<button type="button" data-scv="${esc(k)}" class="${SCV===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}${grades.length>1?`<div class="sc-vf sc-gf">${[["all","ހުރިހާ ގްރޭޑެއް","All grades"],...grades.filter(g=>g!=="ހުރިހާ ގްރޭޑެއް").map(g=>[g,g,(SCHEDULE.find(x=>x.grade_dv===g)||{}).grade_en||g])].map(([k,d,e])=>`<button type="button" data-scg="${esc(k)}" class="${SCG===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}</div>
   ${L.length?`<div class="sc-list">${L.map(x=>{const s0=st(x),dur=toMin(x.end)-toMin(x.start);return `<div class="sc-it ${s0}">
       <div class="sc-tm"><b>${t12(x.start)}</b><span class="sc-line"></span><small>${t12(x.end)}</small></div>
       <div class="sc-c"><div class="sc-top"><h3 class="h">${L2(x,"activity")}</h3><span class="sc-st ${s0}">${bi(lab[s0][0],lab[s0][1])}</span></div>
-        <div class="sc-meta">${x.staff_dv||x.staff_en?`<span>${icS("users",15)}${L2(x,"staff")}</span>`:""}${x.venue_dv||x.venue_en?`<span>${icS("pin",15)}${L2(x,"venue")}</span>`:""}${dur>0?`<span>${icS("cal",15)}${bi(dur>=60?`<span class="num">${Math.floor(dur/60)}</span> ގަޑިއިރު${dur%60?` <span class="num">${dur%60}</span> މިނެޓް`:""}`:`<span class="num">${dur}</span> މިނެޓް`,dur>=60?`${Math.floor(dur/60)} h${dur%60?` ${dur%60} min`:""}`:`${dur} min`)}</span>`:""}</div>
+        <div class="sc-meta">${x.grade_dv||x.grade_en?`<span class="sc-gr">${IC.cap.replace(/width="\d+" height="\d+"/,'width="15" height="15"')}${L2(x,"grade")}</span>`:""}${x.staff_dv||x.staff_en?`<span>${icS("users",15)}${L2(x,"staff")}</span>`:""}${x.venue_dv||x.venue_en?`<span>${icS("pin",15)}${L2(x,"venue")}</span>`:""}${dur>0?`<span>${icS("cal",15)}${bi(dur>=60?`<span class="num">${Math.floor(dur/60)}</span> ގަޑިއިރު${dur%60?` <span class="num">${dur%60}</span> މިނެޓް`:""}`:`<span class="num">${dur}</span> މިނެޓް`,dur>=60?`${Math.floor(dur/60)} h${dur%60?` ${dur%60} min`:""}`:`${dur} min`)}</span>`:""}</div>
         ${s0==="now"?`<div class="sc-prog"><i style="width:${Math.min(100,Math.max(0,(nm-toMin(x.start))/Math.max(1,dur)*100))}%"></i></div>`:""}</div></div>`;}).join("")}</div>`
    :empty("މި ދުވަހަށް ތާވަލެއް ނެތް","No schedule for this day")}`;}
-function schedulePage(){SCD=scDefault();SCV="all";
+function schedulePage(){SCD=scDefault();SCV="all";SCG="all";
   const D=scDates(),today=isoD(new Date());
   return pageHead("ދުވަހުގެ ތާވަލު","Daily schedule")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="sc-nav"><button type="button" class="chv-b" data-scd="-1" aria-label="Previous day">${IC.back}</button>
@@ -1115,7 +1118,7 @@ function scGo(d){SCD=d;const t=document.getElementById("scTitle");if(!t)return;t
 document.addEventListener("click",e=>{
   const n=e.target.closest("[data-scd]");if(n){const d=new Date(SCD+"T00:00:00");d.setDate(d.getDate()+(+n.dataset.scd));scGo(isoD(d));return;}
   const g=e.target.closest("[data-scgo]");if(g){scGo(g.dataset.scgo);return;}
-  const v=e.target.closest("[data-scv]");if(v){SCV=v.dataset.scv;document.getElementById("scBody").innerHTML=scBody();}});
+  const v=e.target.closest("[data-scv]");if(v){SCV=v.dataset.scv;document.getElementById("scBody").innerHTML=scBody();}const gb=e.target.closest("[data-scg]");if(gb){SCG=gb.dataset.scg;document.getElementById("scBody").innerHTML=scBody();}});
 document.addEventListener("change",e=>{if(e.target.id==="scPick"&&e.target.value)scGo(e.target.value);});
 setInterval(()=>{if(document.getElementById("scBody")&&SCD===isoD(new Date()))document.getElementById("scBody").innerHTML=scBody();},60000);
 function contactBlock(){const ph=(INFO.phone||"").replace(/\D/g,"");

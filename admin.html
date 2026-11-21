@@ -223,6 +223,7 @@ const SECTIONS={
    T("photo","ފޮޓޯ","Photo","image"),T("order","ތަރުތީބު","Order","number")]},
  schedule:{dv:"ދުވަހުގެ ތާވަލު",en:"Daily schedule",title:x=>x.activity_dv||x.activity_en,sub:x=>`${x.date||""} · ${x.start||""} – ${x.end||""}`,fields:[
    T("date","ތާރީޚު","Date","date"),
+   T("grade_dv","ގްރޭޑް (ދިވެހިން) - މިސާލު: ގްރޭޑް 4 ނުވަތަ ހުރިހާ ގްރޭޑެއް","Grade (Dhivehi), e.g. ގްރޭޑް 4 or ހުރިހާ ގްރޭޑެއް"),T("grade_en","ގްރޭޑް (އިނގިރޭސިން)","Grade (English), e.g. Grade 4 or All grades","text",{ltr:1}),
    T("start","ފަށާ ގަޑި (މިސާލު 06:43)","Start time (24-hour, e.g. 06:43 or 13:30)","text",{ltr:1,ph:"06:43"}),
    T("end","ނިމޭ ގަޑި (މިސާލު 10:00)","Finish time (24-hour, e.g. 15:00)","text",{ltr:1,ph:"10:00"}),
    T("activity_dv","ހަރަކާތް (ދިވެހިން)","Activity (Dhivehi)","textarea",{rows:2}),T("activity_en","ހަރަކާތް (އިނގިރޭސިން)","Activity (English)","text",{ltr:1}),
