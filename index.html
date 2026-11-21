@@ -811,7 +811,8 @@ function stRows(t){return String(t||"").split("\n").map(x=>x.trim()).filter(Bool
   return `<div class="sm-c${opt?" opt":""}"><div class="sm-h"><b class="h">${esc(m[1])}</b><span class="sm-n"><span class="num">${m[3]}</span></span></div>${opt?`<span class="sm-tag">${bi("އިޚްތިޔާރީ މާއްދާ","Optional subject")}</span>`:""}${subs.length?`<div class="clc-s">${subs.map(x=>`<span>${esc(x)}</span>`).join("")}</div>`:""}</div>`;}).join("");}
 function subjTeachers(c){const D=String(c.subjteach_dv||"").split("\n").map(x=>x.trim()).filter(Boolean),E=String(c.subjteach_en||"").split("\n").map(x=>x.trim()).filter(Boolean),N=Math.max(D.length,E.length);if(!N)return"";
   const sp=l=>{const i=String(l||"").lastIndexOf(":");return i<0?["",String(l||"").trim()]:[l.slice(0,i).trim(),l.slice(i+1).trim()];};let rows="";
-  for(let i=0;i<N;i++){const [sd,td]=sp(D[i]||E[i]),[se,te]=sp(E[i]||D[i]),st=findStaff(td,te),ph=st&&safeUrl(st.photo),nm=st?L2(st,"name"):bi(esc(td),esc(te));
+  const G=[];for(let i=0;i<N;i++){const [sd,td]=sp(D[i]||E[i]),[se,te]=sp(E[i]||D[i]),st=findStaff(td,te),key=st?"s"+STAFF.indexOf(st):(te||td);const g=G.find(x=>x.key===key);if(g){g.sd+="، "+sd;g.se+=", "+se;}else G.push({key,sd,se,td,te,st});}
+  for(const {sd,se,td,te,st} of G){const ph=st&&safeUrl(st.photo),nm=st?L2(st,"name"):bi(esc(td),esc(te));
     rows+=`<div class="stc"><span class="stc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<i class="h">${esc((td||te||"?").charAt(0))}</i>`}</span><div><b class="h">${nm}</b><small>${bi(esc(sd),esc(se))}</small></div></div>`;}
   return `<div class="stcs"><small class="stcs-h">${bi("މާއްދާތަކުގެ ޓީޗަރުން","Subject teachers")}</small>${rows}</div>`;}
 function classTeacher(c){
