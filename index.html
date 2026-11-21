@@ -613,6 +613,10 @@ html[lang=dv] .scd-r small{font-family:"KondeyHeading","Faruma",sans-serif;font-
 .sc2 .sc-prog{margin:0 14px 10px}
 .tdv{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400!important}
 .sc2-tm{font-size:15px;color:#4B5563}.sc2-tm .num{font-weight:700;color:var(--text)}.sc2-m{gap:2px}
+.sc-pick{cursor:pointer;display:flex!important;flex-direction:column;align-items:center;gap:6px}
+.sc-pick input{position:absolute!important;inset:0;width:100%;height:100%;opacity:0;margin:0!important;cursor:pointer;-webkit-appearance:none;appearance:none}
+.sc-pk{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:99px;padding:4px 14px;font-size:14px}html[lang=dv] .sc-pk{font-family:"KondeyHeading","Faruma",sans-serif}
+.sc-pick:active .sc-pk{background:rgba(255,255,255,.28)}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -1110,13 +1114,13 @@ function scBody(){
   const now=new Date(),today=isoD(now),nm=now.getHours()*60+now.getMinutes();
   let L=SCHEDULE.filter(x=>x.date===SCD).sort((a,b)=>toMin(a.start)-toMin(b.start)||toMin(a.end)-toMin(b.end));
   const venues=[...new Set(L.map(x=>x.venue_dv).filter(Boolean))];
-  if(SCV!=="all")L=L.filter(x=>x.venue_dv===SCV);
-  const grades=[...new Set(L.map(x=>x.grade_dv).filter(Boolean))];if(SCG!=="all")L=L.filter(x=>x.grade_dv===SCG||x.grade_dv==="ހުރިހާ ގްރޭޑެއް");
+
+  const grades=[...new Set(L.map(x=>x.grade_dv).filter(Boolean))];
   const st=x=>SCD<today||(SCD===today&&toMin(x.end)<=nm)?"done":SCD===today&&toMin(x.start)<=nm?"now":"next";
   const lab={done:["ނިމިއްޖެ","Finished"],now:["ދަނީ","Happening now"],next:["ކުރިއަށް","Upcoming"]};
   const live=L.filter(x=>st(x)==="now").length;
   return `<div class="sc-sum"><span><b class="num">${L.length}</b> ${bi("ހަރަކާތް","activities")}</span>${SCD===today&&live?`<span class="sc-live"><i></i><b class="num">${live}</b> ${bi("ހަރަކާތެއް މިހާރު ދަނީ","happening now")}</span>`:""}
-    ${venues.length>1?`<div class="sc-vf">${[["all","ހުރިހާ ތަނެއް","All venues"],...venues.map(v=>[v,v,(SCHEDULE.find(x=>x.venue_dv===v)||{}).venue_en||v])].map(([k,d,e])=>`<button type="button" data-scv="${esc(k)}" class="${SCV===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}${grades.length>1?`<div class="sc-vf sc-gf">${[["all","ހުރިހާ ގްރޭޑެއް","All grades"],...grades.filter(g=>g!=="ހުރިހާ ގްރޭޑެއް").map(g=>[g,g,(SCHEDULE.find(x=>x.grade_dv===g)||{}).grade_en||g])].map(([k,d,e])=>`<button type="button" data-scg="${esc(k)}" class="${SCG===k?"on":""}">${bi(esc(d),esc(e))}</button>`).join("")}</div>`:""}</div>
+</div>
   ${L.length?`<div class="sc-list">${L.map(x=>{const s0=st(x),dur=toMin(x.end)-toMin(x.start),gd=x.grade_dv||x.grade_en;
     const durT=dur>0?bi(dur>=60?`<span class="num">${Math.floor(dur/60)}</span> ގަޑިއިރު${dur%60?` <span class="num">${dur%60}</span> މިނެޓް`:""}`:`<span class="num">${dur}</span> މިނެޓް`,dur>=60?`${Math.floor(dur/60)} h${dur%60?` ${dur%60} min`:""}`:`${dur} min`):"";
     const row=(ic,lbl,val)=>`<div class="scd-r"><span class="scd-ic">${icS(ic,16)}</span><small>${lbl}</small><b>${val}</b></div>`;
@@ -1130,16 +1134,15 @@ function schedulePage(){SCD=scDefault();SCV="all";SCG="all";
   const D=scDates(),today=isoD(new Date());
   return pageHead("ދުވަހުގެ ތާވަލު","Daily schedule")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="sc-nav"><button type="button" class="chv-b" data-scd="-1" aria-label="Previous day">${IC.back}</button>
-      <div class="sc-date"><b class="h" id="scTitle">${scDayTitle(SCD)}</b><input type="date" id="scPick" value="${SCD}" aria-label="Date"></div>
+      <label class="sc-date sc-pick"><b class="h" id="scTitle">${scDayTitle(SCD)}</b><span class="sc-pk">${icS("cal",16)}${bi("ތާރީޚު ހޮވާ","Choose a date")}</span><input type="date" id="scPick" value="${SCD}" aria-label="Date"></label>
       <button type="button" class="chv-b" data-scd="1" aria-label="Next day">${IC.arr}</button></div>
-    <div class="sc-quick"><button type="button" data-scgo="${today}">${bi("މިއަދު","Today")}</button>${D.slice(-6).map(d=>`<button type="button" data-scgo="${d}" class="${d===SCD?"on":""}">${scDayTitle(d)}</button>`).join("")}</div>
     <div id="scBody">${scBody()}</div></div></div></div>`;}
 function scGo(d){SCD=d;const t=document.getElementById("scTitle");if(!t)return;t.innerHTML=scDayTitle(d);document.getElementById("scPick").value=d;document.querySelectorAll("[data-scgo]").forEach(b=>b.classList.toggle("on",b.dataset.scgo===d&&b!==document.querySelector("[data-scgo]")));SCV="all";document.getElementById("scBody").innerHTML=scBody();}
 document.addEventListener("click",e=>{
   const n=e.target.closest("[data-scd]");if(n){const d=new Date(SCD+"T00:00:00");d.setDate(d.getDate()+(+n.dataset.scd));scGo(isoD(d));return;}
   const g=e.target.closest("[data-scgo]");if(g){scGo(g.dataset.scgo);return;}
   const v=e.target.closest("[data-scv]");if(v){SCV=v.dataset.scv;document.getElementById("scBody").innerHTML=scBody();}const stg=e.target.closest("[data-sctog]");if(stg){stg.parentNode.classList.toggle("open");return;}const gb=e.target.closest("[data-scg]");if(gb){SCG=gb.dataset.scg;document.getElementById("scBody").innerHTML=scBody();}});
-document.addEventListener("change",e=>{if(e.target.id==="scPick"&&e.target.value)scGo(e.target.value);});
+document.addEventListener("change",e=>{if(e.target.id==="scPick"&&e.target.value)scGo(e.target.value);});document.addEventListener("click",e=>{const p=e.target.closest(".sc-pick");if(p&&e.target.id!=="scPick"){const i=document.getElementById("scPick");try{i.showPicker&&i.showPicker();}catch(_){}}});
 setInterval(()=>{if(document.getElementById("scBody")&&SCD===isoD(new Date()))document.getElementById("scBody").innerHTML=scBody();},60000);
 function contactBlock(){const ph=(INFO.phone||"").replace(/\D/g,"");
   return `<div class="sec-h"><div><h2 class="h">${bi("އަޅުގަނޑުމެންނަށް ގުޅުއްވާ","Contact us")}</h2></div></div>
