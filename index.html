@@ -1199,9 +1199,9 @@ function scBody(){
 
   const grades=[...new Set(L.map(x=>x.grade_dv).filter(Boolean))];
   const st=x=>SCD<today||(SCD===today&&toMin(x.end)<=nm)?"done":SCD===today&&toMin(x.start)<=nm?"now":"next";
-  const lab={done:["ނިމިއްޖެ","Finished"],now:["ދަނީ","Happening now"],next:["ކުރިއަށް","Upcoming"]};
+  const lab={done:["ނިމިއްޖެ","Finished"],now:["ކުރިއަށް ދަނީ","Happening now"],next:["ކުރިއަށް","Upcoming"]};
   const live=L.filter(x=>st(x)==="now").length;
-  return `<div class="sc-sum"><span><b class="num">${L.length}</b> ${bi("ހަރަކާތް","activities")}</span>${SCD===today&&live?`<span class="sc-live"><i></i><b class="num">${live}</b> ${bi("ހަރަކާތެއް މިހާރު ދަނީ","happening now")}</span>`:""}
+  return `<div class="sc-sum"><span><b class="num">${L.length}</b> ${bi("ހަރަކާތް","activities")}</span>${SCD===today&&live?`<span class="sc-live"><i></i><b class="num">${live}</b> ${bi("ހަރަކާތެއް މިހާރު ކުރިއަށް ދަނީ","happening now")}</span>`:""}
 </div>
   ${L.length?`<div class="sc-list">${L.map(x=>{const s0=st(x),dur=toMin(x.end)-toMin(x.start),gd=x.grade_dv||x.grade_en;
     const durT=dur>0?bi(dur>=60?`<span class="num">${Math.floor(dur/60)}</span> ގަޑިއިރު${dur%60?` <span class="num">${dur%60}</span> މިނެޓް`:""}`:`<span class="num">${dur}</span> މިނެޓް`,dur>=60?`${Math.floor(dur/60)} h${dur%60?` ${dur%60} min`:""}`:`${dur} min`):"";
