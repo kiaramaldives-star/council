@@ -986,10 +986,10 @@ function attBody(){const L=ATT.filter(a=>a.date===ATD),ord=c=>{const k=CLASSES.f
   const P=L.reduce((t,a)=>t+(+a.present||0),0),A=L.reduce((t,a)=>t+(+a.absent||0),0),T=P+A,pc=T?Math.round(P/T*1000)/10:0;
   const col=p=>p>=90?"ok":p>=75?"mid":"low";
   return `<div class="at-sum"><div class="at-ring">${attRing(pc,128)}<div><b class="num">${pc}%</b><small>${bi("ހާޒިރީ","present")}</small></div></div>
-    <div class="at-kp"><div class="at-k p"><b class="num">${P}</b><span>${bi("ހާޒިރު","Present")}</span></div><div class="at-k a"><b class="num">${A}</b><span>${bi("ނުހާޒިރު","Absent")}</span></div><div class="at-k t"><b class="num">${T}</b><span>${bi("ޖުމްލަ","Total")}</span></div></div></div>
+    <div class="at-kp"><div class="at-k p"><b class="num">${P}</b><span>${bi("ހާޒިރު","Present")}</span></div><div class="at-k a"><b class="num">${A}</b><span>${bi("ހާޒިރުނުވާ","Absent")}</span></div><div class="at-k t"><b class="num">${T}</b><span>${bi("ޖުމްލަ","Total")}</span></div></div></div>
     <h3 class="h ss-h">${bi("ގްރޭޑްތަކުގެ ހާޒިރީ","Attendance by grade")}</h3>
     <div class="at-g">${L.map(a=>{const p=+a.present||0,b=+a.absent||0,t=p+b,q=t?Math.round(p/t*100):0;return `<div class="at-c ${col(q)}"><div class="at-ch"><b class="h">${L2(a,"class")}</b><span class="at-pc num">${q}%</span></div>
-      <div class="at-bar"><i style="width:${q}%"></i></div><div class="at-n"><span class="p">${bi("ހާޒިރު","Present")} <b class="num">${p}</b></span><span class="a">${bi("ނުހާޒިރު","Absent")} <b class="num">${b}</b></span></div></div>`;}).join("")}</div>
+      <div class="at-bar"><i style="width:${q}%"></i></div><div class="at-n"><span class="p">${bi("ހާޒިރު","Present")} <b class="num">${p}</b></span><span class="a">${bi("ހާޒިރުނުވާ","Absent")} <b class="num">${b}</b></span></div></div>`;}).join("")}</div>
     <p class="at-up"><i></i>${bi("މުދައްރިސުން ހާޒިރީ ނަގާ ވަރަކަށް އަމިއްލައަށް އަޕްޑޭޓްވޭ","Updates automatically as teachers mark attendance")}</p>`;}
 async function attRefresh(){if(/[?&]nodb\b/.test(location.search))return;try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=data&section=eq.attendance&published=eq.true&limit=5000`,{headers:{apikey:SB_KEY}});if(!r.ok)return;const rows=await r.json();ATT.splice(0,ATT.length,...rows.map(x=>x.data));const b=document.getElementById("atBody");if(b)b.innerHTML=attBody();}catch(_){}}
 function attendancePage(){ATD=attDefault();clearInterval(ATT_T);ATT_T=setInterval(()=>{if(!document.getElementById("atBody")){clearInterval(ATT_T);return;}attRefresh();},30000);
