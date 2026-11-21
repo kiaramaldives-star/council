@@ -617,6 +617,22 @@ html[lang=dv] .scd-r small{font-family:"KondeyHeading","Faruma",sans-serif;font-
 .sc-pick input{position:absolute!important;inset:0;width:100%;height:100%;opacity:0;margin:0!important;cursor:pointer;-webkit-appearance:none;appearance:none}
 .sc-pk{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:99px;padding:4px 14px;font-size:14px}html[lang=dv] .sc-pk{font-family:"KondeyHeading","Faruma",sans-serif}
 .sc-pick:active .sc-pk{background:rgba(255,255,255,.28)}
+.vm2{display:grid;gap:16px}
+.vm2-motto{position:relative;overflow:hidden;text-align:center;border-radius:26px;padding:34px 22px 28px;color:#fff;background:radial-gradient(120% 140% at 100% 0%,var(--p) 0%,#7A0A1C 38%,#0B0B0B 80%);box-shadow:0 18px 40px rgba(200,16,46,.25)}
+.vm2-q{position:absolute;top:-34px;inset-inline-start:14px;font:700 150px/1 Georgia,serif;color:rgba(255,255,255,.12)}
+.vm2-motto small{display:inline-block;font-size:13px;letter-spacing:.3px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:2px 14px;margin-bottom:12px}
+html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.vm2-motto p{font-size:26px;line-height:1.7;margin:0;position:relative}
+.vm2-line{display:block;width:60px;height:4px;border-radius:9px;background:#fff;opacity:.7;margin:14px auto 0}
+.vm2-g{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vm2-c{position:relative;border-radius:24px;padding:22px;background:#fff;border:1px solid var(--line);box-shadow:0 10px 28px rgba(15,23,42,.06);overflow:hidden}
+.vm2-c::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--p),#7A0A1C)}
+.vm2-c.dark{background:#111;border-color:#111;color:#E5E7EB}.vm2-c.dark::before{background:linear-gradient(90deg,#fff,var(--p))}
+.vm2-h{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.vm2-ic{flex:none;width:50px;height:50px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--p),#7A0A1C);color:#fff;box-shadow:0 8px 18px rgba(200,16,46,.28)}.vm2-ic svg{width:24px;height:24px}
+.vm2-c h3{font-size:22px;color:var(--p)}.vm2-c.dark h3{color:#fff}
+.vm2-c p{margin:0;font-size:16px;line-height:2;color:#4B5563}.vm2-c.dark p{color:#D1D5DB}
+@media (max-width:760px){.vm2-g{grid-template-columns:1fr}.vm2-motto p{font-size:22px}.vm2-motto{padding:28px 18px 24px}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -774,9 +790,12 @@ const empty=(dv,en)=>DB_LOADING?loadingHTML():`<div class="empty">${bi(dv,en)}</
 function pageHead(dv,en,crumb=""){return `<section class="ph"><div class="wrap"><h1 class="h">${bi(dv,en)}</h1></div></section>`;}
 const stat=(ic,v,dv,en)=>`<div class="st reveal"><span class="st-ic">${IC[ic]}</span><div><b class="num">${v}</b><span>${bi(dv,en)}</span></div></div>`;
 function aboutBlocks(){return `<div class="about"><div class="about-txt reveal"><div class="eyebrow">${bi("އަޅުގަނޑުމެންގެ ވާހަކަ","Our story")}</div><h2 class="h" style="font-size:32px;color:var(--p);margin-bottom:14px;line-height:1.35">${bi("ސާޅީސް އަހަރަށްވުރެ ގިނަ ދުވަހުގެ ތަޢުލީމީ ޙިދުމަތް","Over four decades of education")}</h2>${bi(paras(INFO.intro_dv),paras(INFO.intro_en))}</div>
-  <div class="vm"><div id="ab-motto" class="vm-c motto-c reveal"><span class="st-ic">${IC.star}</span><div><h3 class="h">${bi("މޮޓޯ","Motto")}</h3><p>${L2(INFO,"motto")}</p></div></div>
-    <div id="ab-vision" class="vm-c reveal"><span class="st-ic">${IC.eye}</span><div><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3><p>${L2(INFO,"vision")}</p></div></div>
-    <div id="ab-mission" class="vm-c reveal"><span class="st-ic">${IC.flag}</span><div><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3><p>${L2(INFO,"mission")}</p></div></div></div></div>`;}
+  <div class="vm2">
+    <div id="ab-motto" class="vm2-motto reveal"><span class="vm2-q">“</span><small>${bi("ސްކޫލުގެ މޮޓޯ","School motto")}</small><p class="h">${L2(INFO,"motto")}</p><span class="vm2-line"></span></div>
+    <div class="vm2-g">
+      <div id="ab-vision" class="vm2-c reveal"><div class="vm2-h"><span class="vm2-ic">${IC.eye}</span><h3 class="h">${bi("ތަޞައްވަރު","Vision")}</h3></div><p>${L2(INFO,"vision")}</p></div>
+      <div id="ab-mission" class="vm2-c dark reveal"><div class="vm2-h"><span class="vm2-ic">${IC.flag}</span><h3 class="h">${bi("މުހިންމަތު","Mission")}</h3></div><p>${L2(INFO,"mission")}</p></div>
+    </div></div></div>`;}
 function principalBlock(){if(!INFO.principal_msg_dv&&!INFO.principal_msg_en)return"";const ph=safeUrl(INFO.principal_photo);
   return `<div class="pm reveal"><div class="pm-ph">${ph?`<img src="${esc(ph)}" alt="">`:IC.users}</div><div><q>${bi(paras(INFO.principal_msg_dv||INFO.principal_msg_en),paras(INFO.principal_msg_en||INFO.principal_msg_dv))}</q>
     <div class="pm-n"><b class="h">${L2(INFO,"principal")}</b><span>${bi("ޕްރިންސިޕަލް","Principal")}</span></div></div></div>`;}
