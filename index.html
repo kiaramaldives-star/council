@@ -642,6 +642,17 @@ html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;f
 .sr-c::after{content:"";position:absolute;inset:0;margin:auto;width:8px;height:8px;border-right:2.5px solid #4B5563;border-bottom:2.5px solid #4B5563;transform:translateY(-2px) rotate(45deg)}
 .sr[open] .sr-c{background:var(--p);transform:rotate(180deg)}.sr[open] .sr-c::after{border-color:#fff}.sr[open] .sr-n{background:var(--p);color:#fff}
 .sr ul{margin:0;padding:0 18px 14px;padding-inline-start:52px;display:grid;gap:8px}.sr li{line-height:1.9;color:#374151}.sr li::marker{color:var(--p)}
+.at-sum{display:flex;align-items:center;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:16px;background:#FAFAFB;border:1px solid var(--line);border-radius:22px;padding:16px}
+.at-ring{position:relative;width:128px;height:128px}.at-ring>div{position:absolute;inset:0;display:grid;place-items:center;align-content:center}.at-ring b{font-size:26px;line-height:1}.at-ring small{color:var(--muted);font-size:13px}
+.at-kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex:1;min-width:220px}
+.at-k{border-radius:16px;padding:10px;text-align:center;background:#fff;border:1px solid var(--line)}.at-k b{display:block;font-size:24px}.at-k span{font-size:13px;color:var(--muted)}
+.at-k.p b{color:#16A34A}.at-k.a b{color:#DC2626}
+.at-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.at-c{border:1px solid var(--line);border-radius:18px;padding:12px 14px;background:#fff;--c:#16A34A}.at-c.mid{--c:#F59E0B}.at-c.low{--c:#DC2626}
+.at-ch{display:flex;justify-content:space-between;align-items:center}.at-ch b{font-size:18px}.at-pc{font-size:18px;color:var(--c)}
+.at-bar{height:10px;border-radius:99px;background:#F3F4F6;overflow:hidden;margin:8px 0}.at-bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .6s}
+.at-n{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}.at-n .p b{color:#16A34A}.at-n .a b{color:#DC2626}
+.at-up{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13.5px;margin-top:14px}.at-up i{width:8px;height:8px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 4px #DCFCE7;animation:fnp 2s infinite}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -737,8 +748,8 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["srules","ދަރިވަރުންގެ ގަވާއިދު","Student rules"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
-const PARENT={srules:"students",snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
+const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["attendance","ދަރިވަރުންގެ ހާޒިރީ","Attendance"],["srules","ދަރިވަރުންގެ ގަވާއިދު","Student rules"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const PARENT={attendance:"students",srules:"students",snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -966,6 +977,30 @@ function rulesPage(){return pageHead("ދަރިވަރުންގެ ގަވާއިދު"
   <div class="sr-l">${SRULES.map(([h,L],i)=>`<details class="sr"${i==0?" open":""}><summary><span class="sr-n num">${i+1}</span><b class="h">${h}</b><span class="sr-c"></span></summary><ul>${L.map(x=>`<li>${numify(esc(x))}</li>`).join("")}</ul></details>`).join("")}</div>
   <a class="btn btn-p ac-pdf" href="/docs/school-student-rules-2023.pdf" target="_blank" rel="noopener">${bi("ސަރކިއުލަރ PDF ބައްލަވާ","Open the circular (PDF)")}</a>
   </div></div></div>`;}
+let ATD=null,ATT_T=null;
+function attDates(){return [...new Set(ATT.map(a=>a.date).filter(Boolean))].sort();}
+function attDefault(){const t=isoD(new Date()),D=attDates();return D.includes(t)?t:(D.filter(d=>d<=t).pop()||D.pop()||t);}
+function attRing(p,size){const r=42,c=2*Math.PI*r,o=c*(1-p/100),col=p>=90?"#16A34A":p>=75?"#F59E0B":"#DC2626";return `<svg width="${size}" height="${size}" viewBox="0 0 100 100"><circle cx="50" cy="50" r="${r}" fill="none" stroke="#EEF0F3" stroke-width="10"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${o}" transform="rotate(-90 50 50)"/></svg>`;}
+function attBody(){const L=ATT.filter(a=>a.date===ATD),ord=c=>{const k=CLASSES.find(x=>x.name_en===c.class_en);return k?(+k.order||0):99;};L.sort((a,b)=>ord(a)-ord(b));
+  if(!L.length)return empty("މި ދުވަހަށް ހާޒިރީ ނެތް","No attendance for this day");
+  const P=L.reduce((t,a)=>t+(+a.present||0),0),A=L.reduce((t,a)=>t+(+a.absent||0),0),T=P+A,pc=T?Math.round(P/T*1000)/10:0;
+  const col=p=>p>=90?"ok":p>=75?"mid":"low";
+  return `<div class="at-sum"><div class="at-ring">${attRing(pc,128)}<div><b class="num">${pc}%</b><small>${bi("ހާޒިރީ","present")}</small></div></div>
+    <div class="at-kp"><div class="at-k p"><b class="num">${P}</b><span>${bi("ހާޒިރު","Present")}</span></div><div class="at-k a"><b class="num">${A}</b><span>${bi("ނުހާޒިރު","Absent")}</span></div><div class="at-k t"><b class="num">${T}</b><span>${bi("ޖުމްލަ","Total")}</span></div></div></div>
+    <h3 class="h ss-h">${bi("ގްރޭޑްތަކުގެ ހާޒިރީ","Attendance by grade")}</h3>
+    <div class="at-g">${L.map(a=>{const p=+a.present||0,b=+a.absent||0,t=p+b,q=t?Math.round(p/t*100):0;return `<div class="at-c ${col(q)}"><div class="at-ch"><b class="h">${L2(a,"class")}</b><span class="at-pc num">${q}%</span></div>
+      <div class="at-bar"><i style="width:${q}%"></i></div><div class="at-n"><span class="p">${bi("ހާޒިރު","Present")} <b class="num">${p}</b></span><span class="a">${bi("ނުހާޒިރު","Absent")} <b class="num">${b}</b></span></div></div>`;}).join("")}</div>
+    <p class="at-up"><i></i>${bi("މުދައްރިސުން ހާޒިރީ ނަގާ ވަރަކަށް އަމިއްލައަށް އަޕްޑޭޓްވޭ","Updates automatically as teachers mark attendance")}</p>`;}
+async function attRefresh(){if(/[?&]nodb\b/.test(location.search))return;try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=data&section=eq.attendance&published=eq.true&limit=5000`,{headers:{apikey:SB_KEY}});if(!r.ok)return;const rows=await r.json();ATT.splice(0,ATT.length,...rows.map(x=>x.data));const b=document.getElementById("atBody");if(b)b.innerHTML=attBody();}catch(_){}}
+function attendancePage(){ATD=attDefault();clearInterval(ATT_T);ATT_T=setInterval(()=>{if(!document.getElementById("atBody")){clearInterval(ATT_T);return;}attRefresh();},30000);
+  return pageHead("ދަރިވަރުންގެ ހާޒިރީ","Student attendance")+`<div class="pb"><div class="wrap"><div class="panel">
+    <div class="sc-nav"><button type="button" class="chv-b" data-atd="-1" aria-label="Previous day">${IC.back}</button>
+      <label class="sc-date sc-pick"><b class="h" id="atTitle">${scDayTitle(ATD)}</b><span class="sc-pk">${icS("cal",16)}${bi("ތާރީޚު ހޮވާ","Choose a date")}</span><input type="date" id="atPick" value="${ATD}" aria-label="Date"></label>
+      <button type="button" class="chv-b" data-atd="1" aria-label="Next day">${IC.arr}</button></div>
+    <div id="atBody">${attBody()}</div></div></div></div>`;}
+function atGo(d){ATD=d;const t=document.getElementById("atTitle");if(!t)return;t.innerHTML=scDayTitle(d);document.getElementById("atPick").value=d;document.getElementById("atBody").innerHTML=attBody();}
+document.addEventListener("click",e=>{const n=e.target.closest("[data-atd]");if(n){const d=new Date(ATD+"T00:00:00");d.setDate(d.getDate()+(+n.dataset.atd));atGo(isoD(d));return;}const p=e.target.closest(".sc-pick");if(p&&p.querySelector("#atPick")&&e.target.id!=="atPick"){try{document.getElementById("atPick").showPicker()}catch(_){}}});
+document.addEventListener("change",e=>{if(e.target.id==="atPick"&&e.target.value)atGo(e.target.value);});
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
@@ -1205,7 +1240,7 @@ function route(){
   else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):detail(o,"notices","އިޢުލާންތަކަށް","Back to notices",1);key=st?"snotices":"notices";}}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
-  else html=({home,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,attendance:attendancePage,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
@@ -1247,8 +1282,8 @@ document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value
 {let ty=0;addEventListener("touchstart",e=>{ty=e.touches[0].clientY;},{passive:true});addEventListener("touchmove",e=>{if(document.getElementById("mnav").classList.contains("open")||e.touches.length>1)return;const dy=e.touches[0].clientY-ty,atEnd=Math.ceil(scrollY+innerHeight)>=document.documentElement.scrollHeight-1;if(atEnd&&dy<0&&e.cancelable)e.preventDefault();},{passive:false});}
 const TT=document.getElementById("totop");const onSc=()=>TT.classList.toggle("show",sY()>500);addEventListener("scroll",onSc,{passive:true});document.body.addEventListener("scroll",onSc,{passive:true});TT.onclick=()=>sTo({top:0,behavior:"smooth"});
 
-const PTA=[],SCOUNCIL=[];
-const DB={pta:PTA,scouncil:SCOUNCIL,news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
+const PTA=[],SCOUNCIL=[],ATT=[];
+const DB={attendance:ATT,pta:PTA,scouncil:SCOUNCIL,news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
 async function loadDB(){
   if(!DB_LOADING) return;
   try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});

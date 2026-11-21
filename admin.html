@@ -209,6 +209,9 @@ const SECTIONS={
    T("title_dv","ނަން (ދިވެހިން)","Title (Dhivehi)"),T("title_en","ނަން (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("type","ބާވަތް","Type","select",{opts:[["event","ހަރަކާތް"],["holiday","ބަންދު"],["exam","އިމްތިޙާން"]]}),
    T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date"),T("teacher_dv","ޒިންމާދާރު ޓީޗަރ (ދިވެހިން)","Teacher in charge (Dhivehi)"),T("teacher_en","ޒިންމާދާރު ޓީޗަރ (އިނގިރޭސިން)","Teacher in charge (English)","text",{ltr:1}),T("audience_dv","ބައިވެރިވާނީ (ދިވެހިން)","Target audience (Dhivehi), e.g. ހުރިހާ ގްރޭޑެއް"),T("audience_en","ބައިވެރިވާނީ (އިނގިރޭސިން)","Target audience (English)","text",{ltr:1}),T("status","ހަރަކާތް ކުރިއަށް ގެންދެވުނުތަ؟","Was the activity carried out?","select",{opts:[["","ނުގެންދެވޭ (ތާރީޚު ފަހަނައަޅައިފިނަމަ)"],["done","ކުރިއަށް ގެންގޮސްފައި"]]})]},
+ attendance:{dv:"ދަރިވަރުންގެ ހާޒިރީ",en:"Attendance",title:x=>`${x.class_dv||x.class_en||""} · ${x.date||""}`,sub:x=>`ހާޒިރު ${x.present??""} · ނުހާޒިރު ${x.absent??""}`,fields:[
+   T("date","ތާރީޚު","Date","date"),T("class_dv","ކްލާސް (ދިވެހިން) - މިސާލު: ގްރޭޑް 4","Class (Dhivehi), e.g. ގްރޭޑް 4"),T("class_en","ކްލާސް (އިނގިރޭސިން) - ކްލާސްތަކުގައިވާ ނަމާ އެއްގޮތަށް","Class (English), same as in Classes, e.g. Grade 4","text",{ltr:1}),
+   T("present","ހާޒިރު ދަރިވަރުން","Present","number"),T("absent","ނުހާޒިރު ދަރިވަރުން","Absent","number")]},
  pta:{dv:"ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ",en:"Parent Teacher Association",img:"photo",title:x=>x.name_dv||x.name_en,sub:x=>(x.role_dv||x.role_en||"")+(String(x.lead)==="1"?" · ★":""),fields:[
    T("name_dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("name_en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),
    T("role_dv","މަޤާމު (ދިވެހިން)","Role (Dhivehi), e.g. ރައީސް"),T("role_en","މަޤާމު (އިނގިރޭސިން)","Role (English), e.g. President","text",{ltr:1}),
