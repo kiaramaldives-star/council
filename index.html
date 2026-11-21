@@ -593,6 +593,9 @@ body{background:#F4F4F6!important}#app{background:var(--bg);display:flow-root}.f
 @media (max-width:760px){.tabbar{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;padding:7px 4px!important;border-radius:26px;border:1px solid rgba(255,255,255,.55)!important;border-image:none!important;background:rgba(255,255,255,.55)!important;-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 10px 30px rgba(15,23,42,.18),inset 0 1px 0 rgba(255,255,255,.7)!important}
 .tabbar a{color:#374151}.tabbar a.on{color:var(--p);background:rgba(200,16,46,.1)}
 .foot-b{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}.totop{bottom:calc(100px + env(safe-area-inset-bottom))!important}}
+.act-past{margin-top:20px}.act-past>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:14px;background:#F3F4F6;color:#374151;font-weight:600}.act-past>summary::-webkit-details-marker{display:none}
+html[lang=dv] .act-past>summary{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:16px}.act-past>summary::after{content:"▾";transition:.2s}.act-past[open]>summary::after{transform:rotate(180deg)}
+.act-past .act-mh{color:var(--muted);border-color:var(--line)}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -860,7 +863,9 @@ function studentStats(){
 function activitiesPage(){
   const today=isoD(new Date()), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)||String(a.end||"").localeCompare(String(b.end||"")));
   const up=ev.filter(e=>(e.end||e.date||"")>=today), next=up.find(e=>e.date<=today&&(e.end||e.date)>=today&&e.date===today)||up.find(e=>e.date>=today), yrs=[...new Set(ev.map(e=>String(e.date).slice(0,4)))];
-  let groups="",cm="";ev.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)groups+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);groups+=`<h3 class="act-mh h${k<today.slice(0,7)?" past":""}">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}groups+=(e===next||(!next&&false)?eventItem(e).replace('class="evi ','id="act-next" class="evi '):eventItem(e));});if(cm)groups+=`</div>`;
+  const grp=L=>{let g="",cm="";L.forEach(e=>{const k=String(e.date).slice(0,7);if(k!==cm){if(cm)g+=`</div>`;cm=k;const [y,m]=k.split("-").map(Number);g+=`<h3 class="act-mh h">${bi(`${DV_MONTHS[m-1]} <span class="num">${y}</span>`,`${EN_MONTHS[m-1]} ${y}`)}</h3><div class="ev">`;}g+=eventItem(e);});if(cm)g+=`</div>`;return g;};
+  const past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
+  let groups=grp(up)+(past.length?`<details class="act-past"><summary>${bi(`ފާއިތުވި ހަރަކާތްތައް (<span class="num">${past.length}</span>)`,`Past activities (${past.length})`)}</summary>${grp(past)}</details>`:"");
   return pageHead("ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar")+`<div class="pb"><div class="wrap"><div class="panel">
     <div class="act-top"><div><h2 class="h">${bi(`ހަރަކާތްތަކުގެ ކަލަންޑަރު <span class="num">${yrs.join(" / ")}</span>`,`Activity Calendar ${yrs.join(" / ")}`)}</h2><small>${bi(`ޖުމްލަ <span class="num">${ev.length}</span> ހަރަކާތް · ކުރިއަށް އޮތް <span class="num">${up.length}</span>`,`${ev.length} activities · ${up.length} upcoming`)}</small></div></div>
     ${next?`<div class="ac-next" style="margin:14px 0">${(()=>{const dd=Math.round((new Date(next.date)-new Date(today))/864e5);return dd<=0?`<div class="ac-cd"><b class="h" style="font-size:20px">${bi("މިއަދު","Today")}</b></div>`:`<div class="ac-cd"><b class="num">${dd}</b><small>${bi("ދުވަސް","days")}</small></div>`;})()}<div><small>${next.date===today?bi("މިއަދުގެ ހަރަކާތް","Today's activity"):bi("ކުރިއަށް އޮތް ހަރަކާތް","Next activity")}</small><b class="h">${L2(next,"title")}</b><span>${nDate(next.date)}${next.teacher_dv||next.teacher_en?` · ${L2(next,"teacher")}`:""}</span></div></div>`:""}
@@ -1131,7 +1136,6 @@ function route(){
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
   sTo({top:0}); reveal();
-  if(key==="activities"){const el=document.getElementById("act-next");if(el)setTimeout(()=>{el.classList.add("in");const y=el.getBoundingClientRect().top+sY()-150;sTo({top:y,behavior:"smooth"});},350);}
   if(h.startsWith("about/")){const el=document.getElementById("ab-"+h.slice(6));if(el)setTimeout(()=>{el.classList.add("in","hl");const y=el.getBoundingClientRect().top+sY()-110;sTo({top:y,behavior:"smooth"});setTimeout(()=>el.classList.remove("hl"),2200);},60);}
 }
 const SCR=()=>getComputedStyle(document.body).position==="fixed"?document.body:null;
