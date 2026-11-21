@@ -179,7 +179,7 @@ const SECTIONS={
    T("motto_dv","މޮޓޯ (ދިވެހިން)","Motto (Dhivehi)"),T("motto_en","މޮޓޯ (އިނގިރޭސިން)","Motto (English)","text",{ltr:1}),
    T("intro_dv","ތައާރަފު (ދިވެހިން)","Introduction (Dhivehi)","textarea",{rows:5}),T("intro_en","ތައާރަފު (އިނގިރޭސިން)","Introduction (English)","textarea",{rows:5,ltr:1}),
    T("vision_dv","ތަޞައްވަރު (ދިވެހިން)","Vision (Dhivehi)","textarea",{rows:3}),T("vision_en","ތަޞައްވަރު (އިނގިރޭސިން)","Vision (English)","textarea",{rows:3,ltr:1}),
-   T("mission_dv","މުހިންމަތު (ދިވެހިން)","Mission (Dhivehi)","textarea",{rows:3}),T("mission_en","މުހިންމަތު (އިނގިރޭސިން)","Mission (English)","textarea",{rows:3,ltr:1}),
+   T("mission_dv","މުހިންމަތު (ދިވެހިން)","Mission (Dhivehi)","textarea",{rows:3}),T("mission_en","މުހިންމަތު (އިނގިރޭސިން)","Mission (English)","textarea",{rows:3,ltr:1}),T("pta_intro_dv","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާގެ ތައާރަފު (ދިވެހިން)","PTA introduction (Dhivehi)","textarea",{rows:3}),T("pta_intro_en","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާގެ ތައާރަފު (އިނގިރޭސިން)","PTA introduction (English)","textarea",{rows:3,ltr:1}),T("sc_intro_dv","ދަރިވަރުންގެ ކައުންސިލްގެ ތައާރަފު (ދިވެހިން)","Student Council introduction (Dhivehi)","textarea",{rows:3}),T("sc_intro_en","ދަރިވަރުންގެ ކައުންސިލްގެ ތައާރަފު (އިނގިރޭސިން)","Student Council introduction (English)","textarea",{rows:3,ltr:1}),
    T("principal_dv","ޕްރިންސިޕަލްގެ ނަން (ދިވެހިން)","Principal's name (Dhivehi)"),T("principal_en","ޕްރިންސިޕަލްގެ ނަން (އިނގިރޭސިން)","Principal's name (English)","text",{ltr:1}),
    T("principal_photo","ޕްރިންސިޕަލްގެ ފޮޓޯ","Principal's photo","image"),
    T("principal_msg_dv","ޕްރިންސިޕަލްގެ ބަސްފުޅު (ދިވެހިން)","Principal's message (Dhivehi)","textarea",{rows:5}),T("principal_msg_en","ޕްރިންސިޕަލްގެ ބަސްފުޅު (އިނގިރޭސިން)","Principal's message (English)","textarea",{rows:5,ltr:1}),
@@ -209,6 +209,18 @@ const SECTIONS={
    T("title_dv","ނަން (ދިވެހިން)","Title (Dhivehi)"),T("title_en","ނަން (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("type","ބާވަތް","Type","select",{opts:[["event","ހަރަކާތް"],["holiday","ބަންދު"],["exam","އިމްތިޙާން"]]}),
    T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date"),T("teacher_dv","ޒިންމާދާރު ޓީޗަރ (ދިވެހިން)","Teacher in charge (Dhivehi)"),T("teacher_en","ޒިންމާދާރު ޓީޗަރ (އިނގިރޭސިން)","Teacher in charge (English)","text",{ltr:1}),T("audience_dv","ބައިވެރިވާނީ (ދިވެހިން)","Target audience (Dhivehi), e.g. ހުރިހާ ގްރޭޑެއް"),T("audience_en","ބައިވެރިވާނީ (އިނގިރޭސިން)","Target audience (English)","text",{ltr:1}),T("status","ހަރަކާތް ކުރިއަށް ގެންދެވުނުތަ؟","Was the activity carried out?","select",{opts:[["","ނުގެންދެވޭ (ތާރީޚު ފަހަނައަޅައިފިނަމަ)"],["done","ކުރިއަށް ގެންގޮސްފައި"]]})]},
+ pta:{dv:"ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ",en:"Parent Teacher Association",img:"photo",title:x=>x.name_dv||x.name_en,sub:x=>(x.role_dv||x.role_en||"")+(String(x.lead)==="1"?" · ★":""),fields:[
+   T("name_dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("name_en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),
+   T("role_dv","މަޤާމު (ދިވެހިން)","Role (Dhivehi), e.g. ރައީސް"),T("role_en","މަޤާމު (އިނގިރޭސިން)","Role (English), e.g. President","text",{ltr:1}),
+   
+   T("lead","އިސްވެރިއެއްތަ؟ (މަތީގައި ބޮޑަށް ދައްކާނެ)","Leader? (shown larger at the top)","select",{opts:[["","ނޫން (No)"],["1","އާން (Yes)"]]}),
+   T("photo","ފޮޓޯ","Photo","image"),T("order","ތަރުތީބު","Order","number")]},
+ scouncil:{dv:"ދަރިވަރުންގެ ކައުންސިލް",en:"Student Council",img:"photo",title:x=>x.name_dv||x.name_en,sub:x=>(x.role_dv||x.role_en||"")+(String(x.lead)==="1"?" · ★":""),fields:[
+   T("name_dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("name_en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),
+   T("role_dv","މަޤާމު (ދިވެހިން)","Role (Dhivehi), e.g. ރައީސް"),T("role_en","މަޤާމު (އިނގިރޭސިން)","Role (English), e.g. President","text",{ltr:1}),
+   T("grade_dv","ގްރޭޑް/ކްލާސް (ދިވެހިން)","Grade/class (Dhivehi)"),T("grade_en","ގްރޭޑް/ކްލާސް (އިނގިރޭސިން)","Grade/class (English)","text",{ltr:1}),
+   T("lead","އިސްވެރިއެއްތަ؟ (މަތީގައި ބޮޑަށް ދައްކާނެ)","Leader? (shown larger at the top)","select",{opts:[["","ނޫން (No)"],["1","އާން (Yes)"]]}),
+   T("photo","ފޮޓޯ","Photo","image"),T("order","ތަރުތީބު","Order","number")]},
  schedule:{dv:"ދުވަހުގެ ތާވަލު",en:"Daily schedule",title:x=>x.activity_dv||x.activity_en,sub:x=>`${x.date||""} · ${x.start||""} – ${x.end||""}`,fields:[
    T("date","ތާރީޚު","Date","date"),
    T("start","ފަށާ ގަޑި (މިސާލު 06:43)","Start time (24-hour, e.g. 06:43 or 13:30)","text",{ltr:1,ph:"06:43"}),
