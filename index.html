@@ -633,6 +633,15 @@ html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;f
 .vm2-c h3{font-size:22px;color:var(--p)}.vm2-c.dark h3{color:#fff}
 .vm2-c p{margin:0;font-size:16px;line-height:2;color:#4B5563}.vm2-c.dark p{color:#D1D5DB}
 @media (max-width:760px){.vm2-g{grid-template-columns:1fr}.vm2-motto p{font-size:22px}.vm2-motto{padding:28px 18px 24px}}
+.sr-top{display:flex;align-items:center;gap:14px}.sr-top h2{font-size:23px;color:var(--p);line-height:1.5}.sr-top small{color:var(--muted)}
+.sr-note{background:#FFF7ED;border:1px solid #FED7AA;color:#9A3412;border-radius:14px;padding:10px 14px;margin:14px 0}
+.sr-l{display:grid;gap:8px}.sr{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+.sr>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer}.sr>summary::-webkit-details-marker{display:none}
+.sr-n{flex:none;width:32px;height:32px;border-radius:10px;background:var(--ps);color:var(--p);display:grid;place-items:center;font-size:15px}
+.sr>summary b{flex:1;font-size:17px}.sr-c{flex:none;width:26px;height:26px;border-radius:50%;background:#F3F4F6;position:relative;transition:.2s}
+.sr-c::after{content:"";position:absolute;inset:0;margin:auto;width:8px;height:8px;border-right:2.5px solid #4B5563;border-bottom:2.5px solid #4B5563;transform:translateY(-2px) rotate(45deg)}
+.sr[open] .sr-c{background:var(--p);transform:rotate(180deg)}.sr[open] .sr-c::after{border-color:#fff}.sr[open] .sr-n{background:var(--p);color:#fff}
+.sr ul{margin:0;padding:0 18px 14px;padding-inline-start:52px;display:grid;gap:8px}.sr li{line-height:1.9;color:#374151}.sr li::marker{color:var(--p)}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -728,8 +737,8 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
-const PARENT={snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
+const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["srules","ދަރިވަރުންގެ ގަވާއިދު","Student rules"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const PARENT={srules:"students",snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -937,6 +946,25 @@ function groupPage(k){const C={pta:{dv:"ބެލެނިވެރިންގެ ޖަމްޢ�
     ${lead.length?`<div class="gm-g lead">${lead.map(m=>card(m,1)).join("")}</div>`:""}
     ${rest.length?`<div class="gm-g">${rest.map(m=>card(m)).join("")}</div>`:""}
     ${L.length?"":empty(...C.emp)}
+  </div></div></div>`;}
+const SRULES=[
+["ތަޢާރަފު",[ "މިއީ ތަޢުލީމުގެ ޤާނޫނުގެ 11 ވަނަ މާއްދާގެ ދަށުން، ސްކޫލާއި ސްކޫލުން ބޭރުގައި ދަރިވަރުން ޢަމަލުކުރަންޖެހޭ ގޮތް ކަނޑައަޅާ އާންމު ގަވާއިދެވެ." ]],
+["ގަވާއިދުގެ މަޤްޞަދު",[ "އިސްލާމްދީނާއި، ޤައުމު ލޯބިވުމާއި، ހެޔޮ އަޚްލާޤާއި އިޖުތިމާޢީ އަގުތައް ދަރިވަރުންގެ ތެރޭގައި ބިނާކުރުން.","ސްކޫލުގެ ވެރިން، މުދައްރިސުން، މުވައްޒަފުން، ބެލެނިވެރިން އަދި އެހެން ފަރާތްތަކާ ޢަދަބާއި އިޙްތިރާމާއެކު މުޢާމަލާތްކުރާ ދަރިވަރުން ބިނާކުރުން.","ސްކޫލުން އަންގާ އެންގުންތަކަށް ތަބާވުމުގެ މުހިންމުކަން ދަރިވަރުންގެ ހިތުގައި އަށަގަންނަވައިދިނުން.","ދިވެހި ސަޤާފަތާއި އާދަކާދައަށް އިޙްތިރާމްކުރުމުގެ ސިފަ ދަރިވަރުންގެ ހިތުގައި އަށަގަންނަވައިދިނުން.","ރައްކާތެރި އަދި އަމާން ސްކޫލް މާޙައުލެއް ބިނާކުރުން." ]],
+["ގަވާއިދު ތަންފީޒުކުރުން",[ "މި ގަވާއިދު ތަންފީޒުކުރާނީ ދިވެހިރާއްޖޭގެ ސްކޫލްތަކުގައި ކިޔަވާ ހުރިހާ ދަރިވަރުންގެ މައްޗަށެވެ.","މި ގަވާއިދާ އެއްގޮތަށް ޢަމަލުކުރުމަކީ ހުރިހާ ދަރިވަރުންގެ ޒިންމާއެކެވެ.","މި ގަވާއިދު ތަންފީޒުކުރުމުގެ ކަންކަން ކަށަވަރުކުރުމަކީ ސްކޫލުގެ ޕްރިންސިޕަލްގެ ޒިންމާއެކެވެ." ]],
+["ސްކޫލަށް ޙާޟިރުވުން",[ "ކޮންމެ ދަރިވަރަކުވެސް ސްކޫލުން އަންގާ ގޮތެއްގެ މަތިން ކިޔެވުމާއި އެކިއެކި ހަރަކާތްތަކުގައި ބައިވެރިވުމަށް ސްކޫލަށް ޙާޟިރުވާންވާނެއެވެ.","ސަބަބަކާހުރެ ސްކޫލަށް ޙާޟިރުނުވެވިއްޖެނަމަ، \"ދަރިވަރުން ސްކޫލަށް ޙާޟިރުވުމާ ބެހޭ އުޞޫލު\" ގައިވާ ގޮތަށް ޢަމަލުކުރަންވާނެއެވެ." ]],
+["ސްކޫލަށް ގެންނަ ތަކެތި",[ "ޓައިމްޓޭބަލްގައިވާ ގޮތަށް ކިޔެވުމަށް ބޭނުންވާ ތަކެއްޗާއި، ސްކޫލުން ގެނައުމަށް އަންގާ ތަކެތި ހަމައެކަނި ގެންނަންވާނެއެވެ.","އެ ތަކެތި ފިޔަވައި އެހެން ތަކެތި ސްކޫލަށް ގެނައުމަކީ މަނާ ކަމެކެވެ." ]],
+["ޔުނިފޯމާއި ހެދުން",[ "ސްކޫލަށް ޙާޟިރުވާ ދުވަސްތަކުގައި އަދި ސްކޫލް ތަމްސީލުކުރާ ހަރަކާތްތަކުގައި ސްކޫލް ޔުނިފޯމް ނުވަތަ ސްކޫލުން ކަނޑައަޅާ ހެދުން އަޅަންވާނެއެވެ.","ޔުނިފޯމް އަޅަންވާނީ މިނިސްޓްރީ އޮފް އެޑިޔުކޭޝަނުން ކަނޑައަޅާފައިވާ ޔުނިފޯމް ކޯޑާ އެއްގޮތަށެވެ.","ޔުނިފޯމާއެކު އަޅާ ފައިވާނާއި ސޮކްސްގެ ކުލައަކީ ކަޅު ނުވަތަ ހުދު ކުލަ ކަމުގައި ވާންވާނެއެވެ." ]],
+["އިސްތަށިގަނޑާއި ނިޔަފަތި",[ "ފިރިހެން ދަރިވަރުންގެ ބޯގެ އިސްތަށިގަނޑު ހުންނަންވާނީ ކުރުކޮށް ކަނޑާފައެވެ.","އިސްތަށިގަނޑުގައި ކުލަޖެއްސުމަކީ މަނާ ކަމެކެވެ. އިސްތަށިގަނޑު ހުންނަންވާނީ ސާފުކޮށް ބަލަހައްޓައިގެންނެވެ.","ދަރިވަރުންގެ ނިޔަފަތިތައް ހުންނަންވާނީ ކުރުކޮށް ސާފުކޮށެވެ." ]],
+["ސްކޫލުގެ މުދަލަށް އިޙްތިރާމްކުރުން",[ "ސްކޫލުގެ ޢިމާރާތްތަކާއި، ފަރުނީޗަރާއި، އެހެނިހެން މުދަލަށް ގެއްލުމެއް ނުވާނެ ގޮތަށް ރައްކާތެރިކޮށް ބޭނުންކުރަންވާނެއެވެ.","ދަރިވަރަކު ސްކޫލުގެ މުދަލަކަށް ގެއްލުމެއް ދީފިނަމަ، އެ ގެއްލުން ފުރިހަމަކޮށްދޭންވާނެއެވެ." ]],
+["ސްކޫލުން ބޭރު ހަރަކާތްތައް",[ "ސްކޫލް ތަމްސީލުކޮށް ހަރަކާތްތަކުގައި ބައިވެރިވާއިރު، މިނިސްޓްރީ އޮފް އެޑިޔުކޭޝަނުގެ ކޯ-ކަރިކިއުލާ ހަރަކާތްތަކާ ބެހޭ އުޞޫލުގައިވާ ގޮތަށް ޢަމަލުކުރަންވާނެއެވެ." ]],
+["ދަރިވަރުން ކުރުން މަނާ ކަންތައްތައް",[ "މަސްތުވާތަކެތި ގެންގުޅުމާއި، ބޭނުންކުރުމާއި، ވިއްކުން.","ވޭޕްކުރުމާއި ދުންފަތުގެ އިސްތިޢުމާލުކުރުން.","މާރާމާރީގައި ބައިވެރިވުމާއި އަނިޔާވެރި ކަންތައްތައް ކުރުން.","ހަތިޔާރާއި ނުރައްކާތެރި ތަކެތި ގެންގުޅުން.","ސިޔާސީ ޕާޓީތަކާއި، ސިޔާސީ ޕާޓީތަކުން ހިންގާ ހަރަކާތްތަކުގައި ބައިވެރިވުން.","ބެލެނިވެރިޔާގެ ހުއްދަ ނުލައި ރޭގަނޑު 10:00 ގެ ފަހުން ގޭގެ ބޭރުގައި އުޅުން (ސްކޫލުން ހިންގާ ހަރަކާތްތަކަށް ނުހިނގާނެއެވެ).","ސްކޫލް ގަޑީގައި މޯބައިލް ފޯނު ބޭނުންކުރުން (ގްރޭޑް 11 އަދި 12 ގެ ދަރިވަރުންނަށް ހުއްދަ ދެވިދާނެއެވެ)." ]],
+["ގަވާއިދާ ޚިލާފުވުން",[ "މި ގަވާއިދާ ޚިލާފުވާ ދަރިވަރުންނާމެދު ޢަމަލުކުރާނީ މިނިސްޓްރީ އޮފް އެޑިޔުކޭޝަނުން އެކުލަވާލާފައިވާ \"ބިހޭވިއަރ މެނޭޖްމަންޓް ޕޮލިސީ\" ގައިވާ ގޮތަށެވެ." ]],
+["ގަވާއިދު ފެށުން",[ "މި ގަވާއިދު ފަށާނީ މިނިސްޓްރީ އޮފް އެޑިޔުކޭޝަނުން އާންމުކުރާ ތާރީޚުންނެވެ. (28 މާޗް 2023)" ]]];
+function rulesPage(){return pageHead("ދަރިވަރުންގެ ގަވާއިދު","Student rules")+`<div class="pb"><div class="wrap"><div class="panel">
+  <div class="sr-top"><span class="gp-ic">${IC.book||IC.cap}</span><div><h2 class="h">ސްކޫލް ދަރިވަރުންގެ އާންމު ގަވާއިދު</h2><small>${bi("މިނިސްޓްރީ އޮފް އެޑިޔުކޭޝަން · ސަރކިއުލަރ","Ministry of Education · Circular")} <span class="num" dir="ltr" style="white-space:nowrap;display:inline-block">22-E/CIR/2023/05</span> · ${nDate("2023-03-28")}</small></div></div>
+  <p class="sr-note">${bi("ހުރިހާ ދަރިވަރުން އަދި ބެލެނިވެރިން މި ގަވާއިދަށް ބަލައި ޢަމަލުކުރުން އެދެމެވެ. ބާބެއް ހުޅުވުމަށް އޭގައި ފިތާލައްވާ.","Tap a section to open it.")}</p>
+  <div class="sr-l">${SRULES.map(([h,L],i)=>`<details class="sr"${i==0?" open":""}><summary><span class="sr-n num">${i+1}</span><b class="h">${h}</b><span class="sr-c"></span></summary><ul>${L.map(x=>`<li>${numify(esc(x))}</li>`).join("")}</ul></details>`).join("")}</div>
+  <a class="btn btn-p ac-pdf" href="/docs/school-student-rules-2023.pdf" target="_blank" rel="noopener">${bi("ސަރކިއުލަރ PDF ބައްލަވާ","Open the circular (PDF)")}</a>
   </div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
@@ -1177,7 +1205,7 @@ function route(){
   else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):detail(o,"notices","އިޢުލާންތަކަށް","Back to notices",1);key=st?"snotices":"notices";}}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
-  else html=({home,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
