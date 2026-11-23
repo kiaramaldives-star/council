@@ -654,6 +654,25 @@ html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;f
 .at-n{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}.at-n .p b{color:#16A34A}.at-n .a b{color:#DC2626}
 .at-up{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13.5px;margin-top:14px}.at-up i{width:8px;height:8px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 4px #DCFCE7;animation:fnp 2s infinite}
 .foot-staff{display:inline-block;margin-top:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 14px}html[lang=dv] .foot-staff{font-family:"KondeyHeading","Faruma",sans-serif}
+.hlang{display:none}
+@media (max-width:1180px){
+ .head{background:#FBF7F8!important;border-bottom:0!important;box-shadow:none!important;padding:10px 0!important}
+ .head .wrap{display:flex!important;align-items:stretch!important;gap:10px!important;justify-content:flex-start!important}
+ .burger{order:0;flex:none;width:68px!important;height:68px!important;border-radius:22px!important;background:var(--p)!important;color:#fff!important;border:0!important;display:grid!important;place-items:center;box-shadow:0 8px 18px rgba(200,16,46,.25)}
+ .burger svg{width:30px;height:30px}
+ .head .brand{order:1;flex:1;min-width:0;display:flex!important;align-items:center;gap:12px;height:68px;border-radius:22px;padding:0 16px;background:linear-gradient(120deg,var(--p),#8E0B21);color:#fff!important;box-shadow:0 8px 18px rgba(200,16,46,.25)}
+ .head .brand .logo{width:46px!important;height:46px!important;flex:none;background:#fff;border-radius:50%;padding:3px}
+ .head .brand b{color:#fff!important;font-size:22px!important;line-height:1.3!important;white-space:nowrap}
+ .br-t{display:flex;flex-direction:column;min-width:0}.br-t small{display:block;color:rgba(255,255,255,.8);font-size:13px;line-height:1.4;white-space:nowrap}
+ .hlang{order:2;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;align-content:center;justify-content:center;column-gap:2px;flex:none;width:68px;height:68px;border-radius:22px;border:0;background:#F3E7EA;color:var(--p);cursor:pointer;line-height:1.15}
+ .hlang .hl-a{grid-column:1;grid-row:1;font-family:"Plus Jakarta Sans",system-ui,-apple-system,"KondeyHeading","Faruma",sans-serif;font-weight:800;font-size:15px}
+ .hlang svg{grid-column:2;grid-row:1/3;align-self:center;width:12px;height:12px;opacity:.7}
+ .hlang .hl-b{grid-column:1;grid-row:2;font-family:"Plus Jakarta Sans",system-ui,-apple-system,"KondeyHeading","Faruma",sans-serif;font-weight:800;font-size:14px;color:#7A0A1C}
+ html[lang=en] .head .brand b{font-size:18px!important;overflow:hidden;text-overflow:ellipsis}html[lang=en] .br-t small{font-size:12px}
+ html[dir=ltr] .hlang svg{transform:scaleX(-1)}
+}
+@media (max-width:380px){.burger,.hlang{width:58px!important;height:58px!important}.head .brand{height:58px}.head .brand b{font-size:19px!important}.br-t small{font-size:12px}}
+@media (min-width:1181px){.br-t small{display:none}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -684,8 +703,9 @@ html[lang=en] .foot-b p.h{font-family:"Plus Jakarta Sans",sans-serif;font-size:1
   <div class="top-l"><div class="soc" id="soc"></div><button class="lang" id="langBtn" type="button">EN</button></div>
 </div></div>
 <header class="head"><div class="wrap">
-  <a class="brand" href="#home"><span class="logo" id="hLogo"></span><span><b class="h" id="hName"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b></span></a>
+  <a class="brand" href="#home"><span class="logo" id="hLogo"></span><span class="br-t"><b class="h" id="hName"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small class="h"><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ</span><span class="en">GA. Kondey, Maldives</span></small></span></a>
   <nav class="nav" id="nav"></nav>
+  <button class="hlang" id="hLang" type="button" aria-label="Language"><span class="hl-a">ދިވ</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v9a4 4 0 0 0 4 4h8M15 13l4 4-4 4"/></svg><span class="hl-b">EN</span></button>
   <button class="burger" id="burger" type="button" aria-label="Menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></header>
 <div class="mnav" id="mnav"><div class="mnav-p" id="mnavP"></div></div>
@@ -1255,9 +1275,9 @@ function countUp(el){const t=el.textContent,m=t.match(/^(\d+)(.*)$/);if(!m||el.d
 let IO; function reveal(){if(!("IntersectionObserver"in window)){document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));return;}
   IO=IO||new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");e.target.querySelectorAll&&e.target.querySelectorAll(".st b.num").forEach(countUp);IO.unobserve(e.target);}}),{rootMargin:"0px 0px -40px"});
   document.querySelectorAll(".reveal:not(.in)").forEach(e=>IO.observe(e));}
-function setLang(l){document.documentElement.lang=l;document.documentElement.dir=l==="en"?"ltr":"rtl";document.getElementById("langBtn").textContent=l==="en"?"ދިވެހި":"EN";try{localStorage.setItem("ks_lang",l)}catch(_){}
+function setLang(l){document.documentElement.lang=l;document.documentElement.dir=l==="en"?"ltr":"rtl";document.getElementById("langBtn").textContent=l==="en"?"ދިވެހި":"EN";{const h=document.getElementById("hLang");if(h){h.querySelector(".hl-a").textContent=l==="en"?"EN":"ދިވ";h.querySelector(".hl-b").textContent=l==="en"?"ދިވ":"EN";}}try{localStorage.setItem("ks_lang",l)}catch(_){}
   document.title=l==="en"?`${INFO.name_en} · GA. Kondey`:`${INFO.name_dv} · ގއ.ކޮނޑޭ`;}
-document.getElementById("langBtn").onclick=()=>setLang(document.documentElement.lang==="en"?"dv":"en");
+document.getElementById("langBtn").onclick=()=>setLang(document.documentElement.lang==="en"?"dv":"en");document.getElementById("hLang").onclick=()=>setLang(document.documentElement.lang==="en"?"dv":"en");
 document.getElementById("burger").onclick=()=>document.getElementById("mnav").classList.add("open");
 document.getElementById("mnav").addEventListener("click",e=>{const tg=e.target.closest("[data-mtog]");if(tg){tg.parentNode.classList.toggle("open");return;}if(e.target.id==="mnav"||e.target.closest("[data-close]"))e.currentTarget.classList.remove("open");});
 document.addEventListener("click",e=>{
