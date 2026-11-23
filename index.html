@@ -653,6 +653,7 @@ html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;f
 .at-bar{height:10px;border-radius:99px;background:#F3F4F6;overflow:hidden;margin:8px 0}.at-bar i{display:block;height:100%;background:var(--c);border-radius:99px;transition:width .6s}
 .at-n{display:flex;justify-content:space-between;font-size:14px;color:var(--muted)}.at-n .p b{color:#16A34A}.at-n .a b{color:#DC2626}
 .at-up{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--muted);font-size:13.5px;margin-top:14px}.at-up i{width:8px;height:8px;border-radius:50%;background:#16A34A;box-shadow:0 0 0 4px #DCFCE7;animation:fnp 2s infinite}
+.foot-staff{display:inline-block;margin-top:6px;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 14px}html[lang=dv] .foot-staff{font-family:"KondeyHeading","Faruma",sans-serif}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -783,7 +784,7 @@ function header(){
       <div class="fr">${FI.pin}<span class="h">${L2(INFO,"address")}</span></div>
     </div></div></div>
     <div class="foot-b"><div class="foot-soc">${["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")}</div>
-      <p dir="ltr">All Rights Reserved (c) <span class="num">${new Date().getFullYear()}</span></p><p class="h">${L2(INFO,"name")}</p></div>`;
+      <p dir="ltr">All Rights Reserved (c) <span class="num">${new Date().getFullYear()}</span></p><p class="h">${L2(INFO,"name")}</p><a class="foot-staff" href="/staff.html">${bi("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</a></div>`;
 }
 const sortD=a=>a.slice().sort((x,y)=>String(y.date||"").localeCompare(x.date||""));
 const t2=(o,k)=>o[k+"_dv"]||o[k+"_en"]||o[k]||"";
