@@ -1052,7 +1052,7 @@ function header(){
       ${hot?row(`tel:+960${esc(hot)}`,FC.phone,bi("ހޮޓްލައިން","Hotline"),`<span class="num">${esc(INFO.hotline)}</span>`,1):""}
       ${(INFO.address_dv||INFO.address_en)?row("",FC.pin,bi("އެޑްރެސް","Address"),L2(INFO,"address")):""}
     </div>
-    <div class="fc-bot"><p dir="ltr">&copy; <span class="num">${new Date().getFullYear()}</span> ${esc(INFO.name_en||"Kondey School")}</p><a class="foot-staff" href="/staff.html">${bi("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</a></div>
+    <div class="fc-bot"><p dir="ltr">&copy; <span class="num">${new Date().getFullYear()}</span> ${esc(INFO.name_en||"Kondey School")}</p></div>
   </div></div>`;
 }
 const sortD=a=>a.slice().sort((x,y)=>String(y.date||"").localeCompare(x.date||""));
