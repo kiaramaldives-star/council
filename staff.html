@@ -124,12 +124,104 @@ select{font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radi
 .rced{border-top:1px dashed var(--line);margin-top:14px;padding-top:12px}.chk{display:flex;align-items:center;gap:8px;margin:12px 0}.chk input{width:auto}
 .msg .ok{color:#15803D}
 @media (min-width:900px){.rcs[data-sid]>textarea{min-height:80px}}
+/* ===== Professional UI layer ===== */
+:root{--p:#C8102E;--pd:#9E0C24;--ps:#FDECEF;--line:#E5E7EB;--muted:#6B7280;--text:#111827;--bg:#F3F4F6;--r:14px;--sh:0 1px 2px rgba(16,24,40,.05),0 1px 3px rgba(16,24,40,.06)}
+body{background:var(--bg)}
+.top{display:block;padding:0;background:linear-gradient(100deg,var(--pd),var(--p) 55%,#D9213E);border:0;box-shadow:0 2px 10px rgba(158,12,36,.25);padding-top:env(safe-area-inset-top)}
+.topin{display:flex;align-items:center;gap:12px;max-width:1180px;margin:0 auto;padding:10px 16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;flex:1;min-width:0}
+.brand img{width:42px;height:42px;flex:none}
+.bt{display:flex;flex-direction:column;line-height:1.35;min-width:0}.bt b{font-size:19px;color:#fff;font-weight:400}.bt small{font-size:12.5px;color:rgba(255,255,255,.78)}
+html[lang=en] .bt b{font-weight:700;font-size:17px}html[lang=en] .bt small,html[lang=en] .bt .en{color:rgba(255,255,255,.8)}
+.tact{display:flex;gap:8px;flex:none}
+.tb{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:10px;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff;font-size:14px;cursor:pointer;font-family:"KondeyHeading","Faruma",sans-serif}
+.tb:hover{background:rgba(255,255,255,.22)}.tb .en{color:#fff!important}
+.tb.lang{min-width:46px;justify-content:center;font-family:"Plus Jakarta Sans","Faruma",sans-serif!important;font-weight:700}
+@media (max-width:520px){.tbl{display:none}.tb{padding:0 10px}}
+.wrap{padding:16px 14px calc(96px + env(safe-area-inset-bottom))}
+.card{border-radius:var(--r);border:1px solid var(--line);box-shadow:var(--sh);padding:16px}
+.btn{border-radius:10px;font-size:16px;padding:12px 18px;transition:background .15s,box-shadow .15s}
+.btn:not(.ghost):not(.gbtn):hover{background:var(--pd)}
+.btn.ghost{background:#fff;border:1px solid var(--line);color:#374151}.btn.ghost:hover{background:#F9FAFB}
+.btn.sm{padding:7px 12px;font-size:14px;border-radius:8px}
+input,select,textarea.names,.rcs textarea,.dpick{border-radius:10px!important;border-color:#D1D5DB}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--p)!important;box-shadow:0 0 0 3px rgba(200,16,46,.15)}
+label{font-size:13.5px;color:#4B5563}
+/* login */
+#loginView{padding:0;overflow:hidden;max-width:440px;margin:18px auto 0}
+#loginView>*:not(.lhead){margin-inline:22px!important}
+#loginView>h2{margin-top:22px!important}#loginView>.lnk{margin-bottom:22px}
+.lhead{display:flex;align-items:center;gap:12px;padding:22px;background:linear-gradient(120deg,var(--pd),var(--p));color:#fff}
+.lhead img{width:54px;height:54px}.lhead b{display:block;font-size:22px;font-weight:400}.lhead small{opacity:.85;font-size:13px}.lhead .en{color:#fff!important}
+html[lang=en] .lhead b{font-weight:700;font-size:20px}
+.gbtn{border-radius:10px;border:1px solid #D1D5DB;box-shadow:none}.gbtn:hover{background:#F9FAFB}
+/* profile */
+.me{padding:14px 16px;gap:12px}.me .ph{width:48px;height:48px;font-size:20px;background:var(--p);color:#fff}
+.me b{font-size:17px}.me small{font-size:13px}
+/* tabs: bottom bar on phones */
+.tabs{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;z-index:20;border-radius:0;border:0;border-top:1px solid var(--line);padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);backdrop-filter:blur(8px);box-shadow:0 -4px 16px rgba(16,24,40,.06);gap:4px}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 4px;font-size:13px;border-radius:10px;color:#6B7280}
+.tabs button .ti{width:22px;height:22px}
+.tabs button.on{background:var(--ps);color:var(--p)}
+.tabs button .en{font-size:12px}
+/* alerts */
+.alert{border-radius:var(--r);padding:12px 14px;background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;box-shadow:none}
+.alert b{font-size:16px}.alert small{opacity:1;color:#B91C1C}.alert .en{color:#991B1B!important}
+.alert.done{background:#F0FDF4;color:#166534;border-color:#BBF7D0}.alert.done small,.alert.done .en{color:#15803D!important}
+/* class card */
+.cls h2{font-size:19px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #F1F2F4}
+.cls h2 span{background:#F3F4F6;color:#374151;font-size:13px}
+.split3 div,.split div{border-radius:12px;background:#FAFAFB}
+.split3 b{font-size:24px}
+.stu{border-radius:12px;padding:7px 10px}
+.seg button{border-radius:8px}
+/* overview */
+.ov h2,.card>h2.h,.card>h3.h{font-size:18px}
+.ovs div{border-radius:12px;background:#FAFAFB;padding:12px 8px}.ovs b{font-size:24px}
+.ovr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;border-radius:12px;padding:10px 12px;background:#fff}
+.ovr.no{background:#fff;border-color:var(--line);box-shadow:inset -3px 0 0 #F87171}html[dir=ltr] .ovr.no{box-shadow:inset 3px 0 0 #F87171}
+.ovt b{font-size:16px}.ovt small{font-size:13px}
+.ovr .ovn{grid-column:2;grid-row:1;justify-self:end}
+.ovr .status{grid-column:2;grid-row:1;justify-self:end;align-self:start;font-size:12.5px}
+.ovr .ovn+.status{grid-row:2;align-self:center}
+.ova{grid-column:1/-1}
+.status{border-radius:6px;padding:1px 9px;font-size:13px}
+.datec .dpick{padding:10px 12px;font-size:16px}
+/* report cards */
+.rcc{border-radius:12px;transition:border-color .15s,box-shadow .15s}.rcc:hover{box-shadow:0 0 0 3px rgba(200,16,46,.1)}
+.rcnav button{border-radius:8px}
+.rcs{border-radius:12px;background:#FCFCFD}
+.rct th{background:#F9FAFB;font-size:13px;padding:9px 6px}.rct tbody tr:hover td{background:#FAFAFB}
+.chv{border-radius:10px}
+.foot{margin-top:24px}
+@media (min-width:900px){
+ .topin{padding:10px 24px;min-height:70px}.brand img{width:46px;height:46px}.bt b{font-size:21px}
+ .top{padding-inline:0}
+ .wrap{padding:26px 24px 50px}
+ #appView.dk{grid-template-columns:280px minmax(0,1fr);gap:24px}
+ .side{top:94px;gap:12px}
+ .side .tabs{position:static;display:grid;grid-auto-flow:row;border:1px solid var(--line);border-radius:var(--r);padding:8px;box-shadow:var(--sh);backdrop-filter:none;background:#fff}
+ .side .tabs button{flex-direction:row;gap:10px;justify-content:flex-start;padding:11px 12px;font-size:16px;color:#374151}
+ .side .tabs button .en{font-size:15px}
+ .side .tabs button:hover:not(.on){background:#F9FAFB}
+ .side .tabs button.on{background:var(--ps);color:var(--p)}
+ .wrap{padding-bottom:50px}
+ #loginView{margin-top:50px}
+}
+.me .ph{font-size:26px;font-family:"Faruma",sans-serif}
+.datec{padding:12px 14px}.datec>label:first-child{display:none}
+@media (max-width:899px){.me{padding:12px 14px}.card{margin-top:12px}}
+#loginView>*:not(.lhead){width:calc(100% - 44px)}
+#loginView>.or{width:calc(100% - 44px)}
+.me .ph svg{width:24px;height:24px}
+html[lang=en] .rct .nm,html[lang=en] select,html[lang=en] .rcsn b{font-family:"Plus Jakarta Sans","Faruma",sans-serif}
 </style>
 </head>
 <body>
-<div class="top"><img src="/logo.png" alt="" style="border-radius:50%"><h1><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span><small><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></small></h1><button class="btn sm ghost lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span></button><button class="btn sm ghost" id="logout" hidden><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></button></div>
+<div class="top"><div class="topin"><a class="brand" href="/"><img src="/logo-white.png" alt=""><span class="bt"><b class="h"><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span></b><small><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></small></span></a><div class="tact"><button class="tb lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span></button><button class="tb" id="logout" type="button" hidden title="Sign out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="tbl"><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></span></button></div></div></div>
 <div class="wrap">
   <div id="loginView" class="card">
+    <div class="lhead"><img src="/logo-white.png" alt=""><div><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span></small></div></div>
     <h2 class="h" style="margin:0 0 4px;font-size:22px"><span class="dv">ލޮގިން ކުރައްވާ</span><span class="en">Sign in</span></h2>
     <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.8"><span class="dv">ސްކޫލުގެ އީމެއިލް (@kondeyschool.edu.mv) ބޭނުންކުރައްވާ.</span><span class="en">Use your school email.</span></p>
     <button class="btn gbtn" id="gGo" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span><span class="dv">ގޫގުލް އެކައުންޓުން ލޮގިން</span><span class="en">Sign in with Google</span></span></button>
@@ -184,10 +276,10 @@ function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const 
 function render0(){
   const v=$("#appView");
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
-  const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
+  const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`;
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
   if(!C.length&&TAB==="mark")TAB="all";
-  const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}">${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}">${LG("ހާޒިރީ","Attendance")}</button><button type="button" data-tab="report" class="${TAB==="report"?"on":""}">${LG("ރިޕޯޓް ކާޑު","Report cards")}</button></div>`;
+  const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>${LG("ހާޒިރީ","Attendance")}</button><button type="button" data-tab="report" class="${TAB==="report"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>${LG("ރިޕޯޓް ކާޑު","Report cards")}</button></div>`;
   const dateCard=dateBox();
   if(TAB==="report"){v.innerHTML=h+tabs+rcView();if(!RC.me)rcLoad();return;}
   if(TAB==="all"){v.innerHTML=h+tabs+dateCard+overview();return;}
@@ -294,7 +386,7 @@ const hasMarks=(cls,s)=>MARKG.includes(cls)&&MARKSUB.includes(s);
 function rcView(){
   const M=RC.me;if(!M)return `<div class="card empty">...</div>`;if(M.err)return `<div class="card"><div class="msg err">${esc(M.err)}</div></div>`;
   const terms=M.terms||[],T=rcTerm();
-  let h=`<div class="card rch"><div class="rcrow"><label style="margin:0">${LG("ޓާމް","Term")}</label><select id="rcTerm">${terms.map(t=>`<option value="${t.id}"${t.id===RC.term?" selected":""}>${esc(NM(t.name_dv,t.name_en))}${t.is_current?" ★":""}</option>`).join("")}</select></div>${M.admin?`<button class="btn sm ghost" data-rcadmin>${LG("ސެޓިންގްސް","Settings")}</button>`:""}</div>`;
+  let h=`<div class="card rch"><div class="rcrow"><label style="margin:0">${LG("ޓާމް","Term")}</label><select id="rcTerm">${terms.map(t=>`<option value="${t.id}"${t.id===RC.term?" selected":""}>${esc(NM(t.name_dv,t.name_en))}${t.is_current?" ★":""}</option>`).join("")}</select></div>${M.admin?`<button class="btn sm ghost" data-rcadmin><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>${LG("ސެޓިންގްސް","Settings")}</button>`:""}</div>`;
   if(RC.view==="admin")return h+rcAdmin();
   if(!RC.cls){const C=rcMyClasses();
     if(!C.length)return h+`<div class="card empty">${LG("ތިޔަބޭފުޅާއަށް ހަވާލުކުރެވިފައިވާ މާއްދާއެއް ނުވަތަ ކްލާހެއް ނެތް.","You have no classes or subjects assigned.")}</div>`;
