@@ -47,6 +47,23 @@ input:focus{outline:2px solid var(--p);border-color:transparent}
 .pct{font-size:13px;color:var(--muted)}
 .empty{text-align:center;color:var(--muted);padding:16px;line-height:1.8}
 .foot{text-align:center;margin-top:20px}.foot a{color:var(--muted);font-size:14px}
+.setup{background:var(--ps);border-radius:16px;padding:14px;margin:10px 0 14px}.setup b{display:block;color:var(--p);font-size:17px}.setup small{display:block;color:#4B5563;margin:4px 0 10px;line-height:1.7}
+.split3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.split3 div{border-radius:14px;padding:10px;text-align:center;border:1px solid var(--line)}.split3 b{display:block;font-size:26px}.split3 small{color:var(--muted);font-family:"KondeyHeading","Faruma",sans-serif}
+.split3 .p b{color:#16A34A}.split3 .l b{color:#D97706}.split3 .a b{color:#DC2626}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.chip{border:1px solid #BBF7D0;background:#F0FDF4;color:#15803D;border-radius:99px;padding:7px 14px;font-size:15px;cursor:pointer}
+.stl{display:grid;gap:8px}
+.stu{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:16px;padding:8px 10px;background:#fff}
+.stu.a{background:#FEF2F2;border-color:#FECACA}.stu.l{background:#FFFBEB;border-color:#FDE68A}
+.stu .no{width:24px;text-align:center;color:var(--muted);font-size:13px;flex:none}
+.stu .nm{flex:1;min-width:0;font-weight:400;font-size:16px;line-height:1.6}
+.seg{display:flex;gap:4px;flex:none}
+.seg button{border:1px solid var(--line);background:#fff;color:#6B7280;border-radius:10px;padding:6px 9px;font-size:14px;cursor:pointer}
+.seg button.p.on{background:#16A34A;border-color:#16A34A;color:#fff}.seg button.l.on{background:#F59E0B;border-color:#F59E0B;color:#fff}.seg button.a.on{background:#DC2626;border-color:#DC2626;color:#fff}
+textarea.names{width:100%;font-family:"Faruma",sans-serif;font-size:17px;line-height:1.9;padding:12px 14px;border:1px solid var(--line);border-radius:14px;direction:rtl;resize:vertical}
+.row2{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:10px}
+@media (max-width:420px){.seg button{padding:6px 7px;font-size:13px}.stu{padding:8px}}
 </style>
 </head>
 <body>
@@ -102,25 +119,66 @@ function render(){
   h+= pending.length&&school?`<div class="alert"><div><b>ހާޒިރީ ނަގަންޖެހޭ <span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(c.class_dv||c.class_en)).join("، ")} · ${dvDate(DATE)}</small></div></div>`
      : !pending.length?`<div class="alert done"><div><b>ހާޒިރީ ނަގައިފި ✓ <span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
   h+=`<div class="card"><label style="margin-top:0">ތާރީޚު <span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
-  for(const c of C){const m=marked(c,DATE),tot=c.students||0;if(ABS[c.class_en]==null)ABS[c.class_en]=m?+m.absent:0;const a=ABS[c.class_en],p=tot-a,pc=tot?Math.round(p/tot*100):0;
+  for(const c of C){h+=(c.roster>0||EDIT[c.class_en])?rosterCard(c):countCard(c);}
+  v.innerHTML=h;
+  C.filter(c=>c.roster>0&&!ROST[c.class_en+"|"+DATE]&&!LOADING[c.class_en+"|"+DATE]).forEach(loadRoster);
+}
+function countCard(c){const m=marked(c,DATE),tot=c.students||0;if(ABS[c.class_en]==null)ABS[c.class_en]=m?+m.absent:0;const a=ABS[c.class_en],p=tot-a,pc=tot?Math.round(p/tot*100):0;
     const hist=(ME.marked||[]).filter(x=>x.class_en===c.class_en&&x.date!==DATE).sort((x,y)=>y.date.localeCompare(x.date)).slice(0,5);
-    h+=`<div class="card cls"><h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${tot}</b> ދަރިވަރުން</span></h2>
+    return `<div class="card cls"><h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${tot}</b> ދަރިވަރުން</span></h2>
+      <div class="setup"><b class="h">ދަރިވަރުންގެ ލިސްޓް އަދި ނުހަދާ <span class="en">No student list yet</span></b><small>ލިސްޓް ހެއްދެވުމުން ކޮންމެ ދަރިވަރެއްގެ ހާޒިރީ ވަކިވަކިން ނެގޭނެ. <span class="en">Add your students to mark each one by name.</span></small><button class="btn" data-edit="${esc(c.class_en)}">ދަރިވަރުންގެ ލިސްޓް ހައްދަވާ <span class="en" style="color:#fff">Add students</span></button></div>
       ${m?`<span class="status yes">ނަގައިފި ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">އަދި ނުނަގާ <span class="en">Not marked</span></span>`}
       <label>ހާޒިރުނުވާ ދަރިވަރުންގެ އަދަދު <span class="en">Number absent</span></label>
       <div class="stp"><button type="button" data-d="-1" data-c="${esc(c.class_en)}">−</button><div class="v num">${a}</div><button type="button" class="plus" data-d="1" data-c="${esc(c.class_en)}">+</button></div>
       <div class="split"><div class="p"><b class="num">${p}</b><small>ހާޒިރު <span class="en">Present</span></small></div><div class="a"><b class="num">${a}</b><small>ހާޒިރުނުވާ <span class="en">Absent</span></small></div></div>
       <div class="pct" style="text-align:center;margin-bottom:10px">ހާޒިރީ <span class="num" dir="ltr">${pc}%</span></div>
       <button class="btn" data-save="${esc(c.class_en)}">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"} <span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
-      <div class="msg" id="m-${esc(c.class_en).replace(/\s/g,"_")}"></div>
+      <div class="msg" id="m-${mid(c.class_en)}"></div>
       ${hist.length?`<div class="hist">${hist.map(x=>`<div><span>${dvDate(x.date)}</span><span class="num">${x.present}/${(+x.present)+(+x.absent)}</span></div>`).join("")}</div>`:""}
     </div>`;}
-  v.innerHTML=h;
-}
+const mid=k=>String(k).replace(/\W/g,"_");
+let ROST={},MARK={},EDIT={},LOADING={};
+const ST=[["p","ހާޒިރު","Present"],["l","ލަސްވެފައި","Late"],["a","ނެތް","Absent"]];
+async function loadRoster(c){const key=c.class_en+"|"+DATE;LOADING[key]=1;try{const L=await rpc("class_roster",{p_class:c.class_en,p_date:DATE});ROST[key]=L;MARK[key]={};L.forEach(s=>MARK[key][s.id]=s.status||"p");}catch(e){ROST[key]=[];ROST[key].err=e.message;}delete LOADING[key];render();}
+function rosterCard(c){const key=c.class_en+"|"+DATE,m=marked(c,DATE),L=ROST[key],k=esc(c.class_en);
+  const head=`<h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${c.roster||0}</b> ދަރިވަރުން</span></h2>`;
+  if(EDIT[c.class_en]){const cur=(L||[]).map(s=>s.name).join("\n");
+    return `<div class="card cls">${head}<label>ދަރިވަރުންގެ ނަންތައް — ކޮންމެ ނަމެއް ވަކި ލައިނެއްގައި <span class="en">One name per line</span></label>
+      <textarea class="names" id="ed-${mid(c.class_en)}" rows="10" placeholder="އަޙްމަދު ޢަލީ&#10;ފާޠިމަތު ޙަސަން">${esc(cur)}</textarea>
+      <div class="row2"><button class="btn" data-savelist="${k}">ލިސްޓް ރައްކާކުރައްވާ <span class="en" style="color:#fff">Save list</span></button><button class="btn ghost" data-cancel="${k}">ކެންސަލް <span class="en">Cancel</span></button></div>
+      <div class="msg" id="m-${mid(c.class_en)}"></div></div>`;}
+  if(!L)return `<div class="card cls">${head}<div class="empty">...</div></div>`;
+  if(L.err)return `<div class="card cls">${head}<div class="msg err">${esc(L.err)}</div></div>`;
+  const M=MARK[key]||{},cnt={p:0,l:0,a:0};L.forEach(s=>cnt[M[s.id]||"p"]++);const tot=L.length,pres=cnt.p+cnt.l,pc=tot?Math.round(pres/tot*100):0;
+  return `<div class="card cls">${head}
+    ${m?`<span class="status yes">ނަގައިފި ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">އަދި ނުނަގާ <span class="en">Not marked</span></span>`}
+    <div class="split3"><div class="p"><b class="num">${cnt.p}</b><small>ހާޒިރު</small></div><div class="l"><b class="num">${cnt.l}</b><small>ލަސްވެފައި</small></div><div class="a"><b class="num">${cnt.a}</b><small>ނެތް</small></div></div>
+    <div class="tools"><button type="button" class="chip" data-allp="${k}">ހުރިހާ ދަރިވަރުން ހާޒިރު <span class="en">All present</span></button><span class="pct">ހާޒިރީ <span class="num" dir="ltr">${pc}%</span></span></div>
+    <div class="stl">${L.map((s,i)=>{const v=M[s.id]||"p";return `<div class="stu ${v}"><span class="no num">${i+1}</span><b class="nm">${esc(s.name)}</b><div class="seg">${ST.map(([x,dv,en])=>`<button type="button" class="${x}${v===x?" on":""}" data-mk="${k}" data-id="${esc(s.id)}" data-v="${x}" title="${en}">${dv}</button>`).join("")}</div></div>`;}).join("")}</div>
+    <button class="btn" data-savemarks="${k}" style="margin-top:14px">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"} <span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
+    <div class="msg" id="m-${mid(c.class_en)}"></div>
+    <button class="lnk" data-edit="${k}">ދަރިވަރުންގެ ލިސްޓް ބަދަލުކުރައްވާ <span class="en">Edit student list</span></button>
+  </div>`;}
 document.addEventListener("click",async e=>{
   const b=e.target.closest("[data-d]");if(b){const c=(ME.classes||[]).find(x=>x.class_en===b.dataset.c);ABS[c.class_en]=Math.max(0,Math.min(c.students||0,(ABS[c.class_en]||0)+(+b.dataset.d)));render();return;}
-  const s=e.target.closest("[data-save]");if(s){const k=s.dataset.save,m=document.getElementById("m-"+k.replace(/\s/g,"_"));s.disabled=true;m.className="msg";m.textContent="...";
-    try{await rpc("mark_attendance",{p_date:DATE,p_class:k,p_absent:ABS[k]||0});ME=await rpc("staff_me");render();const m2=document.getElementById("m-"+k.replace(/\s/g,"_"));if(m2){m2.className="msg ok";m2.textContent="ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ. (Saved — the website is updated.)";}}
+  const s=e.target.closest("[data-save]");if(s){const k=s.dataset.save,m=document.getElementById("m-"+mid(k));s.disabled=true;m.className="msg";m.textContent="...";
+    try{await rpc("mark_attendance",{p_date:DATE,p_class:k,p_absent:ABS[k]||0});ME=await rpc("staff_me");render();const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent="ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ. (Saved — the website is updated.)";}}
     catch(err){s.disabled=false;m.className="msg err";m.textContent=err.message;}}
+});
+document.addEventListener("click",async e=>{
+  const mk=e.target.closest("[data-mk]");if(mk){const key=mk.dataset.mk+"|"+DATE;(MARK[key]=MARK[key]||{})[mk.dataset.id]=mk.dataset.v;render();return;}
+  const ap=e.target.closest("[data-allp]");if(ap){const key=ap.dataset.allp+"|"+DATE;(ROST[key]||[]).forEach(s=>(MARK[key]=MARK[key]||{})[s.id]="p");render();return;}
+  const ed=e.target.closest("[data-edit]");if(ed){const c=(ME.classes||[]).find(x=>x.class_en===ed.dataset.edit);EDIT[c.class_en]=1;if(c.roster>0&&!ROST[c.class_en+"|"+DATE])await loadRoster(c);render();return;}
+  const cn=e.target.closest("[data-cancel]");if(cn){delete EDIT[cn.dataset.cancel];render();return;}
+  const sl=e.target.closest("[data-savelist]");if(sl){const k=sl.dataset.savelist,msg=document.getElementById("m-"+mid(k)),names=document.getElementById("ed-"+mid(k)).value.split("\n").map(x=>x.trim()).filter(Boolean);
+    const old=(ROST[k+"|"+DATE]||[]).slice(),used=new Set();const list=names.map(n=>{const o=old.find(s=>s.name===n&&!used.has(s.id));if(o){used.add(o.id);return {id:o.id,name:n};}return {name:n};});
+    sl.disabled=true;msg.className="msg";msg.textContent="...";
+    try{await rpc("set_roster",{p_class:k,p_students:list});delete EDIT[k];Object.keys(ROST).filter(x=>x.startsWith(k+"|")).forEach(x=>{delete ROST[x];delete MARK[x];});ME=await rpc("staff_me");render();}
+    catch(err){sl.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
+  const sm=e.target.closest("[data-savemarks]");if(sm){const k=sm.dataset.savemarks,key=k+"|"+DATE,msg=document.getElementById("m-"+mid(k)),M=MARK[key]||{};
+    const marks=(ROST[key]||[]).map(s=>({id:s.id,status:M[s.id]||"p"}));sm.disabled=true;msg.className="msg";msg.textContent="...";
+    try{await rpc("mark_students",{p_date:DATE,p_class:k,p_marks:marks});delete ROST[key];ME=await rpc("staff_me");await loadRoster((ME.classes||[]).find(x=>x.class_en===k));const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent="ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ. (Saved — the website is updated.)";}}
+    catch(err){sm.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
 });
 document.addEventListener("change",e=>{if(e.target.id==="dt"&&e.target.value){DATE=e.target.value;ABS={};render();}});
 if(S)start();
