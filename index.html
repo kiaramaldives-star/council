@@ -940,6 +940,16 @@ html[lang=dv] .fc-brand small,html[lang=dv] .fc-r small,html[lang=dv] .fc-r .v:n
  html[lang=en] .head .br-t small{font-family:"Plus Jakarta Sans",sans-serif;font-size:12px!important}}
 @media (max-width:480px){.head .brand b{font-size:23px!important}.head .br-t small{font-size:13px!important}html[lang=en] .head .brand b{font-size:18px!important}html[lang=en] .head .br-t small{font-size:10.5px!important}}
 @media (max-width:370px){.head .brand b{font-size:20px!important}.head .br-t small{font-size:11.5px!important}html[lang=en] .head .brand b{font-size:16px!important}}
+/* subject teachers compact */
+.stx-w{border-top:1px dashed var(--line);margin-top:12px;padding-top:12px}.stx{margin:0}
+.stx-s{display:flex;align-items:center;gap:12px;cursor:pointer;list-style:none}
+.stx-s::-webkit-details-marker{display:none}
+.stx .cl-av{width:40px;height:40px;margin-inline-start:-12px;font-size:15px}.stx-t{display:block;margin-bottom:8px}.stx .cl-m{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stx .cl-av:first-child{margin-inline-start:0}.stx .cl-more{font-size:14px}
+.stx .cl-m b{font-size:16px}.stx .cl-m small{font-size:14px}
+.stx .cl-go{width:34px;height:34px;transition:transform .2s,background .2s,color .2s}
+.stx[open] .cl-go{transform:rotate(180deg);background:var(--p);color:#fff}
+.stx-s:hover .cl-go{background:var(--p);color:#fff}
+.stx .stcs{margin-top:12px;border-top:0!important;padding-top:0!important}
 </style>
 </head>
 <body>
@@ -1176,7 +1186,8 @@ function subjTeachers(c){const D=String(c.subjteach_dv||"").split("\n").map(x=>x
   const G=[];for(let i=0;i<N;i++){const [sd,td]=sp(D[i]||E[i]),[se,te]=sp(E[i]||D[i]),st=findStaff(td,te),key=st?"s"+STAFF.indexOf(st):(te||td);const g=G.find(x=>x.key===key);if(g){g.sd+="، "+sd;g.se+=", "+se;}else G.push({key,sd,se,td,te,st});}
   for(const {sd,se,td,te,st} of G){const ph=st&&safeUrl(st.photo),nm=st?L2(st,"name"):bi(esc(td),esc(te));
     rows+=`<div class="stc"><span class="stc-ph">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<i class="h">${esc((td||te||"?").charAt(0))}</i>`}</span><div><b class="h">${nm}</b><small>${bi(esc(sd),esc(se))}</small></div></div>`;}
-  return `<div class="stcs"><small class="stcs-h">${bi("މާއްދާތަކުގެ ޓީޗަރުން","Subject teachers")}</small>${rows}</div>`;}
+  const av=G.slice(0,3).map(({td,te,st})=>{const ph=st&&safeUrl(st.photo);return `<span class="cl-av">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((td||te||"?").charAt(0))}</span>`}</span>`;}).join("")+(G.length>3?`<span class="cl-av cl-more">${G.length-3}+</span>`:"");
+  return `<div class="stx-w"><small class="stcs-h stx-t">${bi("މާއްދާތަކުގެ ޓީޗަރުން","Subject teachers")}</small><details class="stx"><summary class="stx-s"><div class="cl-avs">${av}</div><div class="cl-m"><small><span class="num">${G.length}</span></small></div><span class="cl-go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></summary><div class="stcs">${rows}</div></details></div>`;}
 function classTeacher(c){
   if(!c.teacher_dv&&!c.teacher_en)return `<div class="ct-card none">${bi("ކްލާސް ޓީޗަރ ކަނޑައަޅާފައެއް ނުވޭ","Class teacher not set")}</div>`;
   const st=STAFF.find(s=>(c.teacher_en&&s.name_en===c.teacher_en)||(c.teacher_dv&&s.name_dv===c.teacher_dv))||{};
