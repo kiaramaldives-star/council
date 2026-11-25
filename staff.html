@@ -496,9 +496,10 @@ const fieldText=f=>{if(f==="key_comment")return LANG==="en"?"Key competencies co
 function revTag(r,f){const v=(r.rev||{})[f];if(!v)return (r.data[f]?`<div class="rvt pend">${LG("ރިވިއު ކުރަން ބާކީ","Waiting for review")}</div>`:"");
   if(v.status==="approved")return `<div class="rvt ok">✓ ${LG("އެޕްރޫވް ކުރެވިފައި","Approved")} · ${esc(NM(v.by_dv,v.by)||"")}</div>`;
   return `<div class="rvt back"><b>↩ ${LG("އިސްލާހަށް ފޮނުވާލެވިފައި","Sent back for editing")}</b> · ${esc(NM(v.by_dv,v.by)||"")}<p>${esc(v.note||"")}</p></div>`;}
+const clsName=en=>{const c=((RC.me&&RC.me.classes)||[]).find(y=>y.class_en===en);return c?NM(c.class_dv,c.class_en):en;};
 function rcNotice(){const R=RC.ret||[];if(!R.length)return "";
   return `<div class="card rvn"><div class="rvnh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><b class="h">${LG(`އިސްލާހަށް ފޮނުވާލެވިފައިވާ ބަޔާން: <span class="num">${R.length}</span>`,`${R.length} comment${R.length===1?"":"s"} sent back for editing`)}</b></div>
-   <div class="rvnl">${R.map(x=>`<button type="button" class="rvni" data-rcgo="${esc(x.class_en)}|${esc(x.field)}|${esc(x.student_en)}"><span><b>${esc(LANG==="en"?x.student_en:x.student)}</b> · ${esc(x.class_en)} · ${fieldName(x.field)}</span><small>${esc(x.note||"")} — ${esc(NM(x.by_dv,x.by)||"")}</small></button>`).join("")}</div></div>`;}
+   <div class="rvnl">${R.map(x=>`<button type="button" class="rvni" data-rcgo="${esc(x.class_en)}|${esc(x.field)}|${esc(x.student_en)}"><span><b>${esc(LANG==="en"?x.student_en:x.student)}</b> · ${esc(clsName(x.class_en))} · ${fieldName(x.field)}</span><small>${esc(x.note||"")} — ${esc(NM(x.by_dv,x.by)||"")}</small></button>`).join("")}</div></div>`;}
 function rcMyClasses(){const M=RC.me;if(!M||M.err)return[];return M.classes.filter(c=>M.lead||c.teacher||c.subjects.length);}
 async function rcOpen(cls,view){RC.cls=cls;RC.view=view||"";RC.rows=null;RC.stu=0;RC.msg="";render();try{RC.rows=await rpc("rc_class",{p_term:RC.term,p_class:cls});}catch(e){RC.rows={err:e.message};}render();}
 const rcTerm=()=>(RC.me&&RC.me.terms||[]).find(t=>t.id===RC.term)||{};
