@@ -197,6 +197,10 @@ const SECTIONS={
    T("date","ތާރީޚު","Date","date"),T("deadline","ސުންގަޑި (ބޭނުންނަމަ)","Deadline (optional)","date"),
    T("body_dv","ތަފްޞީލް (ދިވެހިން)","Details (Dhivehi)","textarea",{rows:8}),T("body_en","ތަފްޞީލް (އިނގިރޭސިން)","Details (English)","textarea",{rows:6,ltr:1}),
    T("pdf","PDF","PDF","file"),T("id","","","hiddenid")]},
+ downloads:{dv:"ޑައުންލޯޑްސް",en:"Downloads",title:x=>x.title_dv||x.title_en,sub:x=>`${({form:"ފޯމް",report:"ރިޕޯޓް",plan:"ޕްލޭން",policy:"ސިޔާސަތު",budget:"ބަޖެޓް",list:"ލިސްޓް",other:"އެހެނިހެން"})[x.category]||""} · ${x.date||""}`,fields:[
+   T("category","ބާވަތް","Category","select",{opts:[["form","ފޯމް"],["report","ރިޕޯޓް"],["plan","ޕްލޭން"],["policy","ސިޔާސަތު"],["budget","ބަޖެޓް"],["list","ލިސްޓް"],["other","އެހެނިހެން"]]}),
+   T("title_dv","ސުރުޚީ (ދިވެހިން)","Title (Dhivehi)","textarea",{rows:2}),T("title_en","ސުރުޚީ (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
+   T("date","ތާރީޚު","Date","date"),T("file","ފައިލު (PDF, Word, Excel)","File (PDF, Word, Excel)","file"),T("id","","","hiddenid")]},
  staff:{dv:"މުވައްޒަފުން",en:"Staff",title:x=>x.name_dv||x.name_en,img:"photo",sub:x=>({principal:"ޕްރިންސިޕަލް",deputy:"ޑެޕިއުޓީ ޕްރިންސިޕަލް",leading:"ލީޑިންގ ޓީޗަރ",teacher:"ޓީޗަރ",admin:"އިދާރީ މުވައްޒަފު",support:"އެހީތެރި މުވައްޒަފު"})[x.role]||"",fields:[
    T("name_dv","ނަން (ދިވެހިން)","Name (Dhivehi)"),T("name_en","ނަން (އިނގިރޭސިން)","Name (English)","text",{ltr:1}),
    T("role","މަޤާމު","Post","select",{opts:[["teacher","ޓީޗަރ"],["principal","ޕްރިންސިޕަލް"],["deputy","ޑެޕިއުޓީ ޕްރިންސިޕަލް"],["leading","ލީޑިންގ ޓީޗަރ"],["admin","އިދާރީ މުވައްޒަފު"],["support","އެހީތެރި މުވައްޒަފު"]]}),
@@ -381,7 +385,7 @@ function fieldHTML(f,v){
   if(f.type==="number") return `<div class="fld">${lab}<input data-k="${f.k}" type="number" class="ltr" value="${v??""}"></div>`;
   if(f.type==="url") return `<div class="fld">${lab}<input data-k="${f.k}" type="url" class="ltr" value="${esc(v)}" placeholder="https://"></div>`;
   if(f.type==="image") return `<div class="fld">${lab}<div class="imgbox"><img data-prev="${f.k}" src="${esc(v||"")}" alt="" onerror="this.removeAttribute('src')"><input type="file" accept="image/*" data-file="${f.k}" data-img="1"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
-  if(f.type==="file") return `<div class="fld">${lab}<div class="filebox">${v?`<a href="${esc(v)}" target="_blank" data-cur="${f.k}">${esc(decodeURIComponent(v.split("/").pop()))}</a><button type="button" class="btn ghost sm" data-clear="${f.k}">✕</button>`:""}<input type="file" accept="application/pdf,.pdf,.doc,.docx,image/*" data-file="${f.k}"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
+  if(f.type==="file") return `<div class="fld">${lab}<div class="filebox">${v?`<a href="${esc(v)}" target="_blank" data-cur="${f.k}">${esc(decodeURIComponent(v.split("/").pop()))}</a><button type="button" class="btn ghost sm" data-clear="${f.k}">✕</button>`:""}<input type="file" accept="application/pdf,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,image/*" data-file="${f.k}"></div><input data-k="${f.k}" type="hidden" value="${esc(v)}"></div>`;
   return `<div class="fld">${lab}<input data-k="${f.k}" type="text"${ltr} value="${esc(v)}" ${f.ph?`placeholder="${esc(f.ph)}"`:""}></div>`;
 }
 let TAB0=null, PENDG={};
