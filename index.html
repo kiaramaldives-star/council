@@ -1655,7 +1655,6 @@ async function noticeImage(o,btn){
   if(ph)T(ph,W-P,H-48,`600 30px ${LF}`,"#fff","right","ltr");
   const blob=await new Promise(r=>cv.toBlob(r,"image/png"));
   const name=`kondey-${String(o.number||o.id||"notice").replace(/[^\w-]+/g,"-")}.png`, file=new File([blob],name,{type:"image/png"});
-  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title});return;}catch(e){if(e&&e.name==="AbortError")return;}}
   const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
 }
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-nimg]");if(!b)return;const o=NOTICES.find(n=>n.id===b.dataset.nimg);if(!o)return;b.disabled=true;b.classList.add("busy");try{await noticeImage(o,b);}finally{b.disabled=false;b.classList.remove("busy");}});
