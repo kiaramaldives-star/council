@@ -64,6 +64,8 @@ input:focus{outline:2px solid var(--p);border-color:transparent}
 textarea.names{width:100%;font-family:"Faruma",sans-serif;font-size:17px;line-height:1.9;padding:12px 14px;border:1px solid var(--line);border-radius:14px;direction:rtl;resize:vertical}
 .row2{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:10px}
 @media (max-width:420px){.seg button{padding:6px 7px;font-size:13px}.stu{padding:8px}}
+.gbtn{background:#fff;color:#1F2937;border:1px solid var(--line);margin-top:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}.gbtn .en{color:#6B7280}
+.or{display:flex;align-items:center;gap:10px;margin:16px 0 2px;color:var(--muted);font-size:13px}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
 </style>
 </head>
 <body>
@@ -72,6 +74,8 @@ textarea.names{width:100%;font-family:"Faruma",sans-serif;font-size:17px;line-he
   <div id="loginView" class="card">
     <h2 class="h" style="margin:0 0 4px;font-size:22px">ލޮގިން ކުރައްވާ <span class="en">Sign in</span></h2>
     <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.8">ސްކޫލުގެ އީމެއިލް (@kondeyschool.edu.mv) ބޭނުންކުރައްވާ. <span class="en">Use your school email.</span></p>
+    <button class="btn gbtn" id="gGo" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>ގޫގުލް އެކައުންޓުން ލޮގިން <span class="en">Sign in with Google</span></span></button>
+    <div class="or"><span>ނުވަތަ <span class="en">or</span></span></div>
     <label>އީމެއިލް <span class="en">Email</span></label><input id="lEmail" type="email" autocomplete="username" inputmode="email">
     <label>ޕާސްވޯޑް <span class="en">Password</span></label><input id="lPass" type="password" autocomplete="current-password">
     <div style="margin-top:14px"><button class="btn" id="lGo">ލޮގިން <span class="en" style="color:#fff">Sign in</span></button></div>
@@ -111,7 +115,7 @@ async function start(){
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){
   const v=$("#appView");
-  if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br>މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.<br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span></div>`;return;}
+  if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br>މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.<br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()">އެހެން އެކައުންޓަކުން ލޮގިން <span class="en">Use another account</span></button></div>`;return;}
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small>މަރުޙަބާ <span class="en">Welcome</span></small><b class="h">${esc(s.name_dv||s.name_en)}</b><small>${esc(s.title_dv||s.title_en||"")}</small></div></div>`;
   if(!C.length){v.innerHTML=h+`<div class="card empty">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން. <span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ <span class="en">View school attendance</span></a></div>`;return;}
@@ -181,6 +185,10 @@ document.addEventListener("click",async e=>{
     catch(err){sm.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
 });
 document.addEventListener("change",e=>{if(e.target.id==="dt"&&e.target.value){DATE=e.target.value;ABS={};render();}});
+$("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(r)}&hd=kondeyschool.edu.mv&prompt=select_account`;};
+{const h=new URLSearchParams(location.hash.slice(1)),q=new URLSearchParams(location.search);
+ if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});history.replaceState(null,"",location.pathname);}
+ else if(h.get("error")||q.get("error")){const m=$("#lMsg");m.className="msg err";m.textContent=decodeURIComponent((h.get("error_description")||q.get("error_description")||h.get("error")||q.get("error")).replace(/\+/g," "));history.replaceState(null,"",location.pathname);}}
 if(S)start();
 </script>
 </body>
