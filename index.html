@@ -950,6 +950,10 @@ html[lang=dv] .fc-brand small,html[lang=dv] .fc-r small,html[lang=dv] .fc-r .v:n
 .stx[open] .cl-go{transform:rotate(180deg);background:var(--p);color:#fff}
 .stx-s:hover .cl-go{background:var(--p);color:#fff}
 .stx .stcs{margin-top:12px;border-top:0!important;padding-top:0!important}
+.nimg-b{display:inline-flex;align-items:center;gap:10px;margin-top:20px;border:0;border-radius:99px;background:var(--p);color:#fff;padding:12px 22px;font-size:16px;cursor:pointer;box-shadow:0 10px 22px rgba(200,16,46,.22);transition:transform .2s,opacity .2s}
+.nimg-b:hover{transform:translateY(-2px)}.nimg-b.busy{opacity:.6;cursor:wait}
+html[lang=dv] .nimg-b .h{font-family:"KondeyHeading","Faruma",sans-serif}
+html[lang=en] .nimg-b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:14px}
 </style>
 </head>
 <body>
@@ -1597,6 +1601,64 @@ function pubPage(k){if(PF.k!==k)PF={k,type:"all",st:"all",yr:"all",q:""};
 function pubRefresh(){const el=document.getElementById("pubList");if(!el)return;el.innerHTML=pubBody(PF.k);reveal();fszFill();}
 document.addEventListener("change",e=>{const s=e.target.closest("select[data-pf]");if(s){PF[s.dataset.pf]=s.value;pubRefresh();}});
 document.addEventListener("input",e=>{const s=e.target.closest("input[data-pf]");if(s){PF.q=s.value;clearTimeout(pubRefresh.t);pubRefresh.t=setTimeout(pubRefresh,180);}});
+/* ---------- notice → shareable image ---------- */
+const tDate=(d,en)=>{if(!d)return"";const [y,m,dd]=String(d).split("-").map(Number);if(!m)return String(d);return en?`${dd} ${EN_MONTHS[m-1]} ${y}`:`${dd} ${DV_MONTHS[m-1]} ${y}`;};
+function cvWrap(ctx,text,maxW){const out=[];String(text||"").split(/\n+/).forEach(par=>{const w=par.trim().split(/\s+/).filter(Boolean);let line="";w.forEach(x=>{const t=line?line+" "+x:x;if(ctx.measureText(t).width>maxW&&line){out.push(line);line=x;}else line=t;});if(line)out.push(line);out.push(null);});if(out[out.length-1]===null)out.pop();return out;}
+function cvRound(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+async function noticeImage(o,btn){
+  const en=document.documentElement.lang==="en", rtl=!en, W=1080, P=70, IW=W-2*P, RED="#C8102E", DARK="#7A0A1C";
+  const HF='"KondeyHeading","Faruma",sans-serif', BF=en?'"Plus Jakarta Sans",Arial,sans-serif':'"Faruma",sans-serif', LF='"Plus Jakarta Sans",Arial,sans-serif';
+  try{await Promise.all([document.fonts.load('40px KondeyHeading'),document.fonts.load('30px Faruma'),document.fonts.load('600 30px "Plus Jakarta Sans"')]);}catch(_){}
+  const logo=await new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src="/logo-white.png";});
+  const title=en?(o.title_en||o.title_dv):(o.title_dv||o.title_en), body=en?(o.body_en||o.body_dv):(o.body_dv||o.body_en);
+  const cv=document.createElement("canvas"), ctx=cv.getContext("2d");
+  const typ=o.type==="student"?(en?"Notice for students":"ދަރިވަރުންނަށް"):o.type==="tender"?(en?"Procurement":"ބީލަން"):o.type==="vacancy"?(en?"Job":"ވަޒީފާ"):(en?"Notice":"އިޢުލާން");
+  const boxes=[];
+  if(o.number)boxes.push([en?"Number":"ނަންބަރު",o.number,1]);
+  boxes.push([en?"Published":"ޝާއިޢުކުރި ތާރީޚު",tDate(o.date,en)]);
+  if(o.deadline){const tm=String(o.deadline_time||"").trim();boxes.push([en?"Deadline":"ސުންގަޑި",tDate(o.deadline,en)+(tm?(en?`, before ${tm}`:`، ${tm} ގެ ކުރިން`):"")]);}
+  const TF=en?`800 50px ${LF}`:`56px ${HF}`;ctx.font=TF;const TL=cvWrap(ctx,title,IW);ctx.font=`34px ${BF}`;const BL=cvWrap(ctx,body,IW-60);
+  const HH=250, titleH=TL.length*(en?70:92), boxH=boxes.length*(118+16), bodyH=BL.length?BL.reduce((h,l)=>h+(l===null?26:66),0)+80:0;
+  const H=HH+60+70+titleH+30+boxH+20+bodyH+60+150;
+  const S=2;cv.width=W*S;cv.height=H*S;ctx.scale(S,S);
+  const T=(txt,x,y,font,col,align,dir)=>{ctx.font=font;ctx.fillStyle=col;ctx.textAlign=align;ctx.direction=dir||(rtl?"rtl":"ltr");ctx.fillText(txt,x,y);};
+  const SX=rtl?W-P:P, AL=rtl?"right":"left";
+  ctx.fillStyle="#FBF7F8";ctx.fillRect(0,0,W,H);
+  // header
+  const g=ctx.createLinearGradient(0,0,W,HH);g.addColorStop(0,RED);g.addColorStop(1,"#8E0B21");ctx.fillStyle=g;ctx.fillRect(0,0,W,HH);
+  ctx.fillStyle="rgba(255,255,255,.07)";ctx.beginPath();ctx.arc(rtl?60:W-60,-40,200,0,7);ctx.fill();
+  const LS=130,lx=rtl?W-P-LS:P;if(logo)ctx.drawImage(logo,lx,(HH-LS)/2,LS,LS);
+  const nx=rtl?lx-30:lx+LS+30;
+  T(en?(INFO.name_en||"Kondey School"):(INFO.name_dv||"ކޮނޑޭ ސްކޫލް"),nx,HH/2+8,`${en?"800 54px "+LF:"64px "+HF}`,"#fff",AL);
+  T(en?"GA. Kondey, Maldives":"ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ",nx,HH/2+62,`${en?"500 28px "+LF:"30px "+HF}`,"rgba(255,255,255,.85)",AL);
+  let y=HH+60;
+  // chip
+  ctx.font=`30px ${en?"700 26px "+LF:HF}`;ctx.font=en?`700 26px ${LF}`:`30px ${HF}`;const cw=ctx.measureText(typ).width+56;const cx=rtl?W-P-cw:P;
+  ctx.fillStyle="#fff";cvRound(ctx,cx,y,cw,58,18);ctx.fill();ctx.lineWidth=3;ctx.strokeStyle="#E7A6B1";ctx.stroke();
+  T(typ,rtl?cx+cw-28:cx+28,y+40,ctx.font,DARK,AL);
+  y+=70+58;
+  TL.forEach(l=>{T(l,SX,y,TF,DARK,AL);y+=en?70:92;});
+  y+=30-60;
+  boxes.forEach(([lab,val,ltr])=>{y+=16;ctx.fillStyle="#F6EEF0";cvRound(ctx,P,y,IW,118,26);ctx.fill();
+    T(lab,rtl?W-P-32:P+32,y+44,en?`700 22px ${LF}`:`26px ${HF}`,"rgba(122,10,28,.65)",AL);
+    if(ltr)T(val,rtl?W-P-32:P+32,y+92,`500 36px ${LF}`,DARK,AL,"ltr");else T(val,rtl?W-P-32:P+32,y+92,`500 36px ${en?LF:LF+","+HF}`,DARK,AL);
+    y+=118;});
+  y+=20;
+  if(BL.length){y+=24;const bh=bodyH-24;ctx.fillStyle="#fff";cvRound(ctx,P,y,IW,bh,28);ctx.fill();ctx.lineWidth=3;ctx.strokeStyle="#EFE3E6";ctx.stroke();
+    ctx.fillStyle=RED;ctx.fillRect(rtl?W-P-6:P,y+30,6,bh-60);
+    let by=y+70;BL.forEach(l=>{if(l===null){by+=26;return;}T(l,rtl?W-P-30:P+30,by,`34px ${BF}`,"#1F2937",AL);by+=66;});y+=bh;}
+  y+=60;
+  // footer
+  ctx.fillStyle="#111";ctx.fillRect(0,H-120,W,120);
+  const site="www.kondeyschool.edu.mv", ph=INFO.phone?("☎ "+INFO.phone):"";
+  T(site,P,H-48,`600 30px ${LF}`,"#fff","left","ltr");
+  if(ph)T(ph,W-P,H-48,`600 30px ${LF}`,"#fff","right","ltr");
+  const blob=await new Promise(r=>cv.toBlob(r,"image/png"));
+  const name=`kondey-${String(o.number||o.id||"notice").replace(/[^\w-]+/g,"-")}.png`, file=new File([blob],name,{type:"image/png"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title});return;}catch(e){if(e&&e.name==="AbortError")return;}}
+  const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
+}
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-nimg]");if(!b)return;const o=NOTICES.find(n=>n.id===b.dataset.nimg);if(!o)return;b.disabled=true;b.classList.add("busy");try{await noticeImage(o,b);}finally{b.disabled=false;b.classList.remove("busy");}});
 function artDetail(o,c){
   const pdf=safeUrl(o.pdf),im=safeUrl(o.img),ph=(o.photos||[]).map(safeUrl).filter(Boolean),bx=[];
   if(c.notice){
@@ -1612,6 +1674,7 @@ function artDetail(o,c){
       ${im?`<div class="cover"><img src="${esc(im)}" alt=""></div>`:""}
       ${body||o.body_en?`<div class="body pd-body">${bi(body,paras(o.body_en||o.body_dv))}</div>`:""}
       ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
+      ${c.back==="snotices"?`<button type="button" class="nimg-b" data-nimg="${esc(o.id)}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg><span class="h">${bi("މި އިޢުލާނު ފޮޓޯއެއްގެ ގޮތުގައި ޑައުންލޯޑުކުރައްވާ","Download this notice as an image")}</span></button>`:""}
       ${safeUrl(o.source)?`<a class="more" style="display:inline-block;margin-top:14px" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}
     </article><aside class="pd-side">
     ${(()=>{const F=[];if(pdf)F.push([o.pdf_name_dv||o.title_dv||o.title_en,o.pdf_name_en||o.title_en||o.title_dv,pdf]);for(let i=1;i<=5;i++){const u=safeUrl(o["doc"+i]);if(u)F.push([o["doc"+i+"_dv"]||o["doc"+i+"_en"]||decodeURIComponent(u.split("/").pop()),o["doc"+i+"_en"]||o["doc"+i+"_dv"]||decodeURIComponent(u.split("/").pop()),u]);}
