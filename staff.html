@@ -328,6 +328,11 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 .pm.x{color:#DC2626;background:#FEF2F2}.pm.o{color:#D97706;background:#FFFBEB}.pm.r{color:#DC2626;background:#FEE2E2}.pm.g{color:#15803D;background:#DCFCE7}
 .pmk{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;font-size:13px;color:var(--muted);font-family:"KondeyHeading","Faruma",sans-serif}.pmk span{display:flex;align-items:center;gap:6px}.pmk .pm{width:20px;height:20px;font-size:13px}
 html[lang=en] .pmk{font-family:"Plus Jakarta Sans",sans-serif}
+.auf{display:flex;gap:8px}.auf input{flex:1;direction:rtl;text-align:start;font-family:"Faruma","Plus Jakarta Sans",sans-serif}html[lang=en] .auf input{direction:ltr}
+.aul{display:grid;gap:8px;margin-top:12px}.aui{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff}
+.auh{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}.aua{font-size:12.5px;border-radius:6px;padding:1px 8px;background:#F3F4F6;color:#374151}.aua.ed{background:#EFF6FF;color:#1D4ED8}.aua.ok{background:#DCFCE7;color:#166534}.aua.bk{background:#FEE2E2;color:#B91C1C}
+.aut{font-size:12.5px;color:var(--muted)}.aus{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400}.auw{margin-inline-start:auto;font-size:13px;color:var(--muted)}
+.aud{margin-top:6px;display:grid;gap:3px;font-size:13.5px}.aud div{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}.aud b{font-weight:600;color:#374151}.aud i{font-style:normal;color:var(--muted)}.aud span{color:#4B5563;unicode-bidi:plaintext}
 </style>
 </head>
 <body>
@@ -614,7 +619,25 @@ function rcAdmin(){const M=RC.me,T=rcTerm(),S=RC.staff||[],CL=M.classes;
    <p class="pct" style="margin:0 0 10px">${LG("މެއިން ރަޖިސްޓަރީ (އެކްސެލް) އަޕްލޯޑްކުރުމުން ދަރިވަރުންގެ މަޢުލޫމާތާއި، 'Report Card' ޝީޓުގައިވާ މަޢުލޫމާތު މި ޓާމަށް އިމްޕޯޓްވާނެ.","Upload the report card Excel file: students come from 'Student (Main Registry)' and any filled-in 'Report Card' rows go into this term.")}</p>
    <label class="btn ghost" style="cursor:pointer">${LG("އެކްސެލް ފައިލް އަޕްލޯޑް","Import from Excel")}<input type="file" id="rcXlsx" accept=".xlsx,.xls" hidden></label><div class="msg" id="rcIMsg"></div>
    ${RC.reg?`<div class="rctw" style="margin-top:12px"><table class="rct"><thead><tr><th>#</th><th>${LG("ނަން","Name")}</th><th>${LG("ގްރޭޑް","Grade")}</th><th>ID</th><th></th></tr></thead><tbody>${RC.reg.map(s=>`<tr class="${s.active?"":"off"}"><td class="num">${esc(s.index_no||"")}</td><td class="nm">${esc(NM(s.name_dv,s.name_en))}</td><td>${esc(s.grade||"")}</td><td class="num">${esc(s.id_no||"")}</td><td><button class="btn sm ghost" data-rcedit="${s.id}">${LG("ބަދަލު","Edit")}</button></td></tr>`).join("")}</tbody></table></div><button class="btn ghost" style="margin-top:10px" data-rcedit="">${LG("+ ދަރިވަރަކު އިތުރުކުރައްވާ","+ Add student")}</button>`:`<button class="btn ghost" style="margin-top:10px" data-rcreg>${LG("ރަޖިސްޓަރީ ބައްލަވާ","Show registry")}</button>`}
-   <div id="rcEd"></div></div>`;}
+   <div id="rcEd"></div></div>${rcAuditCard()}`;}
+
+const AUA={insert:["ފުރިއްޖެ","Filled in","ed"],update:["ބަދަލުކުރި","Edited","ed"],approved:["އެޕްރޫވްކުރި","Approved","ok"],returned:["އިސްލާހަށް ފޮނުވި","Sent back","bk"],review_cleared:["ރިވިއު ބާޠިލުކުރި","Review cleared","cl"],delete:["ފޮހެލި","Deleted","bk"]};
+const AUT={entries:["ރިޕޯޓް ކާޑު","Report card"],reviews:["އަދާހަމަ","Review"],students:["ރަޖިސްޓަރީ","Registry"],terms:["ޓާމް","Term"],assign:["މާއްދާ ޓީޗަރު","Subject teacher"]};
+function auKey(k){const m=k.match(/^([a-z]+)_(comment|marks|fa|ma|a)$/);if(m&&RSUB.some(x=>x[0]===m[1]))return fieldText(m[1]+"_comment").replace(/ ?(comment|ބަޔާން)$/,"")+" · "+({comment:LANG==="en"?"comment":"ބަޔާން",marks:LANG==="en"?"marks":"މާކްސް",fa:"FA",ma:"MA",a:"A"}[m[2]]);
+  if(k==="key_comment"||k==="general_comment")return fieldText(k);const a=ATT.find(x=>x[0]===k);if(a)return LANG==="en"?a[2]:a[1];const c=COND.find(x=>x[0]===k);if(c)return LANG==="en"?c[1]:c[2];const p=COMP.find(x=>x[0]===k);if(p)return p[1]+" · "+p[2];return k;}
+const auV=v=>{if(v==null||v==="")return "—";const t=String(v);return esc(t.length>90?t.slice(0,90)+"…":t);};
+function auTime(t){const d=new Date(new Date(t).getTime()+(5*60+new Date().getTimezoneOffset())*60000);return `<span class="num" dir="ltr">${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}</span>`;}
+function auDetail(x){const d=x.details||{};
+  if(x.tbl==="entries"){const ks=Object.keys(d);return `<div class="aud">${ks.slice(0,6).map(k=>`<div><b>${esc(auKey(k))}</b><span dir="auto">${auV(d[k][0])}</span><i>${LANG==="en"?"→":"←"}</i><span dir="auto">${auV(d[k][1])}</span></div>`).join("")}${ks.length>6?`<div class="pct">+${ks.length-6} ${LG("އިތުރު","more")}</div>`:""}</div>`;}
+  if(x.tbl==="reviews")return `<div class="aud"><div><b>${esc(fieldText(d.field||""))}</b>${d.note?`<span dir="auto">${esc(d.note)}</span>`:""}</div></div>`;
+  if(x.tbl==="assign")return `<div class="aud"><div><b>${esc(clsName(d.class||""))} · ${esc(fieldText((d.subject||"")+"_comment"))}</b><span>${esc(d.was||"—")}</span><i>${LANG==="en"?"→":"←"}</i><span>${esc(d.teacher||"—")}</span></div></div>`;
+  return `<div class="aud"><div><span>${esc(d.name||"")}${d.grade?" · "+esc(d.grade):""}</span></div></div>`;}
+function rcAuditCard(){const A=RC.audit;
+  return `<div class="card"><h3 class="h" style="margin:0 0 6px">${LG("އޮޑިޓް ލޮގް","Audit log")}</h3><p class="pct" style="margin:0 0 10px">${LG("ރިޕޯޓް ކާޑަށް ގެނެވޭ ކޮންމެ ބަދަލެއް، ކާކު، ކޮންއިރަކު ކުރި ކަމެއްކަން.","Every change to report cards: who did it, when, and what changed.")}</p>
+   <div class="auf"><input id="auQ" dir="auto" placeholder="${LANG==="en"?"Search staff, student or class":"މުވައްޒަފު، ދަރިވަރު ނުވަތަ ކްލާސް ހޯއްދަވާ"}" value="${esc(RC.auq||"")}"><button class="btn sm" data-auload>${LG("ބައްލަވާ","Show")}</button></div>
+   ${A?(A.err?`<div class="msg err">${esc(A.err)}</div>`:!A.length?`<div class="empty">${LG("އެއްވެސް ލޮގެއް ނެތް","No entries")}</div>`:`<div class="aul">${A.map(x=>{const ac=AUA[x.action]||[x.action,x.action,""],tb=AUT[x.tbl]||[x.tbl,x.tbl];return `<div class="aui"><div class="auh"><span class="aua ${ac[2]}">${LG(ac[0],ac[1])}</span><span class="aut">${LG(tb[0],tb[1])}</span>${x.student_en?`<b class="aus">${esc(NM(x.student_dv,x.student_en))}</b><span class="pct">${esc(clsName(x.class_en||""))}</span>`:""}<span class="auw">${esc(NM(x.actor_dv,x.actor_name)||"")} · ${auTime(x.at)}</span></div>${auDetail(x)}</div>`;}).join("")}</div>
+   ${A.length&&A.length%100===0?`<button class="btn ghost sm" style="margin-top:10px" data-aumore="${A[A.length-1].id}">${LG("އިތުރަށް","Load more")}</button>`:""}`):""}</div>`;}
+async function rcAudit(more){try{const r=await rpc("rc_audit_list",{p_before:more||null,p_limit:100,p_q:RC.auq||null});RC.audit=more?[...(RC.audit||[]),...r]:r;}catch(e){RC.audit={err:e.message};}render();}
 const REGF=[["index_no","Index no"],["id_no","ID card no"],["name_en","Name (English)"],["name_dv","ނަން (ދިވެހި)"],["grade","Grade (e.g. Grade 2)"],["section","Class (A, B…)"],["sex_en","Sex (Boy/Girl)"],["sex_dv","ޖިންސު"],["dob","Date of birth","date"],["address_en","Address (English)"],["address_dv","އެޑްރެސް (ދިވެހި)"],["island_en","Island (English)"],["island_dv","ރަށް (ދިވެހި)"],["guardian_en","Guardian (English)"],["guardian_dv","ބެލެނިވެރިޔާ (ދިވެހި)"],["guardian_phone","Guardian phone"],["phone","Phone"],["email","Student email"]];
 function rcEditForm(id){const s=(RC.reg||[]).find(x=>x.id===id)||{active:true};
   $("#rcEd").innerHTML=`<div class="rced"><h4 class="h">${id?LG("ދަރިވަރުގެ މަޢުލޫމާތު","Edit student"):LG("އާ ދަރިވަރެއް","New student")}</h4><div class="rcg">${REGF.map(([k,l,t])=>`<label>${l}<input type="${t||"text"}" dir="auto" data-r="${k}" value="${esc(s[k]??"")}"></label>`).join("")}</div>
@@ -710,6 +733,8 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.view="class";RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
+  if(t.closest("[data-auload]")){RC.auq=($("#auQ")||{}).value||"";rcAudit();return;}
+  if(b=t.closest("[data-aumore]")){rcAudit(+b.dataset.aumore);return;}
   if(t.closest("[data-rcadmin]")){RC.view="admin";RC.cls="";await rcStaff();render();return;}
   if(t.closest("[data-rcreg]")){try{RC.reg=await rpc("rc_registry");}catch(er){alert(er.message);}render();return;}
   if(b=t.closest("[data-rcedit]")){rcEditForm(b.dataset.rcedit);return;}
