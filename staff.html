@@ -494,11 +494,11 @@ async function rcRet(){if(!RC.term)return;try{RC.ret=await rpc("rc_returned",{p_
 const fieldName=f=>f==="key_comment"?LG("މައިގަނޑު ޤާބިލިއްޔަތުގެ ބަޔާން","Key competencies comment"):f==="general_comment"?LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","Class teacher's comment"):subName(f.replace("_comment",""));
 const fieldText=f=>{if(f==="key_comment")return LANG==="en"?"Key competencies comment":"މައިގަނޑު ޤާބިލިއްޔަތުގެ ބަޔާން";if(f==="general_comment")return LANG==="en"?"Class teacher's comment":"ކްލާސް ޓީޗަރުގެ ބަޔާން";const x=RSUB.find(y=>y[0]+"_comment"===f);return x?(LANG==="en"?x[2]:x[1]):f;};
 function revTag(r,f){const v=(r.rev||{})[f];if(!v)return (r.data[f]?`<div class="rvt pend">${LG("ރިވިއު ކުރަން ބާކީ","Waiting for review")}</div>`:"");
-  if(v.status==="approved")return `<div class="rvt ok">✓ ${LG("އެޕްރޫވް ކުރެވިފައި","Approved")} · ${esc(v.by||"")}</div>`;
-  return `<div class="rvt back"><b>↩ ${LG("އިސްލާހަށް ފޮނުވާލެވިފައި","Sent back for editing")}</b> · ${esc(v.by||"")}<p>${esc(v.note||"")}</p></div>`;}
+  if(v.status==="approved")return `<div class="rvt ok">✓ ${LG("އެޕްރޫވް ކުރެވިފައި","Approved")} · ${esc(NM(v.by_dv,v.by)||"")}</div>`;
+  return `<div class="rvt back"><b>↩ ${LG("އިސްލާހަށް ފޮނުވާލެވިފައި","Sent back for editing")}</b> · ${esc(NM(v.by_dv,v.by)||"")}<p>${esc(v.note||"")}</p></div>`;}
 function rcNotice(){const R=RC.ret||[];if(!R.length)return "";
   return `<div class="card rvn"><div class="rvnh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><b class="h">${LG(`އިސްލާހަށް ފޮނުވާލެވިފައިވާ ބަޔާން: <span class="num">${R.length}</span>`,`${R.length} comment${R.length===1?"":"s"} sent back for editing`)}</b></div>
-   <div class="rvnl">${R.map(x=>`<button type="button" class="rvni" data-rcgo="${esc(x.class_en)}|${esc(x.field)}|${esc(x.student_en)}"><span><b>${esc(LANG==="en"?x.student_en:x.student)}</b> · ${esc(x.class_en)} · ${fieldName(x.field)}</span><small>${esc(x.note||"")} — ${esc(x.by||"")}</small></button>`).join("")}</div></div>`;}
+   <div class="rvnl">${R.map(x=>`<button type="button" class="rvni" data-rcgo="${esc(x.class_en)}|${esc(x.field)}|${esc(x.student_en)}"><span><b>${esc(LANG==="en"?x.student_en:x.student)}</b> · ${esc(x.class_en)} · ${fieldName(x.field)}</span><small>${esc(x.note||"")} — ${esc(NM(x.by_dv,x.by)||"")}</small></button>`).join("")}</div></div>`;}
 function rcMyClasses(){const M=RC.me;if(!M||M.err)return[];return M.classes.filter(c=>M.lead||c.teacher||c.subjects.length);}
 async function rcOpen(cls,view){RC.cls=cls;RC.view=view||"";RC.rows=null;RC.stu=0;RC.msg="";render();try{RC.rows=await rpc("rc_class",{p_term:RC.term,p_class:cls});}catch(e){RC.rows={err:e.message};}render();}
 const rcTerm=()=>(RC.me&&RC.me.terms||[]).find(t=>t.id===RC.term)||{};
@@ -576,7 +576,7 @@ function rcReview(L){const all=rvItems(L),st=RC.rs||"pending",ff=RC.rf||"";
       :`<div class="rvbtns">${v&&v.status==="approved"?"":`<button class="btn sm okb" data-rvok="${key}">✓ ${LG("އެޕްރޫވް","Approve")}</button>`}${v&&v.status==="returned"?"":`<button class="btn sm ghost backb" data-rvback="${key}">↩ ${LG("އިސްލާހަށް ފޮނުވާ","Send back")}</button>`}${v?`<button class="btn sm ghost" data-rvundo="${key}">${LG("ބާޠިލު","Undo")}</button>`:""}</div>`}
      <div class="msg" id="rvm-${mid(key)}"></div></div>`;}).join("")}</div></div>`;}
 async function rcRev(key,status,note){const [sid,f]=key.split("|"),r=RC.rows.find(x=>x.id===sid);
-  try{const v=await rpc("rc_review",{p_term:RC.term,p_student:sid,p_field:f,p_status:status,p_note:note||null});r.rev=r.rev||{};if(v)r.rev[f]={status:v.status,note:v.note,by:v.reviewed_by,at:v.reviewed_at};else delete r.rev[f];RC.rvNote="";await rcRet();render();}
+  try{const v=await rpc("rc_review",{p_term:RC.term,p_student:sid,p_field:f,p_status:status,p_note:note||null});r.rev=r.rev||{};if(v)r.rev[f]={status:v.status,note:v.note,by:v.reviewed_by,by_dv:v.by_dv,at:v.reviewed_at};else delete r.rev[f];RC.rvNote="";await rcRet();render();}
   catch(e){const m=document.getElementById("rvm-"+mid(key));if(m){m.className="msg err";m.textContent=e.message;}}}
 async function rcSave(btn){const msg=$("#rcMsg");btn.disabled=true;msg.className="msg";msg.textContent="...";let n=0;
   try{for(const box of document.querySelectorAll(".rcs[data-sid]")){const r=RC.rows.find(x=>x.id===box.dataset.sid),p={};
