@@ -324,6 +324,10 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 .chp.c-developing.on{background:#F59E0B;border-color:#F59E0B}
 .chp.c-needs-improvement.on,.chp.c-need-support.on{background:#DC2626;border-color:#DC2626}
 .chp:not(.on):hover{border-color:#9CA3AF}
+.pm{font-style:normal;font-weight:800;font-size:16px;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px}
+.pm.x{color:#DC2626;background:#FEF2F2}.pm.o{color:#D97706;background:#FFFBEB}.pm.r{color:#DC2626;background:#FEE2E2}.pm.g{color:#15803D;background:#DCFCE7}
+.pmk{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;font-size:13px;color:var(--muted);font-family:"KondeyHeading","Faruma",sans-serif}.pmk span{display:flex;align-items:center;gap:6px}.pmk .pm{width:20px;height:20px;font-size:13px}
+html[lang=en] .pmk{font-family:"Plus Jakarta Sans",sans-serif}
 </style>
 </head>
 <body>
@@ -529,10 +533,13 @@ function rcView(){
   if(RC.view.startsWith("s:"))return h+rcSubject(RC.view.slice(2),L);
   if(RC.view==="class")return h+rcClassForm(L);
   return h+rcProgress(L,subs,c);}
+function pmark(r,fs,filled){if(!filled)return `<i class="pm x" title="${LANG==="en"?"Not filled":"ނުފުރާ"}">✗</i>`;const st=fs.map(f=>((r.rev||{})[f]||{}).status);
+  if(st.includes("returned"))return `<i class="pm r" title="${LANG==="en"?"Sent back":"އިސްލާހަށް"}">✓</i>`;if(st.every(x=>x==="approved"))return `<i class="pm g" title="${LANG==="en"?"Approved":"އެޕްރޫވްކުރި"}">✓</i>`;return `<i class="pm o" title="${LANG==="en"?"Waiting for approval":"އެޕްރޫވަލަށް"}">✓</i>`;}
 function rcProgress(L,subs,c){const M=RC.me,canPrint=M.lead||c.teacher,all=RSUB.filter(s=>subs.includes(s[0])||M.lead||c.teacher).map(s=>s[0]);
   const shown=all.filter(s=>L.some(r=>r.data[s+"_comment"]||r.data[s+"_fa"])||subs.includes(s));
   return `<div class="card"><h3 class="h" style="margin:0 0 10px">${LG("ފުރިފައިވާ މިންވަރު","What's been filled in")}</h3><div class="rctw"><table class="rct"><thead><tr><th>${LG("ދަރިވަރު","Student")}</th>${shown.map(s=>`<th>${subName(s)}</th>`).join("")}<th>${LG("ކްލާސް","Class")}</th>${canPrint?"<th></th>":""}</tr></thead><tbody>
-    ${L.map(r=>{const d=r.data,cf=["att_days","general_comment","cd_rules"].every(k=>d[k]);return `<tr><td class="nm">${esc(NM(r.name_dv,r.name_en))}</td>${shown.map(s=>`<td>${d[s+"_comment"]?"<i class=ok>✓</i>":"<i class=no>–</i>"}</td>`).join("")}<td>${cf?"<i class=ok>✓</i>":"<i class=no>–</i>"}</td>${canPrint?`<td><button class="btn sm ghost" data-rcprint="${r.id}">${LG("ބައްލަވާ","View")}</button></td>`:""}</tr>`;}).join("")}</tbody></table></div>
+    ${L.map(r=>{const d=r.data,cf=["att_days","general_comment","cd_rules"].every(k=>d[k]);return `<tr><td class="nm">${esc(NM(r.name_dv,r.name_en))}</td>${shown.map(s=>`<td>${pmark(r,[s+"_comment"],!!d[s+"_comment"])}</td>`).join("")}<td>${pmark(r,["key_comment","general_comment"],cf)}</td>${canPrint?`<td><button class="btn sm ghost" data-rcprint="${r.id}">${LG("ބައްލަވާ","View")}</button></td>`:""}</tr>`;}).join("")}</tbody></table></div>
+    <div class="pmk"><span><i class="pm x">✗</i>${LG("ނުފުރާ","Not filled")}</span><span><i class="pm o">✓</i>${LG("އެޕްރޫވަލަށް ފޮނުވިފައި","Waiting for approval")}</span><span><i class="pm r">✓</i>${LG("އިސްލާހަށް ފޮނުވާލެވިފައި","Sent back")}</span><span><i class="pm g">✓</i>${LG("އެޕްރޫވްކުރެވިފައި","Approved")}</span></div>
     ${canPrint?`<button class="btn" style="margin-top:12px" data-rcprint="">${LG("މުޅި ކްލާހުގެ ރިޕޯޓް ކާޑު ޕްރިންޓް","Print all report cards")}</button>`:""}</div>`;}
 const CSUB={english:"comp_en",dhivehi:"comp_dv",maths:"comp_ma"};
 function rcSubject(s,L){const mk=hasMarks(RC.cls,s);
