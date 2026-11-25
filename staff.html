@@ -339,6 +339,18 @@ html[lang=en] .pmk{font-family:"Plus Jakarta Sans",sans-serif}
 .pvn{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}.pvn span{font:500 12px "Plus Jakarta Sans","KondeyHeading",sans-serif;color:#64748B;background:#fff;border:1px solid #E2E8F0;border-radius:6px;padding:2px 8px;direction:ltr}.pvn b{color:#334155}
 .pvv{display:block;font:600 11.5px "Plus Jakarta Sans",sans-serif;color:#94A3B8;margin-top:3px;text-align:center}
 .pvc{display:block;font:500 11.5px "KondeyHeading","Plus Jakarta Sans",sans-serif;color:#94A3B8;margin-top:2px}.pvc b{color:#64748B;font-weight:600;font-family:"Plus Jakarta Sans",sans-serif}
+.scls{display:none}
+@media (min-width:900px){
+ .scls{display:flex;flex-direction:column;gap:2px;margin-top:10px;padding-top:12px;border-top:1px solid rgba(255,255,255,.14)}
+ .scl{font-size:12px;color:rgba(255,255,255,.6);padding:0 14px 6px;font-family:"KondeyHeading","Faruma",sans-serif}.scl .en{color:inherit!important}
+ html[lang=en] .scl{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:11px}
+ .scls button{display:flex;align-items:center;gap:10px;border:0;background:none;color:rgba(255,255,255,.82);text-align:start;padding:8px 14px;border-radius:10px;cursor:pointer;font:400 15px "KondeyHeading","Faruma",sans-serif}
+ html[lang=en] .scls button{font-family:"Plus Jakarta Sans",sans-serif;font-weight:500;font-size:14px}
+ .scls button:hover{background:rgba(255,255,255,.1);color:#fff}
+ .scls button.on{background:rgba(255,255,255,.18);color:#fff}
+ .scls .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);flex:none}.scls button.on .dot{background:#fff}
+ .scls small{margin-inline-start:auto;font-size:11px;background:rgba(255,255,255,.16);border-radius:99px;padding:1px 8px}.scls small .en{color:inherit!important}
+}
 </style>
 </head>
 <body>
@@ -400,11 +412,11 @@ function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const 
   const T={mark:LG("ހާޒިރީ ނެގުން","Mark attendance"),all:LG("ހާޒިރީ","Attendance"),report:LG("ރިޕޯޓް ކާޑު","Report cards")}[TAB];
   const kids=[...v.children],me=kids.find(e=>e.matches(".me")),tabs=kids.find(e=>e.matches(".tabs")),dc=kids.find(e=>e.matches(".datec")),al=kids.find(e=>e.matches(".alert"));
   s.innerHTML=`<a class="sbrand" href="/"><img src="/logo-white.png" alt=""><span><b class="h">${LG("ކޮނޑޭ ސްކޫލް","Kondey School")}</b><small>${LG("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</small></span></a>`;
-  if(tabs)s.appendChild(tabs);const sp=document.createElement("div");sp.className="sgrow";s.appendChild(sp);if(me)s.appendChild(me);
+  if(tabs)s.appendChild(tabs);{const CL=typeof rcMyClasses==="function"?rcMyClasses():[];if(CL.length){const sc=document.createElement("div");sc.className="scls";sc.innerHTML=`<div class="scl">${LG("ރިޕޯޓް ކާޑު · ކްލާސްތައް","Report cards · Classes")}</div>`+CL.map(c=>`<button type="button" class="${TAB==="report"&&RC.cls===c.class_en?"on":""}" data-sbcls="${esc(c.class_en)}"><span class="dot"></span>${esc(NM(c.class_dv,c.class_en))}${c.teacher?`<small>${LG("ކްލާސް ޓީޗަރ","Class teacher")}</small>`:""}</button>`).join("");s.appendChild(sc);}}const sp=document.createElement("div");sp.className="sgrow";s.appendChild(sp);if(me)s.appendChild(me);
   const sf=document.createElement("div");sf.className="sfoot";sf.innerHTML=`<button type="button" class="sbtn" data-slang><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>${LG("English","ދިވެހި")}</button><button type="button" class="sbtn" data-sout><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>${LG("ނުކުމޭ","Sign out")}</button>`;s.appendChild(sf);
   const ph=document.createElement("div");ph.className="phead";ph.innerHTML=`<div class="pt"><h1 class="h">${T}</h1><small>${fullDate(todayMV())}</small></div>`;if(dc)ph.appendChild(dc);m.appendChild(ph);if(al)m.appendChild(al);
   kids.filter(e=>e!==me&&e!==tabs&&e!==dc&&e!==al).forEach(e=>m.appendChild(e));v.append(s,m);v.classList.add("dk");}
-document.addEventListener("click",e=>{if(e.target.closest("[data-slang]"))$("#langB").click();else if(e.target.closest("[data-sout]"))$("#logout").click();});
+document.addEventListener("click",e=>{const sb=e.target.closest("[data-sbcls]");if(sb){TAB="report";RC.view="";rcOpen(sb.dataset.sbcls,"");window.scrollTo(0,0);return;}if(e.target.closest("[data-slang]"))$("#langB").click();else if(e.target.closest("[data-sout]"))$("#logout").click();});
 function render0(){
   const v=$("#appView");
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
