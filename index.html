@@ -836,7 +836,7 @@ a.pcd:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(200,16,46,.12
 html[lang=en] .ptg{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:12px}
 .pst{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:5px 14px;font-size:15px;line-height:1.6}
 .pst i{width:9px;height:9px;border-radius:50%;background:currentColor}
-.pst.op{background:#ECFDF3;color:#067647}.pst.cl{background:#FDECEE;color:#A4122A}
+.pst.pst-op{background:#ECFDF3;color:#067647}.pst.pst-cl{background:#F1F1F3;color:#4B5563}
 html[lang=en] .pst{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:12px}
 .pcd h2{font-size:21px;line-height:1.7;color:#7A0A1C;margin:0}
 html[lang=en] .pcd h2{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:18px;line-height:1.45}
@@ -850,8 +850,8 @@ html[lang=en] .pcd h2{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700
 html[lang=en] .dl-btn{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:13px}
 .pd-pad{padding:26px 0 40px;background:#FBF7F8}
 .pd-back{display:inline-flex;align-items:center;gap:12px;color:#7A0A1C;opacity:.85;font-size:18px;margin:0 0 18px}
-.pd-back span{width:38px;height:38px;border-radius:50%;background:#F3DDE1;display:grid;place-items:center}
-html[lang=en] .pd-back{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:15px}html[lang=en] .pd-back span svg{transform:scaleX(-1)}
+.pd-back>i{width:40px;height:40px;border-radius:50%;background:#F3DDE1;display:grid;place-items:center;flex:none}
+html[lang=en] .pd-back{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:15px}html[lang=en] .pd-back>i svg{transform:scaleX(-1)}
 .pd{padding:30px 30px 34px}
 .pd h1{font-size:30px;line-height:1.75;color:#7A0A1C;margin:6px 0 22px}
 html[lang=en] .pd h1{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:26px;line-height:1.35}
@@ -883,6 +883,14 @@ html[lang=en] .pbx small{font-family:"Plus Jakarta Sans",sans-serif;font-weight:
 .mn-s.pub a.on{background:#FBF1F3!important}
 @media (max-width:620px){.pf{padding:18px 16px;border-radius:22px}.pf-g{grid-template-columns:1fr}.pcd{padding:20px 18px;border-radius:22px}.pcd h2{font-size:19px}.pd{padding:22px 18px 26px}.pd h1{font-size:24px}.pbx{padding:16px 18px}.pbx b{font-size:19px}
  .dlc{display:grid;grid-template-columns:48px 1fr;gap:12px 14px;align-items:start}.dlc .dl-ic{width:48px;height:48px}.dl-btn{grid-column:1/-1;justify-self:stretch;justify-content:center}}
+
+.pd-date{display:flex;align-items:center;gap:10px;color:#4B5563;margin:-8px 0 26px;font-size:17px}
+.pd-date svg{width:24px;height:24px;color:#6B7280}.pd-date span{font-family:"Plus Jakarta Sans","Faruma",sans-serif}
+.pd-body{border:1.5px solid var(--line);border-radius:20px;padding:20px 22px;background:#fff}
+.pd-body p{font-size:18px;line-height:2.2!important;color:#7A0A1C;margin-bottom:12px}.pd-body p:last-child{margin-bottom:0}
+html[lang=en] .pd-body p{font-size:16.5px;line-height:1.8!important;color:#374151}
+.nwc{display:flex;gap:16px;align-items:center}.nwc img{width:110px;height:84px;object-fit:cover;border-radius:16px;flex:none}.nwc>div{min-width:0}.nwc .ptg{margin-bottom:8px}
+@media (max-width:620px){.pd-body{padding:16px 16px}.pd-body p{font-size:17px}.nwc img{width:84px;height:70px}}
 </style>
 </head>
 <body>
@@ -1499,7 +1507,7 @@ const ICSRCH='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke
 const fExt=u=>{const m=String(u||"").split("?")[0].match(/\.([a-z0-9]{2,5})$/i);return m?m[1].toUpperCase():"PDF";};
 function fszFill(){document.querySelectorAll("[data-fsz]:not([data-done])").forEach(el=>{el.dataset.done=1;const u=el.dataset.fsz;
   fetch(u,{method:"HEAD"}).then(r=>{const n=+r.headers.get("content-length");if(!n)return;const t=n>=1048576?(n/1048576).toFixed(1)+" MB":Math.max(1,Math.round(n/1024))+" KB";el.textContent=el.textContent+" · "+t;}).catch(()=>{});});}
-function stChip(o){const op=pubOpen(o);if(op===null)return "";return `<span class="pst ${op?"op":"cl"}"><i></i>${op?bi("ހުޅުވިފައި","Open"):bi("ބަންދުކުރެވިފައި","Closed")}</span>`;}
+function stChip(o){const op=pubOpen(o);if(op===null)return "";return `<span class="pst ${op?"pst-op":"pst-cl"}"><i></i>${op?bi("ހުޅުވިފައި","Open"):bi("ނިމިފައި","Closed")}</span>`;}
 function pubHead(k){const c=k==="downloads"?{dv:"ޑައުންލޯޑްސް",en:"Downloads"}:PUBK[k];
   return `<section class="ph"><div class="wrap">${k!=="publications"?`<a class="ph-ey" href="#publications">${bi("ޕަބްލިކޭޝަންސް","Publications")}</a>`:""}<h1 class="h">${bi(c.dv,c.en)}</h1></div></section>`;}
 function selF(id,lab,opts,v){return `<label class="pf-f"><span class="h">${lab}</span><span class="pf-s"><select data-pf="${id}">${opts.map(([k,d,e])=>`<option value="${esc(k)}"${k===v?" selected":""}>${document.documentElement.lang==="en"?esc(e):esc(d)}</option>`).join("")}</select></span></label>`;}
@@ -1507,7 +1515,7 @@ function pubFilters(k,L){const all=["all","ހުރިހާ","All"],yrs=[...new Set(
   const f=[];
   if(k==="downloads"){const cats=[...new Set(L.map(o=>o.category||"other"))];f.push(selF("type",bi("ބާވަތް","Category"),[all,...Object.entries(DLCAT).filter(([c])=>cats.includes(c)).map(([c,v])=>[c,...v])],PF.type));}
   else{const ts=PUBK[k].t;if(ts.length>1)f.push(selF("type",bi("ބާވަތް","Type"),[all,...ts.map(t=>[t,...(t==="tender"?["ބީލަން","Procurement"]:t==="vacancy"?["ވަޒީފާ","Jobs"]:TYPES[t])])],PF.type));
-    f.push(selF("st",bi("ހާލަތު","Status"),[all,["open","ހުޅުވިފައި","Open"],["closed","ބަންދުކުރެވިފައި","Closed"]],PF.st));}
+    f.push(selF("st",bi("ހާލަތު","Status"),[all,["open","ހުޅުވިފައި","Open"],["closed","ނިމިފައި","Closed"]],PF.st));}
   f.push(selF("yr",bi("އަހަރު","Year"),[all,...yrs.map(y=>[y,y,y])],PF.yr));
   return `<div class="pf reveal"><div class="pf-g">${f.join("")}<label class="pf-f pf-q"><span class="h">${bi("ހޯއްދަވާ","Search")}</span><span class="pf-i"><input type="search" data-pf="q" value="${esc(PF.q)}" placeholder="${document.documentElement.lang==="en"?"Search by title or number":"ސުރުޚީ ނުވަތަ ނަންބަރު"}"><button type="button" tabindex="-1" aria-hidden="true">${ICSRCH}</button></span></label></div></div>`;}
 function pubFilter(k){const q=PF.q.trim().toLowerCase();
@@ -1524,25 +1532,33 @@ function pubPage(k){if(PF.k!==k)PF={k,type:"all",st:"all",yr:"all",q:""};
 function pubRefresh(){const el=document.getElementById("pubList");if(!el)return;el.innerHTML=pubBody(PF.k);reveal();fszFill();}
 document.addEventListener("change",e=>{const s=e.target.closest("select[data-pf]");if(s){PF[s.dataset.pf]=s.value;pubRefresh();}});
 document.addEventListener("input",e=>{const s=e.target.closest("input[data-pf]");if(s){PF.q=s.value;clearTimeout(pubRefresh.t);pubRefresh.t=setTimeout(pubRefresh,180);}});
-function pubDetail(o){const k=o?pubKind(o):"notices",back=PUBK[k];
-  if(!o)return detail(o,k,"","",1);
-  const pdf=safeUrl(o.pdf),im=safeUrl(o.img),ph=(o.photos||[]).map(safeUrl).filter(Boolean),op=pubOpen(o);
-  let dl="";if(o.deadline){const d0=new Date();d0.setHours(0,0,0,0);const dd=Math.round((new Date(o.deadline+"T00:00:00")-d0)/864e5);dl=`<div class="pbx${dd<0?" over":""}"><small>${bi("ސުންގަޑި","Deadline")}</small><b>${nDate(o.deadline)}</b><em>${dd<0?bi("ސުންގަޑި ހަމަވެއްޖެ","Closed"):dd===0?bi("މިއަދު ފަހު ދުވަސް","Last day today"):bi(`<span class="num">${dd}</span> ދުވަސް ބާކީ`,`${dd} days left`)}</em></div>`;}
-  return `<div class="pd-pad"><div class="wrap pubw"><a class="pd-back" href="#${k}"><span>${IC.back}</span>${bi(back.dv,back.en)}</a>
-    <article class="pcd pd reveal in"><div class="pcd-top"><span class="ptg">${typeLab(o)}</span>${stChip(o)}</div><h1 class="h nd-t">${L2(o,"title")}</h1>
-      <div class="pbxs"><div class="pbx"><small>${bi("ޕަބްލިޝްކުރި ތާރީޚު","Published")}</small><b>${nDate(o.date)}</b></div>${dl}${o.number?`<div class="pbx"><small>${bi("ނަންބަރު","Number")}</small><b class="num" dir="ltr">${esc(o.number)}</b></div>`:""}</div>
+function artDetail(o,c){
+  const pdf=safeUrl(o.pdf),im=safeUrl(o.img),ph=(o.photos||[]).map(safeUrl).filter(Boolean),bx=[];
+  if(c.notice){
+    if(o.number)bx.push(`<div class="pbx"><small>${bi("ނަންބަރު","Number")}</small><b class="num" dir="ltr">${esc(o.number)}</b></div>`);
+    bx.push(`<div class="pbx"><small>${bi("ޝާއިޢުކުރި ތާރީޚު","Published")}</small><b>${nDate(o.date)}</b></div>`);
+    if(o.deadline){const d0=new Date();d0.setHours(0,0,0,0);const dd=Math.round((new Date(o.deadline+"T00:00:00")-d0)/864e5);
+      bx.push(`<div class="pbx${dd<0?" over":""}"><small>${bi("ސުންގަޑި","Deadline")}</small><b>${nDate(o.deadline)}</b><em>${dd<0?bi("ސުންގަޑި ހަމަވެއްޖެ","Closed"):dd===0?bi("މިއަދު ފަހު ދުވަސް","Last day today"):bi(`<span class="num">${dd}</span> ދުވަސް ބާކީ`,`${dd} days left`)}</em></div>`);}}
+  const body=paras(o.body_dv||o.body_en);
+  return `<div class="pd-pad"><div class="wrap pubw"><a class="pd-back" href="#${c.back}"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i>${bi(c.dv,c.en)}</a>
+    <article class="pcd pd reveal in"><div class="pcd-top"><span class="ptg">${c.chip}</span>${c.notice?stChip(o):""}</div><h1 class="h nd-t">${L2(o,"title")}</h1>
+      <div class="pd-date">${IC.cal}<span>${nDate(o.date)}</span></div>
+      ${bx.length?`<div class="pbxs">${bx.join("")}</div>`:""}
       ${im?`<div class="cover"><img src="${esc(im)}" alt=""></div>`:""}
-      <div class="body nd-body">${bi(paras(o.body_dv||o.body_en),paras(o.body_en||o.body_dv))}</div>
+      ${body||o.body_en?`<div class="body pd-body">${bi(body,paras(o.body_en||o.body_dv))}</div>`:""}
       ${ph.length?`<div class="pg mt-gal" style="margin-top:16px">${ph.map((u,i)=>`<a href="${esc(u)}" data-lb="${i}"><img src="${esc(u)}" alt="" loading="lazy"></a>`).join("")}</div>`:""}
+      ${safeUrl(o.source)?`<a class="more" style="display:inline-block;margin-top:14px" href="${esc(safeUrl(o.source))}" target="_blank" rel="noopener">${bi("ސޯސް","Source")}</a>`:""}
     </article>
     ${pdf?`<section class="pcd reveal in"><h2 class="h pd-h">${bi("ބަލާލުމަށް ލިޔުންތައް","Documents")}</h2><a class="pd-f" href="${esc(pdf)}" target="_blank" rel="noopener"><span class="dl-ic">${ICDL}</span><span class="pd-fn"><b class="h">${L2(o,"title")}</b><small dir="ltr"${pdf.includes("supabase.co")?` data-fsz="${esc(pdf)}"`:""}>${fExt(pdf)}</small></span><span class="pd-dl">${ICDL}</span></a></section>`:""}
     <button type="button" class="pcd pd-sh reveal in" data-share><span class="pd-shi">${IC.share}</span><span class="h">${bi("ޙިއްސާކުރައްވާ","Share")}</span><span class="pd-ch">${IC.back}</span></button>
-    ${(()=>{const R=sortD(NOTICES).filter(x=>x!==o&&pubKind(x)===k).slice(0,3);return R.length?`<h2 class="h pd-rh">${bi("އެހެން "+back.dv,"More "+back.en.toLowerCase())}</h2><div class="pl">${R.map(pubCard).join("")}</div>`:"";})()}
+    ${c.rel&&c.rel.length?`<h2 class="h pd-rh">${c.relH}</h2><div class="pl">${c.rel.map(c.card).join("")}</div>`:""}
   </div></div>`;}
+function pubDetail(o){const k=pubKind(o),b=PUBK[k];return artDetail(o,{notice:1,back:k,dv:b.dv,en:b.en,chip:typeLab(o),rel:sortD(NOTICES).filter(x=>x!==o&&pubKind(x)===k).slice(0,3),relH:bi("އެހެން "+b.dv,"More "+b.en.toLowerCase()),card:pubCard});}
+function newsCard(o){const im=safeUrl(o.img);return `<a class="pcd nwc reveal" href="#news-${esc(o.id)}">${im?`<img src="${esc(im)}" alt="" loading="lazy">`:""}<div><span class="ptg">${bi("ޚަބަރު","News")}</span><h2 class="h">${L2(o,"title")}</h2><div class="pcd-m"><span>${nDate(o.date)}</span></div></div></a>`;}
 function route(){
   const h=decodeURIComponent(location.hash.slice(1))||"home"; let html, key=h;
-  if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
-  else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):o?pubDetail(o):detail(o,"notices","","",1);key=st?"snotices":o?pubKind(o):"notices";}}
+  if(h.startsWith("news-")){const o=NEWS.find(n=>n.id===h.slice(5));html=o?artDetail(o,{back:"news",dv:"ޚަބަރު",en:"News",chip:bi("ޚަބަރު","News"),rel:sortD(NEWS).filter(x=>x!==o).slice(0,3),relH:bi("އެހެން ޚަބަރުތައް","More news"),card:newsCard}):detail(o,"news","ޚަބަރަށް","Back to news");key="news";}
+  else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?artDetail(o,{notice:1,back:"snotices",dv:"ދަރިވަރުންގެ އިޢުލާން",en:"Student notices",chip:bi("ދަރިވަރުންނަށް","Students"),rel:sortD(NOTICES).filter(x=>x!==o&&x.type==="student").slice(0,3),relH:bi("އެހެން އިޢުލާންތައް","More student notices"),card:pubCard}):o?pubDetail(o):detail(o,"notices","","",1);key=st?"snotices":o?pubKind(o):"notices";}}
   else if(["notices","tenders","vacancies","downloads","publications"].includes(h)){html=pubPage(h);}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("committee-")){html=committeePage(h.slice(10));key="committees";}
