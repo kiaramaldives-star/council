@@ -75,24 +75,31 @@ textarea.names{width:100%;font-family:"Faruma",sans-serif;font-size:17px;line-he
 .ovn{display:flex;gap:5px;align-items:center}.ovn span{border-radius:8px;padding:2px 8px;font-size:14px}.ovn .p{background:#DCFCE7;color:#15803D}.ovn .a{background:#FEE2E2;color:#B91C1C}.ovn .l{background:#FEF3C7;color:#B45309}.ovn .pc{color:var(--muted)}
 .ova{flex-basis:100%;display:flex;flex-wrap:wrap;gap:5px}.ova span{font-size:13px;border-radius:99px;padding:2px 10px}.ova .a{background:#FEE2E2;color:#B91C1C}.ova .l{background:#FEF3C7;color:#B45309}
 .ovk{display:flex;gap:12px;justify-content:center;margin-top:10px;font-size:12px;color:var(--muted)}.ovk span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-inline-end:5px}.ovk .p::before{background:#16A34A}.ovk .a::before{background:#DC2626}.ovk .l::before{background:#F59E0B}
+html[lang=dv] .en{display:none!important}html[lang=en] .dv{display:none!important}
+html[lang=en] .en{font-size:inherit;color:inherit}
+html[lang=en] body,html[lang=en] .h,html[lang=en] h1,html[lang=en] h2,html[lang=en] h3,html[lang=en] button,html[lang=en] .btn,html[lang=en] label,html[lang=en] small{font-family:"Plus Jakarta Sans",system-ui,sans-serif}
+html[lang=en] .h,html[lang=en] h1,html[lang=en] h2{font-weight:700}
+html[lang=en] .stu .nm,html[lang=en] .ova span,html[lang=en] .ovt small,html[lang=en] textarea.names{font-family:"Faruma","Plus Jakarta Sans",sans-serif}
+.lang{font-family:"Plus Jakarta Sans","Faruma",sans-serif!important;font-weight:700;min-width:58px}html[lang=en] .lang{font-family:"Faruma",sans-serif!important;font-weight:400}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
-<div class="top"><img src="/logo.png" alt="" style="border-radius:50%"><h1>މުވައްޒަފުންގެ ޕޯޓަލް<small>ކޮނޑޭ ސްކޫލް · Staff portal</small></h1><button class="btn sm ghost" id="logout" hidden>ނުކުމޭ</button></div>
+<div class="top"><img src="/logo.png" alt="" style="border-radius:50%"><h1><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span><small><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></small></h1><button class="btn sm ghost lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span></button><button class="btn sm ghost" id="logout" hidden><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></button></div>
 <div class="wrap">
   <div id="loginView" class="card">
-    <h2 class="h" style="margin:0 0 4px;font-size:22px">ލޮގިން ކުރައްވާ <span class="en">Sign in</span></h2>
-    <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.8">ސްކޫލުގެ އީމެއިލް (@kondeyschool.edu.mv) ބޭނުންކުރައްވާ. <span class="en">Use your school email.</span></p>
-    <button class="btn gbtn" id="gGo" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>ގޫގުލް އެކައުންޓުން ލޮގިން <span class="en">Sign in with Google</span></span></button>
-    <div class="or"><span>ނުވަތަ <span class="en">or</span></span></div>
-    <label>އީމެއިލް <span class="en">Email</span></label><input id="lEmail" type="email" autocomplete="username" inputmode="email">
-    <label>ޕާސްވޯޑް <span class="en">Password</span></label><input id="lPass" type="password" autocomplete="current-password">
-    <div style="margin-top:14px"><button class="btn" id="lGo">ލޮގިން <span class="en" style="color:#fff">Sign in</span></button></div>
+    <h2 class="h" style="margin:0 0 4px;font-size:22px"><span class="dv">ލޮގިން ކުރައްވާ</span><span class="en">Sign in</span></h2>
+    <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.8"><span class="dv">ސްކޫލުގެ އީމެއިލް (@kondeyschool.edu.mv) ބޭނުންކުރައްވާ.</span><span class="en">Use your school email.</span></p>
+    <button class="btn gbtn" id="gGo" type="button"><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span><span class="dv">ގޫގުލް އެކައުންޓުން ލޮގިން</span><span class="en">Sign in with Google</span></span></button>
+    <div class="or"><span><span class="dv">ނުވަތަ</span><span class="en">or</span></span></div>
+    <label><span class="dv">އީމެއިލް</span><span class="en">Email</span></label><input id="lEmail" type="email" autocomplete="username" inputmode="email">
+    <label><span class="dv">ޕާސްވޯޑް</span><span class="en">Password</span></label><input id="lPass" type="password" autocomplete="current-password">
+    <div style="margin-top:14px"><button class="btn" id="lGo"><span class="dv">ލޮގިން</span><span class="en" style="color:#fff">Sign in</span></button></div>
     <div class="msg" id="lMsg"></div>
-    <button class="lnk" id="lMode">ފުރަތަމަ ފަހަރަށްތަ؟ އެކައުންޓެއް ހައްދަވާ <span class="en">First time? Create an account</span></button>
+    <button class="lnk" id="lMode"><span class="dv">ފުރަތަމަ ފަހަރަށްތަ؟ އެކައުންޓެއް ހައްދަވާ</span><span class="en">First time? Create an account</span></button>
   </div>
   <div id="appView" hidden></div>
-  <div class="foot"><a href="/">← ވެބްސައިޓަށް <span class="en">Back to website</span></a></div>
+  <div class="foot"><a href="/"><span class="dv">← ވެބްސައިޓަށް</span><span class="en">Back to website</span></a></div>
 </div>
 <script>
 const SB_URL="https://tmjjrhdwuoencmtmolvs.supabase.co",SB_KEY="sb_publishable_BG4KiDiwGlQUmMb9vDqG2g_KvrRmhdx";
@@ -100,14 +107,20 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const DVM=["ޖަނަވަރީ","ފެބުރުވަރީ","މާޗް","އޭޕްރިލް","މެއި","ޖޫން","ޖުލައި","އޯގަސްޓް","ސެޕްޓެމްބަރު","އޮކްޓޫބަރު","ނޮވެމްބަރު","ޑިސެމްބަރު"],DVD=["އާދިއްތަ","ހޯމަ","އަންގާރަ","ބުދަ","ބުރާސްފަތި","ހުކުރު","ހޮނިހިރު"];
 const todayMV=()=>{const d=new Date(Date.now()+(5*60+new Date().getTimezoneOffset())*60000);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
-const dvDate=s=>{const d=new Date(s+"T00:00:00");return `${DVD[d.getDay()]}، <span class="num">${d.getDate()}</span> ${DVM[d.getMonth()]}`;};
+let LANG="dv";try{LANG=localStorage.getItem("ks_lang")==="en"?"en":"dv"}catch(e){}
+const NM=(d,e)=>LANG==="en"?(e||d):(d||e);
+const LG=(d,e)=>`<span class="dv">${d}</span><span class="en">${e}</span>`;
+const ENM=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],END=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const dvDate=s=>{const d=new Date(s+"T00:00:00");return LG(`${DVD[d.getDay()]}، <span class="num">${d.getDate()}</span> ${DVM[d.getMonth()]}`,`${END[d.getDay()]}, ${d.getDate()} ${ENM[d.getMonth()]}`);};
+function setLang(l){LANG=l;const H=document.documentElement;H.lang=l;H.dir=l==="en"?"ltr":"rtl";try{localStorage.setItem("ks_lang",l)}catch(e){}try{if(ME)render();}catch(e){}}
+setLang(LANG);
 let S=null;try{S=JSON.parse(localStorage.getItem("kc_staff_session")||"null")}catch(e){}
 const saveS=x=>{S=x;try{x?localStorage.setItem("kc_staff_session",JSON.stringify(x)):localStorage.removeItem("kc_staff_session")}catch(e){}};
 async function authCall(p,b){const r=await fetch(`${SB_URL}/auth/v1/${p}`,{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.error_description||j.message||("Error "+r.status));return j;}
 async function token(){if(!S)throw new Error("signed out");if(S.expires_at&&S.expires_at-60<Date.now()/1000){const j=await authCall("token?grant_type=refresh_token",{refresh_token:S.refresh_token});saveS({...j,expires_at:Date.now()/1000+j.expires_in});}return S.access_token;}
 async function rpc(fn,body){const r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+await token(),"Content-Type":"application/json"},body:JSON.stringify(body||{})});const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error(m);}return t?JSON.parse(t):null;}
 let signup=false;
-$("#lMode").onclick=()=>{signup=!signup;$("#lGo").innerHTML=signup?'އެކައުންޓް ހަދާ <span class="en" style="color:#fff">Create account</span>':'ލޮގިން <span class="en" style="color:#fff">Sign in</span>';$("#lMode").innerHTML=signup?'ލޮގިން ކުރަން <span class="en">Back to sign in</span>':'ފުރަތަމަ ފަހަރަށްތަ؟ އެކައުންޓެއް ހައްދަވާ <span class="en">First time? Create an account</span>';$("#lPass").autocomplete=signup?"new-password":"current-password";};
+$("#lMode").onclick=()=>{signup=!signup;$("#lGo").innerHTML=signup?'<span class="dv">އެކައުންޓް ހަދާ</span><span class="en" style="color:#fff">Create account</span>':'<span class="dv">ލޮގިން</span><span class="en" style="color:#fff">Sign in</span>';$("#lMode").innerHTML=signup?'<span class="dv">ލޮގިން ކުރަން</span><span class="en">Back to sign in</span>':'<span class="dv">ފުރަތަމަ ފަހަރަށްތަ؟ އެކައުންޓެއް ހައްދަވާ</span><span class="en">First time? Create an account</span>';$("#lPass").autocomplete=signup?"new-password":"current-password";};
 async function doLogin(){const email=$("#lEmail").value.trim(),password=$("#lPass").value,m=$("#lMsg");m.className="msg";m.textContent="...";
   try{if(signup){const j=await authCall("signup",{email,password});if(j.access_token){saveS({...j,expires_at:Date.now()/1000+j.expires_in});return start();}
       m.className="msg ok";m.textContent="އީމެއިލަށް ފޮނުވި ލިންކް ފިއްތުމަށްފަހު ލޮގިން ކުރައްވާ. (Check your email to confirm, then sign in.)";$("#lMode").click();return;}
@@ -124,15 +137,15 @@ async function start(){
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){
   const v=$("#appView");
-  if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br>މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.<br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()">އެހެން އެކައުންޓަކުން ލޮގިން <span class="en">Use another account</span></button></div>`;return;}
+  if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
-  let h=`<div class="card me"><span class="ph">${ph}</span><div><small>މަރުޙަބާ <span class="en">Welcome</span></small><b class="h">${esc(s.name_dv||s.name_en)}</b><small>${esc(s.title_dv||s.title_en||"")}</small></div></div>`;
-  if(!C.length&&ME.lead){v.innerHTML=h+`<div class="card"><label style="margin-top:0">ތާރީޚު <span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`+overview();return;}
-  if(!C.length){v.innerHTML=h+`<div class="card empty">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން. <span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ <span class="en">View school attendance</span></a></div>`;return;}
+  let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
+  if(!C.length&&ME.lead){v.innerHTML=h+`<div class="card"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`+overview();return;}
+  if(!C.length){v.innerHTML=h+`<div class="card empty"><span class="dv">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން.</span><span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance"><span class="dv">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ</span><span class="en">View school attendance</span></a></div>`;return;}
   const wd=new Date(DATE+"T00:00:00").getDay(),school=wd!==5&&wd!==6,pending=C.filter(c=>!marked(c,DATE));
-  h+= pending.length&&school?`<div class="alert"><div><b>ހާޒިރީ ނަގަންޖެހޭ <span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(c.class_dv||c.class_en)).join("، ")} · ${dvDate(DATE)}</small></div></div>`
-     : !pending.length?`<div class="alert done"><div><b>ހާޒިރީ ނަގައިފި ✓ <span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
-  h+=`<div class="card"><label style="margin-top:0">ތާރީޚު <span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
+  h+= pending.length&&school?`<div class="alert"><div><b><span class="dv">ހާޒިރީ ނަގަންޖެހޭ</span><span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(NM(c.class_dv,c.class_en))).join("، ")} · ${dvDate(DATE)}</small></div></div>`
+     : !pending.length?`<div class="alert done"><div><b><span class="dv">ހާޒިރީ ނަގައިފި ✓</span><span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
+  h+=`<div class="card"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
   if(ME.lead)h+=overview();
   for(const c of C){h+=(c.roster>0||EDIT[c.class_en])?rosterCard(c):countCard(c);}
   v.innerHTML=h;
@@ -141,24 +154,24 @@ function render(){
 function overview(){const A=ME.all_classes||[],wd=new Date(DATE+"T00:00:00").getDay(),off=wd===5||wd===6;
   const rows=A.map(c=>{const m=(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===DATE);return {c,m};}),done=rows.filter(r=>r.m),P=done.reduce((t,r)=>t+(+r.m.present||0),0),T=done.reduce((t,r)=>t+(+r.m.present||0)+(+r.m.absent||0),0),pc=T?Math.round(P/T*100):0;
   const ab=(ME.absentees||[]).filter(x=>x.date===DATE);
-  return `<div class="card ov"><h2 class="h">ހުރިހާ ކްލާހެއްގެ ހާޒިރީ <span class="en">All classes</span></h2>
-    <div class="ovs"><div><b class="num">${done.length}/${A.length}</b><small>ނަގައިފި <span class="en">Marked</span></small></div><div class="${A.length-done.length?"bad":""}"><b class="num">${A.length-done.length}</b><small>ނުނަގާ <span class="en">Not marked</span></small></div><div><b class="num" dir="ltr">${pc}%</b><small>ހާޒިރީ <span class="en">Present</span></small></div></div>
-    ${off&&!done.length?`<div class="empty" style="padding:8px">ބަންދު ދުވަހެއް <span class="en">Weekend</span></div>`:""}
+  return `<div class="card ov"><h2 class="h"><span class="dv">ހުރިހާ ކްލާހެއްގެ ހާޒިރީ</span><span class="en">All classes</span></h2>
+    <div class="ovs"><div><b class="num">${done.length}/${A.length}</b><small><span class="dv">ނަގައިފި</span><span class="en">Marked</span></small></div><div class="${A.length-done.length?"bad":""}"><b class="num">${A.length-done.length}</b><small><span class="dv">ނުނަގާ</span><span class="en">Not marked</span></small></div><div><b class="num" dir="ltr">${pc}%</b><small><span class="dv">ހާޒިރީ</span><span class="en">Present</span></small></div></div>
+    ${off&&!done.length?`<div class="empty" style="padding:8px"><span class="dv">ބަންދު ދުވަހެއް</span><span class="en">Weekend</span></div>`:""}
     <div class="ovl">${rows.map(({c,m})=>{const t=m?(+m.present||0)+(+m.absent||0):c.students||0,q=m&&t?Math.round(m.present/t*100):0,a=ab.filter(x=>x.class_en===c.class_en);
-      return `<div class="ovr ${m?"ok":"no"}"><div class="ovt"><b class="h">${esc(c.class_dv||c.class_en)}</b><small>${esc(c.teacher_dv||c.teacher_en||"")}</small></div>
-        ${m?`<div class="ovn"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}<span class="pc num" dir="ltr">${q}%</span></div><span class="status yes">✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">ނުނަގާ <span class="en">Not marked</span></span>`}
-        ${a.length?`<div class="ova">${a.map(x=>`<span class="${x.status}">${esc(x.name)}${x.status==="l"?" (ލަސް)":""}</span>`).join("")}</div>`:""}</div>`;}).join("")}</div>
-    <div class="ovk"><span class="p">ހާޒިރު</span><span class="a">ނެތް</span><span class="l">ލަސް</span></div></div>`;}
+      return `<div class="ovr ${m?"ok":"no"}"><div class="ovt"><b class="h">${esc(NM(c.class_dv,c.class_en))}</b><small>${esc(NM(c.teacher_dv,c.teacher_en)||"")}</small></div>
+        ${m?`<div class="ovn"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}<span class="pc num" dir="ltr">${q}%</span></div><span class="status yes">✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no"><span class="dv">ނުނަގާ</span><span class="en">Not marked</span></span>`}
+        ${a.length?`<div class="ova">${a.map(x=>`<span class="${x.status}">${esc(x.name)}${x.status==="l"?` (${LG("ލަސް","late")})`:""}</span>`).join("")}</div>`:""}</div>`;}).join("")}</div>
+    <div class="ovk"><span class="p">${LG("ހާޒިރު","Present")}</span><span class="a">${LG("ނެތް","Absent")}</span><span class="l">${LG("ލަސް","Late")}</span></div></div>`;}
 function countCard(c){const m=marked(c,DATE),tot=c.students||0;if(ABS[c.class_en]==null)ABS[c.class_en]=m?+m.absent:0;const a=ABS[c.class_en],p=tot-a,pc=tot?Math.round(p/tot*100):0;
     const hist=(ME.marked||[]).filter(x=>x.class_en===c.class_en&&x.date!==DATE).sort((x,y)=>y.date.localeCompare(x.date)).slice(0,5);
-    return `<div class="card cls"><h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${tot}</b> ދަރިވަރުން</span></h2>
-      <div class="setup"><b class="h">ދަރިވަރުންގެ ލިސްޓް އަދި ނުހަދާ <span class="en">No student list yet</span></b><small>ލިސްޓް ހެއްދެވުމުން ކޮންމެ ދަރިވަރެއްގެ ހާޒިރީ ވަކިވަކިން ނެގޭނެ. <span class="en">Add your students to mark each one by name.</span></small><button class="btn" data-edit="${esc(c.class_en)}">ދަރިވަރުންގެ ލިސްޓް ހައްދަވާ <span class="en" style="color:#fff">Add students</span></button></div>
-      ${m?`<span class="status yes">ނަގައިފި ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">އަދި ނުނަގާ <span class="en">Not marked</span></span>`}
-      <label>ހާޒިރުނުވާ ދަރިވަރުންގެ އަދަދު <span class="en">Number absent</span></label>
+    return `<div class="card cls"><h2 class="h">${esc(NM(c.class_dv,c.class_en))}<span><b class="num">${tot}</b> ${LG("ދަރިވަރުން","students")}</span></h2>
+      <div class="setup"><b class="h"><span class="dv">ދަރިވަރުންގެ ލިސްޓް އަދި ނުހަދާ</span><span class="en">No student list yet</span></b><small><span class="dv">ލިސްޓް ހެއްދެވުމުން ކޮންމެ ދަރިވަރެއްގެ ހާޒިރީ ވަކިވަކިން ނެގޭނެ.</span><span class="en">Add your students to mark each one by name.</span></small><button class="btn" data-edit="${esc(c.class_en)}"><span class="dv">ދަރިވަރުންގެ ލިސްޓް ހައްދަވާ</span><span class="en" style="color:#fff">Add students</span></button></div>
+      ${m?`<span class="status yes">${LG("ނަގައިފި","Marked")} ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no"><span class="dv">އަދި ނުނަގާ</span><span class="en">Not marked</span></span>`}
+      <label><span class="dv">ހާޒިރުނުވާ ދަރިވަރުންގެ އަދަދު</span><span class="en">Number absent</span></label>
       <div class="stp"><button type="button" data-d="-1" data-c="${esc(c.class_en)}">−</button><div class="v num">${a}</div><button type="button" class="plus" data-d="1" data-c="${esc(c.class_en)}">+</button></div>
-      <div class="split"><div class="p"><b class="num">${p}</b><small>ހާޒިރު <span class="en">Present</span></small></div><div class="a"><b class="num">${a}</b><small>ހާޒިރުނުވާ <span class="en">Absent</span></small></div></div>
-      <div class="pct" style="text-align:center;margin-bottom:10px">ހާޒިރީ <span class="num" dir="ltr">${pc}%</span></div>
-      <button class="btn" data-save="${esc(c.class_en)}">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"} <span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
+      <div class="split"><div class="p"><b class="num">${p}</b><small><span class="dv">ހާޒިރު</span><span class="en">Present</span></small></div><div class="a"><b class="num">${a}</b><small><span class="dv">ހާޒިރުނުވާ</span><span class="en">Absent</span></small></div></div>
+      <div class="pct" style="text-align:center;margin-bottom:10px">${LG("ހާޒިރީ","Attendance")} <span class="num" dir="ltr">${pc}%</span></div>
+      <button class="btn" data-save="${esc(c.class_en)}"><span class="dv">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"}</span><span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
       <div class="msg" id="m-${mid(c.class_en)}"></div>
       ${hist.length?`<div class="hist">${hist.map(x=>`<div><span>${dvDate(x.date)}</span><span class="num">${x.present}/${(+x.present)+(+x.absent)}</span></div>`).join("")}</div>`:""}
     </div>`;}
@@ -167,28 +180,28 @@ let ROST={},MARK={},EDIT={},LOADING={};
 const ST=[["p","ހާޒިރު","Present"],["l","ލަސްވެފައި","Late"],["a","ނެތް","Absent"]];
 async function loadRoster(c){const key=c.class_en+"|"+DATE;LOADING[key]=1;try{const L=await rpc("class_roster",{p_class:c.class_en,p_date:DATE});ROST[key]=L;MARK[key]={};L.forEach(s=>MARK[key][s.id]=s.status||"p");}catch(e){ROST[key]=[];ROST[key].err=e.message;}delete LOADING[key];render();}
 function rosterCard(c){const key=c.class_en+"|"+DATE,m=marked(c,DATE),L=ROST[key],k=esc(c.class_en);
-  const head=`<h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${c.roster||0}</b> ދަރިވަރުން</span></h2>`;
+  const head=`<h2 class="h">${esc(NM(c.class_dv,c.class_en))}<span><b class="num">${c.roster||0}</b> ${LG("ދަރިވަރުން","students")}</span></h2>`;
   if(EDIT[c.class_en]){const cur=(L||[]).map(s=>s.name).join("\n");
-    return `<div class="card cls">${head}<label>ދަރިވަރުންގެ ނަންތައް — ކޮންމެ ނަމެއް ވަކި ލައިނެއްގައި <span class="en">One name per line</span></label>
+    return `<div class="card cls">${head}<label><span class="dv">ދަރިވަރުންގެ ނަންތައް — ކޮންމެ ނަމެއް ވަކި ލައިނެއްގައި</span><span class="en">One name per line</span></label>
       <textarea class="names" id="ed-${mid(c.class_en)}" rows="10" placeholder="އަޙްމަދު ޢަލީ&#10;ފާޠިމަތު ޙަސަން">${esc(cur)}</textarea>
-      <div class="row2"><button class="btn" data-savelist="${k}">ލިސްޓް ރައްކާކުރައްވާ <span class="en" style="color:#fff">Save list</span></button><button class="btn ghost" data-cancel="${k}">ކެންސަލް <span class="en">Cancel</span></button></div>
+      <div class="row2"><button class="btn" data-savelist="${k}"><span class="dv">ލިސްޓް ރައްކާކުރައްވާ</span><span class="en" style="color:#fff">Save list</span></button><button class="btn ghost" data-cancel="${k}"><span class="dv">ކެންސަލް</span><span class="en">Cancel</span></button></div>
       <div class="msg" id="m-${mid(c.class_en)}"></div></div>`;}
   if(!L)return `<div class="card cls">${head}<div class="empty">...</div></div>`;
   if(L.err)return `<div class="card cls">${head}<div class="msg err">${esc(L.err)}</div></div>`;
   const M=MARK[key]||{},cnt={p:0,l:0,a:0};L.forEach(s=>cnt[M[s.id]||"p"]++);const tot=L.length,pres=cnt.p+cnt.l,pc=tot?Math.round(pres/tot*100):0;
   return `<div class="card cls">${head}
-    ${m?`<span class="status yes">ނަގައިފި ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">އަދި ނުނަގާ <span class="en">Not marked</span></span>`}
-    <div class="split3"><div class="p"><b class="num">${cnt.p}</b><small>ހާޒިރު</small></div><div class="l"><b class="num">${cnt.l}</b><small>ލަސްވެފައި</small></div><div class="a"><b class="num">${cnt.a}</b><small>ނެތް</small></div></div>
-    <div class="tools"><button type="button" class="chip" data-allp="${k}">ހުރިހާ ދަރިވަރުން ހާޒިރު <span class="en">All present</span></button><span class="pct">ހާޒިރީ <span class="num" dir="ltr">${pc}%</span></span></div>
-    <div class="stl">${L.map((s,i)=>{const v=M[s.id]||"p";return `<div class="stu ${v}"><span class="no num">${i+1}</span><b class="nm">${esc(s.name)}</b><div class="seg">${ST.map(([x,dv,en])=>`<button type="button" class="${x}${v===x?" on":""}" data-mk="${k}" data-id="${esc(s.id)}" data-v="${x}" title="${en}">${dv}</button>`).join("")}</div></div>`;}).join("")}</div>
-    <button class="btn" data-savemarks="${k}" style="margin-top:14px">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"} <span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
+    ${m?`<span class="status yes">${LG("ނަގައިފި","Marked")} ✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no"><span class="dv">އަދި ނުނަގާ</span><span class="en">Not marked</span></span>`}
+    <div class="split3"><div class="p"><b class="num">${cnt.p}</b><small>${LG("ހާޒިރު","Present")}</small></div><div class="l"><b class="num">${cnt.l}</b><small>${LG("ލަސްވެފައި","Late")}</small></div><div class="a"><b class="num">${cnt.a}</b><small>${LG("ނެތް","Absent")}</small></div></div>
+    <div class="tools"><button type="button" class="chip" data-allp="${k}"><span class="dv">ހުރިހާ ދަރިވަރުން ހާޒިރު</span><span class="en">All present</span></button><span class="pct">${LG("ހާޒިރީ","Attendance")} <span class="num" dir="ltr">${pc}%</span></span></div>
+    <div class="stl">${L.map((s,i)=>{const v=M[s.id]||"p";return `<div class="stu ${v}"><span class="no num">${i+1}</span><b class="nm">${esc(s.name)}</b><div class="seg">${ST.map(([x,dv,en])=>`<button type="button" class="${x}${v===x?" on":""}" data-mk="${k}" data-id="${esc(s.id)}" data-v="${x}" title="${en}">${LG(dv,en)}</button>`).join("")}</div></div>`;}).join("")}</div>
+    <button class="btn" data-savemarks="${k}" style="margin-top:14px"><span class="dv">${m?"ބަދަލު ރައްކާކުރައްވާ":"ހާޒިރީ ރައްކާކުރައްވާ"}</span><span class="en" style="color:#fff">${m?"Update":"Save attendance"}</span></button>
     <div class="msg" id="m-${mid(c.class_en)}"></div>
-    <button class="lnk" data-edit="${k}">ދަރިވަރުންގެ ލިސްޓް ބަދަލުކުރައްވާ <span class="en">Edit student list</span></button>
+    <button class="lnk" data-edit="${k}"><span class="dv">ދަރިވަރުންގެ ލިސްޓް ބަދަލުކުރައްވާ</span><span class="en">Edit student list</span></button>
   </div>`;}
 document.addEventListener("click",async e=>{
   const b=e.target.closest("[data-d]");if(b){const c=(ME.classes||[]).find(x=>x.class_en===b.dataset.c);ABS[c.class_en]=Math.max(0,Math.min(c.students||0,(ABS[c.class_en]||0)+(+b.dataset.d)));render();return;}
   const s=e.target.closest("[data-save]");if(s){const k=s.dataset.save,m=document.getElementById("m-"+mid(k));s.disabled=true;m.className="msg";m.textContent="...";
-    try{await rpc("mark_attendance",{p_date:DATE,p_class:k,p_absent:ABS[k]||0});ME=await rpc("staff_me");render();const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent="ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ. (Saved — the website is updated.)";}}
+    try{await rpc("mark_attendance",{p_date:DATE,p_class:k,p_absent:ABS[k]||0});ME=await rpc("staff_me");render();const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent=LANG==="en"?"Saved — the website is updated.":"ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ.";}}
     catch(err){s.disabled=false;m.className="msg err";m.textContent=err.message;}}
 });
 document.addEventListener("click",async e=>{
@@ -203,7 +216,7 @@ document.addEventListener("click",async e=>{
     catch(err){sl.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
   const sm=e.target.closest("[data-savemarks]");if(sm){const k=sm.dataset.savemarks,key=k+"|"+DATE,msg=document.getElementById("m-"+mid(k)),M=MARK[key]||{};
     const marks=(ROST[key]||[]).map(s=>({id:s.id,status:M[s.id]||"p"}));sm.disabled=true;msg.className="msg";msg.textContent="...";
-    try{await rpc("mark_students",{p_date:DATE,p_class:k,p_marks:marks});delete ROST[key];ME=await rpc("staff_me");await loadRoster((ME.classes||[]).find(x=>x.class_en===k));const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent="ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ. (Saved — the website is updated.)";}}
+    try{await rpc("mark_students",{p_date:DATE,p_class:k,p_marks:marks});delete ROST[key];ME=await rpc("staff_me");await loadRoster((ME.classes||[]).find(x=>x.class_en===k));const m2=document.getElementById("m-"+mid(k));if(m2){m2.className="msg ok";m2.textContent=LANG==="en"?"Saved — the website is updated.":"ރައްކާކުރެވިއްޖެ. ވެބްސައިޓް އަޕްޑޭޓްވެއްޖެ.";}}
     catch(err){sm.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
 });
 document.addEventListener("change",e=>{if(e.target.id==="dt"&&e.target.value){DATE=e.target.value;ABS={};render();}});
@@ -211,6 +224,7 @@ $("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`
 {const h=new URLSearchParams(location.hash.slice(1)),q=new URLSearchParams(location.search);
  if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});history.replaceState(null,"",location.pathname);}
  else if(h.get("error")||q.get("error")){const m=$("#lMsg");m.className="msg err";m.textContent=decodeURIComponent((h.get("error_description")||q.get("error_description")||h.get("error")||q.get("error")).replace(/\+/g," "));history.replaceState(null,"",location.pathname);}}
+$("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
 if(S)start();
 </script>
 </body>
