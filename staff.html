@@ -688,58 +688,107 @@ const enDate=s=>{if(!s)return"";const d=new Date(String(s).slice(0,10)+"T00:00:0
 const num=x=>{const n=parseFloat(x);return isNaN(n)?null:n;};
 const pct=(a,t)=>t?(Math.round(a/t*1000)/10).toFixed(a/t*100%1?1:0):"-";
 function gradeOf(p){if(p==null)return "MC";return p>=85?"A+":p>=75?"A":p>=64?"B":p>=50?"C":p>=40?"D":p>=35?"E":p>=1?"F":"MC";}
-function rcHTML(R){const T=R.term||{},C=R.class||{},head=`<div class="hd"><img src="${location.origin}/logo.png" alt=""><div>KONDEY SCHOOL<br>STUDENT PERFORMANCE REPORT<br>${esc((T.name_en||"").toUpperCase())}</div></div>`;
+function rcHTML(R){const T=R.term||{},C=R.class||{},O=location.origin,rd=enDate(T.report_date||T.end_date);
+  const L2=(en,dv)=>`<span class="en">${en}</span><span class="tn">${dv}</span>`;
+  const head=(s)=>`<header class="hd"><img src="${O}/logo-white.png" alt=""><div class="ht"><div class="sn">KONDEY SCHOOL</div><div class="sd">ކޮނޑޭ ސްކޫލް · ގއ. ކޮނޑޭ</div></div><div class="hr"><div class="rt">Student Progress Report</div><div class="rtd">ދަރިވަރުގެ ރިޕޯޓް ކާޑު</div><div class="tm">${esc(T.name_en||"")}</div></div></header>`;
+  const strip=(s,cls)=>`<div class="strip"><div><small>Student · ދަރިވަރު</small><b>${esc(s.name_en)}</b>${s.name_dv?`<i class="tn">${esc(s.name_dv)}</i>`:""}</div><div><small>Class · ކުލާސް</small><b>${esc(cls)}</b></div><div><small>Index No.</small><b>${esc(s.index_no||"—")}</b></div><div><small>ID Card</small><b>${esc(s.id_no||"—")}</b></div></div>`;
   const out=R.students.map(({s,data:d})=>{const ct=(T.class_teachers||{})[s.grade]||C.teacher_en||"",ld=(T.leads||{})[s.grade]||"",cls=[s.grade,s.section].filter(Boolean).join(" ");
-    const foot=`<div class="ft"><span>${esc(s.name_en)}</span><span>${esc(s.id_no||"")}</span><span>${esc(cls)}</span></div>`;
-    const who=`<table class="who"><tr><td>Student’s Name:</td><td class="v">${esc(s.name_en)}</td><td class="dv">ދަރިވަރުގެ ނަން:</td></tr><tr><td>ID Card Number:</td><td class="v">${esc(s.id_no||"")} &nbsp; · &nbsp; Class: ${esc(cls)}</td><td class="dv">ކުލާސް:</td></tr></table>`;
-    const row=(en,v,dv)=>`<tr><td>${en}</td><td class="v">${v??""}</td><td class="dv">${dv}</td></tr>`;
-    const p1=`<section class="pg">${head}<table class="kv"><tr class="sh"><th colspan="2">Student Particulars</th><th class="dv">ދަރިވަރުގެ މަޢުލޫމާތު</th></tr>
-      ${row("Identity Number:",esc(s.id_no||""),"އައިޑެންޓިޓީ ނަންބަރ:")}${row("Student’s Name:",esc(s.name_en)+(s.name_dv?`<br><span class="tn">${esc(s.name_dv)}</span>`:""),"ދަރިވަރުގެ ނަން:")}${row("Date of Birth:",enDate(s.dob),"އުފަން ތާރީޚު:")}
-      ${row("Permanent Address:",esc(s.address_en||""),"ދާއިމީ އެޑްރެސް:")}${row("Atoll / Island",esc(s.island_en||""),"އަތޮޅު/ރަށް:")}${row("Grade:",esc(s.grade||""),"ގްރޭޑް:")}${row("Class:",esc(cls),"ކުލާސް:")}
-      ${row("Term Started Date:",enDate(T.start_date),"ޓާމުގެ ކިޔެވުން ފެށުނު ތާރީޚް:")}${row("Term Ended Date:",enDate(T.end_date),"ޓާމުގެ ކިޔެވުން ނިމުނު ތާރީޚް:")}${row("School re-opening date:",enDate(T.reopen_date),"ސްކޫލު ދެން ހުޅުވޭނެ ތާރީޚް:")}</table>
-      <table class="kv"><tr class="sh"><th colspan="2">Attendance</th><th class="dv">ޙާޒިރީ</th></tr>${row("No of days to be attended",esc(T.teaching_days||d.teaching_days||""),"ޙާޒިރުވާން ޖެހޭ ދުވަހުގެ އަދަދު")}${row("No of days attended",esc(d.att_days??""),"ޙާޒިރުވި ދުވަހުގެ އަދަދު")}${row("No of days absent",esc(d.absent_days??""),"ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days excused",esc(d.excused_days??""),"ބަލިވެގެން ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days late",esc(d.late_days??""),"ގަޑި ޖެހުނު ދުވަހުގެ އަދަދު")}</table>
-      <table class="kv"><tr class="sh"><th colspan="2">Physical Development</th><th class="dv">ހެދި ބޮޑުވުން</th></tr>${row("Height (cm)",esc(d.height??""),"އިސްކޮޅު (ސ.މ)")}${row("Weight (Kg)",esc(d.weight??""),"ބަރުދަން (ކ.ގ)")}</table>
-      <table class="kv"><tr class="sh"><th colspan="2">Parent</th><th class="dv">ބެލެނިވެރިޔާ</th></tr>${row("Guardian’s Name",esc(s.guardian_en||"")+(s.guardian_dv?`<br><span class="tn">${esc(s.guardian_dv)}</span>`:""),"ބެލެނިވެރިޔާގެ ނަން:")}</table>
-      <div class="band">KONDEY SCHOOL, GA.KONDEY</div></section>`;
-    const subRow=k=>{const s0=RSUB.find(x=>x[0]===k),fa=num(d[k+"_fa"]),ma=num(d[k+"_ma"]),a=num(d[k+"_a"]),t=(fa||0)+(ma||0)+(a||0);
-      return `<tr><td class="sj"><span class="tn">${s0[1]}</span><br>${s0[2]}</td><td class="cm" dir="auto">${esc(d[k+"_comment"]||"")}</td><td>${fa??"-"}</td><td class="p">${fa==null?"-":pct(fa,t)}</td><td>${ma??"-"}</td><td class="p">${ma==null?"-":pct(ma,t)}</td><td>${a??"-"}</td><td class="p">${a==null?"-":pct(a,t)}</td><td><b>${t||"-"}</b></td></tr>`;};
-    const subTab=ks=>`<table class="sb"><thead><tr><th colspan="2">މާއްދާ ޓީޗަރުގެ ބަޔާން<br>Subject teacher's feedback</th><th colspan="7">އައުޓްކަމްތަކުން ހާސިލްވި މިންވަރު<br>Outcome Status</th></tr><tr><th colspan="2"></th><th>FA<br>ފހ</th><th>%</th><th>MA<br>ބހ</th><th>%</th><th>A<br>ހ</th><th>%</th><th>Total<br>ޖުމްލަ</th></tr></thead><tbody>${ks.map(subRow).join("")}</tbody></table>`;
+    const foot=(n,tot)=>`<footer class="ft"><span>${esc(s.name_en)} · ${esc(cls)}</span><span>${esc(T.name_en||"")}</span><span>Page ${n} of ${tot}</span></footer>`;
+    const sec=(en,dv)=>`<h3 class="sec"><span>${en}</span><span class="tn">${dv}</span></h3>`;
+    const fld=(en,dv,v,wide)=>`<div class="fld${wide?" w":""}"><label>${en}<span class="tn">${dv}</span></label><div class="v">${v||"—"}</div></div>`;
+    const TD=num(T.teaching_days||d.teaching_days),AT=num(d.att_days),AP=TD&&AT!=null?Math.round(AT/TD*1000)/10:null;
+    const tile=(en,dv,v,cl)=>`<div class="tile ${cl||""}"><b>${v??"—"}</b><span>${en}</span><span class="tn">${dv}</span></div>`;
+    const p1=`${fld("Full Name","ފުރިހަމަ ނަން",esc(s.name_en)+(s.name_dv?`<div class="tn sub">${esc(s.name_dv)}</div>`:""),1)}${fld("Identity Number","އައިޑީ ކާޑު ނަންބަރު",esc(s.id_no||""))}${fld("Date of Birth","އުފަން ތާރީޚު",enDate(s.dob))}
+      ${fld("Grade","ގްރޭޑް",esc(s.grade||""))}${fld("Class","ކުލާސް",esc(cls))}${fld("Permanent Address","ދާއިމީ އެޑްރެސް",esc(s.address_en||""))}${fld("Atoll / Island","އަތޮޅު / ރަށް",esc(s.island_en||""))}
+      ${fld("Parent / Guardian","ބެލެނިވެރިޔާ",esc(s.guardian_en||"")+(s.guardian_dv?`<div class="tn sub">${esc(s.guardian_dv)}</div>`:""),1)}`;
+    const page1=`${sec("Student Particulars","ދަރިވަރުގެ މަޢުލޫމާތު")}<div class="grid">${p1}</div>
+      ${sec("Term Dates","ޓާމުގެ ތާރީޚުތައް")}<div class="dates"><div><small>Term started · ފެށުނު</small><b>${enDate(T.start_date)||"—"}</b></div><div><small>Term ended · ނިމުނު</small><b>${enDate(T.end_date)||"—"}</b></div><div><small>School re-opens · ހުޅުވޭނީ</small><b>${enDate(T.reopen_date)||"—"}</b></div></div>
+      ${sec("Attendance","ޙާޒިރީ")}<div class="tiles">${tile("Days to attend","ޙާޒިރުވާން ޖެހޭ",TD)}${tile("Days attended","ޙާޒިރުވި",AT,"g")}${tile("Days absent","ހާޟިރުނުވި",num(d.absent_days),num(d.absent_days)?"r":"")}${tile("Excused","ބަލިވެގެން",num(d.excused_days))}${tile("Days late","ގަޑިޖެހުނު",num(d.late_days),num(d.late_days)?"a":"")}</div>
+      ${AP!=null?`<div class="meter"><div class="ml"><span>Attendance rate · ޙާޒިރީގެ މިންވަރު</span><b>${AP}%</b></div><div class="mb"><i style="width:${Math.min(100,AP)}%"></i></div></div>`:""}
+      ${sec("Physical Development","ހެދި ބޮޑުވުން")}<div class="tiles two">${tile("Height (cm)","އިސްކޮޅު (ސ.މ)",d.height?esc(d.height):null)}${tile("Weight (kg)","ބަރުދަން (ކ.ގ)",d.weight?esc(d.weight):null)}</div>`;
     const filled=k=>d[k+"_comment"]||d[k+"_fa"]||d[k+"_ma"]||d[k+"_a"];
-    const p2=`<section class="pg">${head}${who}${subTab(["quran","islam","dhivehi","english","maths","hpe","social"].filter(k=>filled(k)||k!=="quran"))}${foot}</section>`;
-    const lv=x=>esc(x||"");
-    const p3=`<section class="pg">${head}${who}${subTab(["science","arts","business"].filter(k=>k!=="business"||filled(k)))}
-      <table class="cp"><tr class="sh"><th colspan="6">Student competency levels for Numeracy and Literacy</th></tr><tr class="s2"><th colspan="6">English</th></tr><tr><th colspan="2">Reading</th><th colspan="2">Writing</th><th colspan="2">Speaking</th></tr><tr><td colspan="2">${lv(d.comp_en_r)}</td><td colspan="2">${lv(d.comp_en_w)}</td><td colspan="2">${lv(d.comp_en_s)}</td></tr>
-      <tr class="s2"><th colspan="6">Dhivehi</th></tr><tr><th colspan="2">Reading</th><th colspan="2">Writing</th><th colspan="2">Speaking</th></tr><tr><td colspan="2">${lv(d.comp_dv_r)}</td><td colspan="2">${lv(d.comp_dv_w)}</td><td colspan="2">${lv(d.comp_dv_s)}</td></tr>
-      <tr class="s2"><th colspan="6">Mathematics</th></tr><tr><th colspan="3">Arithmetics</th><th colspan="3">Reasoning</th></tr><tr><td colspan="3">${lv(d.comp_ma_ar)}</td><td colspan="3">${lv(d.comp_ma_re)}</td></tr></table>${foot}</section>`;
+    const CMAP={english:[["comp_en_r","Reading"],["comp_en_w","Writing"],["comp_en_s","Speaking"]],dhivehi:[["comp_dv_r","Reading"],["comp_dv_w","Writing"],["comp_dv_s","Speaking"]],maths:[["comp_ma_ar","Arithmetics"],["comp_ma_re","Reasoning"]]};
+    const lvc=v=>({Exceeding:"l4",Proficient:"l3",Developing:"l2","Need Support":"l1"}[v]||"");
+    const subj=k=>{const s0=RSUB.find(x=>x[0]===k),fa=num(d[k+"_fa"]),ma=num(d[k+"_ma"]),a=num(d[k+"_a"]),t=(fa||0)+(ma||0)+(a||0),w=x=>t?(x||0)/t*100:0;
+      const cm=CMAP[k]?`<div class="lv">${CMAP[k].map(([ck,n])=>`<span class="${lvc(d[ck])}"><small>${n}</small>${esc(d[ck]||"—")}</span>`).join("")}</div>`:"";
+      return `<div class="sj"><div class="sjh"><div><b>${s0[2]}</b><span class="tn">${s0[1]}</span></div>
+        <div class="oc">${t?`<div class="bar3"><i class="fa" style="width:${w(fa)}%"></i><i class="ma" style="width:${w(ma)}%"></i><i class="a" style="width:${w(a)}%"></i></div>`:""}
+        <div class="ocn"><span class="fa">FA <b>${fa??"–"}</b> <em>${fa==null?"":pct(fa,t)+"%"}</em></span><span class="ma">MA <b>${ma??"–"}</b> <em>${ma==null?"":pct(ma,t)+"%"}</em></span><span class="a">A <b>${a??"–"}</b> <em>${a==null?"":pct(a,t)+"%"}</em></span><span class="tt">Total <b>${t||"–"}</b></span></div></div></div>
+        <div class="cmt" dir="auto">${esc(d[k+"_comment"]||"")||'<span class="none">No comment</span>'}</div>${cm}</div>`;};
+    const ks=["quran","islam","dhivehi","english","maths","science","social","hpe","arts","business"].filter(k=>filled(k)||(k!=="quran"&&k!=="business"));
+    const est=k=>{const c=String(d[k+"_comment"]||""),lines=Math.max(1,c.split("\n").reduce((a,l)=>a+Math.max(1,Math.ceil(l.length/(/[\u0780-\u07BF]/.test(l)?105:125))),0));return 16+lines*6.3+(CMAP[k]?8:0);};
+    const packs=[];let cur=[],h=0;ks.forEach(k=>{const e=est(k);if(cur.length&&h+e>(packs.length?228:218)){packs.push(cur);cur=[];h=0;}cur.push(k);h+=e;});if(cur.length)packs.push(cur);
+    const legend=`<div class="legend"><span><i class="fa"></i>FA · Fully achieved · ފުރިހަމައަށް ހާސިލްވި</span><span><i class="ma"></i>MA · Mostly achieved · ގިނަބައެއް ހާސިލްވި</span><span><i class="a"></i>A · Achieving · ހާސިލްވަމުން އަންނަ</span></div>`;
+    const lkey=`<div class="lkey"><b>Competency levels:</b> <span class="l4">Exceeding</span><span class="l3">Proficient</span><span class="l2">Developing</span><span class="l1">Need Support</span></div>`;
+    const subPages=packs.map((pk,i)=>`${sec(i?"Subject Teachers' Feedback (continued)":"Subject Teachers' Feedback","މާއްދާ ޓީޗަރުންގެ ބަޔާން")}${i?"":legend}${pk.map(subj).join("")}${i===packs.length-1?lkey:""}`);
     const ex=EXTRA.filter(([k])=>d[k]);
-    const p4=`<section class="pg">${head}${who}
-      ${ex.length?`<table class="cp"><tr class="sh"><th colspan="2">Extra Activities · <span class="tn">އިތުރު ހަރަކާތްތައް</span></th></tr>${ex.reduce((a,x,i)=>i%2?a:a.concat([[x,ex[i+1]]]),[]).map(([a,b])=>`<tr><th>${a[1]}<br><span class="tn">${a[2]}</span></th><th>${b?`${b[1]}<br><span class="tn">${b[2]}</span>`:""}</th></tr><tr><td dir="auto">${esc(d[a[0]])}</td><td dir="auto">${b?esc(d[b[0]]):""}</td></tr>`).join("")}</table>`:""}
-      <table class="cd"><tr class="sh"><th colspan="3"><span class="tn">އަޚްލާޤާއި ސުލޫކު</span> · Student Conduct</th></tr>${COND.map(([k,en,dv])=>`<tr><td>${en}</td><td class="v">${lv(d[k])}</td><td class="dv">${dv}</td></tr>`).join("")}</table>
-      <div class="box"><div class="bh"><span class="tn">މައިގަނޑު ޤާބިލިއްޔަތުތަކާއި ގުޅޭ ތަފްސީލީ ބަޔާން</span><br>Additional comment on Key competencies</div><div class="bt" dir="auto">${esc(d.key_comment||"")}</div></div>
-      <div class="box"><div class="bh"><span class="tn">ކުލާސް ޓީޗަރުގެ ތަފްސީލީ ބަޔާން</span><br>General Comment by the Class Teacher</div><div class="bt" dir="auto">${esc(d.general_comment||"")}</div><div class="sg"><span>Name: ${esc(ct)}</span><span>${enDate(T.report_date||T.end_date)}</span></div></div>
-      <div class="sigs"><div><div class="bh"><span class="tn">ލީޑިންގް ޓީޗަރ</span><br>Leading Teacher</div><p>Name: ${esc(ld)}</p><p>Date: ${enDate(T.report_date||T.end_date)}</p><p>Signature:</p></div><div><div class="bh"><span class="tn">ސްކޫލުގެ ފަރާތުން</span><br>Head of School</div><p>Name: ${esc(T.head_of_school||"")}</p><p>Date: ${enDate(T.report_date||T.end_date)}</p><p>Signature:</p></div></div>${foot}</section>`;
-    const out60=T.marks_out_of||60;
-    const p5=MARKG.includes(s.grade)?`<section class="pg">${head}${who}<table class="mk"><thead><tr><th><span class="tn">މާއްދާ</span><br>Subject</th><th><span class="tn">މާއްދާތަކުން ލިބުނު މާރކްސް</span><br>Subject Marks (out of ${out60})</th><th>%</th><th>Grade</th></tr></thead><tbody>${MARKSUB.map(k=>{const s0=RSUB.find(x=>x[0]===k),m=num(d[k+"_marks"]),p=m==null?null:m/out60*100;return `<tr><td><span class="tn">${s0[1]}</span><br>${s0[2]}</td><td>${m??"-"}</td><td>${p==null?"-":Math.round(p*10)/10}</td><td><b>${gradeOf(p)}</b></td></tr>`;}).join("")}</tbody></table>
-      <p class="key">A+ 85–100 · A 75–84 · B 64–74 · C 50–63 · D 40–49 · E 35–39 · F 1–34 · MC = missed / no marks</p>${foot}</section>`:"";
-    return p1+p2+p3+p4+p5;}).join("");
-  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Report cards · ${esc(C.class_en||"")} · ${esc(T.name_en||"")}</title><style>
-  @font-face{font-family:Faruma;src:url("${location.origin}/Faruma%20V2.0%20(official%20release).ttf")}@font-face{font-family:Waheed;src:url(${location.origin}/MV_Waheed.otf)}
-  @page{size:A4;margin:12mm}*{box-sizing:border-box}body{margin:0;font:12px/1.45 Arial,Helvetica,sans-serif;color:#111;background:#eee}
-  .bar{position:sticky;top:0;background:#C8102E;color:#fff;padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;font:600 14px Arial}.bar button{background:#fff;color:#C8102E;border:0;border-radius:8px;padding:8px 16px;font:700 14px Arial;cursor:pointer}
-  .pg{background:#fff;width:210mm;min-height:297mm;margin:10px auto;padding:12mm;page-break-after:always;position:relative}
-  .tn,.dv{font-family:Faruma,"MV Faseyha",Arial,sans-serif}.cm,.bt,[dir=auto]{font-family:Arial,Faruma,"MV Faseyha",sans-serif}.dv{text-align:right;direction:rtl;width:38%}
-  .hd{display:flex;align-items:center;justify-content:center;gap:14px;text-align:center;font:700 14px/1.35 Arial;margin-bottom:14px}.hd img{width:54px;height:54px}
-  table{width:100%;border-collapse:collapse;margin-bottom:12px}td,th{border:1px solid #333;padding:5px 7px;vertical-align:middle}
-  .kv td{border-width:0 0 1px;border-style:dashed;border-color:#999}.kv td:first-child{width:30%}.kv .v{text-align:center}.sh th{background:#d9d9d9;font-size:13px;text-align:left}.sh th.dv{text-align:right}.s2 th{background:#f0f0f0}
-  .band{border:1px solid #333;background:#d9d9d9;text-align:center;font-weight:700;padding:5px;margin-top:20px}
-  .who{margin-bottom:10px}.who td{border:0;padding:3px 4px}.who .v{font-weight:700}
-  .sb th{background:#f0f0f0;font-size:11px;text-align:center}.sb td{text-align:center;font-size:12px}.sb .sj{width:16%;font-weight:700}.sb .cm{text-align:start;unicode-bidi:plaintext;width:46%;font-size:12px;line-height:1.9}.sb td.p{background:#f3f3f3}
-  .cp th,.cp td{text-align:center}.cd td:first-child{width:36%}.cd .v{text-align:center;font-weight:700}
-  .box{border:1px solid #333;margin-bottom:12px}.bh{background:#f0f0f0;padding:6px;text-align:center;font-weight:700;border-bottom:1px solid #333}.bt{padding:10px;min-height:60px;text-align:start;unicode-bidi:plaintext;line-height:2}.sg{display:flex;justify-content:space-between;padding:6px 10px;border-top:1px solid #333}
-  .sigs{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sigs>div{border:1px solid #333}.sigs p{margin:6px 10px}
-  .mk td,.mk th{text-align:center;padding:10px}.mk th{background:#d9d9d9}.key{font-size:10px;color:#555}
-  .ft{position:absolute;left:12mm;right:12mm;bottom:10mm;display:flex;justify-content:space-between;border-top:1px solid #333;padding-top:4px;font-weight:700}
-  @media print{body{background:#fff}.bar{display:none}.pg{margin:0;padding:0;width:auto;min-height:0;height:270mm}.ft{left:0;right:0;bottom:0}}
+    const cdc=v=>({Excellent:0,Good:1,"Needs Improvement":2}[v]);
+    const page4=`${sec("Student Conduct","އަޚްލާޤާއި ސުލޫކު")}<table class="cd"><thead><tr><th></th><th>Excellent</th><th>Good</th><th>Needs Improvement</th></tr></thead><tbody>${COND.map(([k,en,dv])=>{const c=cdc(d[k]);return `<tr><td><b>${en}</b><span class="tn">${dv}</span></td>${[0,1,2].map(i=>`<td class="ck">${c===i?`<i class="c${i}">✓</i>`:""}</td>`).join("")}</tr>`;}).join("")}</tbody></table>
+      ${ex.length?`${sec("Extra Activities","އިތުރު ހަރަކާތްތައް")}<div class="grid">${ex.map(([k,en,dv])=>fld(en,dv,`<span dir="auto">${esc(d[k])}</span>`)).join("")}</div>`:""}
+      ${sec("Key Competencies","މައިގަނޑު ޤާބިލިއްޔަތުތައް")}<div class="note" dir="auto">${esc(d.key_comment||"")||'<span class="none">—</span>'}</div>
+      ${sec("Class Teacher's Comment","ކުލާސް ޓީޗަރުގެ ބަޔާން")}<div class="note" dir="auto">${esc(d.general_comment||"")||'<span class="none">—</span>'}</div>
+      <div class="sigs">${[["Class Teacher","ކުލާސް ޓީޗަރ",ct],["Leading Teacher","ލީޑިންގް ޓީޗަރ",ld],["Head of School","ސްކޫލުގެ ވެރިޔާ",T.head_of_school||""]].map(([en,dv,n])=>`<div><div class="sl"></div><b>${esc(n)||"&nbsp;"}</b><span>${en} · <span class="tn">${dv}</span></span><small>Date: ${rd||"—"}</small></div>`).join("")}</div>`;
+    const out60=T.marks_out_of||60,gcl=g=>({"A+":"g1",A:"g1",B:"g2",C:"g3",D:"g4",E:"g4",F:"g5",MC:"g6"}[g]);
+    const mrows=MARKSUB.map(k=>{const s0=RSUB.find(x=>x[0]===k),m=num(d[k+"_marks"]),p=m==null?null:m/out60*100,g=gradeOf(p);return {s0,m,p,g};});
+    const tot=mrows.reduce((a,x)=>a+(x.m||0),0),cnt=mrows.filter(x=>x.m!=null).length,avg=cnt?tot/(cnt*out60)*100:null;
+    const page5=MARKG.includes(s.grade)?`${sec("Term Test Marks","ޓާމް ޓެސްޓުގެ މާކްސް")}<table class="mk"><thead><tr><th>Subject · <span class="tn">މާއްދާ</span></th><th>Marks<small> / ${out60}</small></th><th>Percentage</th><th>Grade</th></tr></thead><tbody>${mrows.map(({s0,m,p,g})=>`<tr><td><b>${s0[2]}</b><span class="tn">${s0[1]}</span></td><td class="c">${m??"—"}</td><td><div class="pb"><i style="width:${p==null?0:Math.min(100,p)}%"></i></div><span class="pv">${p==null?"—":(Math.round(p*10)/10)+"%"}</span></td><td class="c"><span class="gd ${gcl(g)}">${g}</span></td></tr>`).join("")}</tbody>
+      <tfoot><tr><td><b>Total</b></td><td class="c" style="white-space:nowrap"><b style="display:inline">${cnt?tot:"—"}</b><small> / ${cnt*out60||"—"}</small></td><td><span class="pv"><b>${avg==null?"—":(Math.round(avg*10)/10)+"%"}</b></span></td><td class="c">${avg==null?"":`<span class="gd ${gcl(gradeOf(avg))}">${gradeOf(avg)}</span>`}</td></tr></tfoot></table>
+      <div class="gkey">${[["A+","85–100","g1"],["A","75–84","g1"],["B","64–74","g2"],["C","50–63","g3"],["D","40–49","g4"],["E","35–39","g4"],["F","1–34","g5"],["MC","Missed","g6"]].map(([g,r,c])=>`<span><i class="gd ${c}">${g}</i>${r}</span>`).join("")}</div>`:"";
+    const pages=[page1,...subPages,page4,page5].filter(Boolean),n=pages.length;
+    return pages.map((p,i)=>`<section class="pg">${i===0?head(s):`<div class="mini"><img src="${O}/logo.png" alt=""><span>KONDEY SCHOOL · Student Progress Report · ${esc(T.name_en||"")}</span></div>`}${strip(s,cls)}<div class="body">${p}</div>${foot(i+1,n)}</section>`).join("");}).join("");
+  return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Report cards · ${esc(C.class_en||"")} · ${esc(T.name_en||"")}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+  @font-face{font-family:Faruma;src:url("${O}/Faruma%20V2.0%20(official%20release).ttf")}@font-face{font-family:Waheed;src:url(${O}/MV_Waheed.otf)}
+  @page{size:A4;margin:0}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  :root{--r:#C8102E;--rd:#8E0B22;--ink:#111827;--mu:#6B7280;--ln:#E5E7EB;--bg:#F9FAFB}
+  body{margin:0;font:10.5pt/1.45 "Plus Jakarta Sans",Arial,sans-serif;color:var(--ink);background:#E5E7EB}
+  .tn{font-family:Faruma,"MV Faseyha",sans-serif;direction:rtl;unicode-bidi:isolate}
+  .bar{position:sticky;top:0;z-index:5;background:var(--rd);color:#fff;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;font-weight:600}.bar button{background:#fff;color:var(--r);border:0;border-radius:8px;padding:8px 18px;font:700 13px "Plus Jakarta Sans",Arial;cursor:pointer}
+  .pg{background:#fff;width:210mm;min-height:297mm;margin:14px auto;position:relative;display:flex;flex-direction:column;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+  .hd{display:flex;align-items:center;gap:14px;padding:11mm 14mm 8mm;background:linear-gradient(120deg,var(--rd),var(--r) 65%,#DC2F48);color:#fff}
+  .hd img{width:58px;height:58px}.ht{flex:1}.sn{font-weight:800;font-size:19pt;letter-spacing:.06em;line-height:1.1}.sd{font-family:Waheed,Faruma,sans-serif;font-size:13pt;opacity:.9;direction:rtl;text-align:left}
+  .hr{text-align:right}.rt{font-weight:700;font-size:12.5pt;text-transform:uppercase;letter-spacing:.08em}.rtd{font-family:Waheed,Faruma,sans-serif;font-size:12pt;opacity:.9}.tm{display:inline-block;margin-top:4px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:2px 12px;font-weight:700;font-size:9.5pt}
+  .mini{display:flex;align-items:center;gap:8px;padding:7mm 14mm 0;color:var(--mu);font-size:8.5pt;font-weight:600;letter-spacing:.04em;text-transform:uppercase}.mini img{width:22px;height:22px}
+  .strip{display:grid;grid-template-columns:2.4fr 1fr 1fr 1.1fr;margin:5mm 14mm 0;border:1px solid var(--ln);border-radius:8px;background:var(--bg);overflow:hidden}
+  .strip>div{padding:6px 10px;border-inline-start:1px solid var(--ln)}.strip>div:first-child{border:0}.strip small{display:block;font-size:7.5pt;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;font-weight:600}.strip b{font-size:10.5pt}.strip i{font-style:normal;display:block;font-size:10pt;color:#374151;text-align:left}
+  .body{flex:1;padding:2mm 14mm 0}
+  .sec{display:flex;justify-content:space-between;align-items:baseline;margin:6mm 0 3mm;padding-bottom:4px;border-bottom:2px solid var(--r);font-size:11pt;font-weight:800;color:var(--rd);text-transform:uppercase;letter-spacing:.05em}.sec .tn{font-family:Waheed,Faruma,sans-serif;font-size:12.5pt;font-weight:400;text-transform:none;letter-spacing:0}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ln);border-radius:8px;overflow:hidden}
+  .fld{padding:7px 10px;border-bottom:1px solid var(--ln);border-inline-end:1px solid var(--ln)}.fld.w{grid-column:span 2}
+  .fld label{display:flex;justify-content:space-between;gap:6px;font-size:7.5pt;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600}.fld label .tn{text-transform:none;letter-spacing:0;font-size:9pt}
+  .fld .v{font-weight:600;font-size:10.5pt;margin-top:2px}.fld .sub{font-weight:400;font-size:10.5pt;color:#374151;text-align:left}
+  .dates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.dates>div{border:1px solid var(--ln);border-radius:8px;padding:8px 12px;border-top:3px solid var(--r)}.dates small{display:block;font-size:8pt;color:var(--mu);font-weight:600}.dates b{font-size:11pt}
+  .tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.tiles.two{grid-template-columns:repeat(2,1fr);max-width:60%}
+  .tile{border:1px solid var(--ln);border-radius:8px;padding:9px 8px;text-align:center;background:var(--bg)}.tile b{display:block;font-size:19pt;font-weight:800;line-height:1.1}.tile span{display:block;font-size:8pt;color:var(--mu);font-weight:600}.tile .tn{font-size:8.5pt;font-weight:400}
+  .tile.g b{color:#15803D}.tile.r b{color:#DC2626}.tile.a b{color:#D97706}
+  .meter{margin-top:8px}.ml{display:flex;justify-content:space-between;font-size:9pt;color:var(--mu);font-weight:600}.ml b{color:#15803D;font-size:11pt}.mb{height:8px;border-radius:99px;background:#F3F4F6;overflow:hidden;margin-top:4px}.mb i{display:block;height:100%;background:linear-gradient(90deg,#16A34A,#22C55E)}
+  .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:8pt;color:var(--mu);margin:-1mm 0 3mm}.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-inline-end:5px;vertical-align:-1px}
+  i.fa,.bar3 .fa{background:#16A34A}i.ma,.bar3 .ma{background:#F59E0B}i.a,.bar3 .a{background:#94A3B8}
+  .sj{border:1px solid var(--ln);border-radius:8px;margin-bottom:3mm;overflow:hidden;break-inside:avoid}
+  .sjh{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--bg);padding:6px 10px;border-bottom:1px solid var(--ln)}
+  .sjh>div:first-child b{font-size:11pt;font-weight:800;margin-inline-end:8px}.sjh>div:first-child .tn{font-family:Waheed,Faruma,sans-serif;font-size:11pt;color:var(--rd)}
+  .oc{min-width:58%}.bar3{display:flex;height:6px;border-radius:99px;overflow:hidden;background:#EEF0F3;margin-bottom:4px}.bar3 i{display:block;height:100%}
+  .ocn{display:flex;gap:10px;justify-content:flex-end;font-size:8.5pt;color:var(--mu);font-weight:600}.ocn b{color:var(--ink);font-size:9.5pt}.ocn em{font-style:normal;font-weight:500}.ocn .tt{border-inline-start:1px solid var(--ln);padding-inline-start:10px}
+  .ocn .fa b{color:#15803D}.ocn .ma b{color:#B45309}
+  .cmt{padding:7px 11px;font-family:"Plus Jakarta Sans",Arial,Faruma,"MV Faseyha",sans-serif;font-size:10pt;line-height:1.85;unicode-bidi:plaintext;text-align:start;white-space:pre-line}
+  .none{color:#9CA3AF;font-style:italic}
+  .lv{display:flex;gap:6px;padding:0 10px 8px;flex-wrap:wrap}.lv span{border-radius:6px;padding:2px 9px;font-size:8.5pt;font-weight:700;background:#F3F4F6;color:#374151}.lv small{font-weight:500;margin-inline-end:5px;opacity:.85}
+  .l4{background:#166534!important;color:#fff!important}.l3{background:#DCFCE7!important;color:#166534!important}.l2{background:#FEF3C7!important;color:#92400E!important}.l1{background:#FEE2E2!important;color:#991B1B!important}
+  .lkey{font-size:8pt;color:var(--mu);margin-top:2mm;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.lkey span{border-radius:5px;padding:1px 8px;font-weight:700}
+  table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--ln);border-radius:8px;overflow:hidden}
+  th{background:var(--bg);font-size:8pt;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);font-weight:700;padding:7px 10px;border-bottom:1px solid var(--ln);text-align:left}
+  td{padding:6px 10px;border-bottom:1px solid var(--ln);font-size:10pt}tbody tr:last-child td{border-bottom:0}
+  td b{display:block}td .tn{display:block;font-size:9.5pt;color:var(--mu);text-align:left}
+  .cd th:not(:first-child){text-align:center;width:16%}.ck{text-align:center}.ck i{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;color:#fff;font-style:normal;font-weight:800;font-size:10pt}.c0{background:#166534}.c1{background:#22C55E}.c2{background:#DC2626}
+  .note{border:1px solid var(--ln);border-inline-start:4px solid var(--r);border-radius:8px;padding:9px 12px;font-family:"Plus Jakarta Sans",Arial,Faruma,"MV Faseyha",sans-serif;font-size:10pt;line-height:1.9;min-height:20mm;unicode-bidi:plaintext;text-align:start;white-space:pre-line;background:#fff}
+  .sigs{display:grid;grid-template-columns:repeat(3,1fr);gap:10mm;margin-top:12mm}.sigs>div{display:flex;flex-direction:column;gap:2px;font-size:9pt}.sl{height:12mm;border-bottom:1.5px solid #374151;margin-bottom:4px}.sigs b{font-size:10pt}.sigs span{color:var(--mu);font-weight:600;font-size:8.5pt}.sigs span .tn{font-family:Waheed,Faruma,sans-serif;font-size:10pt}.sigs small{color:var(--mu)}
+  .mk td.c{text-align:center}.mk th:not(:first-child){text-align:center}.mk tfoot td{background:var(--bg);border-top:2px solid var(--ln);border-bottom:0}
+  .pb{display:inline-block;width:60%;height:7px;border-radius:99px;background:#EEF0F3;overflow:hidden;vertical-align:middle}.pb i{display:block;height:100%;background:var(--r)}.pv{display:inline-block;width:36%;text-align:right;font-weight:600}
+  .gd{display:inline-grid;place-items:center;min-width:30px;height:22px;border-radius:6px;font-weight:800;font-size:9.5pt;font-style:normal;padding:0 6px}
+  .g1{background:#166534;color:#fff}.g2{background:#22C55E;color:#fff}.g3{background:#FEF3C7;color:#92400E}.g4{background:#FED7AA;color:#9A3412}.g5{background:#FEE2E2;color:#991B1B}.g6{background:#E5E7EB;color:#374151}
+  .gkey{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4mm;font-size:8.5pt;color:var(--mu)}.gkey span{display:flex;align-items:center;gap:5px}.gkey .gd{height:18px;min-width:26px;font-size:8pt}
+  .ft{display:flex;justify-content:space-between;margin:0 14mm;padding:4mm 0 7mm;border-top:1px solid var(--ln);font-size:8pt;color:var(--mu);font-weight:600}
+  @media print{body{background:#fff}.bar{display:none}.pg{margin:0;box-shadow:none;break-after:page}}
   </style></head><body><div class="bar"><span>${esc(C.class_en||"")} · ${R.students.length} report card${R.students.length===1?"":"s"}</span><button onclick="print()">Print / Save as PDF</button></div>${out||'<p style="padding:20px">No students.</p>'}</body></html>`;}
 async function rcPrint(sid){const w=window.open("","_blank");if(w)w.document.write('<p style="font:16px Arial;padding:20px">Loading…</p>');
   try{const R=await rpc("rc_report",{p_term:RC.term,p_class:RC.cls,p_student:sid||null});const html=rcHTML(R);if(w){w.document.open();w.document.write(html);w.document.close();}else{const u=URL.createObjectURL(new Blob([html],{type:"text/html"}));location.href=u;}}
