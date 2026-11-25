@@ -701,7 +701,23 @@ html[lang=dv] .pc-t{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13
 .cm-chair b{display:block;font-size:22px;color:#7A0A1C;margin-top:6px;line-height:1.5}.cm-chair small{color:var(--muted)}
 .cm-mh{font-size:20px;color:var(--p);margin:20px 0 12px}
 .cm-g{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))!important}
-@media (max-width:620px){.cm-h h2{font-size:22px}.cm-cph{width:96px;height:114px}.cm-chair b{font-size:19px}.cm-g{grid-template-columns:1fr 1fr!important}}
+.cl-list{display:grid;gap:22px}
+.cl{position:relative;display:block;background:#fff;border-radius:26px;padding:26px 28px 22px;box-shadow:0 12px 30px rgba(15,23,42,.07);border:1px solid var(--line);overflow:hidden;color:inherit;transition:transform .2s,box-shadow .2s}
+.cl::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,#7A0A1C,var(--p),#E8798B)}
+.cl:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(200,16,46,.14)}
+.cl-no{display:block;font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:58px;line-height:1;color:transparent;-webkit-text-stroke:2px #EBB3BD;margin-bottom:10px}
+.cl h2{font-size:25px;color:#7A0A1C;line-height:1.5;margin:0 0 8px}
+.cl p{color:#4B5563;line-height:2;margin:0;font-size:17px}
+.cl-f{display:flex;align-items:center;gap:16px;border-top:2px solid var(--line);margin-top:18px;padding-top:18px}
+.cl-avs{display:flex;flex:none;padding-inline-end:4px}
+.cl-av{width:54px;height:54px;border-radius:50%;border:3px solid #fff;background:#FBE9EC;overflow:hidden;display:grid;place-items:center;color:var(--p);font-size:20px;margin-inline-start:-14px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.cl-av:first-child{margin-inline-start:0}.cl-av img{width:100%;height:100%;object-fit:cover;object-position:top}
+.cl-more{background:var(--p);color:#fff;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:17px;direction:ltr}
+.cl-m{flex:1;min-width:0}.cl-m b{display:block;font-size:18px;color:#1F2937;line-height:1.5}.cl-m small{color:var(--muted);font-size:15px}
+.cl-go{flex:none;width:40px;height:40px;border-radius:50%;background:var(--ps);color:var(--p);display:grid;place-items:center;transition:background .2s,color .2s}
+.cl:hover .cl-go{background:var(--p);color:#fff}
+html[lang=en] .cl-go svg{transform:scaleX(-1)}
+@media (max-width:620px){.cm-h h2{font-size:22px}.cl{padding:22px 20px 18px}.cl-no{font-size:48px}.cl h2{font-size:21px}.cl p{font-size:16px}.cl-av{width:42px;height:42px;margin-inline-start:-15px;font-size:16px}.cl-av:first-child{margin-inline-start:0}.cl-more{font-size:14px}.cl-f{gap:10px}.cl-m b{font-size:16px}.cl-m small{font-size:14px}.cl-go{width:36px;height:36px}.cm-cph{width:96px;height:114px}.cm-chair b{font-size:19px}.cm-g{grid-template-columns:1fr 1fr!important}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C;padding:34px 0 30px}
 .fc{background:#fff;border-radius:28px;box-shadow:0 10px 30px rgba(15,23,42,.06);padding:36px 40px 26px;max-width:960px;margin:0 auto}
@@ -1078,15 +1094,27 @@ function pcCard(m){const ph=safeUrl(m.photo);return `<div class="pc reveal${ph?"
 function cmMember(line,lineEn){const sp=t=>{const i=String(t||"").indexOf(":");return i<0?[String(t||"").trim(),""]:[t.slice(0,i).trim(),t.slice(i+1).trim()];};
   const [nd,rd]=sp(line),[ne,re]=sp(lineEn||line),st=findStaff(nd,ne);
   return {dv:st?st.name_dv||nd:nd,en:st?st.name_en||ne:ne,photo:st&&st.photo,role:rd||re?bi(esc(rd||re),esc(re||rd)):(st?(st.title_dv||st.title_en?L2(st,"title"):""):"")};}
-function committeesPage(){const L=COMMITTEES.slice().sort((a,b)=>(+a.order||99)-(+b.order||99));
-  const body=L.length?L.map(c=>{const D=String(c.members_dv||"").split("\n").map(x=>x.trim()).filter(Boolean),E=String(c.members_en||"").split("\n").map(x=>x.trim()).filter(Boolean),N=Math.max(D.length,E.length),M=[];for(let i=0;i<N;i++)M.push(cmMember(D[i]||E[i],E[i]||D[i]));
-    const ch=c.chair_dv||c.chair_en?cmMember(c.chair_dv||c.chair_en,c.chair_en||c.chair_dv):null,tot=M.length+(ch?1:0);
-    return `<section class="cm">
+function cmSorted(){return COMMITTEES.slice().sort((a,b)=>(+a.order||99)-(+b.order||99));}
+function cmData(c){const D=String(c.members_dv||"").split("\n").map(x=>x.trim()).filter(Boolean),E=String(c.members_en||"").split("\n").map(x=>x.trim()).filter(Boolean),N=Math.max(D.length,E.length),M=[];for(let i=0;i<N;i++)M.push(cmMember(D[i]||E[i],E[i]||D[i]));
+  const ch=c.chair_dv||c.chair_en?cmMember(c.chair_dv||c.chair_en,c.chair_en||c.chair_dv):null;return {M,ch,tot:M.length+(ch?1:0)};}
+const cmKey=(c,i)=>esc(String(c.id||i+1));
+function cmAv(m){const ph=safeUrl(m.photo);return `<span class="cl-av">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((m.dv||m.en||"?").trim().charAt(0))}</span>`}</span>`;}
+function committeesPage(){const L=cmSorted();
+  const body=L.length?`<div class="cl-list">${L.map((c,i)=>{const {M,ch,tot}=cmData(c),all=(ch?[ch]:[]).concat(M),show=all.slice(0,4),more=all.length-show.length;
+    return `<a class="cl reveal" href="#committee-${cmKey(c,i)}"><span class="cl-no">${String(i+1).padStart(2,"0")}</span>
+      <h2 class="h">${L2(c,"title")}</h2>${c.desc_dv||c.desc_en?`<p>${L2(c,"desc")}</p>`:""}
+      <div class="cl-f"><div class="cl-avs">${show.map(cmAv).join("")}${more>0?`<span class="cl-av cl-more">${more}+</span>`:""}</div>
+        <div class="cl-m">${ch?`<b class="h">${bi(esc(ch.dv),esc(ch.en))}</b>`:""}<small>${bi(`<span class="num">${tot}</span> މެންބަރުން`,`${tot} members`)}</small></div>
+        <span class="cl-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span></div></a>`;}).join("")}</div>`:empty("ކޮމިޓީތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Committees coming soon");
+  return pageHead("ކޮމިޓީތައް","Committees")+`<div class="pb"><div class="wrap"><div class="panel">${body}</div></div></div>`;}
+function committeePage(id){const L=cmSorted(),i=L.findIndex((c,j)=>cmKey(c,j)===esc(id)),c=L[i];
+  if(!c)return DB_LOADING?pageHead("ކޮމިޓީތައް","Committees")+`<div class="pb"><div class="wrap"><div class="panel">${loadingHTML()}</div></div></div>`:committeesPage();
+  const {M,ch,tot}=cmData(c);
+  return pageHead("ކޮމިޓީތައް","Committees")+`<div class="pb"><div class="wrap"><div class="panel"><a class="back" href="#committees">${IC.back}${bi("ކޮމިޓީތަކަށް","Back to committees")}</a><section class="cm">
       <div class="cm-h reveal"><span class="cm-chip">${bi("ކޮމިޓީ","Committee")}</span><h2 class="h">${L2(c,"title")}</h2>${c.desc_dv||c.desc_en?`<p>${L2(c,"desc")}</p>`:""}<span class="cm-n">${icS("users",14)}${bi(`<span class="num">${tot}</span> މެމްބަރުން`,`${tot} members`)}</span></div>
       ${ch?`<div class="cm-chair reveal"><div class="cm-cph">${safeUrl(ch.photo)?`<img src="${esc(safeUrl(ch.photo))}" alt="">`:`<span class="h">${esc((ch.dv||"?").charAt(0))}</span>`}</div><div><span class="cm-rl">${c.chair_role_dv||c.chair_role_en?L2(c,"chair_role"):bi("ރައީސް","Chairperson")}</span><b class="h">${bi(esc(ch.dv),esc(ch.en))}</b>${ch.role?`<small>${ch.role}</small>`:""}</div></div>`:""}
       ${M.length?`<h3 class="h cm-mh">${bi("މެމްބަރުން","Members")}</h3><div class="sg cm-g">${M.map(pcCard).join("")}</div>`:""}
-    </section>`;}).join(""):empty("ކޮމިޓީތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Committees coming soon");
-  return pageHead("ކޮމިޓީތައް","Committees")+`<div class="pb"><div class="wrap"><div class="panel">${body}</div></div></div>`;}
+    </section></div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
@@ -1325,6 +1353,7 @@ function route(){
   if(h.startsWith("news-")){html=detail(NEWS.find(n=>n.id===h.slice(5)),"news","ޚަބަރަށް","Back to news");key="news";}
   else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):detail(o,"notices","އިޢުލާންތަކަށް","Back to notices",1);key=st?"snotices":"notices";}}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
+  else if(h.startsWith("committee-")){html=committeePage(h.slice(10));key="committees";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
   else html=({home,committees:committeesPage,attendance:attendancePage,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
