@@ -66,6 +66,15 @@ textarea.names{width:100%;font-family:"Faruma",sans-serif;font-size:17px;line-he
 @media (max-width:420px){.seg button{padding:6px 7px;font-size:13px}.stu{padding:8px}}
 .gbtn{background:#fff;color:#1F2937;border:1px solid var(--line);margin-top:14px;box-shadow:0 2px 6px rgba(0,0,0,.05)}.gbtn .en{color:#6B7280}
 .or{display:flex;align-items:center;gap:10px;margin:16px 0 2px;color:var(--muted);font-size:13px}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.ov h2{margin:0 0 10px;font-size:21px}
+.ovs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.ovs div{border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}.ovs b{display:block;font-size:22px}.ovs small{color:var(--muted)}.ovs .bad b{color:#DC2626}
+.ovl{display:grid;gap:8px}
+.ovr{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.ovr.no{background:#FEF2F2;border-color:#FECACA}
+.ovt{flex:1;min-width:110px}.ovt b{display:block;font-size:17px}.ovt small{color:var(--muted);font-size:12px;font-family:"Plus Jakarta Sans",sans-serif}
+.ovn{display:flex;gap:5px;align-items:center}.ovn span{border-radius:8px;padding:2px 8px;font-size:14px}.ovn .p{background:#DCFCE7;color:#15803D}.ovn .a{background:#FEE2E2;color:#B91C1C}.ovn .l{background:#FEF3C7;color:#B45309}.ovn .pc{color:var(--muted)}
+.ova{flex-basis:100%;display:flex;flex-wrap:wrap;gap:5px}.ova span{font-size:13px;border-radius:99px;padding:2px 10px}.ova .a{background:#FEE2E2;color:#B91C1C}.ova .l{background:#FEF3C7;color:#B45309}
+.ovk{display:flex;gap:12px;justify-content:center;margin-top:10px;font-size:12px;color:var(--muted)}.ovk span::before{content:"";display:inline-block;width:9px;height:9px;border-radius:3px;margin-inline-end:5px}.ovk .p::before{background:#16A34A}.ovk .a::before{background:#DC2626}.ovk .l::before{background:#F59E0B}
 </style>
 </head>
 <body>
@@ -118,15 +127,28 @@ function render(){
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br>މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.<br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()">އެހެން އެކައުންޓަކުން ލޮގިން <span class="en">Use another account</span></button></div>`;return;}
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small>މަރުޙަބާ <span class="en">Welcome</span></small><b class="h">${esc(s.name_dv||s.name_en)}</b><small>${esc(s.title_dv||s.title_en||"")}</small></div></div>`;
+  if(!C.length&&ME.lead){v.innerHTML=h+`<div class="card"><label style="margin-top:0">ތާރީޚު <span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`+overview();return;}
   if(!C.length){v.innerHTML=h+`<div class="card empty">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން. <span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ <span class="en">View school attendance</span></a></div>`;return;}
   const wd=new Date(DATE+"T00:00:00").getDay(),school=wd!==5&&wd!==6,pending=C.filter(c=>!marked(c,DATE));
   h+= pending.length&&school?`<div class="alert"><div><b>ހާޒިރީ ނަގަންޖެހޭ <span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(c.class_dv||c.class_en)).join("، ")} · ${dvDate(DATE)}</small></div></div>`
      : !pending.length?`<div class="alert done"><div><b>ހާޒިރީ ނަގައިފި ✓ <span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
   h+=`<div class="card"><label style="margin-top:0">ތާރީޚު <span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
+  if(ME.lead)h+=overview();
   for(const c of C){h+=(c.roster>0||EDIT[c.class_en])?rosterCard(c):countCard(c);}
   v.innerHTML=h;
   C.filter(c=>c.roster>0&&!ROST[c.class_en+"|"+DATE]&&!LOADING[c.class_en+"|"+DATE]).forEach(loadRoster);
 }
+function overview(){const A=ME.all_classes||[],wd=new Date(DATE+"T00:00:00").getDay(),off=wd===5||wd===6;
+  const rows=A.map(c=>{const m=(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===DATE);return {c,m};}),done=rows.filter(r=>r.m),P=done.reduce((t,r)=>t+(+r.m.present||0),0),T=done.reduce((t,r)=>t+(+r.m.present||0)+(+r.m.absent||0),0),pc=T?Math.round(P/T*100):0;
+  const ab=(ME.absentees||[]).filter(x=>x.date===DATE);
+  return `<div class="card ov"><h2 class="h">ހުރިހާ ކްލާހެއްގެ ހާޒިރީ <span class="en">All classes</span></h2>
+    <div class="ovs"><div><b class="num">${done.length}/${A.length}</b><small>ނަގައިފި <span class="en">Marked</span></small></div><div class="${A.length-done.length?"bad":""}"><b class="num">${A.length-done.length}</b><small>ނުނަގާ <span class="en">Not marked</span></small></div><div><b class="num" dir="ltr">${pc}%</b><small>ހާޒިރީ <span class="en">Present</span></small></div></div>
+    ${off&&!done.length?`<div class="empty" style="padding:8px">ބަންދު ދުވަހެއް <span class="en">Weekend</span></div>`:""}
+    <div class="ovl">${rows.map(({c,m})=>{const t=m?(+m.present||0)+(+m.absent||0):c.students||0,q=m&&t?Math.round(m.present/t*100):0,a=ab.filter(x=>x.class_en===c.class_en);
+      return `<div class="ovr ${m?"ok":"no"}"><div class="ovt"><b class="h">${esc(c.class_dv||c.class_en)}</b><small>${esc(c.teacher_dv||c.teacher_en||"")}</small></div>
+        ${m?`<div class="ovn"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}<span class="pc num" dir="ltr">${q}%</span></div><span class="status yes">✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no">ނުނަގާ <span class="en">Not marked</span></span>`}
+        ${a.length?`<div class="ova">${a.map(x=>`<span class="${x.status}">${esc(x.name)}${x.status==="l"?" (ލަސް)":""}</span>`).join("")}</div>`:""}</div>`;}).join("")}</div>
+    <div class="ovk"><span class="p">ހާޒިރު</span><span class="a">ނެތް</span><span class="l">ލަސް</span></div></div>`;}
 function countCard(c){const m=marked(c,DATE),tot=c.students||0;if(ABS[c.class_en]==null)ABS[c.class_en]=m?+m.absent:0;const a=ABS[c.class_en],p=tot-a,pc=tot?Math.round(p/tot*100):0;
     const hist=(ME.marked||[]).filter(x=>x.class_en===c.class_en&&x.date!==DATE).sort((x,y)=>y.date.localeCompare(x.date)).slice(0,5);
     return `<div class="card cls"><h2 class="h">${esc(c.class_dv||c.class_en)}<span><b class="num">${tot}</b> ދަރިވަރުން</span></h2>
