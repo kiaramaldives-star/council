@@ -702,6 +702,13 @@ html[lang=dv] .pc-t{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13
 .cm-mh{font-size:20px;color:var(--p);margin:20px 0 12px}
 .cm-g{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))!important}
 .cl-list{display:grid;gap:22px}
+.co{margin-top:44px}.co-h{font-size:26px;color:#7A0A1C;margin:0 0 18px}
+.co-l{display:flex;flex-wrap:wrap;gap:14px}
+.co-p{display:inline-flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:10px 12px;padding-inline-start:24px;box-shadow:0 8px 22px rgba(15,23,42,.06);color:#7A0A1C;font-size:18px;line-height:1.5;transition:transform .2s,box-shadow .2s,border-color .2s}
+html[lang=en] .co-p{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;font-size:16px}
+.co-p b{flex:none;width:42px;height:42px;border-radius:50%;background:var(--ps);color:var(--p);display:grid;place-items:center;font-family:"Plus Jakarta Sans",sans-serif;font-size:17px;font-weight:600;transition:background .2s,color .2s}
+.co-p:hover{transform:translateY(-2px);border-color:#F3CDD4;box-shadow:0 12px 26px rgba(200,16,46,.12)}.co-p:hover b{background:var(--p);color:#fff}
+@media (max-width:620px){.co{margin-top:34px}.co-h{font-size:22px}.co-l{gap:10px}.co-p{font-size:16px;gap:12px;padding:7px 8px;padding-inline-start:18px}.co-p b{width:36px;height:36px;font-size:15px}}
 .cl{position:relative;display:block;background:#fff;border-radius:26px;padding:26px 28px 22px;box-shadow:0 12px 30px rgba(15,23,42,.07);border:1px solid var(--line);overflow:hidden;color:inherit;transition:transform .2s,box-shadow .2s}
 .cl::before{content:"";position:absolute;inset:0 0 auto 0;height:6px;background:linear-gradient(90deg,#7A0A1C,var(--p),#E8798B)}
 .cl:hover{transform:translateY(-3px);box-shadow:0 18px 38px rgba(200,16,46,.14)}
@@ -1114,7 +1121,7 @@ function committeePage(id){const L=cmSorted(),i=L.findIndex((c,j)=>cmKey(c,j)===
       <div class="cm-h reveal"><span class="cm-chip">${bi("ކޮމިޓީ","Committee")}</span><h2 class="h">${L2(c,"title")}</h2>${c.desc_dv||c.desc_en?`<p>${L2(c,"desc")}</p>`:""}<span class="cm-n">${icS("users",14)}${bi(`<span class="num">${tot}</span> މެމްބަރުން`,`${tot} members`)}</span></div>
       ${ch?`<div class="cm-chair reveal"><div class="cm-cph">${safeUrl(ch.photo)?`<img src="${esc(safeUrl(ch.photo))}" alt="">`:`<span class="h">${esc((ch.dv||"?").charAt(0))}</span>`}</div><div><span class="cm-rl">${c.chair_role_dv||c.chair_role_en?L2(c,"chair_role"):bi("ރައީސް","Chairperson")}</span><b class="h">${bi(esc(ch.dv),esc(ch.en))}</b>${ch.role?`<small>${ch.role}</small>`:""}</div></div>`:""}
       ${M.length?`<h3 class="h cm-mh">${bi("މެމްބަރުން","Members")}</h3><div class="sg cm-g">${M.map(pcCard).join("")}</div>`:""}
-    </section></div></div></div>`;}
+    </section>${L.length>1?`<section class="co"><h3 class="h co-h">${bi("އެހެން ކޮމިޓީތައް","Other committees")}</h3><div class="co-l">${L.map((o,j)=>j===i?"":`<a class="co-p reveal" href="#committee-${cmKey(o,j)}"><span class="h">${L2(o,"title")}</span><b class="num">${cmData(o).tot}</b></a>`).join("")}</div></section>`:""}</div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
