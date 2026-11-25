@@ -297,6 +297,24 @@ html[lang=en] .rcsn b,html[lang=en] select,html[lang=en] .rct .nm{font-family:"P
 .rct .nm,.stu .nm,.rcsn b,.stuhd b,.ova span{font-family:"KondeyHeading","Faruma",sans-serif!important;font-weight:400}
 html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en] .stuhd b,html[lang=en] .ova span{font-family:"Plus Jakarta Sans","KondeyHeading",sans-serif!important;font-weight:500}
 .rct .nm{font-size:15px}
+.bdg{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:#DC2626;color:#fff;font-style:normal;font-size:11.5px;font-weight:700;margin-inline-start:6px;line-height:1}
+.tabs button{position:relative}.tabs button .bdg{position:absolute;top:3px;inset-inline-end:calc(50% - 26px);margin:0}
+@media (min-width:900px){.side .tabs button .bdg{position:static;margin-inline-start:auto}}
+.rvb{border-color:var(--p)!important;color:var(--p)}.rvb.on{color:#fff}.rvb.on .bdg{background:#fff;color:var(--p)}
+.rvt{font-size:13px;border-radius:8px;padding:5px 10px;margin:0 0 6px;display:inline-block}
+.rvt.pend{background:#F3F4F6;color:#6B7280}.rvt.ok{background:#DCFCE7;color:#166534}
+.rvt.back{display:block;background:#FEF2F2;color:#991B1B;border:1px solid #FECACA}.rvt.back p{margin:4px 0 0;color:#7F1D1D;font-size:14px;line-height:1.8}
+.rvn{border:1px solid #FCA5A5;background:#FFF7F7}.rvnh{display:flex;align-items:center;gap:8px;color:#B91C1C;margin-bottom:10px}.rvnh b{font-size:17px;font-weight:400}html[lang=en] .rvnh b{font-weight:700}
+.rvnl{display:grid;gap:6px}.rvni{display:flex;flex-direction:column;gap:2px;text-align:start;border:1px solid #FECACA;background:#fff;border-radius:10px;padding:9px 12px;cursor:pointer;font-family:inherit;font-size:14px;color:var(--text)}.rvni:hover{border-color:#DC2626}
+.rvni b{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400}.rvni small{color:#991B1B;line-height:1.7}
+.rvf{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}.rvs{flex:1 1 380px;grid-template-columns:repeat(4,1fr);margin:0}.rvf select{flex:0 1 240px}
+.rvl{display:grid;gap:10px}@media (min-width:1200px){.rvl{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.rvc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff}.rvc.approved{border-color:#BBF7D0;background:#FBFEFC}.rvc.returned{border-color:#FECACA}
+.rvch{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}.rvch b{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:16px}
+.rvsub{font-size:12.5px;background:var(--ps);color:var(--p);border-radius:99px;padding:2px 10px}
+.rvtx{font-size:15px;line-height:1.9;background:#FAFAFB;border-radius:8px;padding:8px 10px;margin-bottom:8px;unicode-bidi:plaintext;text-align:start}
+.rvbtns{display:flex;gap:6px;flex-wrap:wrap}.okb{background:#16A34A}.okb:hover{background:#15803D!important}.backb{color:#B91C1C}
+#rvN{width:100%;font-family:"Faruma",sans-serif;font-size:15px;line-height:1.8;padding:8px 10px;border:1px solid #D1D5DB;border-radius:10px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -350,7 +368,7 @@ $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{metho
 let TAB="mark",ME=null,ABS={},DATE=todayMV();
 async function start(){
   try{ME=await rpc("staff_me");}catch(e){saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
-  document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();
+  document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();rcLoad();
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){render0();layout();}
@@ -369,7 +387,7 @@ function render0(){
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`;
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
   if(!C.length&&TAB==="mark")TAB="all";
-  const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>${LG("ހާޒިރީ","Attendance")}</button><button type="button" data-tab="report" class="${TAB==="report"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>${LG("ރިޕޯޓް ކާޑު","Report cards")}</button></div>`;
+  const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>${LG("ހާޒިރީ","Attendance")}</button><button type="button" data-tab="report" class="${TAB==="report"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>${LG("ރިޕޯޓް ކާޑު","Report cards")}${RC.ret&&RC.ret.length?`<i class="bdg num">${RC.ret.length}</i>`:""}</button></div>`;
   const dateCard=dateBox();
   if(TAB==="report"){v.innerHTML=h+tabs+rcView();if(!RC.me)rcLoad();return;}
   if(TAB==="all"){v.innerHTML=h+tabs+dateCard+overview();return;}
@@ -468,7 +486,16 @@ const EXTRA=[["ex_athuliyun","Athuliyun","އަތުލިޔުން"],["ex_baskoshaar
 const ATT=[["teaching_days","ޙާޒިރުވާން ޖެހޭ ދުވަސް","Days to be attended"],["att_days","ޙާޒިރުވި ދުވަސް","Days attended"],["absent_days","ހާޒިރުނުވާ ދުވަސް","Days absent"],["excused_days","ބަލިވެގެން ހާޒިރުނުވާ","Days excused"],["late_days","ގަޑިޖެހުނު ދުވަސް","Days late"],["height","އިސްކޮޅު (ސ.މ)","Height (cm)"],["weight","ބަރުދަން (ކ.ގ)","Weight (kg)"]];
 const subName=k=>{const s=RSUB.find(x=>x[0]===k);return s?LG(s[1],s[2]):k;};
 let RC={me:null,term:"",cls:"",view:"",rows:null,stu:0,staff:null,reg:null,msg:""};
-async function rcLoad(){try{RC.me=await rpc("rc_me");const c=RC.me.terms.find(t=>t.is_current)||RC.me.terms[0];if(!RC.term&&c)RC.term=c.id;}catch(e){RC.me={err:e.message};}render();}
+async function rcLoad(){try{RC.me=await rpc("rc_me");const c=RC.me.terms.find(t=>t.is_current)||RC.me.terms[0];if(!RC.term&&c)RC.term=c.id;}catch(e){RC.me={err:e.message};}await rcRet();render();}
+async function rcRet(){if(!RC.term)return;try{RC.ret=await rpc("rc_returned",{p_term:RC.term});}catch(e){RC.ret=[];}}
+const fieldName=f=>f==="key_comment"?LG("މައިގަނޑު ޤާބިލިއްޔަތުގެ ބަޔާން","Key competencies comment"):f==="general_comment"?LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","Class teacher's comment"):subName(f.replace("_comment",""));
+const fieldText=f=>{if(f==="key_comment")return LANG==="en"?"Key competencies comment":"މައިގަނޑު ޤާބިލިއްޔަތުގެ ބަޔާން";if(f==="general_comment")return LANG==="en"?"Class teacher's comment":"ކްލާސް ޓީޗަރުގެ ބަޔާން";const x=RSUB.find(y=>y[0]+"_comment"===f);return x?(LANG==="en"?x[2]:x[1]):f;};
+function revTag(r,f){const v=(r.rev||{})[f];if(!v)return (r.data[f]?`<div class="rvt pend">${LG("ރިވިއު ކުރަން ބާކީ","Waiting for review")}</div>`:"");
+  if(v.status==="approved")return `<div class="rvt ok">✓ ${LG("އެޕްރޫވް ކުރެވިފައި","Approved")} · ${esc(v.by||"")}</div>`;
+  return `<div class="rvt back"><b>↩ ${LG("އިސްލާހަށް ފޮނުވާލެވިފައި","Sent back for editing")}</b> · ${esc(v.by||"")}<p>${esc(v.note||"")}</p></div>`;}
+function rcNotice(){const R=RC.ret||[];if(!R.length)return "";
+  return `<div class="card rvn"><div class="rvnh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><b class="h">${LG(`އިސްލާހަށް ފޮނުވާލެވިފައިވާ ބަޔާން: <span class="num">${R.length}</span>`,`${R.length} comment${R.length===1?"":"s"} sent back for editing`)}</b></div>
+   <div class="rvnl">${R.map(x=>`<button type="button" class="rvni" data-rcgo="${esc(x.class_en)}|${esc(x.field)}|${esc(x.student_en)}"><span><b>${esc(LANG==="en"?x.student_en:x.student)}</b> · ${esc(x.class_en)} · ${fieldName(x.field)}</span><small>${esc(x.note||"")} — ${esc(x.by||"")}</small></button>`).join("")}</div></div>`;}
 function rcMyClasses(){const M=RC.me;if(!M||M.err)return[];return M.classes.filter(c=>M.lead||c.teacher||c.subjects.length);}
 async function rcOpen(cls,view){RC.cls=cls;RC.view=view||"";RC.rows=null;RC.stu=0;RC.msg="";render();try{RC.rows=await rpc("rc_class",{p_term:RC.term,p_class:cls});}catch(e){RC.rows={err:e.message};}render();}
 const rcTerm=()=>(RC.me&&RC.me.terms||[]).find(t=>t.id===RC.term)||{};
@@ -478,15 +505,17 @@ function rcView(){
   const terms=M.terms||[],T=rcTerm();
   let h=`<div class="card rch"><div class="rcrow"><label style="margin:0">${LG("ޓާމް","Term")}</label><select id="rcTerm">${terms.map(t=>`<option value="${t.id}"${t.id===RC.term?" selected":""}>${esc(NM(t.name_dv,t.name_en))}${t.is_current?" ★":""}</option>`).join("")}</select></div>${M.admin?`<button class="btn sm ghost" data-rcadmin><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>${LG("ސެޓިންގްސް","Settings")}</button>`:""}</div>`;
   if(RC.view==="admin")return h+rcAdmin();
+  h+=rcNotice();
   if(!RC.cls){const C=rcMyClasses();
     if(!C.length)return h+`<div class="card empty">${LG("ތިޔަބޭފުޅާއަށް ހަވާލުކުރެވިފައިވާ މާއްދާއެއް ނުވަތަ ކްލާހެއް ނެތް.","You have no classes or subjects assigned.")}</div>`;
     return h+`<div class="card"><h2 class="h" style="margin:0 0 10px;font-size:20px">${LG("ކްލާހެއް ހޮވާ","Choose a class")}</h2><div class="rccls">${C.map(c=>{const subs=M.admin?[]:c.subjects;
       return `<button type="button" class="rcc" data-rccls="${esc(c.class_en)}"><b class="h">${esc(NM(c.class_dv,c.class_en))}</b><small>${c.teacher?`<span class="tg">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</span>`:""}${subs.map(s=>`<span>${subName(s)}</span>`).join("")}${M.lead&&!c.teacher&&!subs.length?`<span>${LG("ބެލުން","View")}</span>`:""}</small></button>`;}).join("")}</div></div>`;}
   const c=M.classes.find(x=>x.class_en===RC.cls)||{},subs=M.admin?RSUB.map(x=>x[0]).filter(s=>s!=="business"||MARKG.includes(RC.cls)||c.subjects.includes(s)):c.subjects,L=RC.rows;
   h+=`<div class="card"><button class="lnk" style="margin:0 0 8px" data-rcback>${LG("← ކްލާސްތަކަށް","← All classes")}</button><h2 class="h" style="margin:0;font-size:22px">${esc(NM(c.class_dv,c.class_en))} · ${esc(NM(T.name_dv,T.name_en))}</h2>
-    <div class="rcnav">${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}${c.teacher||M.admin?`<button type="button" class="${RC.view==="class"?"on":""}" data-rcv="class">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</button>`:""}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
+    <div class="rcnav">${M.lead?`<button type="button" class="rvb ${RC.view==="review"?"on":""}" data-rcv="review">✓ ${LG("ބަޔާން ރިވިއު","Review comments")}${(()=>{const n=rvItems(L||[]).filter(x=>!x.r.rev||!x.r.rev[x.f]).length;return n?` <i class="bdg num">${n}</i>`:"";})()}</button>`:""}${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}${c.teacher||M.admin?`<button type="button" class="${RC.view==="class"?"on":""}" data-rcv="class">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</button>`:""}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
   if(!L)return h+`<div class="card empty">...</div>`;if(L.err)return h+`<div class="card"><div class="msg err">${esc(L.err)}</div></div>`;
   if(!L.length)return h+`<div class="card empty">${LG("މި ކްލާހުގައި ދަރިވަރުން ނެތް. އެޑްމިން ރަޖިސްޓަރީއަށް ދަރިވަރުން އިތުރުކުރާށެވެ.","No students in this class yet. An admin needs to add them to the registry.")}</div>`;
+  if(RC.view==="review")return h+rcReview(L);
   if(RC.view.startsWith("s:"))return h+rcSubject(RC.view.slice(2),L);
   if(RC.view==="class")return h+rcClassForm(L);
   return h+rcProgress(L,subs,c);}
@@ -499,7 +528,7 @@ const CSUB={english:"comp_en",dhivehi:"comp_dv",maths:"comp_ma"};
 function rcSubject(s,L){const mk=hasMarks(RC.cls,s);
   return `<div class="card"><h3 class="h" style="margin:0 0 4px">${subName(s)}</h3><p class="pct" style="margin:0 0 12px">${LG("FA = ފުރިހަމައަށް ހާސިލްވި، MA = ބައެއް ހާސިލްވި، A = ހާސިލްވަމުން އަންނަ އައުޓްކަމްތަކުގެ އަދަދު","FA = fully achieved, MA = mostly achieved, A = achieving: number of outcomes")}${mk?` · ${LG("މާކްސް","Marks")} / ${rcTerm().marks_out_of||60}`:""}</p>
   ${L.map((r,i)=>{const d=r.data;return `<div class="rcs" data-sid="${r.id}"><div class="rcsn"><span class="no num">${i+1}</span><b>${esc(NM(r.name_dv,r.name_en))}</b></div>
-    <textarea dir="auto" rows="3" data-k="${s}_comment" placeholder="${LANG==="en"?"Comment":"ބަޔާން"}">${esc(d[s+"_comment"]||"")}</textarea>
+    ${revTag(r,s+"_comment")}<textarea dir="auto" rows="3" data-k="${s}_comment" placeholder="${LANG==="en"?"Comment":"ބަޔާން"}">${esc(d[s+"_comment"]||"")}</textarea>
     ${CSUB[s]?`<div class="lvl" style="margin-top:8px">${COMP.filter(c=>c[0].startsWith(CSUB[s])).map(([k,a,b])=>`<div class="lvr"><span class="lvn"><b>${b}</b></span>${rcChips(k,COMPV,d[k])}</div>`).join("")}</div>`:""}
     <div class="rcn">${mk?`<label>${LG("މާކްސް","Marks")}<input inputmode="decimal" data-k="${s}_marks" value="${esc(d[s+"_marks"]??"")}"></label>`:""}<label>FA<input inputmode="numeric" data-k="${s}_fa" value="${esc(d[s+"_fa"]??"")}"></label><label>MA<input inputmode="numeric" data-k="${s}_ma" value="${esc(d[s+"_ma"]??"")}"></label><label>A<input inputmode="numeric" data-k="${s}_a" value="${esc(d[s+"_a"]??"")}"></label></div></div>`;}).join("")}
   <button class="btn" data-rcsave="sub">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
@@ -523,15 +552,33 @@ function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att"
   <div class="rcs lv" data-sid="${r.id}">
    <h4 class="h">${LG("އަޚްލާޤާއި ސުލޫކު","Student conduct")}</h4>
    <div class="lvl">${COND.map(([k,en,dv])=>`<div class="lvr"><span class="lvn">${LG(dv,en)}</span>${rcChips(k,CONDV,d[k])}</div>`).join("")}</div>
-   <h4 class="h">${LG("މައިގަނޑު ޤާބިލިއްޔަތުތަކާ ގުޅޭ ބަޔާން","Comment on key competencies")}</h4><textarea dir="auto" rows="3" data-k="key_comment">${esc(d.key_comment||"")}</textarea>
-   <h4 class="h">${LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","General comment by the class teacher")}</h4><textarea dir="auto" rows="3" data-k="general_comment">${esc(d.general_comment||"")}</textarea>
+   <h4 class="h">${LG("މައިގަނޑު ޤާބިލިއްޔަތުތަކާ ގުޅޭ ބަޔާން","Comment on key competencies")}</h4>${revTag(r,"key_comment")}<textarea dir="auto" rows="3" data-k="key_comment">${esc(d.key_comment||"")}</textarea>
+   <h4 class="h">${LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","General comment by the class teacher")}</h4>${revTag(r,"general_comment")}<textarea dir="auto" rows="3" data-k="general_comment">${esc(d.general_comment||"")}</textarea>
   </div>
   <div class="row2b">${RC.stu<L.length-1?`<button class="btn" data-rcsave="next">${LG("ސޭވް ކުރުމަށް ދެންހުރި ދަރިވަރަށް ދޭ","Save and go to next student")}</button>`:`<button class="btn" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button>`}<button class="btn ghost" data-rcprint="${r.id}">${LG("ރިޕޯޓް ކާޑު ބައްލަވާ","View report card")}</button></div>
   <div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
+function rvItems(L){const out=[];const fs=[...RSUB.map(x=>x[0]+"_comment"),"key_comment","general_comment"];L.forEach(r=>fs.forEach(f=>{if((r.data[f]||"").trim())out.push({r,f});}));return out;}
+function rcReview(L){const all=rvItems(L),st=RC.rs||"pending",ff=RC.rf||"";
+  const fs=[...new Set(all.map(x=>x.f))];
+  const sel=all.filter(x=>(!ff||x.f===ff)&&(st==="all"||(st==="pending"?!(x.r.rev||{})[x.f]:((x.r.rev||{})[x.f]||{}).status===st)));
+  const cnt=k=>all.filter(x=>k==="pending"?!(x.r.rev||{})[x.f]:((x.r.rev||{})[x.f]||{}).status===k).length;
+  return `<div class="card"><div class="rvf"><div class="ctseg rvs">${[["pending","ބާކީ","Pending"],["returned","ފޮނުވާލި","Sent back"],["approved","އެޕްރޫވްކުރި","Approved"],["all","ހުރިހާ","All"]].map(([k,dv,en])=>`<button type="button" class="${st===k?"on":""}" data-rvs="${k}">${LG(dv,en)} <span class="num">${k==="all"?all.length:cnt(k)}</span></button>`).join("")}</div>
+   <select id="rvF"><option value="">${LANG==="en"?"All comments":"ހުރިހާ ބަޔާނެއް"}</option>${fs.map(f=>`<option value="${f}"${f===ff?" selected":""}>${esc(fieldText(f))}</option>`).join("")}</select></div>
+   ${sel.length?"":`<div class="empty">${LG("ރިވިއު ކުރަން ބާކީ ބަޔާނެއް ނެތް ✓","Nothing here ✓")}</div>`}
+   <div class="rvl">${sel.map(({r,f})=>{const v=(r.rev||{})[f],key=r.id+"|"+f;return `<div class="rvc ${v?v.status:""}"><div class="rvch"><b>${esc(NM(r.name_dv,r.name_en))}</b><span class="rvsub">${fieldName(f)}</span></div>
+     <div class="rvtx" dir="auto">${esc(r.data[f]).replace(/\n/g,"<br>")}</div>
+     ${v?revTag(r,f):""}
+     ${RC.rvNote===key?`<textarea id="rvN" dir="auto" rows="2" placeholder="${LANG==="en"?"What needs to change?":"ބަދަލުކުރަންޖެހޭ ކަމެއް ލިޔުއްވާ"}"></textarea><div class="rvbtns"><button class="btn sm" data-rvsend="${key}">${LG("ޓީޗަރަށް ފޮނުވާ","Send to teacher")}</button><button class="btn sm ghost" data-rvcancel>${LG("ކެންސަލް","Cancel")}</button></div>`
+      :`<div class="rvbtns">${v&&v.status==="approved"?"":`<button class="btn sm okb" data-rvok="${key}">✓ ${LG("އެޕްރޫވް","Approve")}</button>`}${v&&v.status==="returned"?"":`<button class="btn sm ghost backb" data-rvback="${key}">↩ ${LG("އިސްލާހަށް ފޮނުވާ","Send back")}</button>`}${v?`<button class="btn sm ghost" data-rvundo="${key}">${LG("ބާޠިލު","Undo")}</button>`:""}</div>`}
+     <div class="msg" id="rvm-${mid(key)}"></div></div>`;}).join("")}</div></div>`;}
+async function rcRev(key,status,note){const [sid,f]=key.split("|"),r=RC.rows.find(x=>x.id===sid);
+  try{const v=await rpc("rc_review",{p_term:RC.term,p_student:sid,p_field:f,p_status:status,p_note:note||null});r.rev=r.rev||{};if(v)r.rev[f]={status:v.status,note:v.note,by:v.reviewed_by,at:v.reviewed_at};else delete r.rev[f];RC.rvNote="";await rcRet();render();}
+  catch(e){const m=document.getElementById("rvm-"+mid(key));if(m){m.className="msg err";m.textContent=e.message;}}}
 async function rcSave(btn){const msg=$("#rcMsg");btn.disabled=true;msg.className="msg";msg.textContent="...";let n=0;
   try{for(const box of document.querySelectorAll(".rcs[data-sid]")){const r=RC.rows.find(x=>x.id===box.dataset.sid),p={};
       box.querySelectorAll("[data-k]").forEach(el=>{const k=el.dataset.k,v=el.value.trim(),old=r.data[k]??"";if(String(old)!==v)p[k]=v;});
-      if(Object.keys(p).length){r.data=await rpc("rc_save",{p_term:RC.term,p_student:r.id,p_patch:p});n++;}}
+      if(Object.keys(p).length){r.data=await rpc("rc_save",{p_term:RC.term,p_student:r.id,p_patch:p});Object.keys(p).forEach(k=>{if(r.rev&&k.endsWith("_comment"))delete r.rev[k];});n++;}}
+    await rcRet();
     RC.msg=`<span class="ok">${LANG==="en"?`Saved (${n} student${n===1?"":"s"} updated).`:`ރައްކާކުރެވިއްޖެ (${n} ދަރިވަރުން).`}</span>`;if(btn.dataset.rcsave==="next"&&RC.stu<RC.rows.length-1){RC.stu++;window.scrollTo(0,0);}render();}
   catch(e){btn.disabled=false;msg.className="msg err";msg.textContent=e.message;}}
 /* ---- admin ---- */
@@ -635,6 +682,13 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(t.closest("[data-rcback]")){RC.cls="";RC.view="";RC.rows=null;render();return;}
   if(b=t.closest("[data-rcstu]")){RC.stu=Math.max(0,Math.min((RC.rows||[]).length-1,RC.stu+(+b.dataset.rcstu)));RC.msg="";render();return;}
   if(b=t.closest("[data-rcsave]")){rcSave(b);return;}
+  if(b=t.closest("[data-rvok]")){rcRev(b.dataset.rvok,"approved");return;}
+  if(b=t.closest("[data-rvback]")){RC.rvNote=b.dataset.rvback;render();const n=$("#rvN");if(n)n.focus();return;}
+  if(t.closest("[data-rvcancel]")){RC.rvNote="";render();return;}
+  if(b=t.closest("[data-rvsend]")){rcRev(b.dataset.rvsend,"returned",($("#rvN")||{}).value);return;}
+  if(b=t.closest("[data-rvundo]")){rcRev(b.dataset.rvundo,"");return;}
+  if(b=t.closest("[data-rvs]")){RC.rs=b.dataset.rvs;render();return;}
+  if(b=t.closest("[data-rcgo]")){const [c,f,sn]=b.dataset.rcgo.split("|");TAB="report";const v=f==="key_comment"||f==="general_comment"?"class":"s:"+f.replace("_comment","");RC.ct="stu";await rcOpen(c,v);const i=(RC.rows||[]).findIndex(x=>x.name_en===sn);if(i>=0){RC.stu=i;render();setTimeout(()=>{const el=document.querySelector(`.rcs[data-sid="${RC.rows[i].id}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},60);}return;}
   if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
@@ -650,7 +704,8 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
 });
 document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.abs!=null){const tr=t.closest("tr"),TD=+(rcTerm().teaching_days||0),v=t.value.trim(),a=v!==""&&TD?String(TD-(+v)):"";tr.querySelector(".atd").textContent=a;tr.querySelector('[data-k="att_days"]').value=a;}});
 document.addEventListener("change",async e=>{const t=e.target;
-  if(t.id==="rcTerm"){RC.term=t.value;if(RC.cls)rcOpen(RC.cls,RC.view);else render();return;}
+  if(t.id==="rcTerm"){RC.term=t.value;RC.ret=null;rcRet().then(render);if(RC.cls)rcOpen(RC.cls,RC.view);else render();return;}
+  if(t.id==="rvF"){RC.rf=t.value;render();return;}
   if(t.id==="rcStu"){RC.stu=+t.value;RC.msg="";render();return;}
   if(t.dataset&&t.dataset.asg){const [c,s]=t.dataset.asg.split("|"),m=$("#rcAMsg");try{RC.me.assign=await rpc("rc_assign_set",{p_class:c,p_subject:s,p_email:t.value});m.className="msg ok";m.textContent=LANG==="en"?"Saved.":"ރައްކާކުރެވިއްޖެ.";}catch(er){m.className="msg err";m.textContent=er.message;}return;}
   if(t.id==="rcXlsx"&&t.files[0]){const m=$("#rcIMsg");m.className="msg";m.textContent="...";
