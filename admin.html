@@ -209,6 +209,13 @@ const SECTIONS={
    T("title_dv","ނަން (ދިވެހިން)","Title (Dhivehi)"),T("title_en","ނަން (އިނގިރޭސިން)","Title (English)","text",{ltr:1}),
    T("type","ބާވަތް","Type","select",{opts:[["event","ހަރަކާތް"],["holiday","ބަންދު"],["exam","އިމްތިޙާން"]]}),
    T("date","ފަށާ ތާރީޚު","Start date","date"),T("end","ނިމޭ ތާރީޚު (ބޭނުންނަމަ)","End date (optional)","date"),T("teacher_dv","ޒިންމާދާރު ޓީޗަރ (ދިވެހިން)","Teacher in charge (Dhivehi)"),T("teacher_en","ޒިންމާދާރު ޓީޗަރ (އިނގިރޭސިން)","Teacher in charge (English)","text",{ltr:1}),T("audience_dv","ބައިވެރިވާނީ (ދިވެހިން)","Target audience (Dhivehi), e.g. ހުރިހާ ގްރޭޑެއް"),T("audience_en","ބައިވެރިވާނީ (އިނގިރޭސިން)","Target audience (English)","text",{ltr:1}),T("status","ހަރަކާތް ކުރިއަށް ގެންދެވުނުތަ؟","Was the activity carried out?","select",{opts:[["","ނުގެންދެވޭ (ތާރީޚު ފަހަނައަޅައިފިނަމަ)"],["done","ކުރިއަށް ގެންގޮސްފައި"]]})]},
+ committees:{dv:"ކޮމިޓީތައް",en:"Committees",title:x=>x.title_dv||x.title_en,sub:x=>`ރައީސް: ${x.chair_dv||x.chair_en||"-"}`,fields:[
+   T("title_dv","ކޮމިޓީގެ ނަން (ދިވެހިން)","Committee name (Dhivehi)"),T("title_en","ކޮމިޓީގެ ނަން (އިނގިރޭސިން)","Committee name (English)","text",{ltr:1}),
+   T("desc_dv","ތަފްޞީލް (ދިވެހިން)","Description (Dhivehi)","textarea",{rows:2}),T("desc_en","ތަފްޞީލް (އިނގިރޭސިން)","Description (English)","textarea",{rows:2,ltr:1}),
+   T("chair_dv","ރައީސް (މުވައްޒަފުންގެ ލިސްޓުގައިވާ ނަން)","Chairperson (name as in Staff)"),T("chair_en","ރައީސް (އިނގިރޭސިން)","Chairperson (English)","text",{ltr:1}),
+   T("chair_role_dv","ރައީސްގެ މަޤާމު (ބޭނުންނަމަ)","Chair title (optional, default Chairperson)"),T("chair_role_en","ރައީސްގެ މަޤާމު (އިނގިރޭސިން)","Chair title (English)","text",{ltr:1}),
+   T("members_dv","މެމްބަރުން - ކޮންމެ ލައިނެއްގައި އެއް ނަން (ބޭނުންނަމަ: ނަން: މަޤާމު)","Members - one name per line (optional: Name: role)","textarea",{rows:6}),
+   T("members_en","މެމްބަރުން (އިނގިރޭސިން)","Members (English)","textarea",{rows:6,ltr:1}),T("order","ތަރުތީބު","Order","number")]},
  attendance:{dv:"ދަރިވަރުންގެ ހާޒިރީ",en:"Attendance",title:x=>`${x.class_dv||x.class_en||""} · ${x.date||""}`,sub:x=>`ހާޒިރު ${x.present??""} · ހާޒިރުނުވާ ${x.absent??""}`,fields:[
    T("date","ތާރީޚު","Date","date"),T("class_dv","ކްލާސް (ދިވެހިން) - މިސާލު: ގްރޭޑް 4","Class (Dhivehi), e.g. ގްރޭޑް 4"),T("class_en","ކްލާސް (އިނގިރޭސިން) - ކްލާސްތަކުގައިވާ ނަމާ އެއްގޮތަށް","Class (English), same as in Classes, e.g. Grade 4","text",{ltr:1}),
    T("present","ހާޒިރު ދަރިވަރުން","Present","number"),T("absent","ހާޒިރުނުވާ ދަރިވަރުން","Absent","number")]},

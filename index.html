@@ -688,6 +688,20 @@ html[lang=dv] .pc-t{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13
 .sg{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))!important;gap:14px!important}
 .sg-top>.pc{width:min(100%,360px)}
 @media (max-width:620px){.sg{grid-template-columns:1fr 1fr!important;gap:10px!important}.pc{border-radius:20px}.pc-ov{padding:10px 10px 12px;gap:4px}.pc-ov>b{font-size:16px}.pc-role{font-size:11.5px;padding:2px 9px}html[lang=dv] .pc-role{font-size:12px}.pc-t{font-size:11px}.pc-ct a{height:28px;font-size:12.5px;padding:0 9px}.pc-ct a span{display:none}.pc-x{display:none}.pc{aspect-ratio:3/4.6}.sg-top>.pc{width:min(100%,260px)}}
+.cm+.cm{margin-top:34px;padding-top:26px;border-top:1px dashed var(--line)}
+.cm-h{position:relative;overflow:hidden;border-radius:24px;padding:20px 22px;background:linear-gradient(120deg,#FDF0F2,#F8DDE2);border:1px solid #F3CDD4}
+.cm-h::before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.55);inset-inline-end:-60px;top:-70px}
+.cm-chip{position:relative;display:inline-block;background:#fff;color:var(--p);border-radius:99px;padding:2px 12px;font-size:13px}html[lang=dv] .cm-chip{font-family:"KondeyHeading","Faruma",sans-serif}
+.cm-h h2{position:relative;margin:8px 0 4px;font-size:26px;color:#7A0A1C;line-height:1.5}.cm-h p{position:relative;margin:0 0 10px;color:#6B4048;line-height:1.9}
+.cm-n{position:relative;display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--p);border-radius:99px;padding:3px 12px;font-size:14px}html[lang=dv] .cm-n{font-family:"KondeyHeading","Faruma",sans-serif}
+.cm-chair{display:flex;align-items:center;gap:18px;margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:16px;box-shadow:0 10px 28px rgba(15,23,42,.06)}
+.cm-cph{position:relative;flex:none;width:118px;height:138px}.cm-cph::before{content:"";position:absolute;inset:8px -6px -6px 8px;border-radius:20px;background:#F3CDD4;transform:rotate(-4deg)}
+.cm-cph img,.cm-cph span{position:relative;width:100%;height:100%;border-radius:20px;object-fit:cover;object-position:top;border:4px solid #fff;box-shadow:0 8px 18px rgba(0,0,0,.1);background:#FBE9EC;display:grid;place-items:center;color:var(--p);font-size:40px}
+.cm-rl{display:inline-block;background:var(--p);color:#fff;border-radius:99px;padding:2px 12px;font-size:13px}html[lang=dv] .cm-rl{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
+.cm-chair b{display:block;font-size:22px;color:#7A0A1C;margin-top:6px;line-height:1.5}.cm-chair small{color:var(--muted)}
+.cm-mh{font-size:20px;color:var(--p);margin:20px 0 12px}
+.cm-g{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))!important}
+@media (max-width:620px){.cm-h h2{font-size:22px}.cm-cph{width:96px;height:114px}.cm-chair b{font-size:19px}.cm-g{grid-template-columns:1fr 1fr!important}}
 /* footer */
 .foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
 .foot-c{background:#fff;padding:22px 0}
@@ -784,8 +798,8 @@ const IC={clock:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" str
   xx:'<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.5 7.4L22 22h-6l-4.7-6.1L5.8 22H3l7-8L2 2h6.1l4.2 5.6zM17.2 20h1.6L7 3.9H5.3z"/></svg>'
 };
 const MENU=[["home","ފުރަތަމަ ސަފްޙާ","Home"],["about","ސުކޫލާއި ބެހޭ","About"],["news","ޚަބަރު","News"],["notices","އިޢުލާން","Notices"],["schedule","ދުވަހުގެ ތާވަލު","Daily schedule"],["calendar","ތަޢުލީމީ ކަލަންޑަރު","Academic calendar"],["activities","ހަރަކާތްތަކުގެ ކަލަންޑަރު","Activity calendar"],["students","ދަރިވަރުން","Students"],["gallery","ގެލަރީ","Gallery"],["contact","ގުޅުއްވާ","Contact"]];
-const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["attendance","ދަރިވަރުންގެ ހާޒިރީ","Attendance"],["srules","ދަރިވަރުންގެ ގަވާއިދު","Student rules"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
-const PARENT={attendance:"students",srules:"students",snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
+const SUBMENU={students:[["snotices","ދަރިވަރުންގެ އިޢުލާން","Student notices"],["attendance","ދަރިވަރުންގެ ހާޒިރީ","Attendance"],["srules","ދަރިވަރުންގެ ގަވާއިދު","Student rules"],["scouncil","ދަރިވަރުންގެ ކައުންސިލް","Student Council"],["pta","ބެލެނިވެރިންގެ ޖަމްޢިއްޔާ","Parent Teacher Association"]],about:[["structure","އޯގަނައިޒޭޝަނަލް ސްޓްރަކްޗަރ","Organisational structure"],["committees","ކޮމިޓީތައް","Committees"],["staff","މުވައްޒަފުން","Staff"],["charter","ސަރވިސް ޗާޓަރ","Service charter"]]};
+const PARENT={committees:"about",attendance:"students",srules:"students",snotices:"students",scouncil:"students",pta:"students",structure:"about",staff:"about",charter:"about","about/motto":"about","about/vision":"about","about/mission":"about"};
 const TYPES={notice:["އިޢުލާން","Notice"],vacancy:["ވަޒީފާ","Vacancy"],tender:["ބީލަން","Tender"],circular:["ސަރކިއުލަރ","Circular"],student:["ދަރިވަރުންނަށް","Students"]};
 const ROLES={principal:["ޕްރިންސިޕަލް","Principal"],deputy:["ޑެޕިއުޓީ ޕްރިންސިޕަލް","Deputy Principal"],leading:["ލީޑިންގ ޓީޗަރ","Leading Teacher"],teacher:["ޓީޗަރ","Teacher"],admin:["އިދާރީ މުވައްޒަފު","Administrative Staff"],support:["އެހީތެރި މުވައްޒަފު","Support Staff"]};
 const EVT={event:["ހަރަކާތް","Event"],holiday:["ބަންދު","Holiday"],exam:["އިމްތިޙާން","Exam"]};
@@ -1041,6 +1055,19 @@ function attendancePage(){ATD=attDefault();clearInterval(ATT_T);ATT_T=setInterva
 function atGo(d){ATD=d;const t=document.getElementById("atTitle");if(!t)return;t.innerHTML=scDayTitle(d);document.getElementById("atPick").value=d;document.getElementById("atBody").innerHTML=attBody();}
 document.addEventListener("click",e=>{const n=e.target.closest("[data-atd]");if(n){const d=new Date(ATD+"T00:00:00");d.setDate(d.getDate()+(+n.dataset.atd));atGo(isoD(d));return;}const p=e.target.closest(".sc-pick");if(p&&p.querySelector("#atPick")&&e.target.id!=="atPick"){try{document.getElementById("atPick").showPicker()}catch(_){}}});
 document.addEventListener("change",e=>{if(e.target.id==="atPick"&&e.target.value)atGo(e.target.value);});
+function pcCard(m){const ph=safeUrl(m.photo);return `<div class="pc reveal${ph?"":" nophoto"}"><div class="pc-img">${ph?`<img src="${esc(ph)}" alt="" loading="lazy">`:`<span class="h">${esc((m.dv||m.en||"?").trim().charAt(0))}</span>`}</div><div class="pc-ov">${m.role?`<span class="pc-role">${m.role}</span>`:""}<b class="h">${bi(esc(m.dv||m.en),esc(m.en||m.dv))}</b></div></div>`;}
+function cmMember(line,lineEn){const sp=t=>{const i=String(t||"").indexOf(":");return i<0?[String(t||"").trim(),""]:[t.slice(0,i).trim(),t.slice(i+1).trim()];};
+  const [nd,rd]=sp(line),[ne,re]=sp(lineEn||line),st=findStaff(nd,ne);
+  return {dv:st?st.name_dv||nd:nd,en:st?st.name_en||ne:ne,photo:st&&st.photo,role:rd||re?bi(esc(rd||re),esc(re||rd)):(st?(st.title_dv||st.title_en?L2(st,"title"):""):"")};}
+function committeesPage(){const L=COMMITTEES.slice().sort((a,b)=>(+a.order||99)-(+b.order||99));
+  const body=L.length?L.map(c=>{const D=String(c.members_dv||"").split("\n").map(x=>x.trim()).filter(Boolean),E=String(c.members_en||"").split("\n").map(x=>x.trim()).filter(Boolean),N=Math.max(D.length,E.length),M=[];for(let i=0;i<N;i++)M.push(cmMember(D[i]||E[i],E[i]||D[i]));
+    const ch=c.chair_dv||c.chair_en?cmMember(c.chair_dv||c.chair_en,c.chair_en||c.chair_dv):null,tot=M.length+(ch?1:0);
+    return `<section class="cm">
+      <div class="cm-h reveal"><span class="cm-chip">${bi("ކޮމިޓީ","Committee")}</span><h2 class="h">${L2(c,"title")}</h2>${c.desc_dv||c.desc_en?`<p>${L2(c,"desc")}</p>`:""}<span class="cm-n">${icS("users",14)}${bi(`<span class="num">${tot}</span> މެމްބަރުން`,`${tot} members`)}</span></div>
+      ${ch?`<div class="cm-chair reveal"><div class="cm-cph">${safeUrl(ch.photo)?`<img src="${esc(safeUrl(ch.photo))}" alt="">`:`<span class="h">${esc((ch.dv||"?").charAt(0))}</span>`}</div><div><span class="cm-rl">${c.chair_role_dv||c.chair_role_en?L2(c,"chair_role"):bi("ރައީސް","Chairperson")}</span><b class="h">${bi(esc(ch.dv),esc(ch.en))}</b>${ch.role?`<small>${ch.role}</small>`:""}</div></div>`:""}
+      ${M.length?`<h3 class="h cm-mh">${bi("މެމްބަރުން","Members")}</h3><div class="sg cm-g">${M.map(pcCard).join("")}</div>`:""}
+    </section>`;}).join(""):empty("ކޮމިޓީތަކުގެ މަޢުލޫމާތު ވަރަށް އަވަހަށް","Committees coming soon");
+  return pageHead("ކޮމިޓީތައް","Committees")+`<div class="pb"><div class="wrap"><div class="panel">${body}</div></div></div>`;}
 function studentsPage(){
   const today=new Date().toISOString().slice(0,10), ev=EVENTS.slice().sort((a,b)=>String(a.date).localeCompare(b.date)), up=ev.filter(e=>(e.end||e.date||"")>=today), past=ev.filter(e=>(e.end||e.date||"")<today).reverse();
   const total=CLASSES.reduce((s,c)=>s+(+c.students||0),0);
@@ -1280,7 +1307,7 @@ function route(){
   else if(h.startsWith("notice-")){{const o=NOTICES.find(n=>n.id===h.slice(7)),st=o&&o.type==="student";html=st?detail(o,"snotices","ދަރިވަރުންގެ އިޢުލާންތަކަށް","Back to student notices",1):detail(o,"notices","އިޢުލާންތަކަށް","Back to notices",1);key=st?"snotices":"notices";}}
   else if(h.startsWith("album-")){html=albumPage(ALBUMS.find(a=>a.id===h.slice(6)));key="gallery";}
   else if(h.startsWith("about/")){html=aboutPage();key=h;}
-  else html=({home,attendance:attendancePage,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
+  else html=({home,committees:committeesPage,attendance:attendancePage,srules:rulesPage,pta:()=>groupPage("pta"),scouncil:()=>groupPage("scouncil"),snotices:studentNoticesPage,structure:structurePage,calendar:calendarPage,activities:activitiesPage,schedule:schedulePage,charter:charterPage,about:aboutPage,staff:staffPage,news:newsPage,notices:noticesPage,students:studentsPage,gallery:galleryPage,contact:contactPage}[h]||home)();
   document.getElementById("app").innerHTML=html;
   const pk=PARENT[key]||key;document.querySelectorAll("[data-k]").forEach(a=>a.classList.toggle("on",a.dataset.k===key||a.dataset.k===pk));
   document.getElementById("mnav").classList.remove("open");
@@ -1322,8 +1349,8 @@ document.addEventListener("input",e=>{if(e.target.id==="chQ"){CHQ=e.target.value
 {let ty=0;addEventListener("touchstart",e=>{ty=e.touches[0].clientY;},{passive:true});addEventListener("touchmove",e=>{if(document.getElementById("mnav").classList.contains("open")||e.touches.length>1)return;const dy=e.touches[0].clientY-ty,atEnd=Math.ceil(scrollY+innerHeight)>=document.documentElement.scrollHeight-1;if(atEnd&&dy<0&&e.cancelable)e.preventDefault();},{passive:false});}
 const TT=document.getElementById("totop");const onSc=()=>TT.classList.toggle("show",sY()>500);addEventListener("scroll",onSc,{passive:true});document.body.addEventListener("scroll",onSc,{passive:true});TT.onclick=()=>sTo({top:0,behavior:"smooth"});
 
-const PTA=[],SCOUNCIL=[],ATT=[];
-const DB={attendance:ATT,pta:PTA,scouncil:SCOUNCIL,news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
+const PTA=[],SCOUNCIL=[],ATT=[],COMMITTEES=[];
+const DB={committees:COMMITTEES,attendance:ATT,pta:PTA,scouncil:SCOUNCIL,news:NEWS,notices:NOTICES,staff:STAFF,albums:ALBUMS,events:EVENTS,classes:CLASSES,chsec:CHSEC,chsvc:CHSVC,schedule:SCHEDULE};
 async function loadDB(){
   if(!DB_LOADING) return;
   try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=section,data&published=eq.true&order=position.asc&limit=5000`,{headers:{apikey:SB_KEY}});
