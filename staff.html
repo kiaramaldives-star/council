@@ -366,6 +366,20 @@ html[lang=en] .pmk{font-family:"Plus Jakarta Sans",sans-serif}
  .scls button{padding:7px 12px;font-size:14.5px}
 }
 @media (min-width:900px){.side .tabs:not(.att-open) button.sub{display:none}}
+.mdl{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.mdlb{position:absolute;inset:0;background:rgba(17,24,39,.55);backdrop-filter:blur(2px)}
+.mdlc{position:relative;background:#fff;border-radius:16px;width:min(860px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.25);animation:mdlin .18s ease-out}
+@keyframes mdlin{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.mdlh{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}.mdlh b{display:block;font-size:20px;font-weight:400;color:var(--p)}html[lang=en] .mdlh b{font-weight:700}.mdlh small{color:var(--muted);font-size:14px}
+.mdlx{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:#4B5563;flex:none}.mdlx:hover{background:#F3F4F6}
+.mdlbd{padding:6px 20px 14px;overflow-y:auto}
+.mdlbd fieldset{border:0;padding:0;margin:14px 0 0}.mdlbd legend{font-size:15px;color:var(--p);padding:0;margin-bottom:8px;font-family:"KondeyHeading","Faruma",sans-serif}html[lang=en] .mdlbd legend{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+.rgg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px 12px}.rgg label{margin:0;display:flex;flex-direction:column;gap:5px;font-size:13.5px}.rgg input,.rgg select{width:100%;padding:10px 12px;font-size:15px}
+.rgg input[dir=rtl]{font-family:"Faruma",sans-serif;text-align:right}.req{color:#DC2626;font-weight:700}
+.chk.act{margin:16px 0 4px;padding:10px 12px;background:#F9FAFB;border-radius:10px}
+.mdlf{display:flex;align-items:center;gap:8px;padding:14px 20px;border-top:1px solid var(--line)}.mdlf .msg{flex:1;margin:0}.mdlf .btn{width:auto;min-width:120px}
+body.mdl-open{overflow:hidden}
+@media (max-width:600px){.mdl{padding:0;align-items:flex-end}.mdlc{border-radius:16px 16px 0 0;max-height:92vh}.mdlf .btn{flex:1;min-width:0}}
 </style>
 </head>
 <body>
@@ -693,10 +707,23 @@ function rgView(){const R=RC.reg,CL=(RC.me&&RC.me.classes)||[];if(!R){if(!RC.reg
     ${L.map(x=>`<tr class="${x.active?"":"off"}"><td class="num">${esc(x.index_no||"")}</td><td class="nm">${esc(NM(x.name_dv,x.name_en))}<small>${esc(LANG==="en"?(x.name_dv||""):(x.name_en||""))}</small></td><td>${esc(clsName(x.grade||""))}${x.section?` ${esc(x.section)}`:""}</td><td>${esc(LANG==="en"?(x.sex_en||""):(x.sex_dv||x.sex_en||""))}</td><td class="num">${esc(x.id_no||"")}</td><td class="nm">${esc(NM(x.guardian_dv,x.guardian_en)||"")}</td><td class="num">${esc(x.guardian_phone||x.phone||"")}</td><td><button class="btn sm ghost" data-rcedit="${x.id}">${LG("ބަދަލު","Edit")}</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">${LG("ދަރިވަރެއް ނުފެނުނު","No students found")}</td></tr>`}</tbody></table></div>
     <p class="pct" style="margin:10px 0 0">${LG("މި ރަޖިސްޓަރީ ބޭނުންކުރަނީ ދުވަހުގެ ހާޒިރީ އާއި ރިޕޯޓް ކާޑަށް. ސްކޫލް ދޫކޮށްފިނަމަ 'ސްކޫލުގައި ކިޔަވަމުން' ނަގާލައްވާ.","This registry is used for daily attendance and report cards. When a student leaves, untick 'Currently at school' instead of deleting.")}</p></div>`;}
 const REGF=[["index_no","Index no"],["id_no","ID card no"],["name_en","Name (English)"],["name_dv","ނަން (ދިވެހި)"],["grade","Grade (e.g. Grade 2)"],["section","Class (A, B…)"],["sex_en","Sex (Boy/Girl)"],["sex_dv","ޖިންސު"],["dob","Date of birth","date"],["address_en","Address (English)"],["address_dv","އެޑްރެސް (ދިވެހި)"],["island_en","Island (English)"],["island_dv","ރަށް (ދިވެހި)"],["guardian_en","Guardian (English)"],["guardian_dv","ބެލެނިވެރިޔާ (ދިވެހި)"],["guardian_phone","Guardian phone"],["phone","Phone"],["email","Student email"]];
-function rcEditForm(id){const s=(RC.reg||[]).find(x=>x.id===id)||{active:true};
-  $("#rcEd").innerHTML=`<div class="rced"><h4 class="h">${id?LG("ދަރިވަރުގެ މަޢުލޫމާތު","Edit student"):LG("އާ ދަރިވަރެއް","New student")}</h4><div class="rcg">${REGF.map(([k,l,t])=>k==="grade"?`<label>${LG("ގްރޭޑް / ކްލާސް","Grade / class")} *<select data-r="grade"><option value=""></option>${((RC.me&&RC.me.classes)||[]).map(c=>`<option value="${esc(c.class_en)}"${c.class_en===s.grade?" selected":""}>${esc(NM(c.class_dv,c.class_en))}</option>`).join("")}${s.grade&&!((RC.me&&RC.me.classes)||[]).some(c=>c.class_en===s.grade)?`<option selected>${esc(s.grade)}</option>`:""}</select></label>`:k==="sex_en"?`<label>Sex<select data-r="sex_en"><option value=""></option>${["Boy","Girl"].map(o=>`<option${o===s.sex_en?" selected":""}>${o}</option>`).join("")}</select></label>`:k==="sex_dv"?"":`<label>${l}${k==="name_en"?" *":""}<input type="${t||"text"}" dir="auto" data-r="${k}" value="${esc(s[k]??"")}"></label>`).join("")}</div>
-   <label class="chk"><input type="checkbox" data-r="active" ${s.active?"checked":""}> ${LG("ސްކޫލުގައި ކިޔަވަމުން","Currently at school")}</label><div class="row2"><button class="btn" data-rcssave="${id||""}">${LG("ރައްކާކުރައްވާ","Save")}</button><button class="btn ghost" data-rcecancel>${LG("ކެންސަލް","Cancel")}</button></div><div class="msg" id="rcEMsg"></div></div>`;
-  $("#rcEd").scrollIntoView({behavior:"smooth"});}
+const REGG=[["ދަރިވަރު","Student",[["name_dv","ނަން (ދިވެހިން)","Name (Dhivehi)"],["name_en","ނަން (އިނގިރޭސިން)","Name (English)",0,1],["index_no","އިންޑެކްސް ނަންބަރު","Index no"],["id_no","އައިޑީ ކާޑު ނަންބަރު","ID card no"],["dob","އުފަން ތާރީޚު","Date of birth","date"],["sex_en","ޖިންސު","Sex","sex"]]],
+ ["ކްލާސް","Class",[["grade","ގްރޭޑް","Grade","grade",1],["section","ކްލާސް (A، B…)","Section (A, B…)"]]],
+ ["އެޑްރެސް","Address",[["address_dv","އެޑްރެސް (ދިވެހިން)","Address (Dhivehi)"],["address_en","އެޑްރެސް (އިނގިރޭސިން)","Address (English)"],["island_dv","ރަށް (ދިވެހިން)","Island (Dhivehi)"],["island_en","ރަށް (އިނގިރޭސިން)","Island (English)"]]],
+ ["ބެލެނިވެރިޔާ","Parent / guardian",[["guardian_dv","ބެލެނިވެރިޔާގެ ނަން (ދިވެހިން)","Guardian (Dhivehi)"],["guardian_en","ބެލެނިވެރިޔާގެ ނަން (އިނގިރޭސިން)","Guardian (English)"],["guardian_phone","ބެލެނިވެރިޔާގެ ފޯނު","Guardian phone","tel"],["phone","ފޯނު","Phone","tel"],["email","ދަރިވަރުގެ އީމެއިލް","Student email","email"]]]];
+function rgField([k,dv,en,t,req],s){const lab=`<span>${LG(dv,en)}${req?' <b class="req">*</b>':""}</span>`,CL=(RC.me&&RC.me.classes)||[];
+  if(t==="grade")return `<label>${lab}<select data-r="grade"><option value=""></option>${CL.map(c=>`<option value="${esc(c.class_en)}"${c.class_en===s.grade?" selected":""}>${esc(NM(c.class_dv,c.class_en))}</option>`).join("")}${s.grade&&!CL.some(c=>c.class_en===s.grade)?`<option selected>${esc(s.grade)}</option>`:""}</select></label>`;
+  if(t==="sex")return `<label>${lab}<select data-r="sex_en"><option value=""></option>${[["Boy","ފިރިހެން"],["Girl","އަންހެން"]].map(([o,d])=>`<option value="${o}"${o===s.sex_en?" selected":""}>${LANG==="en"?o:d}</option>`).join("")}</select></label>`;
+  const ltr=/_en$|index_no|id_no|phone|email|dob/.test(k);return `<label>${lab}<input type="${t||"text"}" ${ltr?'dir="ltr"':'dir="rtl"'} data-r="${k}" value="${esc(s[k]??"")}"></label>`;}
+function rcEditForm(id){const s=(RC.reg||[]).find(x=>x.id===id)||{active:true,grade:RC.rg||""};rgClose();
+  const m=document.createElement("div");m.id="rgModal";m.className="mdl";
+  m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true"><div class="mdlh"><div><b class="h">${id?LG("ދަރިވަރުގެ މަޢުލޫމާތު ބަދަލުކުރުން","Edit student"):LG("އާ ދަރިވަރެއް","New student")}</b>${id?`<small>${esc(NM(s.name_dv,s.name_en))}</small>`:""}</div><button type="button" class="mdlx" data-rcecancel aria-label="Close">✕</button></div>
+   <div class="mdlbd">${REGG.map(([dv,en,F])=>`<fieldset><legend>${LG(dv,en)}</legend><div class="rgg">${F.map(x=>rgField(x,s)).join("")}</div></fieldset>`).join("")}
+   <label class="chk act"><input type="checkbox" data-r="active" ${s.active?"checked":""}> ${LG("ސްކޫލުގައި ކިޔަވަމުން","Currently at school")}</label></div>
+   <div class="mdlf"><div class="msg" id="rcEMsg"></div><button class="btn ghost" data-rcecancel>${LG("ކެންސަލް","Cancel")}</button><button class="btn" data-rcssave="${id||""}">${LG("ރައްކާކުރައްވާ","Save")}</button></div></div>`;
+  document.body.appendChild(m);document.body.classList.add("mdl-open");setTimeout(()=>{const f=m.querySelector("input,select");if(f)f.focus();},50);}
+function rgClose(){const m=$("#rgModal");if(m)m.remove();document.body.classList.remove("mdl-open");}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#rgModal"))rgClose();});
 function loadXLSX(){return window.XLSX?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";s.onload=ok;s.onerror=()=>no(new Error("Could not load the Excel reader"));document.head.appendChild(s);});}
 function rcParse(wb){const X=window.XLSX,v=x=>{if(x==null)return null;if(x instanceof Date)return x;const s=String(x).trim();return s===""||s==="-"?null:s;};
   const iso=d=>d instanceof Date?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`:null;
@@ -842,9 +869,9 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(t.closest("[data-rcadmin]")){RC.view="admin";RC.cls="";await rcStaff();render();return;}
   if(t.closest("[data-rcreg]")){try{RC.reg=await rpc("rc_registry");}catch(er){alert(er.message);}render();return;}
   if(b=t.closest("[data-rcedit]")){rcEditForm(b.dataset.rcedit);return;}
-  if(t.closest("[data-rcecancel]")){$("#rcEd").innerHTML="";return;}
+  if(t.closest("[data-rcecancel]")){rgClose();return;}
   if(b=t.closest("[data-rcssave]")){const p={id:b.dataset.rcssave||null},m=$("#rcEMsg");document.querySelectorAll("[data-r]").forEach(el=>p[el.dataset.r]=el.type==="checkbox"?el.checked:(el.value.trim()||null));if(p.sex_en)p.sex_dv=p.sex_en==="Boy"?"ފިރިހެން":"އަންހެން";
-    b.disabled=true;try{await rpc("rc_student_save",{p});RC.reg=await rpc("rc_registry");RC.me=await rpc("rc_me");try{ME=await rpc("staff_me");ROST={};}catch(e){}render();}catch(er){b.disabled=false;m.className="msg err";m.textContent=er.message;}return;}
+    b.disabled=true;try{await rpc("rc_student_save",{p});rgClose();RC.reg=await rpc("rc_registry");RC.me=await rpc("rc_me");try{ME=await rpc("staff_me");ROST={};}catch(e){}render();}catch(er){b.disabled=false;m.className="msg err";m.textContent=er.message;}return;}
   if(b=t.closest("[data-rctsave]")){const T=rcTerm(),p={...T,id:b.dataset.rctsave||null},m=$("#rcTMsg");document.querySelectorAll("[data-t]").forEach(el=>p[el.dataset.t]=el.type==="checkbox"?el.checked:(el.value.trim()||null));
     p.leads={};document.querySelectorAll("[data-lead]").forEach(el=>{if(el.value.trim())p.leads[el.dataset.lead]=el.value.trim();});if(!p.id){p.name_en=(p.name_en||"")+(p.name_en===T.name_en?" (new)":"");p.class_teachers={};}
     b.disabled=true;try{const r=await rpc("rc_term_save",{p});RC.me=await rpc("rc_me");RC.term=r.id;m.className="msg ok";render();}catch(er){b.disabled=false;m.className="msg err";m.textContent=er.message;}return;}
