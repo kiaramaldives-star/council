@@ -280,6 +280,20 @@ html[lang=en] .stu .nm,html[lang=en] .ova span,html[lang=en] .ovt small{font-fam
 }
 html[lang=en] .rcsn b,html[lang=en] select,html[lang=en] .rct .nm{font-family:"Plus Jakarta Sans","Faruma",sans-serif!important}
 @media (max-width:899px){.phead .pt small{display:none}}
+.ctseg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#F3F4F6;border-radius:12px;padding:4px;margin-bottom:14px}
+.ctseg button{border:0;background:none;border-radius:9px;padding:10px 8px;font-size:15px;color:#4B5563;cursor:pointer;line-height:1.4}.ctseg button.on{background:#fff;color:var(--p);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tdnote{background:var(--ps);color:#7A0A1C;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:15px}.tdnote b{font-size:18px;margin-inline:4px}.tdnote small{color:#9F1239}
+.atb input{width:68px;text-align:center;padding:8px 4px;font-size:15px}.atb td{padding:5px 4px}.atb .atd{font-size:16px;color:#15803D}
+.stuhd{display:flex;justify-content:space-between;align-items:center;margin:2px 2px 10px}.stuhd b{font-size:19px;font-weight:400}.stuhd small{color:var(--muted)}
+.rcs.lv{background:none;border:0;padding:0}
+.lvl{display:grid;gap:6px}
+.lvr{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.lvn{font-size:14.5px;font-family:"Plus Jakarta Sans","Faruma",sans-serif;color:#374151}.lvn b{font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:5px;direction:ltr}
+.chp{border:1px solid #D1D5DB;background:#fff;color:#4B5563;border-radius:99px;padding:6px 11px;font:600 12.5px "Plus Jakarta Sans",sans-serif;cursor:pointer;direction:ltr}
+.chp:hover{border-color:var(--p)}.chp.on{background:var(--p);border-color:var(--p);color:#fff}
+.row2b{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-top:14px}
+@media (max-width:600px){.row2b{grid-template-columns:1fr}.lvr{flex-direction:column;align-items:stretch}}
 </style>
 </head>
 <body>
@@ -485,22 +499,37 @@ function rcSubject(s,L){const mk=hasMarks(RC.cls,s);
     <div class="rcn">${mk?`<label>${LG("މާކްސް","Marks")}<input inputmode="decimal" data-k="${s}_marks" value="${esc(d[s+"_marks"]??"")}"></label>`:""}<label>FA<input inputmode="numeric" data-k="${s}_fa" value="${esc(d[s+"_fa"]??"")}"></label><label>MA<input inputmode="numeric" data-k="${s}_ma" value="${esc(d[s+"_ma"]??"")}"></label><label>A<input inputmode="numeric" data-k="${s}_a" value="${esc(d[s+"_a"]??"")}"></label></div></div>`;}).join("")}
   <button class="btn" data-rcsave="sub">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
 function rcSel(k,opts,v){return `<select data-k="${k}"><option value=""></option>${opts.map(o=>`<option${o===v?" selected":""}>${o}</option>`).join("")}</select>`;}
-function rcClassForm(L){const r=L[RC.stu]||L[0],d=r.data,T=rcTerm();
-  return `<div class="card"><div class="rcpick"><button class="chv" data-rcstu="-1" ${RC.stu<=0?"disabled":""}>‹</button><select id="rcStu">${L.map((x,i)=>`<option value="${i}"${i===RC.stu?" selected":""}>${i+1}. ${esc(NM(x.name_dv,x.name_en))}</option>`).join("")}</select><button class="chv" data-rcstu="1" ${RC.stu>=L.length-1?"disabled":""}>›</button></div>
-  <div class="rcs" data-sid="${r.id}">
-   <h4 class="h">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</h4><div class="rcg">${ATT.map(([k,dv,en])=>`<label>${LG(dv,en)}<input inputmode="decimal" data-k="${k}" value="${esc(d[k]??(k==="teaching_days"&&T.teaching_days?T.teaching_days:""))}"></label>`).join("")}</div>
-   <h4 class="h">${LG("ޤާބިލިއްޔަތު (ލިޓެރަސީ އަދި ނިއުމެރަސީ)","Competency levels")}</h4><div class="rcg">${COMP.map(([k,a,b])=>`<label>${a} · ${b}${rcSel(k,COMPV,d[k])}</label>`).join("")}</div>
-   <h4 class="h">${LG("އަޚްލާޤާއި ސުލޫކު","Student conduct")}</h4><div class="rcg">${COND.map(([k,en,dv])=>`<label>${LG(dv,en)}${rcSel(k,CONDV,d[k])}</label>`).join("")}</div>
-   <h4 class="h">${LG("އިތުރު ހަރަކާތްތައް","Extra activities")}</h4><div class="rcg">${EXTRA.map(([k,en,dv])=>`<label>${LG(dv,en)}<input dir="auto" data-k="${k}" value="${esc(d[k]??"")}"></label>`).join("")}</div>
-   <h4 class="h">${LG("މައިގަނޑު ޤާބިލިއްޔަތުތަކާ ގުޅޭ ބަޔާން","Comment on key competencies")}</h4><textarea dir="auto" rows="4" data-k="key_comment">${esc(d.key_comment||"")}</textarea>
-   <h4 class="h">${LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","General comment by the class teacher")}</h4><textarea dir="auto" rows="4" data-k="general_comment">${esc(d.general_comment||"")}</textarea>
-  </div><button class="btn" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div>
-  <button class="btn ghost" style="margin-top:8px" data-rcprint="${r.id}">${LG("ރިޕޯޓް ކާޑު ބައްލަވާ","View report card")}</button></div>`;}
+function rcChips(k,opts,v){return `<div class="chips"><input type="hidden" data-k="${k}" value="${esc(v||"")}">${opts.map(o=>`<button type="button" class="chp${o===v?" on":""}" data-chip="${esc(o)}">${o}</button>`).join("")}</div>`;}
+function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att";
+  const seg=`<div class="ctseg"><button type="button" class="${sub==="att"?"on":""}" data-ct="att">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</button><button type="button" class="${sub==="stu"?"on":""}" data-ct="stu">${LG("ޤާބިލިއްޔަތު، ސުލޫކު އަދި ބަޔާން","Levels, conduct and comments")}</button></div>`;
+  if(sub==="att"){
+    return `<div class="card">${seg}
+    <div class="tdnote">${LG("ޙާޒިރުވާން ޖެހޭ ދުވަސް","Days to be attended")}: <b class="num">${TD||"—"}</b> <small>${LG("(ޓާމްގެ ސެޓިންގްސްއިން، ހުރިހާ ދަރިވަރުންނަށް އެއްވަރު)","(from term settings, same for every student)")}</small></div>
+    <p class="pct" style="margin:0 0 10px">${LG("ހާޒިރުނުވި ދުވަސް ލިޔުއްވުމުން ހާޒިރުވި ދުވަސް އަމިއްލައަށް ހިސާބުވާނެ.","Type the days absent and days attended is worked out automatically.")}</p>
+    <div class="rctw"><table class="rct atb"><thead><tr><th>#</th><th>${LG("ދަރިވަރު","Student")}</th><th>${LG("ހާޒިރުނުވި","Absent")}</th><th>${LG("ބަލިވެގެން","Excused")}</th><th>${LG("ލަސްވި","Late")}</th><th>${LG("އިސްކޮޅު ސ.މ","Height cm")}</th><th>${LG("ބަރުދަން ކ.ގ","Weight kg")}</th><th>${LG("ހާޒިރުވި","Attended")}</th></tr></thead><tbody>
+    ${L.map((r,i)=>{const d=r.data,ab=d.absent_days??"",at=ab!==""&&TD?(+TD-(+ab)):(d.att_days??"");return `<tr class="rcs" data-sid="${r.id}"><td class="num">${i+1}</td><td class="nm">${esc(NM(r.name_dv,r.name_en))}</td>
+      <td><input inputmode="numeric" data-k="absent_days" data-abs value="${esc(ab)}"></td><td><input inputmode="numeric" data-k="excused_days" value="${esc(d.excused_days??"")}"></td><td><input inputmode="numeric" data-k="late_days" value="${esc(d.late_days??"")}"></td><td><input inputmode="decimal" data-k="height" value="${esc(d.height??"")}"></td><td><input inputmode="decimal" data-k="weight" value="${esc(d.weight??"")}"></td>
+      <td><b class="num atd">${esc(at)}</b><input type="hidden" data-k="att_days" value="${esc(at)}">${TD?`<input type="hidden" data-k="teaching_days" value="${esc(TD)}">`:""}</td></tr>`;}).join("")}</tbody></table></div>
+    <button class="btn" style="margin-top:14px" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
+  const r=L[RC.stu]||L[0],d=r.data,done=x=>["cd_rules","general_comment","comp_en_r"].every(k=>x.data[k]);
+  return `<div class="card">${seg}
+  <div class="rcpick"><button class="chv" data-rcstu="-1" ${RC.stu<=0?"disabled":""}>‹</button><select id="rcStu">${L.map((x,i)=>`<option value="${i}"${i===RC.stu?" selected":""}>${done(x)?"✓ ":""}${i+1}. ${esc(NM(x.name_dv,x.name_en))}</option>`).join("")}</select><button class="chv" data-rcstu="1" ${RC.stu>=L.length-1?"disabled":""}>›</button></div>
+  <div class="stuhd"><b>${esc(NM(r.name_dv,r.name_en))}</b><small class="num" dir="ltr">${RC.stu+1} / ${L.length}</small></div>
+  <div class="rcs lv" data-sid="${r.id}">
+   <h4 class="h">${LG("ޤާބިލިއްޔަތު (ލިޓެރަސީ އަދި ނިއުމެރަސީ)","Competency levels")}</h4>
+   <div class="lvl">${COMP.map(([k,a,b])=>`<div class="lvr"><span class="lvn">${a} · <b>${b}</b></span>${rcChips(k,COMPV,d[k])}</div>`).join("")}</div>
+   <h4 class="h">${LG("އަޚްލާޤާއި ސުލޫކު","Student conduct")}</h4>
+   <div class="lvl">${COND.map(([k,en,dv])=>`<div class="lvr"><span class="lvn">${LG(dv,en)}</span>${rcChips(k,CONDV,d[k])}</div>`).join("")}</div>
+   <h4 class="h">${LG("މައިގަނޑު ޤާބިލިއްޔަތުތަކާ ގުޅޭ ބަޔާން","Comment on key competencies")}</h4><textarea dir="auto" rows="3" data-k="key_comment">${esc(d.key_comment||"")}</textarea>
+   <h4 class="h">${LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","General comment by the class teacher")}</h4><textarea dir="auto" rows="3" data-k="general_comment">${esc(d.general_comment||"")}</textarea>
+  </div>
+  <div class="row2b">${RC.stu<L.length-1?`<button class="btn" data-rcsave="next">${LG("ރައްކާކޮށް ދެން ދަރިވަރު ›","Save and next ›")}</button>`:`<button class="btn" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button>`}<button class="btn ghost" data-rcprint="${r.id}">${LG("ރިޕޯޓް ކާޑު ބައްލަވާ","View report card")}</button></div>
+  <div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
 async function rcSave(btn){const msg=$("#rcMsg");btn.disabled=true;msg.className="msg";msg.textContent="...";let n=0;
   try{for(const box of document.querySelectorAll(".rcs[data-sid]")){const r=RC.rows.find(x=>x.id===box.dataset.sid),p={};
       box.querySelectorAll("[data-k]").forEach(el=>{const k=el.dataset.k,v=el.value.trim(),old=r.data[k]??"";if(String(old)!==v)p[k]=v;});
       if(Object.keys(p).length){r.data=await rpc("rc_save",{p_term:RC.term,p_student:r.id,p_patch:p});n++;}}
-    RC.msg=`<span class="ok">${LANG==="en"?`Saved (${n} student${n===1?"":"s"} updated).`:`ރައްކާކުރެވިއްޖެ (${n} ދަރިވަރުން).`}</span>`;render();}
+    RC.msg=`<span class="ok">${LANG==="en"?`Saved (${n} student${n===1?"":"s"} updated).`:`ރައްކާކުރެވިއްޖެ (${n} ދަރިވަރުން).`}</span>`;if(btn.dataset.rcsave==="next"&&RC.stu<RC.rows.length-1){RC.stu++;window.scrollTo(0,0);}render();}
   catch(e){btn.disabled=false;msg.className="msg err";msg.textContent=e.message;}}
 /* ---- admin ---- */
 async function rcStaff(){if(RC.staff)return RC.staff;try{const r=await fetch(`${SB_URL}/rest/v1/school_content?select=data&section=eq.staff`,{headers:{apikey:SB_KEY}});RC.staff=(await r.json()).map(x=>x.data).filter(x=>x.email);}catch(e){RC.staff=[];}return RC.staff;}
@@ -549,7 +578,7 @@ function rcHTML(R){const T=R.term||{},C=R.class||{},head=`<div class="hd"><img s
       ${row("Identity Number:",esc(s.id_no||""),"އައިޑެންޓިޓީ ނަންބަރ:")}${row("Student’s Name:",esc(s.name_en)+(s.name_dv?`<br><span class="tn">${esc(s.name_dv)}</span>`:""),"ދަރިވަރުގެ ނަން:")}${row("Date of Birth:",enDate(s.dob),"އުފަން ތާރީޚު:")}
       ${row("Permanent Address:",esc(s.address_en||""),"ދާއިމީ އެޑްރެސް:")}${row("Atoll / Island",esc(s.island_en||""),"އަތޮޅު/ރަށް:")}${row("Grade:",esc(s.grade||""),"ގްރޭޑް:")}${row("Class:",esc(cls),"ކުލާސް:")}
       ${row("Term Started Date:",enDate(T.start_date),"ޓާމުގެ ކިޔެވުން ފެށުނު ތާރީޚް:")}${row("Term Ended Date:",enDate(T.end_date),"ޓާމުގެ ކިޔެވުން ނިމުނު ތާރީޚް:")}${row("School re-opening date:",enDate(T.reopen_date),"ސްކޫލު ދެން ހުޅުވޭނެ ތާރީޚް:")}</table>
-      <table class="kv"><tr class="sh"><th colspan="2">Attendance</th><th class="dv">ޙާޒިރީ</th></tr>${row("No of days to be attended",esc(d.teaching_days??T.teaching_days??""),"ޙާޒިރުވާން ޖެހޭ ދުވަހުގެ އަދަދު")}${row("No of days attended",esc(d.att_days??""),"ޙާޒިރުވި ދުވަހުގެ އަދަދު")}${row("No of days absent",esc(d.absent_days??""),"ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days excused",esc(d.excused_days??""),"ބަލިވެގެން ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days late",esc(d.late_days??""),"ގަޑި ޖެހުނު ދުވަހުގެ އަދަދު")}</table>
+      <table class="kv"><tr class="sh"><th colspan="2">Attendance</th><th class="dv">ޙާޒިރީ</th></tr>${row("No of days to be attended",esc(T.teaching_days||d.teaching_days||""),"ޙާޒިރުވާން ޖެހޭ ދުވަހުގެ އަދަދު")}${row("No of days attended",esc(d.att_days??""),"ޙާޒިރުވި ދުވަހުގެ އަދަދު")}${row("No of days absent",esc(d.absent_days??""),"ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days excused",esc(d.excused_days??""),"ބަލިވެގެން ހާޟިރުނުވި ދުވަހުގެ އަދަދު")}${row("No of days late",esc(d.late_days??""),"ގަޑި ޖެހުނު ދުވަހުގެ އަދަދު")}</table>
       <table class="kv"><tr class="sh"><th colspan="2">Physical Development</th><th class="dv">ހެދި ބޮޑުވުން</th></tr>${row("Height (cm)",esc(d.height??""),"އިސްކޮޅު (ސ.މ)")}${row("Weight (Kg)",esc(d.weight??""),"ބަރުދަން (ކ.ގ)")}</table>
       <table class="kv"><tr class="sh"><th colspan="2">Parent</th><th class="dv">ބެލެނިވެރިޔާ</th></tr>${row("Guardian’s Name",esc(s.guardian_en||"")+(s.guardian_dv?`<br><span class="tn">${esc(s.guardian_dv)}</span>`:""),"ބެލެނިވެރިޔާގެ ނަން:")}</table>
       <div class="band">KONDEY SCHOOL, GA.KONDEY</div></section>`;
@@ -603,6 +632,8 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(t.closest("[data-rcback]")){RC.cls="";RC.view="";RC.rows=null;render();return;}
   if(b=t.closest("[data-rcstu]")){RC.stu=Math.max(0,Math.min((RC.rows||[]).length-1,RC.stu+(+b.dataset.rcstu)));RC.msg="";render();return;}
   if(b=t.closest("[data-rcsave]")){rcSave(b);return;}
+  if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.msg="";render();return;}
+  if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
   if(t.closest("[data-rcadmin]")){RC.view="admin";RC.cls="";await rcStaff();render();return;}
   if(t.closest("[data-rcreg]")){try{RC.reg=await rpc("rc_registry");}catch(er){alert(er.message);}render();return;}
@@ -614,6 +645,7 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
     p.leads={};document.querySelectorAll("[data-lead]").forEach(el=>{if(el.value.trim())p.leads[el.dataset.lead]=el.value.trim();});if(!p.id){p.name_en=(p.name_en||"")+(p.name_en===T.name_en?" (new)":"");p.class_teachers={};}
     b.disabled=true;try{const r=await rpc("rc_term_save",{p});RC.me=await rpc("rc_me");RC.term=r.id;m.className="msg ok";render();}catch(er){b.disabled=false;m.className="msg err";m.textContent=er.message;}return;}
 });
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.abs!=null){const tr=t.closest("tr"),TD=+(rcTerm().teaching_days||0),v=t.value.trim(),a=v!==""&&TD?String(TD-(+v)):"";tr.querySelector(".atd").textContent=a;tr.querySelector('[data-k="att_days"]').value=a;}});
 document.addEventListener("change",async e=>{const t=e.target;
   if(t.id==="rcTerm"){RC.term=t.value;if(RC.cls)rcOpen(RC.cls,RC.view);else render();return;}
   if(t.id==="rcStu"){RC.stu=+t.value;RC.msg="";render();return;}
