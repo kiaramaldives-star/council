@@ -82,6 +82,11 @@ html[lang=en] .h,html[lang=en] h1,html[lang=en] h2{font-weight:700}
 html[lang=en] .stu .nm,html[lang=en] .ova span,html[lang=en] .ovt small,html[lang=en] textarea.names{font-family:"Faruma","Plus Jakarta Sans",sans-serif}
 .lang{font-family:"Plus Jakarta Sans","Faruma",sans-serif!important;font-weight:700;min-width:58px}html[lang=en] .lang{font-family:"Faruma",sans-serif!important;font-weight:400}
 [hidden]{display:none!important}
+.tabs{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:6px;margin-top:14px;position:sticky;top:76px;z-index:4;box-shadow:0 8px 20px rgba(15,23,42,.06)}
+.tabs button{border:0;background:none;border-radius:13px;padding:11px 8px;font-size:16px;color:var(--muted);cursor:pointer}
+.tabs button.on{background:var(--p);color:#fff}
+.ovr.mine{border-color:var(--p);box-shadow:inset 3px 0 0 var(--p)}html[dir=rtl] .ovr.mine{box-shadow:inset -3px 0 0 var(--p)}
+.mine-t{font-size:11px;background:var(--ps);color:var(--p);border-radius:99px;padding:1px 8px;margin-inline-start:6px;vertical-align:middle}
 </style>
 </head>
 <body>
@@ -129,7 +134,7 @@ async function doLogin(){const email=$("#lEmail").value.trim(),password=$("#lPas
 $("#lGo").onclick=doLogin;$("#lPass").onkeydown=e=>{if(e.key==="Enter")doLogin()};
 $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+S.access_token}})}catch(e){}saveS(null);location.reload();};
 
-let ME=null,ABS={},DATE=todayMV();
+let TAB="mark",ME=null,ABS={},DATE=todayMV();
 async function start(){
   try{ME=await rpc("staff_me");}catch(e){saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
   $("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();
@@ -140,13 +145,16 @@ function render(){
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
-  if(!C.length&&ME.lead){v.innerHTML=h+`<div class="card"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`+overview();return;}
+  if(!C.length)TAB="all";
+  const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}">${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}">${LG("ހާޒިރީ","Attendance")}</button></div>`;
+  const dateCard=`<div class="card"><label style="margin-top:0">${LG("ތާރީޚު","Date")}</label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
+  if(TAB==="all"){v.innerHTML=h+tabs+dateCard+overview();return;}
+  h+=tabs;
   if(!C.length){v.innerHTML=h+`<div class="card empty"><span class="dv">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން.</span><span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance"><span class="dv">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ</span><span class="en">View school attendance</span></a></div>`;return;}
   const wd=new Date(DATE+"T00:00:00").getDay(),school=wd!==5&&wd!==6,pending=C.filter(c=>!marked(c,DATE));
   h+= pending.length&&school?`<div class="alert"><div><b><span class="dv">ހާޒިރީ ނަގަންޖެހޭ</span><span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(NM(c.class_dv,c.class_en))).join("، ")} · ${dvDate(DATE)}</small></div></div>`
      : !pending.length?`<div class="alert done"><div><b><span class="dv">ހާޒިރީ ނަގައިފި ✓</span><span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
   h+=`<div class="card"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
-  if(ME.lead)h+=overview();
   for(const c of C){h+=(c.roster>0||EDIT[c.class_en])?rosterCard(c):countCard(c);}
   v.innerHTML=h;
   C.filter(c=>c.roster>0&&!ROST[c.class_en+"|"+DATE]&&!LOADING[c.class_en+"|"+DATE]).forEach(loadRoster);
@@ -158,7 +166,7 @@ function overview(){const A=ME.all_classes||[],wd=new Date(DATE+"T00:00:00").get
     <div class="ovs"><div><b class="num">${done.length}/${A.length}</b><small><span class="dv">ނަގައިފި</span><span class="en">Marked</span></small></div><div class="${A.length-done.length?"bad":""}"><b class="num">${A.length-done.length}</b><small><span class="dv">ނުނަގާ</span><span class="en">Not marked</span></small></div><div><b class="num" dir="ltr">${pc}%</b><small><span class="dv">ހާޒިރީ</span><span class="en">Present</span></small></div></div>
     ${off&&!done.length?`<div class="empty" style="padding:8px"><span class="dv">ބަންދު ދުވަހެއް</span><span class="en">Weekend</span></div>`:""}
     <div class="ovl">${rows.map(({c,m})=>{const t=m?(+m.present||0)+(+m.absent||0):c.students||0,q=m&&t?Math.round(m.present/t*100):0,a=ab.filter(x=>x.class_en===c.class_en);
-      return `<div class="ovr ${m?"ok":"no"}"><div class="ovt"><b class="h">${esc(NM(c.class_dv,c.class_en))}</b><small>${esc(NM(c.teacher_dv,c.teacher_en)||"")}</small></div>
+      const mine=(ME.classes||[]).some(x=>x.class_en===c.class_en)&&!ME.admin;return `<div class="ovr ${m?"ok":"no"}${mine?" mine":""}"><div class="ovt"><b class="h">${esc(NM(c.class_dv,c.class_en))}${mine?`<span class="mine-t">${LG("މަގޭ ކްލާސް","My class")}</span>`:""}</b><small>${esc(NM(c.teacher_dv,c.teacher_en)||"")}</small></div>
         ${m?`<div class="ovn"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}<span class="pc num" dir="ltr">${q}%</span></div><span class="status yes">✓ <span class="num">${esc((m.marked_at||"").slice(11))}</span></span>`:`<span class="status no"><span class="dv">ނުނަގާ</span><span class="en">Not marked</span></span>`}
         ${a.length?`<div class="ova">${a.map(x=>`<span class="${x.status}">${esc(x.name)}${x.status==="l"?` (${LG("ލަސް","late")})`:""}</span>`).join("")}</div>`:""}</div>`;}).join("")}</div>
     <div class="ovk"><span class="p">${LG("ހާޒިރު","Present")}</span><span class="a">${LG("ނެތް","Absent")}</span><span class="l">${LG("ލަސް","Late")}</span></div></div>`;}
@@ -205,6 +213,7 @@ document.addEventListener("click",async e=>{
     catch(err){s.disabled=false;m.className="msg err";m.textContent=err.message;}}
 });
 document.addEventListener("click",async e=>{
+  const tb=e.target.closest("[data-tab]");if(tb){TAB=tb.dataset.tab;render();window.scrollTo(0,0);return;}
   const mk=e.target.closest("[data-mk]");if(mk){const key=mk.dataset.mk+"|"+DATE;(MARK[key]=MARK[key]||{})[mk.dataset.id]=mk.dataset.v;render();return;}
   const ap=e.target.closest("[data-allp]");if(ap){const key=ap.dataset.allp+"|"+DATE;(ROST[key]||[]).forEach(s=>(MARK[key]=MARK[key]||{})[s.id]="p");render();return;}
   const ed=e.target.closest("[data-edit]");if(ed){const c=(ME.classes||[]).find(x=>x.class_en===ed.dataset.edit);EDIT[c.class_en]=1;if(c.roster>0&&!ROST[c.class_en+"|"+DATE])await loadRoster(c);render();return;}
