@@ -87,6 +87,22 @@ html[lang=en] .stu .nm,html[lang=en] .ova span,html[lang=en] .ovt small,html[lan
 .tabs button.on{background:var(--p);color:#fff}
 .ovr.mine{border-color:var(--p);box-shadow:inset 3px 0 0 var(--p)}html[dir=rtl] .ovr.mine{box-shadow:inset -3px 0 0 var(--p)}
 .mine-t{font-size:11px;background:var(--ps);color:var(--p);border-radius:99px;padding:1px 8px;margin-inline-start:6px;vertical-align:middle}
+@media (min-width:900px){
+ .top{padding:14px max(24px,calc((100vw - 1180px)/2))}
+ .wrap{max-width:1180px;padding:24px 24px 50px}
+ #loginView{max-width:460px;margin:30px auto 0}
+ #appView.dk{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;align-items:start}
+ .side{position:sticky;top:96px;display:grid;gap:14px}.side>*{margin-top:0!important}
+ .side .tabs{position:static;grid-auto-flow:row;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+ .side .tabs button{text-align:start;padding:13px 16px;font-size:17px}
+ .mainc{min-width:0}.mainc>.card:first-child{margin-top:0}
+ .ovl{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .ovs b{font-size:28px}
+ .stl{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cls .btn[data-savemarks],.cls .btn[data-save]{max-width:360px}
+ .foot{grid-column:1/-1}
+}
+@media (min-width:1200px){.ovl{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -140,21 +156,23 @@ async function start(){
   $("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
-function render(){
+function render(){render0();layout();}
+function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";[...v.children].forEach(el=>(el.matches(".me,.tabs,.alert,.datec")?s:m).appendChild(el));v.append(s,m);v.classList.add("dk");}
+function render0(){
   const v=$("#appView");
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:esc((s.name_dv||s.name_en||"?").charAt(0));
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
   if(!C.length)TAB="all";
   const tabs=`<div class="tabs">${C.length?`<button type="button" data-tab="mark" class="${TAB==="mark"?"on":""}">${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}">${LG("ހާޒިރީ","Attendance")}</button></div>`;
-  const dateCard=`<div class="card"><label style="margin-top:0">${LG("ތާރީޚު","Date")}</label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
+  const dateCard=`<div class="card datec"><label style="margin-top:0">${LG("ތާރީޚު","Date")}</label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
   if(TAB==="all"){v.innerHTML=h+tabs+dateCard+overview();return;}
   h+=tabs;
   if(!C.length){v.innerHTML=h+`<div class="card empty"><span class="dv">ތިޔަބޭފުޅަކީ އެއްވެސް ކްލާހެއްގެ ކްލާސް ޓީޗަރެއް ނޫން.</span><span class="en">You are not a class teacher, so there is no attendance to mark.</span><br><a href="/#attendance"><span class="dv">ސްކޫލުގެ ހާޒިރީ ބައްލަވާ</span><span class="en">View school attendance</span></a></div>`;return;}
   const wd=new Date(DATE+"T00:00:00").getDay(),school=wd!==5&&wd!==6,pending=C.filter(c=>!marked(c,DATE));
   h+= pending.length&&school?`<div class="alert"><div><b><span class="dv">ހާޒިރީ ނަގަންޖެހޭ</span><span class="en" style="color:#fde2e6">Please mark attendance</span></b><small>${pending.map(c=>esc(NM(c.class_dv,c.class_en))).join("، ")} · ${dvDate(DATE)}</small></div></div>`
      : !pending.length?`<div class="alert done"><div><b><span class="dv">ހާޒިރީ ނަގައިފި ✓</span><span class="en" style="color:#dcfce7">Attendance done</span></b><small>${dvDate(DATE)}</small></div></div>`:"";
-  h+=`<div class="card"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
+  h+=`<div class="card datec"><label style="margin-top:0"><span class="dv">ތާރީޚު</span><span class="en">Date</span></label><input type="date" id="dt" value="${DATE}" max="${todayMV()}"></div>`;
   for(const c of C){h+=(c.roster>0||EDIT[c.class_en])?rosterCard(c):countCard(c);}
   v.innerHTML=h;
   C.filter(c=>c.roster>0&&!ROST[c.class_en+"|"+DATE]&&!LOADING[c.class_en+"|"+DATE]).forEach(loadRoster);
