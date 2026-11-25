@@ -319,6 +319,11 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 .rvsc{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px}.rvsc span{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:3px 10px;background:#fff}.rvsc small{color:var(--muted);font:600 12px "Plus Jakarta Sans","KondeyHeading",sans-serif}.rvsc b{font-size:15px}
 .cttop{margin:12px 0 0}
 .rvni small,.rvni,.rvt p{font-family:"KondeyHeading","Faruma",sans-serif!important}.rvni small{font-size:14px}html[lang=en] .rvni small{font-family:"Plus Jakarta Sans","KondeyHeading",sans-serif!important}
+.chp.c-excellent.on,.chp.c-exceeding.on{background:#166534;border-color:#166534}
+.chp.c-good.on,.chp.c-proficient.on{background:#22C55E;border-color:#22C55E}
+.chp.c-developing.on{background:#F59E0B;border-color:#F59E0B}
+.chp.c-needs-improvement.on,.chp.c-need-support.on{background:#DC2626;border-color:#DC2626}
+.chp:not(.on):hover{border-color:#9CA3AF}
 </style>
 </head>
 <body>
@@ -538,7 +543,7 @@ function rcSubject(s,L){const mk=hasMarks(RC.cls,s);
     <div class="rcn">${mk?`<label>${LG("މާކްސް","Marks")}<input inputmode="decimal" data-k="${s}_marks" value="${esc(d[s+"_marks"]??"")}"></label>`:""}<label>FA<input inputmode="numeric" data-k="${s}_fa" value="${esc(d[s+"_fa"]??"")}"></label><label>MA<input inputmode="numeric" data-k="${s}_ma" value="${esc(d[s+"_ma"]??"")}"></label><label>A<input inputmode="numeric" data-k="${s}_a" value="${esc(d[s+"_a"]??"")}"></label></div></div>`;}).join("")}
   <button class="btn" data-rcsave="sub">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
 function rcSel(k,opts,v){return `<select data-k="${k}"><option value=""></option>${opts.map(o=>`<option${o===v?" selected":""}>${o}</option>`).join("")}</select>`;}
-function rcChips(k,opts,v){return `<div class="chips"><input type="hidden" data-k="${k}" value="${esc(v||"")}">${opts.map(o=>`<button type="button" class="chp${o===v?" on":""}" data-chip="${esc(o)}">${o}</button>`).join("")}</div>`;}
+function rcChips(k,opts,v){return `<div class="chips"><input type="hidden" data-k="${k}" value="${esc(v||"")}">${opts.map(o=>`<button type="button" class="chp c-${o.toLowerCase().replace(/\s+/g,"-")}${o===v?" on":""}" data-chip="${esc(o)}">${o}</button>`).join("")}</div>`;}
 function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att";
   const seg=`<div class="ctseg"><button type="button" class="${sub==="att"?"on":""}" data-ct="att">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</button><button type="button" class="${sub==="stu"?"on":""}" data-ct="stu">${LG("ސުލޫކު އަދި ބަޔާން","Conduct and comments")}</button></div>`;
   if(sub==="att"){
