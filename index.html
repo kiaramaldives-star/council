@@ -47,6 +47,8 @@ html[lang=en] .h{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800}
 .logo{width:54px;height:54px;border-radius:50%;background:var(--ps);display:grid;place-items:center;overflow:hidden;flex:0 0 auto;border:2px solid #fff;box-shadow:0 0 0 2px var(--ps)}
 .logo img{width:100%;height:100%;object-fit:contain}
 .logo svg{color:var(--p)}
+.head .brand .logo .lg-w{display:none}.head .brand .logo img.lw-f{filter:brightness(0) invert(1)}
+@media (max-width:1180px){.head .brand .logo{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}.head .brand .logo svg{color:#fff}.head .brand .logo .lg-c{display:none}.head .brand .logo .lg-w{display:block}}
 .brand b{display:block;font-size:24px;color:var(--p);line-height:1.2}
 .brand small{display:block;color:var(--muted);font-size:13px}
 html[lang=dv] .brand small{font-family:"KondeyHeading","Faruma",sans-serif;font-size:14px}
@@ -661,7 +663,7 @@ html[lang=dv] .vm2-motto small{font-family:"KondeyHeading","Faruma",sans-serif;f
  .burger{order:0;flex:none;width:68px!important;height:68px!important;border-radius:22px!important;background:var(--p)!important;color:#fff!important;border:0!important;display:grid!important;place-items:center;box-shadow:0 8px 18px rgba(200,16,46,.25)}
  .burger svg{width:30px;height:30px}
  .head .brand{order:1;flex:1;min-width:0;display:flex!important;align-items:center;gap:12px;height:68px;border-radius:22px;padding:0 16px;background:linear-gradient(120deg,var(--p),#8E0B21);color:#fff!important;box-shadow:0 8px 18px rgba(200,16,46,.25)}
- .head .brand .logo{width:46px!important;height:46px!important;flex:none;background:#fff;border-radius:50%;padding:3px}
+ .head .brand .logo{width:46px!important;height:46px!important;flex:none;background:transparent;border-radius:50%;padding:0}
  .head .brand b{color:#fff!important;font-size:22px!important;line-height:1.3!important;white-space:nowrap}
  .br-t{display:flex;flex-direction:column;min-width:0}.br-t small{display:block;color:rgba(255,255,255,.8);font-size:13px;line-height:1.4;white-space:nowrap}
  .hlang{order:2;display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;align-content:center;justify-content:center;column-gap:2px;flex:none;width:68px;height:68px;border-radius:22px;border:0;background:#F3E7EA;color:var(--p);cursor:pointer;line-height:1.15}
@@ -843,7 +845,7 @@ function mnavHTML(SI){const chev=`<svg width="16" height="16" viewBox="0 0 24 24
   return `<div class="mn-h"><a class="mn-b" href="#home"><span class="logo">${logoHTML()}</span><b class="h">${L2(INFO,"name")}</b></a><button class="mn-x" type="button" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div><div class="mn-l">${items}</div><div class="mn-soc">${soc}</div>`;}
 function logoHTML(){const u=safeUrl(INFO.logo);return u?`<img src="${esc(u)}" alt="" onerror="this.replaceWith(document.createRange().createContextualFragment(IC.cap))">`:IC.cap;}
 function header(){
-  document.getElementById("hLogo").innerHTML=logoHTML();
+  {const u=safeUrl(INFO.logo),wl=/\/logo\.png$/.test(u||"");document.getElementById("hLogo").innerHTML=u?`<img class="lg-c" src="${esc(u)}" alt=""><img class="lg-w${wl?"":" lw-f"}" src="${wl?"/logo-white.png":esc(u)}" alt="">`:IC.cap;}
   document.getElementById("hName").innerHTML=L2(INFO,"name");
   const ph=(INFO.phone||"").trim();const tp=document.getElementById("topPhone");tp.href="tel:+960"+ph.replace(/\D/g,"");tp.querySelector("span").textContent=ph;{let th=document.getElementById("topHot");const hl=String(INFO.hotline||"").trim();if(hl){if(!th){th=document.createElement("a");th.id="topHot";th.className="ltr top-hot";tp.after(th);}th.href="tel:+960"+hl.replace(/\D/g,"");th.innerHTML=`<em>${bi("ހޮޓްލައިން","Hotline")}</em> <span class="num">${esc(hl)}</span>`;}else if(th)th.remove();}
   document.getElementById("soc").innerHTML=[["facebook","fb"],["instagram","ig"],["x","xx"]].filter(([k])=>safeUrl(INFO[k])).map(([k,i])=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${IC[i]}</a>`).join("");
