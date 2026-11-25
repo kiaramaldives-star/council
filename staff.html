@@ -317,6 +317,7 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 #rvN{width:100%;font-family:"Faruma",sans-serif;font-size:15px;line-height:1.8;padding:8px 10px;border:1px solid #D1D5DB;border-radius:10px;margin-bottom:6px}
 .rvsub,.rvt,.rvni span{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=en] .rvsub,html[lang=en] .rvt{font-family:"Plus Jakarta Sans",sans-serif}.rvsub{font-size:13.5px}
 .rvsc{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px}.rvsc span{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:3px 10px;background:#fff}.rvsc small{color:var(--muted);font:600 12px "Plus Jakarta Sans","KondeyHeading",sans-serif}.rvsc b{font-size:15px}
+.cttop{margin:12px 0 0}
 </style>
 </head>
 <body>
@@ -514,7 +515,7 @@ function rcView(){
       return `<button type="button" class="rcc" data-rccls="${esc(c.class_en)}"><b class="h">${esc(NM(c.class_dv,c.class_en))}</b><small>${c.teacher?`<span class="tg">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</span>`:""}${subs.map(s=>`<span>${subName(s)}</span>`).join("")}${M.lead&&!c.teacher&&!subs.length?`<span>${LG("ބެލުން","View")}</span>`:""}</small></button>`;}).join("")}</div></div>`;}
   const c=M.classes.find(x=>x.class_en===RC.cls)||{},subs=M.admin?RSUB.map(x=>x[0]).filter(s=>s!=="business"||MARKG.includes(RC.cls)||c.subjects.includes(s)):c.subjects,L=RC.rows;
   h+=`<div class="card"><button class="lnk" style="margin:0 0 8px" data-rcback>${LG("← ކްލާސްތަކަށް","← All classes")}</button><h2 class="h" style="margin:0;font-size:22px">${esc(NM(c.class_dv,c.class_en))} · ${esc(NM(T.name_dv,T.name_en))}</h2>
-    <div class="rcnav">${M.lead?`<button type="button" class="rvb ${RC.view==="review"?"on":""}" data-rcv="review">${LG("އަދާހަމަ","Review comments")}${(()=>{const n=rvItems(L||[]).filter(x=>!x.r.rev||!x.r.rev[x.f]).length;return n?` <i class="bdg num">${n}</i>`:"";})()}</button>`:""}${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}${c.teacher||M.admin?`<button type="button" class="${RC.view==="class"?"on":""}" data-rcv="class">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</button>`:""}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
+    ${c.teacher||M.admin?`<div class="ctseg cttop"><button type="button" class="${RC.view==="class"&&(RC.ct||"att")==="att"?"on":""}" data-ct="att">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</button><button type="button" class="${RC.view==="class"&&RC.ct==="stu"?"on":""}" data-ct="stu">${LG("ސުލޫކު އަދި ބަޔާން","Conduct and comments")}</button></div>`:""}<div class="rcnav">${M.lead?`<button type="button" class="rvb ${RC.view==="review"?"on":""}" data-rcv="review">${LG("އަދާހަމަ","Review comments")}${(()=>{const n=rvItems(L||[]).filter(x=>!x.r.rev||!x.r.rev[x.f]).length;return n?` <i class="bdg num">${n}</i>`:"";})()}</button>`:""}${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
   if(!L)return h+`<div class="card empty">...</div>`;if(L.err)return h+`<div class="card"><div class="msg err">${esc(L.err)}</div></div>`;
   if(!L.length)return h+`<div class="card empty">${LG("މި ކްލާހުގައި ދަރިވަރުން ނެތް. އެޑްމިން ރަޖިސްޓަރީއަށް ދަރިވަރުން އިތުރުކުރާށެވެ.","No students in this class yet. An admin needs to add them to the registry.")}</div>`;
   if(RC.view==="review")return h+rcReview(L);
@@ -539,7 +540,7 @@ function rcChips(k,opts,v){return `<div class="chips"><input type="hidden" data-
 function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att";
   const seg=`<div class="ctseg"><button type="button" class="${sub==="att"?"on":""}" data-ct="att">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</button><button type="button" class="${sub==="stu"?"on":""}" data-ct="stu">${LG("ސުލޫކު އަދި ބަޔާން","Conduct and comments")}</button></div>`;
   if(sub==="att"){
-    return `<div class="card">${seg}
+    return `<div class="card">
     <div class="tdnote">${LG("ޙާޒިރުވާން ޖެހޭ ދުވަސް","Days to be attended")}: <b class="num">${TD||"—"}</b> <small>${LG("(ޓާމްގެ ސެޓިންގްސްއިން، ހުރިހާ ދަރިވަރުންނަށް އެއްވަރު)","(from term settings, same for every student)")}</small></div>
     <p class="pct" style="margin:0 0 10px">${LG("ހާޒިރުނުވާ ދުވަސް ލިޔުއްވުމުން ހާޒިރުވި ދުވަސް އަމިއްލައަށް ހިސާބުވާނެ.","Type the days absent and days attended is worked out automatically.")}</p>
     <div class="rctw"><table class="rct atb"><thead><tr><th>#</th><th>${LG("ދަރިވަރު","Student")}</th><th>${LG("ހާޒިރުނުވާ","Absent")}</th><th>${LG("ބަލިވެގެން","Excused")}</th><th>${LG("ލަސްވި","Late")}</th><th>${LG("އިސްކޮޅު ސ.މ","Height cm")}</th><th>${LG("ބަރުދަން ކ.ގ","Weight kg")}</th><th>${LG("ހާޒިރުވި","Attended")}</th></tr></thead><tbody>
@@ -548,7 +549,7 @@ function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att"
       <td><b class="num atd">${esc(at)}</b><input type="hidden" data-k="att_days" value="${esc(at)}">${TD?`<input type="hidden" data-k="teaching_days" value="${esc(TD)}">`:""}</td></tr>`;}).join("")}</tbody></table></div>
     <button class="btn" style="margin-top:14px" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
   const r=L[RC.stu]||L[0],d=r.data,done=x=>["cd_rules","general_comment"].every(k=>x.data[k]);
-  return `<div class="card">${seg}
+  return `<div class="card">
   <div class="rcpick"><button class="chv" data-rcstu="-1" ${RC.stu<=0?"disabled":""}>‹</button><select id="rcStu">${L.map((x,i)=>`<option value="${i}"${i===RC.stu?" selected":""}>${done(x)?"✓ ":""}${i+1}. ${esc(NM(x.name_dv,x.name_en))}</option>`).join("")}</select><button class="chv" data-rcstu="1" ${RC.stu>=L.length-1?"disabled":""}>›</button></div>
   <div class="stuhd"><b>${esc(NM(r.name_dv,r.name_en))}</b><small class="num" dir="ltr">${RC.stu+1} / ${L.length}</small></div>
   <div class="rcs lv" data-sid="${r.id}">
@@ -692,7 +693,7 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(b=t.closest("[data-rvundo]")){rcRev(b.dataset.rvundo,"");return;}
   if(b=t.closest("[data-rvs]")){RC.rs=b.dataset.rvs;render();return;}
   if(b=t.closest("[data-rcgo]")){const [c,f,sn]=b.dataset.rcgo.split("|");TAB="report";const v=f==="key_comment"||f==="general_comment"?"class":"s:"+f.replace("_comment","");RC.ct="stu";await rcOpen(c,v);const i=(RC.rows||[]).findIndex(x=>x.name_en===sn);if(i>=0){RC.stu=i;render();setTimeout(()=>{const el=document.querySelector(`.rcs[data-sid="${RC.rows[i].id}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},60);}return;}
-  if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.msg="";render();return;}
+  if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.view="class";RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
   if(t.closest("[data-rcadmin]")){RC.view="admin";RC.cls="";await rcStaff();render();return;}
