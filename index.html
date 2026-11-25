@@ -682,7 +682,6 @@ html[lang=en] .acc-r h2,html[lang=en] .acc-r>span{font-family:"Plus Jakarta Sans
 .acc-t[aria-pressed=true]{background:var(--p)}.acc-t[aria-pressed=true]::after{transform:translateX(20px)}
 .acc-rs{display:block;width:100%;margin-top:16px;padding:12px;border-radius:14px;border:1.5px solid var(--p);background:#fff;color:var(--p);font-size:16px;cursor:pointer}
 html[lang=en] .acc-rs{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
-#app,.foot{zoom:var(--a11y-z,1)}
 html.a11y-hc{--muted:#1F2937;--text:#000;--line:#9CA3AF}
 html.a11y-hc #app,html.a11y-hc .foot{filter:contrast(1.25)}
 html.a11y-ls #app :is(p,li,small,span,a,b,h1,h2,h3,td,div){line-height:2.3!important;word-spacing:.12em}
@@ -804,13 +803,8 @@ html[lang=en] .fc-r small{font-family:"Plus Jakarta Sans",sans-serif;font-size:1
 <header class="head"><div class="wrap">
   <a class="brand" href="#home"><span class="logo" id="hLogo"></span><span class="br-t"><b class="h" id="hName"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small class="h"><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ</span><span class="en">GA. Kondey, Maldives</span></small></span></a>
   <nav class="nav" id="nav"></nav>
-  <button class="hacc" id="hAcc" type="button" aria-expanded="false" aria-controls="accP" aria-label="Text size"><span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 19 8 5l5.5 14M4.6 14h6.8M15 19l3.5-9 3.5 9M16.1 16.3h4.8"/></svg></span></button>
   <button class="hlang" id="hLang" type="button" aria-label="Language"><span class="hl-a">ދިވ</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v9a4 4 0 0 0 4 4h8M15 13l4 4-4 4"/></svg><span class="hl-b">EN</span></button>
   <button class="burger" id="burger" type="button" aria-label="Menu"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-  <div class="acc-p" id="accP" role="dialog" aria-labelledby="accT" hidden>
-    <div class="acc-r"><h2 class="h" id="accT"><span class="dv">އަކުރުގެ ބޮޑުމިން</span><span class="en">Text size</span></h2><button class="acc-x" type="button" data-accx aria-label="Close">&times;</button></div>
-    <div class="acc-r acc-z"><div class="acc-fs"><button type="button" data-accz="-1" aria-label="Smaller text">A&minus;</button><output id="accZ">100%</output><button type="button" data-accz="1" aria-label="Larger text">A+</button></div></div>
-  </div>
 </div></header>
 <div class="mnav" id="mnav"><div class="mnav-p" id="mnavP"></div></div>
 <main id="app"></main>
@@ -1462,23 +1456,6 @@ async function loadDB(){
 }
 let L0="dv";try{L0=localStorage.getItem("ks_lang")||"dv"}catch(_){}
 header(); setLang(L0); route(); loadDB();
-</script>
-<script>
-(function(){const H=document.documentElement,P=document.getElementById("accP"),B=document.getElementById("hAcc");
-  let A={z:100};try{A.z=+(JSON.parse(localStorage.getItem("ks_a11y")||"{}").z)||100}catch(_){}
-  function apply(){H.style.setProperty("--a11y-z",A.z/100);H.classList.remove("a11y-hc","a11y-ls");
-    document.getElementById("accZ").textContent=A.z+"%";P.querySelector('[data-accz="-1"]').disabled=A.z<=100;P.querySelector('[data-accz="1"]').disabled=A.z>=150;
-    P.querySelectorAll("[data-acct]").forEach(t=>t.setAttribute("aria-pressed",!!A[t.dataset.acct]));try{localStorage.setItem("ks_a11y",JSON.stringify(A))}catch(_){}}
-  function open(v){P.hidden=!v;B.setAttribute("aria-expanded",v);}
-  B.addEventListener("click",e=>{e.stopPropagation();open(P.hidden);});
-  P.addEventListener("click",e=>{e.stopPropagation();const z=e.target.closest("[data-accz]"),t=e.target.closest("[data-acct]");
-    if(z){A.z=Math.min(150,Math.max(100,A.z+10*z.dataset.accz));apply();}
-    else if(t){A[t.dataset.acct]=A[t.dataset.acct]?0:1;apply();}
-    else if(e.target.closest("[data-accr]")){A={z:100,hc:0,ls:0};apply();}
-    else if(e.target.closest("[data-accx]"))open(false);});
-  document.addEventListener("click",()=>{if(!P.hidden)open(false);});
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!P.hidden){open(false);B.focus();}});
-  addEventListener("hashchange",()=>open(false));apply();})();
 </script>
 </body>
 </html>
