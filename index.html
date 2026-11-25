@@ -592,7 +592,7 @@ body{background:#F4F4F6!important}#app{background:var(--bg);display:flow-root}.f
 @media (max-width:620px){.gm-g{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.tabbar{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom))!important;padding:7px 4px!important;border-radius:26px;border:1px solid rgba(255,255,255,.55)!important;border-image:none!important;background:rgba(255,255,255,.55)!important;-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);box-shadow:0 10px 30px rgba(15,23,42,.18),inset 0 1px 0 rgba(255,255,255,.7)!important}
 .tabbar a{color:#374151}.tabbar a.on{color:var(--p);background:rgba(200,16,46,.1)}
-.foot-b{padding-bottom:calc(86px + env(safe-area-inset-bottom))!important}.totop{bottom:calc(100px + env(safe-area-inset-bottom))!important}}
+.foot{padding-bottom:calc(96px + env(safe-area-inset-bottom))!important}.totop{bottom:calc(100px + env(safe-area-inset-bottom))!important}}
 .act-past{margin-top:20px}.act-past>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:14px;background:#F3F4F6;color:#374151;font-weight:600}.act-past>summary::-webkit-details-marker{display:none}
 html[lang=dv] .act-past>summary{font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:16px}.act-past>summary::after{content:"▾";transition:.2s}.act-past[open]>summary::after{transform:rotate(180deg)}
 .act-past .act-mh{color:var(--muted);border-color:var(--line)}
@@ -703,22 +703,32 @@ html[lang=dv] .pc-t{font-family:"KondeyHeading","Faruma",sans-serif;font-size:13
 .cm-g{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))!important}
 @media (max-width:620px){.cm-h h2{font-size:22px}.cm-cph{width:96px;height:114px}.cm-chair b{font-size:19px}.cm-g{grid-template-columns:1fr 1fr!important}}
 /* footer */
-.foot{background:#F4F4F6;margin-top:0;color:#3F4A5C}
-.foot-c{background:#fff;padding:22px 0}
-.fr-list{display:flex;flex-direction:column;gap:22px;max-width:720px}
-.fr{display:flex;align-items:center;gap:26px;border-inline-start:4px solid #E5E7EB;padding:10px 26px;color:#3F4A5C;font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:20px;transition:border-color .2s,color .2s}
-.fr:hover{border-color:var(--p);color:var(--p)}
-.fr svg{flex:0 0 auto;color:#475569}
-.fr:hover svg{color:var(--p)}
-.fr .h{font-weight:400;font-size:20px}
-html[lang=en] .fr .h{font-weight:700;font-size:18px}
-.foot-b{text-align:center;padding:26px 20px 24px}
-.foot-soc{display:flex;justify-content:center;gap:30px;margin-bottom:26px;direction:ltr}
-.foot-soc a{width:40px;height:40px;display:grid;place-items:center;color:#9CA3AF;transition:color .2s,transform .2s}
-.foot-soc a:hover{color:var(--p);transform:translateY(-2px)}
-.foot-b p{font-family:"Plus Jakarta Sans",sans-serif;font-size:19px;color:#4B5563;margin-top:10px}
-.foot-b p.h{font-family:"KondeyHeading","Faruma",sans-serif;font-size:21px}
-html[lang=en] .foot-b p.h{font-family:"Plus Jakarta Sans",sans-serif;font-size:19px;font-weight:500}
+.foot{background:#F4F4F6;margin-top:0;color:#3F4A5C;padding:34px 0 30px}
+.fc{background:#fff;border-radius:28px;box-shadow:0 10px 30px rgba(15,23,42,.06);padding:36px 40px 26px;max-width:960px;margin:0 auto}
+.fc-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:26px}
+.fc-brand{display:flex;align-items:center;gap:18px}
+.fc-logo{width:76px;height:76px;flex:0 0 auto;display:grid;place-items:center;color:var(--p)}.fc-logo img{width:100%;height:100%;object-fit:contain}.fc-logo svg{width:60px;height:60px}
+.fc-brand b{display:block;font-family:"KondeyHeading","Faruma",sans-serif;font-weight:400;font-size:30px;line-height:1.35;color:var(--p)}
+html[lang=en] .fc-brand b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:24px}
+.fc-brand small{display:block;font-size:16px;color:var(--p);opacity:.85;margin-top:2px}
+html[lang=en] .fc-brand small{font-family:"Plus Jakarta Sans",sans-serif;font-size:14px}
+.fc-soc{display:flex;gap:14px}
+.fc-soc a{width:54px;height:54px;border-radius:16px;background:var(--ps);color:var(--p);display:grid;place-items:center;transition:background .2s,color .2s,transform .2s}
+.fc-soc a svg{width:24px;height:24px}
+.fc-soc a:hover{background:var(--p);color:#fff;transform:translateY(-2px)}
+.fc-list{display:grid;grid-template-columns:auto auto 1fr;justify-content:space-between;gap:22px 30px;margin-top:34px}
+.fc-r{display:flex;align-items:center;gap:18px;color:var(--p);min-width:0}
+.fc-ic{width:56px;height:56px;flex:0 0 auto;border-radius:16px;background:var(--ps);color:var(--p);display:grid;place-items:center;transition:background .2s,color .2s}
+a.fc-r:hover .fc-ic{background:var(--p);color:#fff}
+.fc-r small{display:block;font-family:"KondeyHeading","Faruma",sans-serif;font-size:15px;color:var(--p);opacity:.8}
+html[lang=en] .fc-r small{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.fc-r .v{display:block;font-size:19px;line-height:1.5;color:var(--p);overflow-wrap:break-word}
+.fc-r .v.ltr{font-family:"Plus Jakarta Sans",sans-serif;font-weight:500;direction:ltr;unicode-bidi:isolate}
+.fc-bot{border-top:2px solid var(--line);margin-top:32px;padding-top:22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 18px;text-align:center}
+.fc-bot p{font-family:"Plus Jakarta Sans",sans-serif;font-size:17px;color:#4B5563}
+.fc-bot .foot-staff{margin-top:0}
+@media (max-width:900px){.fc-list{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.foot{padding:20px 0 22px}.fc{padding:28px 22px 22px;border-radius:24px}.fc-top{flex-direction:column;align-items:flex-start}.fc-logo{width:64px;height:64px}.fc-brand b{font-size:26px}.fc-soc a{width:50px;height:50px}.fc-list{grid-template-columns:1fr;margin-top:28px}.fc-r .v.ltr{overflow-wrap:anywhere}.fc-ic{width:52px;height:52px}.fc-r .v{font-size:18px}.fc-bot{flex-direction:column}}
 .totop{position:fixed;right:20px;bottom:24px;z-index:60;width:58px;height:58px;border-radius:50%;border:0;background:var(--p);color:#fff;display:grid;place-items:center;box-shadow:0 10px 24px rgba(200,16,46,.35);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .25s,transform .25s}
 .totop.show{opacity:1;pointer-events:auto;transform:none}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.reveal.in{opacity:1;transform:none}
@@ -823,17 +833,26 @@ function header(){
     pin:'<svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>'};
   const SI={facebook:'<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8.6v-7.7H10v-3h2.6V9.1c0-2.6 1.6-4 3.9-4 1.1 0 2.1.1 2.3.1v2.7h-1.6c-1.3 0-1.5.6-1.5 1.5v1.9h3l-.4 3h-2.6V22H20a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>',
     instagram:'<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    youtube:'<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9L15.5 12z"/></svg>',
     x:'<svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="3"/><path fill="#fff" d="M16.4 5.5h2.1l-4.6 5.3 5.4 7.2h-4.2l-3.3-4.4-3.8 4.4H5.9l4.9-5.7L5.6 5.5h4.3l3 4z"/></svg>'};
   document.getElementById("mnavP").innerHTML=mnavHTML(SI);
-  document.getElementById("foot").innerHTML=`<div class="foot-c"><div class="wrap"><div class="fr-list">
-      ${tel?`<a class="fr" href="tel:+960${esc(tel)}">${FI.phone}<span class="num">${esc(INFO.phone)}</span></a>`:""}
-      ${INFO.hotline?`<a class="fr fr-hot" href="tel:+960${esc(String(INFO.hotline).replace(/\D/g,""))}">${FI.phone}<span><span class="num">${esc(INFO.hotline)}</span> <em class="hot">${bi("ހޮޓްލައިން","Hotline")}</em></span></a>`:""}
-      ${host?`<a class="fr" href="/">${FI.web}<span class="ltr">${esc(host)}</span></a>`:""}
-      ${INFO.email?`<a class="fr" href="mailto:${esc(INFO.email)}">${FI.mail}<span class="ltr">${esc(INFO.email)}</span></a>`:""}
-      <div class="fr">${FI.pin}<span class="h">${L2(INFO,"address")}</span></div>
-    </div></div></div>
-    <div class="foot-b"><div class="foot-soc">${["instagram","facebook","x"].filter(k=>safeUrl(INFO[k])).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${SI[k]}</a>`).join("")}</div>
-      <p dir="ltr">All Rights Reserved (c) <span class="num">${new Date().getFullYear()}</span></p><p class="h">${L2(INFO,"name")}</p><a class="foot-staff" href="/staff.html">${bi("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</a></div>`;
+  const FC={mail:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>',
+    phone:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>',
+    pin:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+    x:'<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.2-8.3L1.8 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg>'};
+  const row=(href,ic,lab,val,ltr)=>`${href?`<a class="fc-r" href="${href}">`:`<div class="fc-r">`}<span class="fc-ic">${ic}</span><span><small>${lab}</small><span class="v${ltr?" ltr":""}">${val}</span></span>${href?"</a>":"</div>"}`;
+  const hot=String(INFO.hotline||"").replace(/\D/g,"");
+  document.getElementById("foot").innerHTML=`<div class="wrap"><div class="fc">
+    <div class="fc-top"><a class="fc-brand" href="#home"><span class="fc-logo">${logoHTML()}</span><span><b>${L2(INFO,"name")}</b><small>${bi("ގއ. ކޮނޑޭ، ދިވެހިރާއްޖެ","GA. Kondey, Maldives")}</small></span></a>
+      <div class="fc-soc">${["x","facebook","youtube","instagram"].filter(k=>safeUrl(INFO[k])&&SI[k]).map(k=>`<a href="${esc(safeUrl(INFO[k]))}" target="_blank" rel="noopener" aria-label="${k}">${k==="x"?FC.x:SI[k]}</a>`).join("")}</div></div>
+    <div class="fc-list">
+      ${INFO.email?row(`mailto:${esc(INFO.email)}`,FC.mail,bi("އީމެއިލް","Email"),esc(INFO.email),1):""}
+      ${tel?row(`tel:+960${esc(tel)}`,FC.phone,bi("ފޯނު","Phone"),`<span class="num">${esc(INFO.phone)}</span>`,1):""}
+      ${hot?row(`tel:+960${esc(hot)}`,FC.phone,bi("ހޮޓްލައިން","Hotline"),`<span class="num">${esc(INFO.hotline)}</span>`,1):""}
+      ${(INFO.address_dv||INFO.address_en)?row("",FC.pin,bi("އެޑްރެސް","Address"),L2(INFO,"address")):""}
+    </div>
+    <div class="fc-bot"><p dir="ltr">&copy; <span class="num">${new Date().getFullYear()}</span> ${esc(INFO.name_en||"Kondey School")}</p><a class="foot-staff" href="/staff.html">${bi("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</a></div>
+  </div></div>`;
 }
 const sortD=a=>a.slice().sort((x,y)=>String(y.date||"").localeCompare(x.date||""));
 const t2=(o,k)=>o[k+"_dv"]||o[k+"_en"]||o[k]||"";
