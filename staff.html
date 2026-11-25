@@ -316,6 +316,7 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 .rvbtns{display:flex;gap:6px;flex-wrap:wrap}.okb{background:#16A34A}.okb:hover{background:#15803D!important}.backb{color:#B91C1C}
 #rvN{width:100%;font-family:"Faruma",sans-serif;font-size:15px;line-height:1.8;padding:8px 10px;border:1px solid #D1D5DB;border-radius:10px;margin-bottom:6px}
 .rvsub,.rvt,.rvni span{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=en] .rvsub,html[lang=en] .rvt{font-family:"Plus Jakarta Sans",sans-serif}.rvsub{font-size:13.5px}
+.rvsc{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px}.rvsc span{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:3px 10px;background:#fff}.rvsc small{color:var(--muted);font:600 12px "Plus Jakarta Sans","KondeyHeading",sans-serif}.rvsc b{font-size:15px}
 </style>
 </head>
 <body>
@@ -568,6 +569,7 @@ function rcReview(L){const all=rvItems(L),st=RC.rs||"pending",ff=RC.rf||"";
    ${sel.length?"":`<div class="empty">${LG("ރިވިއު ކުރަން ބާކީ ބަޔާނެއް ނެތް ✓","Nothing here ✓")}</div>`}
    <div class="rvl">${sel.map(({r,f})=>{const v=(r.rev||{})[f],key=r.id+"|"+f;return `<div class="rvc ${v?v.status:""}"><div class="rvch"><b>${esc(NM(r.name_dv,r.name_en))}</b><span class="rvsub">${fieldName(f)}</span></div>
      <div class="rvtx" dir="auto">${esc(r.data[f]).replace(/\n/g,"<br>")}</div>
+     ${(()=>{const sb=f.replace("_comment","");if(!RSUB.some(x=>x[0]===sb))return "";const d=r.data,it=[];if(d[sb+"_marks"]!=null&&d[sb+"_marks"]!=="")it.push([LG("މާކްސް","Marks"),d[sb+"_marks"]]);it.push(["FA",d[sb+"_fa"]],["MA",d[sb+"_ma"]],["A",d[sb+"_a"]]);return `<div class="rvsc">${it.map(([k,v])=>`<span><small>${k}</small><b class="num">${esc(v??"–")||"–"}</b></span>`).join("")}</div>`;})()}
      ${v?revTag(r,f):""}
      ${RC.rvNote===key?`<textarea id="rvN" dir="auto" rows="2" placeholder="${LANG==="en"?"What needs to change?":"ބަދަލުކުރަންޖެހޭ ކަމެއް ލިޔުއްވާ"}"></textarea><div class="rvbtns"><button class="btn sm" data-rvsend="${key}">${LG("ޓީޗަރަށް ފޮނުވާ","Send to teacher")}</button><button class="btn sm ghost" data-rvcancel>${LG("ކެންސަލް","Cancel")}</button></div>`
       :`<div class="rvbtns">${v&&v.status==="approved"?"":`<button class="btn sm okb" data-rvok="${key}">✓ ${LG("އެޕްރޫވް","Approve")}</button>`}${v&&v.status==="returned"?"":`<button class="btn sm ghost backb" data-rvback="${key}">↩ ${LG("އިސްލާހަށް ފޮނުވާ","Send back")}</button>`}${v?`<button class="btn sm ghost" data-rvundo="${key}">${LG("ބާޠިލު","Undo")}</button>`:""}</div>`}
