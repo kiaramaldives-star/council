@@ -892,6 +892,24 @@ html[lang=en] .pd-fn b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:60
 .pd-f{padding:18px 18px!important;border-radius:22px!important}
 .pd-dl{width:56px!important;height:56px!important;border-radius:16px!important}
 @media (min-width:1181px){.fc{max-width:none}}
+/* publications desktop */
+.pcd-f{display:flex;align-items:flex-end;gap:12px;justify-content:space-between}
+.pcd-go{flex:none;width:30px;height:30px;border-radius:50%;background:#F3DDE1;color:var(--p);display:grid;place-items:center;margin-top:10px;transition:background .2s,color .2s}
+a.pcd:hover .pcd-go{background:var(--p);color:#fff}
+html[lang=en] .pcd-go svg{transform:scaleX(-1)}
+@media (min-width:900px){
+ .pubw{max-width:1180px}
+ .pf{padding:22px 26px}
+ .pf-g{grid-template-columns:repeat(var(--pfn,3),minmax(0,1fr)) minmax(0,2fr)}
+ .pf-q{grid-column:auto}
+ .pf select,.pf input{height:52px}
+ #pubList.pl{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+ #pubList .pcd:not(.dlc){display:flex;flex-direction:column}
+ #pubList .pcd:not(.dlc) h2{flex:1;margin-bottom:6px}
+ #pubList .empty,#pubList .sk-wrap{grid-column:1/-1}
+}
+@media (min-width:1150px){#pubList.pl{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:900px){#pubList.pl:has(.dlc){grid-template-columns:1fr}.pubw.pdw{max-width:940px}}
 </style>
 </head>
 <body>
@@ -1519,13 +1537,13 @@ function pubFilters(k,L){const all=["all","ހުރިހާ","All"],yrs=[...new Set(
   else{const ts=PUBK[k].t;if(ts.length>1)f.push(selF("type",bi("ބާވަތް","Type"),[all,...ts.map(t=>[t,...(t==="tender"?["ބީލަން","Procurement"]:t==="vacancy"?["ވަޒީފާ","Jobs"]:TYPES[t])])],PF.type));
     f.push(selF("st",bi("ހާލަތު","Status"),[all,["open","ހުޅުވިފައި","Open"],["closed","ނިމިފައި","Closed"]],PF.st));}
   f.push(selF("yr",bi("އަހަރު","Year"),[all,...yrs.map(y=>[y,y,y])],PF.yr));
-  return `<div class="pf reveal"><div class="pf-g">${f.join("")}<label class="pf-f pf-q"><span class="h">${bi("ހޯއްދަވާ","Search")}</span><span class="pf-i"><input type="search" data-pf="q" value="${esc(PF.q)}" placeholder="${document.documentElement.lang==="en"?"Search by title or number":"ސުރުޚީ ނުވަތަ ނަންބަރު"}"><button type="button" tabindex="-1" aria-hidden="true">${ICSRCH}</button></span></label></div></div>`;}
+  return `<div class="pf reveal"><div class="pf-g" style="--pfn:${f.length}">${f.join("")}<label class="pf-f pf-q"><span class="h">${bi("ހޯއްދަވާ","Search")}</span><span class="pf-i"><input type="search" data-pf="q" value="${esc(PF.q)}" placeholder="${document.documentElement.lang==="en"?"Search by title or number":"ސުރުޚީ ނުވަތަ ނަންބަރު"}"><button type="button" tabindex="-1" aria-hidden="true">${ICSRCH}</button></span></label></div></div>`;}
 function pubFilter(k){const q=PF.q.trim().toLowerCase();
   if(k==="downloads")return sortD(DOWNLOADS).filter(o=>(PF.type==="all"||(o.category||"other")===PF.type)&&(PF.yr==="all"||yrOf(o.date)===PF.yr)&&(!q||[o.title_dv,o.title_en].join(" ").toLowerCase().includes(q)));
   return sortD(NOTICES).filter(o=>PUBK[k].t.includes(o.type||"notice")&&(PF.type==="all"||(o.type||"notice")===PF.type)&&(PF.st==="all"||(PF.st==="open"?pubOpen(o)===true:pubOpen(o)===false))&&(PF.yr==="all"||yrOf(o.date)===PF.yr)&&(!q||[o.title_dv,o.title_en,o.number].join(" ").toLowerCase().includes(q)));}
 function typeLab(o){const t=o.type||"notice";return t==="tender"?bi("ބީލަން","Procurement"):t==="vacancy"?bi("ވަޒީފާ","Job"):bi(...(TYPES[t]||TYPES.notice));}
 function pubCard(o){return `<a class="pcd reveal" href="#notice-${esc(o.id)}"><div class="pcd-top"><span class="ptg">${typeLab(o)}</span>${stChip(o)}</div>
-  <h2 class="h">${L2(o,"title")}</h2><div class="pcd-m"><span>${nDate(o.date)}</span>${o.number?`<span class="num" dir="ltr">${esc(o.number)}</span>`:""}${o.deadline?`<span>${bi("ސުންގަޑި:","Deadline:")} ${nDate(o.deadline)}</span>`:""}</div></a>`;}
+  <h2 class="h">${L2(o,"title")}</h2><div class="pcd-f"><div class="pcd-m"><span>${nDate(o.date)}</span>${o.number?`<span class="num" dir="ltr">${esc(o.number)}</span>`:""}${o.deadline?`<span>${bi("ސުންގަޑި:","Deadline:")} ${nDate(o.deadline)}</span>`:""}</div><i class="pcd-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></i></div></a>`;}
 function dlCard(o){const u=safeUrl(o.file),c=DLCAT[o.category]||DLCAT.other;return `<div class="pcd dlc reveal"><span class="dl-ic">${ICDL}</span><div class="dl-b"><span class="ptg">${bi(...c)}</span><h2 class="h">${L2(o,"title")}</h2><div class="pcd-m"><span>${nDate(o.date)}</span>${u?`<span dir="ltr"${u.includes("supabase.co")?` data-fsz="${esc(u)}"`:""}>${fExt(u)}</span>`:""}</div></div>${u?`<a class="dl-btn" href="${esc(u)}" target="_blank" rel="noopener" download>${ICDL}<span>${bi("ޑައުންލޯޑް","Download")}</span></a>`:""}</div>`;}
 function pubBody(k){const L=pubFilter(k);if(!L.length)return DB_LOADING?loadingHTML():empty("ހޯދި ގޮތަށް އެއްވެސް ލިޔުމެއް ނުފެނުނު","Nothing found");return L.map(k==="downloads"?dlCard:pubCard).join("");}
 function pubPage(k){if(PF.k!==k)PF={k,type:"all",st:"all",yr:"all",q:""};
@@ -1542,7 +1560,7 @@ function artDetail(o,c){
     if(o.deadline){const d0=new Date();d0.setHours(0,0,0,0);const dd=Math.round((new Date(o.deadline+"T00:00:00")-d0)/864e5);
       const tm=String(o.deadline_time||"").trim();bx.push(`<div class="pbx${dd<0?" over":""}"><small>${bi("ސުންގަޑި","Deadline")}</small><b>${nDate(o.deadline)}${tm?bi(`، ${esc(tm)} ގެ ކުރިން`,`, before ${esc(tm)}`):""}</b></div>`);}}
   const body=paras(o.body_dv||o.body_en);
-  return `<div class="pd-pad"><div class="wrap pubw"><a class="pd-back" href="#${c.back}"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i>${bi(c.dv,c.en)}</a>
+  return `<div class="pd-pad"><div class="wrap pubw pdw"><a class="pd-back" href="#${c.back}"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i>${bi(c.dv,c.en)}</a>
     <article class="pcd pd reveal in"><div class="pcd-top"><span class="ptg">${c.chip}</span>${c.notice?stChip(o):""}</div><h1 class="h nd-t">${L2(o,"title")}</h1>
       <div class="pd-date">${IC.cal}<span>${nDate(o.date)}</span></div>
       ${bx.length?`<div class="pbxs">${bx.join("")}</div>`:""}
