@@ -215,6 +215,71 @@ html[lang=en] .lhead b{font-weight:700;font-size:20px}
 #loginView>.or{width:calc(100% - 44px)}
 .me .ph svg{width:24px;height:24px}
 html[lang=en] .rct .nm,html[lang=en] select,html[lang=en] .rcsn b{font-family:"Plus Jakarta Sans","Faruma",sans-serif}
+/* ===== Dashboard layout v2 ===== */
+.sbrand,.sfoot,.sgrow{display:none}
+.phead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 2px 4px}
+.phead h1{margin:0;font-size:24px;color:var(--text);line-height:1.4;font-weight:400}
+html[lang=en] .phead h1{font-weight:800;letter-spacing:-.01em}
+.phead .pt small{color:var(--muted);font-size:13.5px}
+.phead .datec{margin:0;padding:0;border:0;box-shadow:none;background:none;flex:1 1 220px;max-width:300px}
+.phead .datec .dpick{background:#fff;box-shadow:var(--sh)}
+/* phone: hero profile */
+@media (max-width:899px){
+ .side .me{margin-top:0;background:linear-gradient(125deg,#8E0B22,var(--p) 60%,#E0304B);border:0;color:#fff;box-shadow:0 8px 24px rgba(158,12,36,.25);padding:16px}
+ .side .me small,.side .me .en{color:rgba(255,255,255,.85)!important}.side .me b{color:#fff;font-size:19px}
+ .side .me .ph{background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5);width:54px;height:54px}
+ .phead{margin-top:18px}.phead .datec{max-width:none;flex-basis:100%}
+}
+@media (min-width:900px){
+ body.in .top,body.in .foot{display:none}
+ body.in .wrap{max-width:none;margin:0;padding:0}
+ #appView.dk{display:block}
+ .side{position:fixed;top:0;bottom:0;inset-inline-start:0;width:272px;z-index:30;display:flex;flex-direction:column;gap:6px;padding:22px 16px 18px;overflow-y:auto;background:linear-gradient(175deg,#6E0819 0%,#A80D27 45%,#C8102E 100%);color:#fff}
+ .sbrand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;padding:2px 6px 20px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.14)}
+ .sbrand img{width:48px;height:48px}.sbrand b{display:block;font-size:20px;font-weight:400;line-height:1.4}.sbrand small{display:block;font-size:12.5px;color:rgba(255,255,255,.75)}
+ .sbrand .en{color:inherit!important}html[lang=en] .sbrand b{font-weight:800;font-size:18px}
+ .side .tabs{position:static;display:flex;flex-direction:column;gap:4px;background:none;border:0;box-shadow:none;padding:0;backdrop-filter:none}
+ .side .tabs button{flex-direction:row;justify-content:flex-start;gap:12px;padding:12px 14px;border-radius:12px;font-size:17px;color:rgba(255,255,255,.82)}
+ .side .tabs button .en{color:inherit!important;font-size:15px}
+ .side .tabs button:hover:not(.on){background:rgba(255,255,255,.1);color:#fff}
+ .side .tabs button.on{background:#fff;color:var(--p);box-shadow:0 6px 16px rgba(0,0,0,.18)}
+ .sgrow{display:block;flex:1}
+ .side .me{margin:0;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);box-shadow:none;color:#fff;padding:12px;border-radius:14px}
+ .side .me b{color:#fff;font-size:16px}.side .me small,.side .me .en{color:rgba(255,255,255,.75)!important}
+ .side .me .ph{background:#fff;color:var(--p);width:44px;height:44px}
+ .sfoot{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+ .sbtn{display:flex;align-items:center;justify-content:center;gap:7px;height:40px;border-radius:10px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:14px;font-family:"KondeyHeading","Faruma",sans-serif}
+ .sbtn:hover{background:rgba(255,255,255,.18)}.sbtn .en{color:#fff!important;font-family:"Faruma",sans-serif}html[lang=en] .sbtn .en{font-size:14px}
+ html[lang=dv] .sbtn .dv:first-of-type{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+ .mainc{margin-inline-start:272px;padding:30px 40px 50px;min-height:100vh}
+ .mainc>.card,.mainc>.alert{margin-top:18px}
+ .phead h1{font-size:30px}
+ .mainc .alert{display:inline-flex;width:auto;min-width:320px}
+ .ovl{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))!important}
+ .stl{grid-template-columns:repeat(auto-fill,minmax(440px,1fr))!important}
+ .ovs{grid-template-columns:repeat(3,minmax(0,220px))}
+ .rccls{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+ .card{padding:20px 22px}
+ /* login split screen */
+ body:not(.in) .top{display:none}
+ body:not(.in){min-height:100vh;background:#fff}
+ body:not(.in)::before{content:"";position:fixed;top:0;bottom:0;inset-inline-start:0;width:46%;background:url(/logo-white.png) center 40%/170px no-repeat,radial-gradient(circle at 30% 20%,rgba(255,255,255,.12),transparent 45%),linear-gradient(160deg,#6E0819,#C8102E 70%,#E0304B)}
+ body:not(.in)::after{content:"ކޮނޑޭ ސްކޫލް";position:fixed;inset-inline-start:0;width:46%;top:calc(40% + 110px);text-align:center;color:#fff;font:400 34px "KondeyHeading","Faruma",sans-serif}
+ html[lang=en] body:not(.in)::after{content:"Kondey School";font:800 32px "Plus Jakarta Sans",sans-serif}
+ body:not(.in) .wrap{max-width:none;margin:0;padding:0;margin-inline-start:46%;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center}
+ body:not(.in) #loginView{margin:0;width:420px;max-width:90%;border:0;box-shadow:none}
+ body:not(.in) .lhead{display:none}
+ body:not(.in) #loginView>h2{font-size:30px!important;margin-top:0!important}
+}
+html[lang=en] .sbtn,html[lang=en] .sbtn .en{font-family:"Plus Jakarta Sans",sans-serif!important;font-weight:600}
+html[lang=en] .stu .nm,html[lang=en] .ova span,html[lang=en] .ovt small{font-family:"Plus Jakarta Sans","Faruma",sans-serif}
+@media (min-width:900px){
+ body:not(.in) .top{display:block;position:fixed;top:0;inset-inline-end:0;width:54%;background:none;box-shadow:none;z-index:5}
+ body:not(.in) .brand{visibility:hidden}
+ body:not(.in) .tb{background:#fff;color:#374151;border-color:#D1D5DB}body:not(.in) .tb .en{color:#374151!important}
+}
+html[lang=en] .rcsn b,html[lang=en] select,html[lang=en] .rct .nm{font-family:"Plus Jakarta Sans","Faruma",sans-serif!important}
+@media (max-width:899px){.phead .pt small{display:none}}
 </style>
 </head>
 <body>
@@ -268,11 +333,19 @@ $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{metho
 let TAB="mark",ME=null,ABS={},DATE=todayMV();
 async function start(){
   try{ME=await rpc("staff_me");}catch(e){saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
-  $("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();
+  document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){render0();layout();}
-function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";[...v.children].forEach(el=>(el.matches(".me,.tabs,.alert,.datec")?s:m).appendChild(el));v.append(s,m);v.classList.add("dk");}
+function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";
+  const T={mark:LG("ހާޒިރީ ނެގުން","Mark attendance"),all:LG("ހާޒިރީ","Attendance"),report:LG("ރިޕޯޓް ކާޑު","Report cards")}[TAB];
+  const kids=[...v.children],me=kids.find(e=>e.matches(".me")),tabs=kids.find(e=>e.matches(".tabs")),dc=kids.find(e=>e.matches(".datec")),al=kids.find(e=>e.matches(".alert"));
+  s.innerHTML=`<a class="sbrand" href="/"><img src="/logo-white.png" alt=""><span><b class="h">${LG("ކޮނޑޭ ސްކޫލް","Kondey School")}</b><small>${LG("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</small></span></a>`;
+  if(tabs)s.appendChild(tabs);const sp=document.createElement("div");sp.className="sgrow";s.appendChild(sp);if(me)s.appendChild(me);
+  const sf=document.createElement("div");sf.className="sfoot";sf.innerHTML=`<button type="button" class="sbtn" data-slang><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>${LG("English","ދިވެހި")}</button><button type="button" class="sbtn" data-sout><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>${LG("ނުކުމޭ","Sign out")}</button>`;s.appendChild(sf);
+  const ph=document.createElement("div");ph.className="phead";ph.innerHTML=`<div class="pt"><h1 class="h">${T}</h1><small>${fullDate(todayMV())}</small></div>`;if(dc)ph.appendChild(dc);m.appendChild(ph);if(al)m.appendChild(al);
+  kids.filter(e=>e!==me&&e!==tabs&&e!==dc&&e!==al).forEach(e=>m.appendChild(e));v.append(s,m);v.classList.add("dk");}
+document.addEventListener("click",e=>{if(e.target.closest("[data-slang]"))$("#langB").click();else if(e.target.closest("[data-sout]"))$("#logout").click();});
 function render0(){
   const v=$("#appView");
   if(!ME||!ME.staff){v.innerHTML=`<div class="card empty">${esc(ME?.email||"")}<br><span class="dv">މި އީމެއިލް ސްކޫލުގެ މުވައްޒަފުންގެ ލިސްޓުގައި ނެތް. އެޑްމިނާ ގުޅުއްވާ.</span><br><span class="en">This email is not on the staff list. Please ask the admin to add it to your staff record.</span><br><button class="btn ghost sm" style="margin-top:12px" onclick="$('#logout').click()"><span class="dv">އެހެން އެކައުންޓަކުން ލޮގިން</span><span class="en">Use another account</span></button></div>`;return;}
