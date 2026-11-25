@@ -315,6 +315,7 @@ html[lang=en] .rct .nm,html[lang=en] .stu .nm,html[lang=en] .rcsn b,html[lang=en
 .rvtx{font-size:15px;line-height:1.9;background:#FAFAFB;border-radius:8px;padding:8px 10px;margin-bottom:8px;unicode-bidi:plaintext;text-align:start}
 .rvbtns{display:flex;gap:6px;flex-wrap:wrap}.okb{background:#16A34A}.okb:hover{background:#15803D!important}.backb{color:#B91C1C}
 #rvN{width:100%;font-family:"Faruma",sans-serif;font-size:15px;line-height:1.8;padding:8px 10px;border:1px solid #D1D5DB;border-radius:10px;margin-bottom:6px}
+.rvsub,.rvt,.rvni span{font-family:"KondeyHeading","Faruma",sans-serif}html[lang=en] .rvsub,html[lang=en] .rvt{font-family:"Plus Jakarta Sans",sans-serif}.rvsub{font-size:13.5px}
 </style>
 </head>
 <body>
@@ -512,7 +513,7 @@ function rcView(){
       return `<button type="button" class="rcc" data-rccls="${esc(c.class_en)}"><b class="h">${esc(NM(c.class_dv,c.class_en))}</b><small>${c.teacher?`<span class="tg">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</span>`:""}${subs.map(s=>`<span>${subName(s)}</span>`).join("")}${M.lead&&!c.teacher&&!subs.length?`<span>${LG("ބެލުން","View")}</span>`:""}</small></button>`;}).join("")}</div></div>`;}
   const c=M.classes.find(x=>x.class_en===RC.cls)||{},subs=M.admin?RSUB.map(x=>x[0]).filter(s=>s!=="business"||MARKG.includes(RC.cls)||c.subjects.includes(s)):c.subjects,L=RC.rows;
   h+=`<div class="card"><button class="lnk" style="margin:0 0 8px" data-rcback>${LG("← ކްލާސްތަކަށް","← All classes")}</button><h2 class="h" style="margin:0;font-size:22px">${esc(NM(c.class_dv,c.class_en))} · ${esc(NM(T.name_dv,T.name_en))}</h2>
-    <div class="rcnav">${M.lead?`<button type="button" class="rvb ${RC.view==="review"?"on":""}" data-rcv="review">✓ ${LG("ބަޔާން ރިވިއު","Review comments")}${(()=>{const n=rvItems(L||[]).filter(x=>!x.r.rev||!x.r.rev[x.f]).length;return n?` <i class="bdg num">${n}</i>`:"";})()}</button>`:""}${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}${c.teacher||M.admin?`<button type="button" class="${RC.view==="class"?"on":""}" data-rcv="class">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</button>`:""}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
+    <div class="rcnav">${M.lead?`<button type="button" class="rvb ${RC.view==="review"?"on":""}" data-rcv="review">${LG("އަދާހަމަ","Review comments")}${(()=>{const n=rvItems(L||[]).filter(x=>!x.r.rev||!x.r.rev[x.f]).length;return n?` <i class="bdg num">${n}</i>`:"";})()}</button>`:""}${subs.map(s=>`<button type="button" class="${RC.view==="s:"+s?"on":""}" data-rcv="s:${s}">${subName(s)}</button>`).join("")}${c.teacher||M.admin?`<button type="button" class="${RC.view==="class"?"on":""}" data-rcv="class">${LG("ކްލާސް ޓީޗަރ","Class teacher")}</button>`:""}<button type="button" class="${RC.view===""?"on":""}" data-rcv="">${LG("ހާލަތު","Progress")}</button></div></div>`;
   if(!L)return h+`<div class="card empty">...</div>`;if(L.err)return h+`<div class="card"><div class="msg err">${esc(L.err)}</div></div>`;
   if(!L.length)return h+`<div class="card empty">${LG("މި ކްލާހުގައި ދަރިވަރުން ނެތް. އެޑްމިން ރަޖިސްޓަރީއަށް ދަރިވަރުން އިތުރުކުރާށެވެ.","No students in this class yet. An admin needs to add them to the registry.")}</div>`;
   if(RC.view==="review")return h+rcReview(L);
