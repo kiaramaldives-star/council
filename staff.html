@@ -526,7 +526,7 @@ function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att"
    <h4 class="h">${LG("މައިގަނޑު ޤާބިލިއްޔަތުތަކާ ގުޅޭ ބަޔާން","Comment on key competencies")}</h4><textarea dir="auto" rows="3" data-k="key_comment">${esc(d.key_comment||"")}</textarea>
    <h4 class="h">${LG("ކްލާސް ޓީޗަރުގެ ބަޔާން","General comment by the class teacher")}</h4><textarea dir="auto" rows="3" data-k="general_comment">${esc(d.general_comment||"")}</textarea>
   </div>
-  <div class="row2b">${RC.stu<L.length-1?`<button class="btn" data-rcsave="next">${LG("ރައްކާކޮށް ދެން ދަރިވަރު ›","Save and next ›")}</button>`:`<button class="btn" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button>`}<button class="btn ghost" data-rcprint="${r.id}">${LG("ރިޕޯޓް ކާޑު ބައްލަވާ","View report card")}</button></div>
+  <div class="row2b">${RC.stu<L.length-1?`<button class="btn" data-rcsave="next">${LG("ސޭވް ކުރުމަށް ދެންހުރި ދަރިވަރަށް ދޭ","Save and go to next student")}</button>`:`<button class="btn" data-rcsave="class">${LG("ރައްކާކުރައްވާ","Save")}</button>`}<button class="btn ghost" data-rcprint="${r.id}">${LG("ރިޕޯޓް ކާޑު ބައްލަވާ","View report card")}</button></div>
   <div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
 async function rcSave(btn){const msg=$("#rcMsg");btn.disabled=true;msg.className="msg";msg.textContent="...";let n=0;
   try{for(const box of document.querySelectorAll(".rcs[data-sid]")){const r=RC.rows.find(x=>x.id===box.dataset.sid),p={};
