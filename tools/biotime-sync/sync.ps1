@@ -154,7 +154,7 @@ try {
     $name = (@((Val $e 'first_name'), (Val $e 'last_name')) | Where-Object { $_ }) -join ' '
     $d = Val $e 'department'; $dept = $null
     if ($d -is [System.Collections.IDictionary]) { $dept = [string](Val $d 'dept_name') } elseif ($d) { $dept = [string]$d }
-    $emps += @{ emp_code = [string](Val $e 'emp_code'); name = $name; department = $dept }
+    $emps += @{ emp_code = [string](Val $e 'emp_code'); name = $name; department = $dept; hire_date = [string](Val $e 'hire_date') }
   }
 
   $q = '/iclock/api/transactions/?page_size=500&start_time=' + [uri]::EscapeDataString($start)
