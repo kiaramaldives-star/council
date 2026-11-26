@@ -747,6 +747,12 @@ html[lang=dv] .macv small,html[lang=dv] .macv small *{font-family:Waheed,Faruma,
 html[lang=dv] .dash .myd .macv.num small,html[lang=dv] .dash .myd .macv.num small *{font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important}
 @media (max-width:899px){body.in .wrap{padding-bottom:max(6px,env(safe-area-inset-bottom))!important}body.in .dgrid1{margin-bottom:0!important}body.in .mainc>*:last-child{margin-bottom:0!important}}
 .mdot.ok{background:#166534!important}.mdp.on .mdot{background:#fff!important}
+.rgsel{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:12px 0}
+.rgsel label{display:flex;flex-direction:column;gap:4px;flex:1 1 220px}.rgsel label span{font-size:13px;color:#6B7280}html[lang=dv] .rgsel label span{font-family:Waheed,Faruma,sans-serif}
+.rgsel select{padding:12px 14px;border:1px solid #D1D5DB;border-radius:12px;font:16px "Plus Jakarta Sans","Faruma",sans-serif;background:#fff}
+.rggn{display:flex;gap:8px;flex:1 1 260px}.rggn>div{flex:1;border-radius:14px;padding:8px 10px;text-align:center}.rggn b{display:block;font-size:22px}.rggn small{font-size:12px}
+html[lang=dv] .rggn small{font-family:Waheed,Faruma,sans-serif}
+.rggn .t{background:#FFF1F2;color:#9F1239}.rggn .b{background:#EFF6FF;color:#1D4ED8}.rggn .g{background:#FDF2F8;color:#BE185D}.rggn .o{background:#F3F4F6;color:#6B7280}
 </style>
 </head>
 <body>
@@ -1644,7 +1650,9 @@ function rgView(){const R=RC.reg,CL=(RC.me&&RC.me.classes)||[];if(!R){if(!RC.reg
   const L=R.filter(x=>(st==="all"||(st==="active"?x.active:!x.active))&&(!g||x.grade===g)&&(!q||[x.name_en,x.name_dv,x.index_no,x.id_no,x.guardian_en,x.guardian_dv].some(v=>String(v||"").toLowerCase().includes(q))));
   const cnt=c=>R.filter(x=>x.active&&x.grade===c).length;
   return `<div class="card"><div class="rgtop"><div class="rgst"><b class="num">${R.filter(x=>x.active).length}</b><span>${LG("ސްކޫލުގައި ކިޔަވާ ދަރިވަރުން","Students at school")}</span></div><button class="btn" data-rcedit="">+ ${LG("ދަރިވަރަކު އިތުރުކުރައްވާ","Add student")}</button></div>
-    <div class="rgcls"><button type="button" class="${g?"":"on"}" data-rgg="">${LG("ހުރިހާ","All")}</button>${CL.map(c=>`<button type="button" class="${g===c.class_en?"on":""}" data-rgg="${esc(c.class_en)}">${esc(NM(c.class_dv,c.class_en))} <span class="num">${cnt(c.class_en)}</span></button>`).join("")}</div>
+    ${(()=>{const A=R.filter(x=>x.active&&(!g||x.grade===g)),bo=A.filter(x=>/^m|^b/i.test(x.sex_en||"")).length,gi=A.filter(x=>/^f|^g/i.test(x.sex_en||"")).length;
+      return `<div class="rgsel"><label><span>${LG("ކްލާސް","Class")}</span><select id="rgG"><option value="">${TX("ހުރިހާ ކްލާސް","All classes")} (${R.filter(x=>x.active).length})</option>${CL.map(c=>`<option value="${esc(c.class_en)}" ${g===c.class_en?"selected":""}>${esc(NM(c.class_dv,c.class_en))} (${cnt(c.class_en)})</option>`).join("")}</select></label>
+      <div class="rggn"><div class="t"><b class="num">${A.length}</b><small>${LG("ޖުމްލަ","Total")}</small></div><div class="b"><b class="num">${bo}</b><small>${LG("ފިރިހެން","Boys")}</small></div><div class="g"><b class="num">${gi}</b><small>${LG("އަންހެން","Girls")}</small></div>${A.length-bo-gi?`<div class="o"><b class="num">${A.length-bo-gi}</b><small>${LG("ނޭނގޭ","Not set")}</small></div>`:""}</div></div>`;})()}
     <div class="rgf"><input id="rgQ" dir="auto" placeholder="${LANG==="en"?"Search name, index, ID or guardian":"ނަން، އިންޑެކްސް، އައިޑީ ނުވަތަ ބެލެނިވެރިޔާ ހޯއްދަވާ"}" value="${esc(RC.rq||"")}"><select id="rgS"><option value="active"${st==="active"?" selected":""}>${LANG==="en"?"At school":"ސްކޫލުގައި"}</option><option value="left"${st==="left"?" selected":""}>${LANG==="en"?"Left school":"ދޫކޮށްފައި"}</option><option value="all"${st==="all"?" selected":""}>${LANG==="en"?"Everyone":"ހުރިހާ"}</option></select></div>
     <div id="rcEd"></div>
     <div class="rctw"><table class="rct rgt"><thead><tr><th>${LG("އިންޑެކްސް","Index")}</th><th>${LG("ނަން","Name")}</th><th>${LG("ކްލާސް","Class")}</th><th>${LG("ޖިންސު","Sex")}</th><th>${LG("އައިޑީ","ID card")}</th><th>${LG("ބެލެނިވެރިޔާ","Guardian")}</th><th>${LG("ފޯނު","Phone")}</th><th></th></tr></thead><tbody>
@@ -2217,7 +2225,7 @@ document.addEventListener("change",async e=>{const t=e.target;
   if(t.dataset&&t.dataset.jobset!=null){const m=$("#jobMsg");try{await rpc("job_set",{p_emp:t.dataset.jobset,p_start:t.value||null});if(m){m.className="msg ok";m.textContent=LANG==="en"?"Saved ✓":"ރައްކާވެއްޖެ ✓";}SA.lv=null;}catch(er){if(m){m.className="msg err";m.textContent=er.message;}}return;}
   if(t.id==="stMonth"){SA.month=t.value||todayMV().slice(0,7);SA.hdata=null;render();return;}
   if(t.id==="stDate"){SA.date=t.value||todayMV();SA.data=null;render();return;}
-  if(t.id==="rgS"){RC.rst=t.value;render();return;}
+  if(t.id==="rgG"){RC.rg=t.value;render();return;}if(t.id==="rgS"){RC.rst=t.value;render();return;}
   if(t.id==="rvF"){RC.rf=t.value;render();return;}
   if(t.id==="rcStu"){RC.stu=+t.value;RC.msg="";render();return;}
   if(t.dataset&&t.dataset.asg){const [c,s]=t.dataset.asg.split("|"),m=$("#rcAMsg");try{RC.me.assign=await rpc("rc_assign_set",{p_class:c,p_subject:s,p_email:t.value});m.className="msg ok";m.textContent=LANG==="en"?"Saved.":"ރައްކާކުރެވިއްޖެ.";}catch(er){m.className="msg err";m.textContent=er.message;}return;}
