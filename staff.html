@@ -452,6 +452,22 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .lved{margin-top:4px}
 .wh{font-family:Waheed,Faruma,sans-serif;font-style:normal;font-weight:400}.hg .tot .ltc b,.hg .tot .lvc b{font-weight:700}.hg .tot i.wh{font-style:normal}
 html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::after{content:"";position:fixed;inset:0;margin:auto;width:44px;height:44px;border:4px solid #F3D5D9;border-top-color:#C8102E;border-radius:50%;animation:bspin .8s linear infinite;z-index:9999}@keyframes bspin{to{transform:rotate(360deg)}}
+.dgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}.dgrid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.dgrid3>.card,.dgrid2>.card{margin:0}.dcard h3{margin:0 0 12px;font-size:17px}.dcard{display:flex;flex-direction:column;gap:10px}
+.drow{display:flex;gap:12px}.drow>div{flex:1;background:#F9FAFB;border-radius:12px;padding:10px 12px}.drow small{display:block;color:#6B7280;font-size:12px}.drow b{font-size:26px}
+.dst{border-radius:10px;padding:8px 12px;font-weight:600;font-size:14px}.dst.ok{background:#DCFCE7;color:#166534}.dst.bad{background:#FEE2E2;color:#991B1B}
+.dbig{font-size:16px;font-weight:600;padding:14px;border-radius:12px;background:#F9FAFB}.dbig.muted{color:#6B7280;font-weight:500}.dbig.lvq{background:#F3E8FF;color:#6B21A8}.dbig small{display:block;font-weight:500;margin-top:4px}
+.dacts{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.dbal{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.dbal>div{border-radius:12px;padding:10px;background:#F0FDF4}.dbal>div.warn{background:#FFF7ED}.dbal>div.bad{background:#FEF2F2}
+.dbal b{font-size:24px;display:block}.dbal .ok b{color:#15803D}.dbal .warn b{color:#C2410C}.dbal .bad b{color:#B91C1C}.dbal small{display:block;font-size:12px;color:#374151}.dbal i{font-style:normal;font-size:11px;color:#6B7280}
+.dtasks{display:flex;flex-direction:column;gap:8px}.dtask{display:block;text-align:start;border:0;border-radius:12px;padding:10px 12px;background:#F9FAFB;font:inherit;cursor:pointer}.dtask small{display:block;color:#6B7280;margin-top:2px}
+.dtask.bad{background:#FEF2F2;color:#991B1B}.dtask.warn{background:#FFF7ED;color:#9A3412}.dtask.ok{background:#F0FDF4;color:#166534;cursor:default}
+.dtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}.dtile{border:1px solid #EEF0F3;background:#fff;border-radius:14px;padding:12px;text-align:start;font:inherit;cursor:pointer;transition:.15s}
+.dtile:hover{border-color:#C8102E;box-shadow:0 4px 14px rgba(200,16,46,.08)}.dtile b{display:block;font-size:28px;line-height:1.1;color:#111827}.dtile b small{font-size:14px;color:#9CA3AF}.dtile span{font-size:13px;color:#4B5563}
+.dtile.ok b{color:#15803D}.dtile.warn b{color:#C2410C}.dtile.bad b{color:#B91C1C}.dtile.lv b{color:#7E22CE}
+.dlist{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}.dlist>span,.dchip{background:#FFF7ED;color:#9A3412;border-radius:999px;padding:3px 10px;border:0;font:inherit;font-size:13px}.dlist.bad>span{background:#FEF2F2;color:#991B1B}.dchip{cursor:pointer}.dlist i{font-style:normal;opacity:.8}
+.dlv{display:flex;flex-direction:column;gap:8px}.dlv>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FAF5FF;border-radius:12px;padding:8px 10px}.dlv small{color:#6B7280;flex-basis:100%;padding-inline-start:46px;margin-top:-6px}
+@media(max-width:1100px){.dgrid3{grid-template-columns:1fr 1fr}}@media(max-width:760px){.dgrid3,.dgrid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -502,7 +518,7 @@ async function doLogin(){const email=$("#lEmail").value.trim(),password=$("#lPas
 $("#lGo").onclick=doLogin;$("#lPass").onkeydown=e=>{if(e.key==="Enter")doLogin()};
 $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+S.access_token}})}catch(e){}saveS(null);location.reload();};
 
-let TAB="mark",ME=null,ABS={},DATE=todayMV();
+let TAB="home",ME=null,ABS={},DATE=todayMV();
 async function start(){
   try{ME=await rpc("staff_me");}catch(e){document.documentElement.classList.remove("boot");saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
   document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
@@ -510,7 +526,7 @@ async function start(){
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){render0();layout();}
 function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";
-  const T={mark:LG("ހާޒިރީ ނެގުން","Mark attendance"),all:LG("ހާޒިރީ","Attendance"),report:LG("ރިޕޯޓް ކާޑު","Report cards"),registry:LG("މައިގަނޑު ރަޖިސްޓަރީ","Main Registry"),staff:LG("މުވައްޒަފުންގެ ހާޒިރީ","Staff attendance")}[TAB];
+  const T={home:LG("ޑޭޝްބޯޑް","Dashboard"),mark:LG("ހާޒިރީ ނެގުން","Mark attendance"),all:LG("ހާޒިރީ","Attendance"),report:LG("ރިޕޯޓް ކާޑު","Report cards"),registry:LG("މައިގަނޑު ރަޖިސްޓަރީ","Main Registry"),staff:LG("މުވައްޒަފުންގެ ހާޒިރީ","Staff attendance")}[TAB];
   const kids=[...v.children],me=kids.find(e=>e.matches(".me")),tabs=kids.find(e=>e.matches(".tabs")),dc=kids.find(e=>e.matches(".datec")),al=kids.find(e=>e.matches(".alert"));
   s.innerHTML=`<a class="sbrand" href="/"><img src="/logo-white.png" alt=""><span><b class="h">${LG("ކޮނޑޭ ސްކޫލް","Kondey School")}</b><small>${LG("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</small></span></a>`;
   if(tabs)s.appendChild(tabs);{const CL=TAB==="report"&&typeof rcMyClasses==="function"?rcMyClasses():[];if(CL.length){const sc=document.createElement("div");sc.className="scls";sc.innerHTML=CL.map(c=>`<button type="button" class="${TAB==="report"&&RC.cls===c.class_en?"on":""}" data-sbcls="${esc(c.class_en)}"><span class="dot"></span>${esc(NM(c.class_dv,c.class_en))}${c.teacher?`<small>${LG("ކްލާސް ޓީޗަރ","Class teacher")}</small>`:""}</button>`).join("");s.appendChild(sc);}}const sp=document.createElement("div");sp.className="sgrow";s.appendChild(sp);if(me)s.appendChild(me);
@@ -524,8 +540,9 @@ function render0(){
   const s=ME.staff,C=ME.classes||[],ph=s.photo?`<img src="${esc(s.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`;
   let h=`<div class="card me"><span class="ph">${ph}</span><div><small><span class="dv">މަރުޙަބާ</span><span class="en">Welcome</span></small><b class="h">${esc(NM(s.name_dv,s.name_en))}</b><small>${esc(NM(s.title_dv,s.title_en)||"")}</small></div></div>`;
   if(!C.length&&TAB==="mark")TAB="all";
-  const tabs=`<div class="tabs${TAB==="all"||TAB==="mark"||TAB==="staff"?" att-open":""}">${ME.lead?`<button type="button" data-tab="registry" class="${TAB==="registry"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>${LG("ރަޖިސްޓަރީ","Registry")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>${LG("ހާޒިރީ","Attendance")}</button>${C.length?`<button type="button" data-tab="mark" class="sub ${TAB==="mark"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}${ME.lead?`<button type="button" data-tab="staff" class="sub stf ${TAB==="staff"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11c0 3.5-1 6.5-3 9M8.5 6.5A6 6 0 0 1 18 11c0 2-.3 4-.9 5.8M6 9.5A6 6 0 0 0 6 11c0 2.2-.6 4.2-1.6 5.8M12 7a4 4 0 0 1 4 4c0 1-.1 2-.3 3M15 21c.5-1 1-2.2 1.3-3.4"/></svg>${LG("މުވައްޒަފުންގެ ހާޒިރީ","Staff attendance")}${(SA.pend||0)+(SA.lpend||0)?`<i class="bdg num">${(SA.pend||0)+(SA.lpend||0)}</i>`:""}</button>`:""}<button type="button" data-tab="report" class="${TAB==="report"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>${LG("ރިޕޯޓް ކާޑު","Report cards")}${RC.ret&&RC.ret.length?`<i class="bdg num">${RC.ret.length}</i>`:""}</button></div>`;
+  const tabs=`<div class="tabs${TAB==="all"||TAB==="mark"||TAB==="staff"?" att-open":""}"><button type="button" data-tab="home" class="${TAB==="home"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>${LG("ޑޭޝްބޯޑް","Dashboard")}</button>${ME.lead?`<button type="button" data-tab="registry" class="${TAB==="registry"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>${LG("ރަޖިސްޓަރީ","Registry")}</button>`:""}<button type="button" data-tab="all" class="${TAB==="all"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>${LG("ހާޒިރީ","Attendance")}</button>${C.length?`<button type="button" data-tab="mark" class="sub ${TAB==="mark"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>${LG("ހާޒިރީ ނެގުން","Mark attendance")}</button>`:""}${ME.lead?`<button type="button" data-tab="staff" class="sub stf ${TAB==="staff"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11c0 3.5-1 6.5-3 9M8.5 6.5A6 6 0 0 1 18 11c0 2-.3 4-.9 5.8M6 9.5A6 6 0 0 0 6 11c0 2.2-.6 4.2-1.6 5.8M12 7a4 4 0 0 1 4 4c0 1-.1 2-.3 3M15 21c.5-1 1-2.2 1.3-3.4"/></svg>${LG("މުވައްޒަފުންގެ ހާޒިރީ","Staff attendance")}${(SA.pend||0)+(SA.lpend||0)?`<i class="bdg num">${(SA.pend||0)+(SA.lpend||0)}</i>`:""}</button>`:""}<button type="button" data-tab="report" class="${TAB==="report"?"on":""}"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>${LG("ރިޕޯޓް ކާޑު","Report cards")}${RC.ret&&RC.ret.length?`<i class="bdg num">${RC.ret.length}</i>`:""}</button></div>`;
   const dateCard=dateBox();
+  if(TAB==="home"){v.innerHTML=h+tabs+dashView();return;}
   if(TAB==="report"){v.innerHTML=h+tabs+rcView();if(!RC.me)rcLoad();return;}
   if(TAB==="registry"&&ME.lead){v.innerHTML=h+tabs+rgView();return;}
   if(TAB==="staff"&&ME.lead){v.innerHTML=h+tabs+stView();return;}
@@ -593,6 +610,7 @@ document.addEventListener("click",async e=>{
     catch(err){s.disabled=false;m.className="msg err";m.textContent=err.message;}}
 });
 document.addEventListener("click",async e=>{
+  const dg=e.target.closest("[data-dgo]");if(dg){const [t,m]=dg.dataset.dgo.split(":");TAB=t;if(m){SA.mode=m;if(m==="leave"){SA.lvf="pending";SA.lv=null;}if(m==="req"){SA.mlf="pending";SA.ml=null;}}render();window.scrollTo(0,0);return;}
   const tb=e.target.closest("[data-tab]");if(tb){TAB=tb.dataset.tab;render();window.scrollTo(0,0);return;}
   const mk=e.target.closest("[data-mk]");if(mk){const key=mk.dataset.mk+"|"+DATE;(MARK[key]=MARK[key]||{})[mk.dataset.id]=mk.dataset.v;render();return;}
   const ap=e.target.closest("[data-allp]");if(ap){const key=ap.dataset.allp+"|"+DATE;(ROST[key]||[]).forEach(s=>(MARK[key]=MARK[key]||{})[s.id]="p");render();return;}
@@ -614,6 +632,59 @@ $("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`
  if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});history.replaceState(null,"",location.pathname);}
  else if(h.get("error")||q.get("error")){const m=$("#lMsg");m.className="msg err";m.textContent=decodeURIComponent((h.get("error_description")||q.get("error_description")||h.get("error")||q.get("error")).replace(/\+/g," "));history.replaceState(null,"",location.pathname);}}
 $("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
+/* ================= DASHBOARD ================= */
+const DB={};
+async function dashLoad(){if(DB.loading)return;DB.loading=1;const td=todayMV();
+  try{const jobs=[rpc("my_punch_history",{p_from:td,p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];
+    if(ME.lead)jobs.push(rpc("staff_att_day",{p_date:td}).catch(e=>({err:e.message})),rpc("dash_lead").catch(e=>({err:e.message})));
+    const [pun,lv,day,dl]=await Promise.all(jobs);Object.assign(DB,{date:td,pun:pun||[],lv,day,dl,at:Date.now()});
+    if(ME.lead)manPend();if(!RC.me)await rcLoad().catch(()=>{});if(RC.term&&!RC.ret)await rcRet();}
+  finally{DB.loading=0;}if(TAB==="home")render();}
+function dTile(n,label,cls,go,sub){return `<button type="button" class="dtile ${cls||""}" ${go?`data-dgo="${go}"`:""}><b class="num">${n}</b><span>${label}</span>${sub?`<small>${sub}</small>`:""}</button>`;}
+function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
+  if(!DB.at)return `<div class="card empty">…</div>`;
+  const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
+  const onLv=(L.requests||[]).find(r=>r.status==="approved"&&r.from<=td&&r.to>=td);
+  // ---- my day
+  let my=`<div class="card dcard"><h3 class="h">${LG("މިއަދު","My day")}</h3>`;
+  if(onLv)my+=`<div class="dbig lvq">${lvName(onLv)}<small>${lvRange(onLv.from,onLv.to,onLv.half)}</small></div>`;
+  else if(P)my+=`<div class="drow"><div><small>${LG("ވަދެވުނު","Check-in")}</small><b class="num">${tmMV(P.in)}</b></div><div><small>${LG("ނުކުމެވުނު","Check-out")}</small><b class="num">${P.n>1?tmMV(P.out):"—"}</b></div></div>
+      <div class="dst ${late>0?"bad":"ok"}">${late>0?`${LG("ލަސްވެފައި","Late by")} <span class="num">${minTxt(late)}</span>`:sh?LG("ވަގުތުން ✓","On time ✓"):LG("ހާޒިރު ✓","Present ✓")}${sh?` · <span class="num">${esc(sh.start)}–${esc(sh.end)}</span>`:""}</div>`;
+  else my+=`<div class="dbig muted">${school?LG("މިއަދު އަދި ފިންގަރ ނުޖަހާ","No check-in yet today"):LG("ބަންދު ދުވަސް","Day off")}</div>`;
+  my+=`<div class="dacts"><button class="btn sm ghost" data-mylv>${LG("ޗުއްޓީ","Leave")}</button><button class="btn sm ghost" data-myman>${LG("މެނުއަލް ހާޒިރީ","Manual request")}</button><button class="btn sm ghost" data-myhist>${LG("ތާރީޚު","History")}</button></div></div>`;
+  // ---- my leave
+  const B=(L.balances||[]).filter(b=>b.allow!=null);
+  let ml=`<div class="card dcard"><h3 class="h">${LG("ބާކީ ޗުއްޓީ","My leave balance")}</h3>`;
+  ml+=B.length?`<div class="dbal">${B.map(b=>{const lf=b.allow-b.used;return `<div class="${lf<=0?"bad":lf<=b.allow*.25?"warn":"ok"}"><b class="num">${dnum(lf)}</b><small>${b.short?`<b class="lvsc">${esc(b.short)}</b> `:""}${esc(NM(b.name_dv,b.name_en))}</small><i class="num">${dnum(b.used)}/${dnum(b.allow)}</i></div>`;}).join("")}</div>`
+    :`<div class="dbig muted">${L.linked===false?LG("ފިންގަރޕްރިންޓް އައިޑީ ގުޅާފައެއް ނެތް","Fingerprint ID not linked"):"—"}</div>`;
+  if(L.period_from)ml+=`<small class="pct">${dvDate(L.period_from)} – ${dvDate(L.period_to)}</small>`;ml+=`</div>`;
+  // ---- my tasks
+  const T=[],C=ME.classes||[],notMarked=school?C.filter(c=>!marked(c,td)):[],myPend=(L.requests||[]).filter(r=>r.status==="pending");
+  if(notMarked.length)T.push(`<button type="button" class="dtask bad" data-tab="mark"><b>${LG("ހާޒިރީ ނަގަންޖެހޭ","Mark attendance")}</b><small>${notMarked.map(c=>esc(NM(c.class_dv,c.class_en))).join("، ")}</small></button>`);
+  else if(C.length&&school)T.push(`<div class="dtask ok"><b>${LG("ހާޒިރީ ނަގައިފި ✓","Attendance marked ✓")}</b><small>${C.map(c=>esc(NM(c.class_dv,c.class_en))).join("، ")}</small></div>`);
+  if(RC.ret&&RC.ret.length)T.push(`<button type="button" class="dtask bad" data-tab="report"><b><span class="num">${RC.ret.length}</span> ${LG("ބަޔާން އަނބުރާ ފޮނުވާފައި","comments sent back to fix")}</b><small>${LG("ރިޕޯޓް ކާޑު","Report cards")}</small></button>`);
+  if(myPend.length)T.push(`<button type="button" class="dtask warn" data-mylv><b><span class="num">${myPend.length}</span> ${LG("ޗުއްޓީއަށް އެދުން ބަލަމުން","leave request(s) waiting for approval")}</b></button>`);
+  const tk=`<div class="card dcard"><h3 class="h">${LG("ކުރަންޖެހޭ ކަންތައް","My tasks")}</h3>${T.length?`<div class="dtasks">${T.join("")}</div>`:`<div class="dbig muted">${LG("ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް ✓","Nothing to do ✓")}</div>`}</div>`;
+  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`;
+  if(!ME.lead)return h;
+  // ---- supervisors
+  const D=DB.day||{},S=(D.staff||[]).filter(x=>x.emp_code),inn=S.filter(x=>x.first_in),lt=inn.filter(x=>lateBy(x.first_in,x.shift)>0),lvS=S.filter(x=>!x.first_in&&x.leave),abs=school?S.filter(x=>!x.first_in&&!x.leave&&x.shift):[];
+  const A=ME.all_classes||[],mk=A.map(c=>(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===td)).filter(Boolean),pr=mk.reduce((t,m)=>t+(+m.present||0),0),tot=mk.reduce((t,m)=>t+(+m.present||0)+(+m.absent||0),0);
+  const DL=DB.dl||{},wait=(DL.rc_wait||[]).reduce((t,x)=>t+(+x.n||0),0);
+  h+=`<div class="card dcard" style="margin:0 0 16px">${""}<h3 class="h">${LG("މުވައްޒަފުން – މިއަދު","Staff today")}</h3><div class="dtiles">
+     ${dTile(`${inn.length}<small>/${S.length}</small>`,LG("ހާޒިރު","Present"),"ok","staff:day")}${dTile(lt.length,LG("ލަސް","Late"),lt.length?"warn":"","staff:day")}${dTile(lvS.length,LG("ޗުއްޓީ","On leave"),"lv","staff:day")}${dTile(abs.length,LG("ނުވަދެ","Not in"),abs.length?"bad":"","staff:day")}</div>
+     ${lt.length?`<div class="dlist"><small>${LG("ލަސްވި","Late")}:</small> ${lt.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))} <i class="num">${tmMV(x.first_in)}</i></span>`).join("")}</div>`:""}
+     ${abs.length?`<div class="dlist bad"><small>${LG("އަދި ނުވަދެ","Not in yet")}:</small> ${abs.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}</span>`).join("")}</div>`:""}</div>`;
+  h+=`<div class="dgrid2"><div class="card dcard"><h3 class="h">${LG("ނިންމަންޖެހޭ ކަންތައް","Waiting for you")}</h3><div class="dtiles">
+     ${dTile(SA.lpend||0,LG("ޗުއްޓީ","Leave requests"),SA.lpend?"warn":"","staff:leave")}${dTile(SA.pend||0,LG("މެނުއަލް ހާޒިރީ","Manual check-ins"),SA.pend?"warn":"","staff:req")}${dTile(wait,LG("ބަޔާން އަދާހަމަކުރަން","Comments to review"),wait?"warn":"","report")}</div>
+     ${wait?`<div class="dlist"><small>${LG("ކްލާސްތައް","Classes")}:</small> ${(DL.rc_wait||[]).map(x=>{const c=(ME.all_classes||[]).find(y=>y.class_en===x.class_en)||{};return `<button type="button" class="dchip" data-sbcls="${esc(x.class_en)}">${esc(NM(c.class_dv,x.class_en))} <i class="num">${x.n}</i></button>`;}).join("")}</div>`:""}</div>
+   <div class="card dcard"><h3 class="h">${LG("ދަރިވަރުންގެ ހާޒިރީ – މިއަދު","Students today")}</h3><div class="dtiles">
+     ${dTile(`${mk.length}<small>/${A.length}</small>`,LG("ކްލާސް ނަގައިފި","Classes marked"),mk.length<A.length&&school?"warn":"ok","all")}${dTile(tot?Math.round(pr/tot*100)+"%":"—",LG("ހާޒިރު","Present"),"ok","all")}${dTile(tot-pr,LG("ނެތް","Absent"),tot-pr?"bad":"","all")}</div></div></div>`;
+  const LV=DL.leaves||[];
+  const sy=DL.sync&&DL.sync.last_used,age=sy?Math.round((Date.now()-new Date(sy))/60000):null;
+  h+=`<div class="dgrid2"><div class="card dcard"><h3 class="h">${LG("ޗުއްޓީގައި (މިއަދާއި ދެން އަންނަ 7 ދުވަސް)","On leave (today and next 7 days)")}</h3>${LV.length?`<div class="dlv">${LV.map(x=>`<div><span class="sph">${x.photo?`<img src="${esc(x.photo)}" alt="">`:esc((x.name_en||"?").charAt(0))}</span><b>${esc(NM(x.name_dv,x.name_en))}</b>${lvName(x)}<small>${lvRange(x.from,x.to,x.half)}</small></div>`).join("")}</div>`:`<div class="dbig muted">${LG("އެއްވެސް މީހަކު ޗުއްޓީގައި ނެތް","Nobody on leave")}</div>`}</div>
+   <div class="card dcard"><h3 class="h">${LG("ފިންގަރޕްރިންޓް މެޝިން","Fingerprint devices")}</h3>${sy?`<div class="dst ${age>30?"bad":"ok"}">${age>30?LG("ސިންކް ނުވެ ގިނަ ވަގުތު ވެއްޖެ","Not synced for a while"):LG("ސިންކް ވަނީ ✓","Syncing ✓")}</div><small class="pct">${LG("ފަހުން ސިންކްވީ","Last sync")} <span class="num" dir="ltr">${auTime(sy)}</span> (${age<1?LG("މިހާރު","just now"):`<span class="num">${minTxt(age)}</span> ${LG("ކުރިން","ago")}`})</small>`:`<div class="dbig muted">${LG("ސިންކް ސެޓް ނުކުރެވޭ","Not set up")}</div>`}</div></div>`;
+  return h;}
 /* ================= REPORT CARDS ================= */
 const RSUB=[["quran","ޤުރުއާން","Quran"],["islam","އިސްލާމް","Islam"],["dhivehi","ދިވެހި","Dhivehi"],["english","އިނގިރޭސި","English"],["maths","ހިސާބު","Mathematics"],["science","ސައިންސް","Science"],["social","ސޯޝަލް ސްޓަޑީޒް","Social Studies"],["hpe","ހެލްތު އެންޑް ޕީ.އީ","Health and PE"],["arts","ކްރިއޭޓިވް އާޓް","Creative Art"],["business","ބިޒްނަސް ސްޓަޑީޒް","Business Studies"]];
 const MARKSUB=["islam","dhivehi","english","maths","science","business"],MARKG=["Grade 7","Grade 8","Grade 9"];
