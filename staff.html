@@ -722,6 +722,11 @@ html[lang=dv] .mas span{font-family:Waheed,Faruma,sans-serif}
 .mab i{width:8px;height:8px;border-radius:50%}.mab i.g{background:#E11D48}.mab i.w{background:#F59E0B}.mab i.r{background:#9F1239}
 .maxtra{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 14px}
 @media(max-width:420px){.mab b{font-size:17px}.mass b,.mas b{font-size:24px}.mas span{font-size:11.5px}.maspan{padding:12px}}
+.mds{display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px!important;overflow:visible!important;padding:4px 0 8px!important}
+.mdp{width:auto!important;min-width:0;padding:10px 2px 8px!important;border-radius:30px!important}
+.mdp b{font-size:22px!important}.mdp small{font-size:10px!important;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[lang=dv] .mdp small{font-size:10.5px!important}
+@media(min-width:600px){.mdp b{font-size:26px!important}.mdp small{font-size:11.5px!important}.mds{gap:10px!important}}
 </style>
 </head>
 <body>
@@ -1341,7 +1346,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   // ---- my day
   const sel=DB.sel&&DB.sel>=addDays(td,-6)?DB.sel:td,PD=(DB.pun||[]).find(x=>x.day===sel),dsh=PD&&PD.shift,dLv=d=>(L.requests||[]).find(r=>r.status==="approved"&&r.from<=d&&r.to>=d);
   const MO=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],DW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
-  const strip=Array.from({length:7},(_,i)=>{const d=addDays(td,-i),dt=new Date(d+"T00:00:00"),x=(DB.pun||[]).find(y=>y.day===d),w=dt.getDay(),lt=x?lateBy(x.in,x.shift):0;
+  const strip=Array.from({length:6},(_,i)=>{const d=addDays(td,-i),dt=new Date(d+"T00:00:00"),x=(DB.pun||[]).find(y=>y.day===d),w=dt.getDay(),lt=x?lateBy(x.in,x.shift):0;
     const dot=dLv(d)?"lv":x?(lt>0?"late":"ok"):(w===5||w===6?"off":"no");
     return `<button type="button" class="mdp ${d===sel?"on":""}" data-mydate="${d}"><small>${LG(dvMonthShort(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small><i class="mdot ${dot}"></i></button>`;}).join("");
   const sLv=dLv(sel),q=PD?(p4(PD.ts,dsh)||{in:PD.in,bi:null,bo:null,out:PD.n>1?PD.out:null,long:0,ot:0,otp:[]}):null,lat=PD?lateBy(PD.in,dsh):0,early=q&&q.out&&dsh?earlyBy(q.out,2,dsh):0;
