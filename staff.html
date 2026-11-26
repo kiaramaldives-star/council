@@ -468,6 +468,12 @@ html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::
 .dlist{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}.dlist>span,.dchip{background:#FFF7ED;color:#9A3412;border-radius:999px;padding:3px 10px;border:0;font:inherit;font-size:13px}.dlist.bad>span{background:#FEF2F2;color:#991B1B}.dchip{cursor:pointer}.dlist i{font-style:normal;opacity:.8}
 .dlv{display:flex;flex-direction:column;gap:8px}.dlv>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FAF5FF;border-radius:12px;padding:8px 10px}.dlv small{color:#6B7280;flex-basis:100%;padding-inline-start:46px;margin-top:-6px}
 @media(max-width:1100px){.dgrid3{grid-template-columns:1fr 1fr}}@media(max-width:760px){.dgrid3,.dgrid2{grid-template-columns:1fr}}
+.dtile.sb b,.dgr .sb{color:#1D4ED8}.dtile.sg b,.dgr .sg{color:#BE185D}.dtile>small{display:block;font-size:12px;color:#6B7280}
+.dgr{display:flex;flex-direction:column;margin-top:6px}.dgrh,.dgrr{display:grid;grid-template-columns:minmax(90px,1.2fr) 70px 70px 70px 3fr;gap:10px;align-items:center;padding:7px 4px;border-bottom:1px solid #F1F2F4}
+.dgrh{font-size:12px;color:#6B7280;font-weight:600}.dgrh span:not(:first-child),.dgrr>span.num{text-align:center}.dgrr.tot{border-bottom:0;background:#F9FAFB;border-radius:10px;margin-top:4px}
+.dbar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#F3F4F6}.dbar i,.dkey i{display:block;height:100%}.dbar i.b,.dkey i.b{background:#3B82F6}.dbar i.g,.dkey i.g{background:#EC4899}
+.dkey{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}.dkey i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media(max-width:760px){.dgrh,.dgrr{grid-template-columns:1fr 46px 46px 50px}.dgrh span:last-child,.dgrr>span:last-child{display:none}}
 </style>
 </head>
 <body>
@@ -635,12 +641,21 @@ $("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
 /* ================= DASHBOARD ================= */
 const DB={};
 async function dashLoad(){if(DB.loading)return;DB.loading=1;const td=todayMV();
-  try{const jobs=[rpc("my_punch_history",{p_from:td,p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];
+  try{const jobs=[rpc("my_punch_history",{p_from:td,p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];rpc("school_stats").then(x=>{DB.ss=x;if(TAB==="home")render();}).catch(()=>{});
     if(ME.lead)jobs.push(rpc("staff_att_day",{p_date:td}).catch(e=>({err:e.message})),rpc("dash_lead").catch(e=>({err:e.message})));
     const [pun,lv,day,dl]=await Promise.all(jobs);Object.assign(DB,{date:td,pun:pun||[],lv,day,dl,at:Date.now()});
     if(ME.lead)manPend();if(!RC.me)await rcLoad().catch(()=>{});if(RC.term&&!RC.ret)await rcRet();}
   finally{DB.loading=0;}if(TAB==="home")render();}
 function dTile(n,label,cls,go,sub){return `<button type="button" class="dtile ${cls||""}" ${go?`data-dgo="${go}"`:""}><b class="num">${n}</b><span>${label}</span>${sub?`<small>${sub}</small>`:""}</button>`;}
+const GORD=["LKG","UKG","Grade 1","Grade 2","Grade 3","Grade 4","Grade 5","Grade 6","Grade 7","Grade 8","Grade 9","Grade 10"];
+function dashSchool(){const X=DB.ss;if(!X)return "";const G=[...(X.grades||[])].sort((a,b)=>{const i=GORD.indexOf(a.grade),j=GORD.indexOf(b.grade);return (i<0?99:i)-(j<0?99:j)||a.grade.localeCompare(b.grade);});
+  const sum=k=>G.reduce((t,g)=>t+(+g[k]||0),0),T=sum("total"),Bo=sum("boys"),Gi=sum("girls"),mx=Math.max(1,...G.map(g=>+g.total||0));
+  const nm=g=>{const c=(ME.all_classes||[]).find(y=>y.class_en===g);return esc(NM(c&&c.class_dv,g));};
+  return `<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ސްކޫލުގެ މައުލޫމާތު","School at a glance")}</h3>
+   <div class="dtiles">${dTile(T,LG("ޖުމްލަ ދަރިވަރުން","Total students"),"","registry")}${dTile(Bo,LG("ފިރިހެން","Boys"),"sb","registry",T?Math.round(Bo/T*100)+"%":"")}${dTile(Gi,LG("އަންހެން","Girls"),"sg","registry",T?Math.round(Gi/T*100)+"%":"")}${dTile(G.length,LG("ގްރޭޑް","Grades"),"","registry")}${dTile(X.staff||0,LG("މުވައްޒަފުން","Staff"),"","")}</div>
+   <div class="dgr"><div class="dgrh"><span>${LG("ގްރޭޑް","Grade")}</span><span>${LG("ފިރިހެން","Boys")}</span><span>${LG("އަންހެން","Girls")}</span><span>${LG("ޖުމްލަ","Total")}</span><span></span></div>
+   ${G.map(g=>`<div class="dgrr"><b>${nm(g.grade)}</b><span class="num sb">${g.boys}</span><span class="num sg">${g.girls}</span><span class="num"><b>${g.total}</b></span><span class="dbar" title="${g.boys} / ${g.girls}"><i class="b" style="width:${(+g.boys)/mx*100}%"></i><i class="g" style="width:${(+g.girls)/mx*100}%"></i></span></div>`).join("")}
+   <div class="dgrr tot"><b>${LG("ޖުމްލަ","Total")}</b><span class="num sb">${Bo}</span><span class="num sg">${Gi}</span><span class="num"><b>${T}</b></span><span class="dkey"><i class="b"></i>${LG("ފިރިހެން","Boys")} <i class="g"></i>${LG("އަންހެން","Girls")}</span></div></div></div>`;}
 function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
   if(!DB.at)return `<div class="card empty">…</div>`;
   const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
@@ -665,7 +680,7 @@ function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>1
   if(RC.ret&&RC.ret.length)T.push(`<button type="button" class="dtask bad" data-tab="report"><b><span class="num">${RC.ret.length}</span> ${LG("ބަޔާން އަނބުރާ ފޮނުވާފައި","comments sent back to fix")}</b><small>${LG("ރިޕޯޓް ކާޑު","Report cards")}</small></button>`);
   if(myPend.length)T.push(`<button type="button" class="dtask warn" data-mylv><b><span class="num">${myPend.length}</span> ${LG("ޗުއްޓީއަށް އެދުން ބަލަމުން","leave request(s) waiting for approval")}</b></button>`);
   const tk=`<div class="card dcard"><h3 class="h">${LG("ކުރަންޖެހޭ ކަންތައް","My tasks")}</h3>${T.length?`<div class="dtasks">${T.join("")}</div>`:`<div class="dbig muted">${LG("ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް ✓","Nothing to do ✓")}</div>`}</div>`;
-  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`;
+  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+dashSchool();
   if(!ME.lead)return h;
   // ---- supervisors
   const D=DB.day||{},S=(D.staff||[]).filter(x=>x.emp_code),inn=S.filter(x=>x.first_in),lt=inn.filter(x=>lateBy(x.first_in,x.shift)>0),lvS=S.filter(x=>!x.first_in&&x.leave),abs=school?S.filter(x=>!x.first_in&&!x.leave&&x.shift):[];
