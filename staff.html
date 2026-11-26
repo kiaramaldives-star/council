@@ -774,6 +774,18 @@ html[lang=dv] .mlvn small{font-family:Waheed,Faruma,sans-serif;letter-spacing:0}
 .mlvqr b{display:block;font-size:15px}.mlvqr small{color:#6B7280;font-size:13px}html[lang=dv] .mlvqr b{font-family:Waheed,Faruma,sans-serif;font-weight:400}
 .mlvs{border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;white-space:nowrap}html[lang=dv] .mlvs{font-family:Waheed,Faruma,sans-serif;font-weight:400}.mlvs.ok{background:#DCFCE7;color:#166534}.mlvs.pd{background:#FEF3C7;color:#92400E}.mlvs.no{background:#FEE2E2;color:#991B1B}
 .mlvqr .lvsc{display:inline-block!important;width:auto!important;margin-inline-end:6px}.mlvqr b .lvsc{font-size:11px}
+.lrq{padding:0!important;border-radius:28px!important;overflow:hidden;position:relative}
+.lrqx{position:absolute;top:14px;inset-inline-end:14px}
+.lrqh{display:flex;align-items:center;gap:14px;padding:24px 22px 18px;border-bottom:1px solid #EEE}.lrqh .tav{width:60px;height:60px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;background:linear-gradient(140deg,#E0304B,#A50E28);color:#fff;font:800 20px "Exo 2","Plus Jakarta Sans",sans-serif}.lrqh .tav img{width:100%;height:100%;object-fit:cover}
+.lrqh b{display:block;font-size:19px}.lrqh small{color:#6B7280;font-size:14px}html[lang=dv] .lrqh small{font-family:Waheed,Faruma,sans-serif}html[lang=en] .lrqh b{font-family:"Exo 2","Plus Jakarta Sans",sans-serif;font-weight:600}
+.lrqb{padding:18px 22px 22px;display:grid;gap:14px}.lrqb label{display:grid;gap:6px}.lrqb label>span{font-size:14px;color:#4B5563}html[lang=dv] .lrqb label>span{font-family:Waheed,Faruma,sans-serif}
+.lrqs,.lrqd{display:flex;align-items:center;gap:10px;border:1.5px solid #E5E7EB;border-radius:14px;padding:0 12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.lrqs i{width:11px;height:11px;border-radius:50%;flex:none;background:#C8102E}.lrqs select{flex:1;border:0!important;background:none!important;padding:13px 0!important;font:16px "Plus Jakarta Sans","Faruma",sans-serif;min-width:0;box-shadow:none!important}
+html[lang=dv] .lrqs select{font-family:Faruma,sans-serif}
+.lrqd svg{flex:none;color:#6B7280}.lrqd input{flex:1;min-width:0;border:0!important;background:none!important;padding:12px 0!important;font:15px "Exo 2","Plus Jakarta Sans",sans-serif;box-shadow:none!important}.lrqd b{color:#6B7280}
+.lrqb textarea{border:1.5px solid #E5E7EB;border-radius:14px;padding:10px 12px;font:15px "Plus Jakarta Sans","Faruma",sans-serif;resize:vertical}
+.lrqc{display:flex!important;align-items:center;gap:8px;font-size:14px;color:#374151}html[lang=dv] .lrqc{font-family:Waheed,Faruma,sans-serif}.lrqc input{width:18px;height:18px;accent-color:#C8102E}
+.lrqbtn{width:100%;padding:15px;border-radius:14px;font-size:16px}html[lang=dv] .lrqbtn{font-family:Waheed,Faruma,sans-serif;font-weight:400}
 </style>
 </head>
 <body>
@@ -1357,6 +1369,25 @@ function maView(){const td=todayMV();if(!MA.m)MA.m=td.slice(0,7);const [f,t]=maR
 `;}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mam]");if(b&&!b.disabled){MA.m=b.dataset.mam;render();return;}if(e.target.closest("[data-maretry]")){MA.err="";maLoad();}});
 
+
+async function lvReqModal(){if(!DB.lv){try{DB.lv=await rpc("my_leaves");}catch(e){return alert(e.message);}}const D=DB.lv;if(!D.linked)return alert(TX("ތިބާގެ ފިންގަރޕްރިންޓް އައިޑީ އަދި ގުޅާފައެއް ނެތް.","Your fingerprint ID is not linked yet."));
+  const st=(ME&&ME.staff)||{},ini=(st.name_en||"?").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase(),t=todayMV(),B=D.balances||[],COL=["#5B54A8","#2B7A78","#E0605E","#C8102E","#D97706","#2563EB","#7E22CE"];
+  const left=x=>{const b=B.find(y=>y.name_en===x.name_en);return b&&b.allow!=null?Math.max(0,b.allow-b.used):null;};
+  const opts=(D.types||[]).map((x,i)=>{const l=left(x);return `<option value="${x.id}" data-doc="${x.doc?1:""}" data-col="${COL[i%COL.length]}">${x.short?x.short+" · ":""}${esc(LANG==="en"?x.name_en:(x.name_dv||x.name_en))} — ${l!=null?(LANG==="en"?`${dnum(l)} left`:`${dnum(l)} ދުވަސް ބާކީ`):x.months?(LANG==="en"?`up to ${x.months} months`:`${x.months} މަސް`):(LANG==="en"?"no limit":"ލިމިޓެއް ނެތް")}</option>`;}).join("");
+  rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";
+  m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc lrq" role="dialog" aria-modal="true" style="width:min(440px,100%)"><button type="button" class="mdlx lrqx" data-rcecancel>✕</button>
+   <div class="lrqh"><span class="tav">${st.photo?`<img src="${esc(st.photo)}" alt="">`:esc(ini)}</span><div><b class="h">${esc(NM(st.name_dv,st.name_en)||"")}</b><small>${esc(NM(st.title_dv,st.title_en)||"")}</small></div></div>
+   <div class="lrqb"><label><span>${LG("ޗުއްޓީ އަދި ބާކީ","Leave balance")}</span><div class="lrqs"><i id="lvDot"></i><select id="lvT">${opts}</select></div></label>
+    <label><span>${LG("ތާރީޚު","Date")}</span><div class="lrqd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><input type="date" id="lvF" value="${t}"><b>${LANG==="en"?"→":"←"}</b><input type="date" id="lvTo" value="${t}"></div></label>
+    <label class="lrqc"><input type="checkbox" id="lvH"> ${LG("ދުވަހުގެ ބައެއް (އެއް ދުވަސް)","Half day (single day)")}</label>
+    <label><span>${LG("ސަބަބު","Reason")}</span><textarea id="lvR" dir="auto" rows="2"></textarea></label>
+    <label id="lvDocL" hidden><span>${LG("ޑޮކިއުމަންޓް (PDF ނުވަތަ ފޮޓޯ) – ލާޒިމް","Document (PDF or photo) – required")}</span><input type="file" id="lvDoc" accept="application/pdf,image/*"></label>
+    <div class="msg" id="lvMsg"></div>
+    <button type="button" class="btn lrqbtn" data-lvsend>＋ ${LG("ޗުއްޓީއަށް އެދޭ","Request leave")}</button></div></div>`;
+  document.body.appendChild(m);document.body.classList.add("mdl-open");lrqSync();}
+function lrqSync(){const s=$("#lvT");if(!s)return;const o=s.selectedOptions[0],d=$("#lvDot"),L=$("#lvDocL");if(d&&o)d.style.background=o.dataset.col;if(L&&o)L.hidden=!o.dataset.doc;}
+document.addEventListener("click",e=>{if(e.target.closest("[data-mylvreq]")){lvReqModal();}});
+document.addEventListener("change",e=>{if(e.target.id==="lvT"&&e.target.closest(".lrq"))lrqSync();});
 const MLV={};
 function mlvView(){if(!DB.lv&&!MLV.loading){MLV.loading=1;rpc("my_leaves").then(x=>{DB.lv=x;}).catch(e=>{MLV.err=e.message;}).finally(()=>{MLV.loading=0;render();});}
   if(MLV.err)return `<div class="card"><div class="msg err">${esc(MLV.err)}</div></div>`;if(!DB.lv)return `<div class="card empty">…</div>`;
@@ -1369,7 +1400,7 @@ function mlvView(){if(!DB.lv&&!MLV.loading){MLV.loading=1;rpc("my_leaves").then(
      <div class="mlvn"><b class="num">${dnum(lf)}</b><small>${LG(`${dnum(b.allow)} ގެ ތެރެއިން`,`OUT OF ${dnum(b.allow)}`)}</small></div><div class="mlvt">${b.short?`${esc(b.short)} · `:""}${esc(NM(b.name_dv,b.name_en))}</div></div>
    <div class="mlvl">${B.map((x,i)=>{const c=COL[i%COL.length],l=Math.max(0,x.allow-x.used);return `<button type="button" class="mlvr ${i===si?"on":""}" data-mlv="${i}" style="--c:${c}"><i class="rad"></i><span class="nm">${esc(NM(x.name_dv,x.name_en))}</span><span class="vl">${LANG==="en"?`<b class="num">${dnum(l)}</b> <small>of <span class="num">${dnum(x.allow)}</span></small>`:`<small><span class="num">${dnum(x.allow)}</span> ގެ ތެރެއިން</small> <b class="num">${dnum(l)}</b>`}</span></button>`;}).join("")}</div>
    <p class="pct mlvp">${LG("ބާކީ ހުރި ޗުއްޓީ","Days left")}${L.period_from?` · ${dvDate(L.period_from)} – ${dvDate(L.period_to)}`:""}</p>
-   <button type="button" class="btn mlvbtn" data-mylv>＋ ${LG("ޗުއްޓީއަށް އެދޭ","Request leave")}</button>
+   <button type="button" class="btn mlvbtn" data-mylvreq>＋ ${LG("ޗުއްޓީއަށް އެދޭ","Request leave")}</button>
    ${R.length?`<div class="mdh mah"><h3 class="h">${LG("ޗުއްޓީގެ ރިކުއެސްޓްތައް","My leave requests")}</h3><span class="mcnt num">${(L.requests||[]).length}</span></div><div class="mlvq">${R.map(r=>{const[c,t]=stc[r.status]||["pd",esc(r.status)];return `<div class="mlvqr"><div><b>${lvName(r)}</b><small>${lvRange(r.from,r.to,r.half)} · <span class="num">${dnum(r.days)}</span> ${LG("ދުވަސް","days")}</small></div><span class="mlvs ${c}">${t}</span></div>`;}).join("")}</div>`:""}</div>`;}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mlv]");if(b){MLV.sel=+b.dataset.mlv;render();}});
 const DB={};
@@ -2191,7 +2222,7 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(t.closest("[data-lvsend]")){const msg=$("#lvMsg"),p=lvRead();if(!p.p_reason){msg.className="msg err";msg.textContent=LANG==="en"?"Please write a reason.":"ސަބަބު ލިޔުއްވާ.";return;}
     const opt=$("#lvT").selectedOptions[0],fi=$("#lvDoc"),file=fi&&fi.files[0];if(opt&&opt.dataset.doc&&!file){msg.className="msg err";msg.textContent=LANG==="en"?"Please choose the document to upload for this leave.":"މި ޗުއްޓީއަށް ޑޮކިއުމަންޓް އަޕްލޯޑް ކުރައްވާ.";return;}
     const sb=t.closest("[data-lvsend]");sb.disabled=true;try{if(file&&opt&&opt.dataset.doc){msg.className="msg";msg.textContent=LANG==="en"?"Uploading…":"އަޕްލޯޑް ކުރަނީ…";p.p_doc=await lvUpload(file);}
-    const r=await rpc("leave_request",p);msg.className="msg ok";msg.textContent=(LANG==="en"?"Request sent for ":"ފޮނުވިއްޖެ: ")+dnum(r.days)+(LANG==="en"?" day(s). A supervisor will review it.":" ދުވަސް");setTimeout(lvMine,900);}catch(er){msg.className="msg err";msg.textContent=er.message;}sb.disabled=false;return;}
+    const r=await rpc("leave_request",p);msg.className="msg ok";msg.textContent=(LANG==="en"?"Request sent for ":"ފޮނުވިއްޖެ: ")+dnum(r.days)+(LANG==="en"?" day(s). A supervisor will review it.":" ދުވަސް");if($("#lvBody"))setTimeout(lvMine,900);else{DB.lv=null;setTimeout(()=>{rgClose();render();},1200);}}catch(er){msg.className="msg err";msg.textContent=er.message;}sb.disabled=false;return;}
   if(b=t.closest("[data-lvcancel]")){try{await rpc("leave_cancel",{p_id:+b.dataset.lvcancel});lvMine();}catch(er){alert(er.message);}return;}
   if(b=t.closest("[data-lvf]")){SA.lvf=b.dataset.lvf;SA.lv=null;render();return;}
   if(t.closest("[data-lvadd]")){lvAddModal();return;}
