@@ -678,7 +678,8 @@ let S=null;try{S=JSON.parse(localStorage.getItem("kc_staff_session")||"null")}ca
 const saveS=x=>{S=x;try{x?localStorage.setItem("kc_staff_session",JSON.stringify(x)):localStorage.removeItem("kc_staff_session")}catch(e){}};
 async function authCall(p,b){const r=await fetch(`${SB_URL}/auth/v1/${p}`,{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.error_description||j.message||("Error "+r.status));return j;}
 async function token(){if(!S)throw new Error("signed out");if(S.expires_at&&S.expires_at-60<Date.now()/1000){const j=await authCall("token?grant_type=refresh_token",{refresh_token:S.refresh_token});saveS({...j,expires_at:Date.now()/1000+j.expires_in});}return S.access_token;}
-async function rpc(fn,body){const r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+await token(),"Content-Type":"application/json"},body:JSON.stringify(body||{})});const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error(m);}return t?JSON.parse(t):null;}
+async function rpc(fn,body){let r;for(let i=0;;i++){try{r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+await token(),"Content-Type":"application/json"},body:JSON.stringify(body||{})});break;}catch(e){if(i>=2)throw new Error(LANG==="en"?"Could not connect. Check your internet and try again.":"ކަނެކްޓް ނުވި. އިންޓަނެޓް ބައްލަވާފައި އަލުން މަސައްކަތް ކުރައްވާ.");await new Promise(z=>setTimeout(z,800*(i+1)));}}const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error(m);}return t?JSON.parse(t):null;}
+document.addEventListener("click",e=>{if(e.target.closest("[data-otretry]")){OT.err=null;otLoad();}});
 
 const BDOCS=[["invoice","Invoice","އިންވޮއިސް"],["delivery","Delivery note","ޑެލިވަރީ ނޯޓް"]];
 async function blUpload(id,key,file){if(file.size>10485760)throw new Error(TX("ފައިލް ވަރަށް ބޮޑު (އެންމެ ގިނަވެގެން 10 MB).","The file is too big (max 10 MB)."));
@@ -1537,7 +1538,7 @@ function otPreset(k){const t=todayMV(),y=+t.slice(0,4),m=+t.slice(5,7),p=n=>Stri
 function otView(mode){const AA=mode==="aa";otDefaults();if((!OT.data||OT.key!==OT.from+OT.to)&&!OT.loading&&!OT.err)otLoad();
   const bar=`<div class="card arf"><div class="arfr"><label><span>${LG("ފެށޭ ތާރީޚު","From")}</span><input type="date" id="otFrom" value="${OT.from}"></label><label><span>${LG("ނިމޭ ތާރީޚު","To")}</span><input type="date" id="otTo" value="${OT.to}"></label></div>
      <div class="archips">${[["today","މިއަދު","Today"],["yest","އިއްޔެ","Yesterday"],["week","މި ހަފްތާ","This week"],["month","މި މަސް","This month"],["last","ފާއިތުވި މަސް","Last month"]].map(([k,dv,en])=>`<button type="button" class="${OT.preset===k?"on":""}" data-otpre="${k}">${LG(dv,en)}</button>`).join("")}</div></div>`;
-  if(OT.err)return bar+`<div class="card"><div class="msg err">${esc(OT.err)}</div></div>`;
+  if(OT.err)return bar+`<div class="card"><div class="msg err">${esc(OT.err)}</div><button type="button" class="btn sm" data-otretry style="margin-top:10px">↻ ${LG("އަލުން މަސައްކަތްކުރޭ","Try again")}</button></div>`;
   const H=OT.data;if(!H||OT.loading)return bar+`<div class="card empty">…</div>`;
   const rows=H.filter(p=>p.onlist).map(p=>{const R=otRows(p),W=R.filter(r=>r.w!=null);return {p,R,days:W.length,tot:W.reduce((a,r)=>a+r.w,0),okd:R.filter(r=>r.ok).length,extra:R.reduce((a,r)=>a+r.extra,0),sum:otSum(p,R),hr:otHr(p),aa:R.filter(r=>r.aa).length};});
   if(AA){const P=rows.filter(r=>r.p.etype==="permanent"),oth=rows.filter(r=>r.p.etype!=="permanent"),mh=(OT.cfg||{}).aa_min_h??4;
