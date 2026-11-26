@@ -736,6 +736,12 @@ html[lang=en] .myd h3,html[lang=en] .mah h3{font-family:"Exo 2",sans-serif!impor
 html[lang=dv] .mchip,html[lang=dv] .mchip *,html[lang=dv] .mach2,html[lang=dv] .mach2 *:not(.num){font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important;font-style:normal!important}html[lang=dv] .mchip .num,html[lang=dv] .mach2 .num{font-family:"Exo 2","Plus Jakarta Sans",sans-serif!important;font-weight:700!important}
 html[lang=dv] .tnm small,html[lang=dv] .phme small,html[lang=dv] .side .me small,html[lang=dv] .mdr-h small{font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important}
 .mas>div{display:flex;align-items:baseline;gap:7px}.mas small{margin:0!important;direction:ltr;unicode-bidi:isolate}
+@media (max-width:899px){
+ body.tab-title .top .brand{display:none!important}
+ body.tab-title .tme{display:flex!important;flex:1 1 0;min-width:0;align-items:center;height:60px;padding:0 6px}
+ .ttl{font-size:24px;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}html[lang=dv] .ttl{font-family:Waheed,Faruma,sans-serif}html[lang=en] .ttl{font-family:"Exo 2","Plus Jakarta Sans",sans-serif;font-weight:600;font-size:22px}
+ body.tab-title .side .me,body.tab-title .mainc>.phead{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -1152,7 +1158,8 @@ async function start(){
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){render0();layout();topMe();}
-function topMe(){const el=$("#tMe");if(!el)return;const on=document.body.classList.contains("in")&&TAB==="home"&&ME&&ME.staff;document.body.classList.toggle("tab-home",!!on);el.hidden=!on;if(!on)return;
+function topMe(){const el=$("#tMe");if(!el)return;const inn=document.body.classList.contains("in"),on=inn&&TAB==="home"&&ME&&ME.staff,tt=inn&&TAB==="myatt";document.body.classList.toggle("tab-home",!!on);document.body.classList.toggle("tab-title",!!tt);el.hidden=!(on||tt);
+  if(tt){el.innerHTML=`<span class="ttl h">${LG("މަގޭ ހާޒިރީ","My attendance")}</span>`;return;}if(!on)return;
   const st=ME.staff,nm=NM(st.name_dv,st.name_en)||"",ini=(st.name_en||"?").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
   el.innerHTML=`<span class="tav">${st.photo?`<img src="${esc(st.photo)}" alt="">`:esc(ini)}</span><span class="tnm"><b class="h">${esc(nm)}</b><small>${esc(NM(st.title_dv,st.title_en)||"")}</small></span>`;}
 function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";
