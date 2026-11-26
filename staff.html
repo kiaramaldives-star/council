@@ -393,6 +393,20 @@ body.mdl-open{overflow:hidden}
 .newkey{border:2px dashed var(--p);border-radius:12px;padding:12px;margin-bottom:10px;background:var(--ps);display:grid;gap:8px}.newkey code{font:600 14px ui-monospace,Consolas,monospace;background:#fff;border-radius:8px;padding:8px 10px;word-break:break-all}.newkey .btn{width:auto;justify-self:start}
 a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 .mobonly{display:none}@media (max-width:899px){.mobonly{display:flex;width:100%;margin-top:12px}.tabs button.stf{display:none}}
+.stseg{background:#fff;border:1px solid var(--line);margin-top:4px}
+.shm{display:flex;align-items:center;gap:10px}.shm input{flex:0 1 220px;padding:9px 12px;border:1px solid #D1D5DB;border-radius:10px;font:600 15px "Plus Jakarta Sans",sans-serif}
+.hgw{overflow:auto;max-height:70vh;border:1px solid var(--line);border-radius:10px}
+.hg{border-collapse:separate;border-spacing:0;font-size:12px;min-width:100%}
+.hg th,.hg td{padding:4px 3px;text-align:center;border-bottom:1px solid #F1F2F4;white-space:nowrap}
+.hg thead th{position:sticky;top:0;background:#F9FAFB;z-index:2;font:600 11.5px "Plus Jakarta Sans",sans-serif;color:#6B7280}
+.hg .nmc{position:sticky;inset-inline-start:0;background:#fff;z-index:1;text-align:start;padding:6px 10px;min-width:150px;max-width:190px;white-space:normal;cursor:pointer;border-inline-end:1px solid var(--line)}
+.hg thead .nmc{z-index:3;background:#F9FAFB}
+.hg .nmc b{font:400 14px "KondeyHeading","Faruma",sans-serif}html[lang=en] .hg .nmc b{font:600 13px "Plus Jakarta Sans",sans-serif}.hg .nmc:hover b{color:var(--p)}
+.hg tr.off .nmc b{color:#6B7280;font-family:"Plus Jakarta Sans",sans-serif;font-size:12.5px}
+.hg .tot{border-inline-end:1px solid var(--line);min-width:54px}.hg .tot b{font-size:14px;color:#15803D}.hg .tot small{color:var(--muted)}
+.hg td.ok span{display:inline-block;background:#DCFCE7;color:#166534;border-radius:4px;padding:2px 3px;font-weight:600;font-size:11px}
+.hg td.no{color:#DC2626;background:#FEF2F2;font-weight:700}.hg .we{background:repeating-linear-gradient(45deg,#F9FAFB,#F9FAFB 4px,#F3F4F6 4px,#F3F4F6 8px)}
+.hst td small{color:var(--muted);font-size:12px}.hst td{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -724,12 +738,32 @@ function rgView(){const R=RC.reg,CL=(RC.me&&RC.me.classes)||[];if(!R){if(!RC.reg
 let SA={date:null,data:null,loading:false,mine:null,mineDate:null,sync:null,newKey:null};
 const tmMV=t=>{if(!t)return "";const d=new Date(new Date(t).getTime()+(5*60+new Date().getTimezoneOffset())*60000);return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");};
 const devName=x=>{const a=(x||"").toLowerCase();return a.includes("out")?LG("ބޭރު","Outdoor"):a.includes("off")?LG("އޮފީސް","Office"):esc(x||"");};
-function myPunch(){const today=todayMV();if(SA.mineDate!==today&&!SA.mineLoading){SA.mineLoading=1;rpc("my_punches",{p_date:today}).then(r=>{SA.mine=r;SA.mineDate=today;}).catch(()=>{SA.mine=[];SA.mineDate=today;}).finally(()=>{SA.mineLoading=0;if(SA.mine&&SA.mine.length)render();});}
-  const P=SA.mine||[];if(!P.length)return "";const f=P[0],l=P[P.length-1];
-  return `<div class="card mypunch"><span class="mpi">${'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11c0 3.5-1 6.5-3 9M8.5 6.5A6 6 0 0 1 18 11c0 2-.3 4-.9 5.8M6 9.5A6 6 0 0 0 6 11c0 2.2-.6 4.2-1.6 5.8M12 7a4 4 0 0 1 4 4c0 1-.1 2-.3 3M15 21c.5-1 1-2.2 1.3-3.4"/></svg>'}</span><div><small>${LG("މިއަދުގެ ފިންގަރޕްރިންޓް","Today's fingerprint")}</small><b><span class="num">${tmMV(f.t)}</span> ${devName(f.dev)}${P.length>1?` <i>←</i> <span class="num">${tmMV(l.t)}</span> ${devName(l.dev)}`:""}</b></div></div>`;}
+function addDays(d,n){const x=new Date(d+"T00:00:00");x.setDate(x.getDate()+n);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");}
+function myPunch(){const today=todayMV();if(SA.mineDate!==today&&!SA.mineLoading){SA.mineLoading=1;rpc("my_punch_history",{p_from:addDays(today,-45),p_to:today}).then(r=>{SA.hist=r||[];SA.mineDate=today;}).catch(()=>{SA.hist=[];SA.mineDate=today;}).finally(()=>{SA.mineLoading=0;if(SA.hist&&SA.hist.length)render();});}
+  const H=SA.hist||[];if(!H.length)return "";const t=H.find(x=>x.day===today);
+  return `<div class="card mypunch"><span class="mpi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 11c0 3.5-1 6.5-3 9M8.5 6.5A6 6 0 0 1 18 11c0 2-.3 4-.9 5.8M6 9.5A6 6 0 0 0 6 11c0 2.2-.6 4.2-1.6 5.8M12 7a4 4 0 0 1 4 4c0 1-.1 2-.3 3M15 21c.5-1 1-2.2 1.3-3.4"/></svg></span><div style="flex:1"><small>${LG("މިއަދުގެ ފިންގަރޕްރިންޓް","Today's fingerprint")}</small><b>${t?`<span class="num">${tmMV(t.in)}</span> ${devName(t.in_dev)}${t.n>1?` <i>←</i> <span class="num">${tmMV(t.out)}</span> ${devName(t.out_dev)}`:""}`:LG("މިއަދު އަދި ފިންގަރޕްރިންޓް ނުޖަހާ","No check-in yet today")}</b></div><button type="button" class="btn sm ghost" data-myhist>${LG("ތާރީޚު","History")}</button></div>`;}
+function myHistModal(){const H=SA.hist||[];rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";
+  m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(560px,100%)"><div class="mdlh"><div><b class="h">${LG("ތިބާގެ ފިންގަރޕްރިންޓް ތާރީޚު","My fingerprint history")}</b><small>${LG("ފަހުގެ 45 ދުވަސް","Last 45 days")}</small></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
+   <div class="mdlbd"><table class="rct hst"><thead><tr><th>${LG("ތާރީޚު","Date")}</th><th>${LG("ވަދެވުނު","In")}</th><th>${LG("ނުކުމެވުނު","Out")}</th></tr></thead><tbody>${H.map(x=>`<tr><td>${dvDate(x.day)}</td><td><b class="num">${tmMV(x.in)}</b> <small>${devName(x.in_dev)}</small></td><td>${x.n>1?`<b class="num">${tmMV(x.out)}</b> <small>${devName(x.out_dev)}</small>`:"—"}</td></tr>`).join("")}</tbody></table></div></div>`;
+  document.body.appendChild(m);document.body.classList.add("mdl-open");}
+
 async function stLoad(){SA.loading=true;render();try{SA.data=await rpc("staff_att_day",{p_date:SA.date});}catch(e){SA.data={err:e.message};}SA.loading=false;render();}
-function stView(){if(!SA.date)SA.date=todayMV();if(!SA.data&&!SA.loading){stLoad();}
-  const D=SA.data,box=`<div class="card datec"><label class="dpick"><span>${dvDate(SA.date)}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><input type="date" id="stDate" value="${SA.date}" max="${todayMV()}"></label></div>`;
+function stSeg(){const md=SA.mode||"day";return `<div class="ctseg stseg"><button type="button" class="${md==="day"?"on":""}" data-stmode="day">${LG("ދުވަސް","Day")}</button><button type="button" class="${md==="hist"?"on":""}" data-stmode="hist">${LG("ތާރީޚު (މަހު)","History (month)")}</button></div>`;}
+async function shLoad(){SA.hl=true;render();const mo=SA.month,a=mo+"-01",t=todayMV();let e=addDays(addDays(a,32).slice(0,7)+"-01",-1);if(e>t)e=t;try{SA.hdata=await rpc("staff_att_range",{p_from:a,p_to:e});}catch(er){SA.hdata={err:er.message};}SA.hl=false;render();}
+function shView(){const t=todayMV();if(!SA.month)SA.month=t.slice(0,7);if(!SA.hdata&&!SA.hl)shLoad();
+  const box=`<div class="card datec shm"><label>${LG("މަސް","Month")}</label><input type="month" id="stMonth" value="${SA.month}" max="${t.slice(0,7)}"></div>`;
+  const H=SA.hdata;if(!H||SA.hl)return stSeg()+box+`<div class="card empty">…</div>`;if(H.err)return stSeg()+box+`<div class="card"><div class="msg err">${esc(H.err)}</div></div>`;
+  const a=SA.month+"-01";let e=addDays(addDays(a,32).slice(0,7)+"-01",-1);const days=[];for(let d=a;d<=e;d=addDays(d,1))days.push(d);
+  const sch=d=>{const w=new Date(d+"T00:00:00").getDay();return w!==5&&w!==6;},past=d=>d<=t,SD=days.filter(d=>sch(d)&&past(d));
+  const row=p=>{const D=p.days||{},pres=SD.filter(d=>D[d]).length;return `<tr class="${p.onlist?"":"off"}"><th class="nmc" data-sthist="${esc(p.emp_code)}"><b>${esc(p.onlist?NM(p.name_dv,p.name_en):p.name_en)}</b></th><td class="tot"><b class="num">${pres}</b><small class="num">/${SD.length}</small></td>${days.map(d=>{const x=D[d];if(!sch(d))return `<td class="we"></td>`;if(!past(d))return `<td></td>`;return x?`<td class="ok"><span class="num">${tmMV(x.in)}</span></td>`:`<td class="no">✗</td>`;}).join("")}</tr>`;};
+  return stSeg()+box+`<div class="card"><p class="pct" style="margin:0 0 8px">${LG("ކޮންމެ ދުވަހެއްގެ ފުރަތަމަ ފިންގަރޕްރިންޓް. ނަމަށް ފިތާލުމުން ތަފްޞީލު ފެންނާނެ. ހުކުރު އަދި ހޮނިހިރު ބަންދު.","First check-in time each day. Click a name for details. Friday and Saturday are off.")}</p>
+   <div class="hgw"><table class="hg"><thead><tr><th class="nmc">${LG("މުވައްޒަފު","Staff")}</th><th class="tot">${LG("ހާޒިރު","Days")}</th>${days.map(d=>`<th class="${sch(d)?"":"we"}"><span class="num">${+d.slice(8)}</span></th>`).join("")}</tr></thead><tbody>${H.map(row).join("")}</tbody></table></div></div>`;}
+function shDetail(code){const p=(SA.hdata||[]).find(x=>x.emp_code===code);if(!p)return;const D=p.days||{},ks=Object.keys(D).sort().reverse();rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";
+  m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(560px,100%)"><div class="mdlh"><div><b class="h">${esc(p.onlist?NM(p.name_dv,p.name_en):p.name_en)}</b><small>${esc(SA.month)} · ${ks.length} ${LG("ދުވަސް","days")}</small></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
+   <div class="mdlbd"><table class="rct hst"><thead><tr><th>${LG("ތާރީޚު","Date")}</th><th>${LG("ވަދެވުނު","In")}</th><th>${LG("ނުކުމެވުނު","Out")}</th></tr></thead><tbody>${ks.map(d=>`<tr><td>${dvDate(d)}</td><td><b class="num">${tmMV(D[d].in)}</b></td><td>${D[d].n>1?`<b class="num">${tmMV(D[d].out)}</b>`:"—"}</td></tr>`).join("")||`<tr><td colspan="3" class="empty">—</td></tr>`}</tbody></table></div></div>`;
+  document.body.appendChild(m);document.body.classList.add("mdl-open");}
+function stView(){if((SA.mode||"day")==="hist")return shView();if(!SA.date)SA.date=todayMV();if(!SA.data&&!SA.loading){stLoad();}
+  const D=SA.data,box=stSeg()+`<div class="card datec"><label class="dpick"><span>${dvDate(SA.date)}</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><input type="date" id="stDate" value="${SA.date}" max="${todayMV()}"></label></div>`;
   if(!D||SA.loading)return box+`<div class="card empty">…</div>`;if(D.err)return box+`<div class="card"><div class="msg err">${esc(D.err)}</div></div>`;
   const S=D.staff||[],inn=S.filter(x=>x.first_in),out=S.filter(x=>!x.first_in),U=D.unmatched||[];
   const sy=D.sync&&D.sync.last_used?`${LG("ފިންގަރޕްރިންޓް މެޝިނުން ފަހުން އަޕްޑޭޓްވީ","Last update from the fingerprint machines")}: <b class="num" dir="ltr">${auTime(D.sync.last_used)}</b>`:LG("ފިންގަރޕްރިންޓް މެޝިނާ އަދި ގުޅިފައެއް ނެތް. ސެޓިންގްސްގައި ސިންކް ކީ ހައްދަވާ.","The fingerprint machines are not connected yet. Create the sync key in Report cards → Settings.");
@@ -903,6 +937,9 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.view="class";RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
+  if(b=t.closest("[data-stmode]")){SA.mode=b.dataset.stmode;render();return;}
+  if(b=t.closest("[data-sthist]")){shDetail(b.dataset.sthist);return;}
+  if(t.closest("[data-myhist]")){myHistModal();return;}
   if(t.closest("[data-newkey]")){if(SA.sync&&SA.sync.has_key&&!confirm(LANG==="en"?"Replace the sync key? The sync program will stop until you paste the new key into its config.txt.":"އާ ކީއެއް ހެދުމުން ސިންކް ޕްރޮގްރާމް ހުއްޓޭނެ، އާ ކީ config.txt ގައި ލުމަށްދާންދެން. ކުރިއަށް ދާންތޯ؟"))return;try{SA.newKey=await rpc("sync_key_create");SA.sync=null;}catch(er){alert(er.message);}render();return;}
   if(t.closest("[data-copykey]")){try{await navigator.clipboard.writeText(SA.newKey);t.closest("[data-copykey]").textContent="✓";}catch(er){}return;}
   if(b=t.closest("[data-rgg]")){RC.rg=b.dataset.rgg;render();return;}
@@ -921,6 +958,7 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
 document.addEventListener("input",e=>{const t=e.target;if(t.id==="rgQ"){RC.rq=t.value;clearTimeout(RC.rqT);RC.rqT=setTimeout(()=>{render();const q=$("#rgQ");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}},300);return;}if(t.dataset&&t.dataset.abs!=null){const tr=t.closest("tr"),TD=+(rcTerm().teaching_days||0),v=t.value.trim(),a=v!==""&&TD?String(TD-(+v)):"";tr.querySelector(".atd").textContent=a;tr.querySelector('[data-k="att_days"]').value=a;}});
 document.addEventListener("change",async e=>{const t=e.target;
   if(t.id==="rcTerm"){RC.term=t.value;RC.ret=null;rcRet().then(render);if(RC.cls)rcOpen(RC.cls,RC.view);else render();return;}
+  if(t.id==="stMonth"){SA.month=t.value||todayMV().slice(0,7);SA.hdata=null;render();return;}
   if(t.id==="stDate"){SA.date=t.value||todayMV();SA.data=null;render();return;}
   if(t.id==="rgS"){RC.rst=t.value;render();return;}
   if(t.id==="rvF"){RC.rf=t.value;render();return;}
