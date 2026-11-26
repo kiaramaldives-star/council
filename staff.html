@@ -513,6 +513,7 @@ html[lang=dv] .phead .pt small,html[lang=dv] .phead .pt small *{font-family:Wahe
 .dcl.no{border-color:#FECACA;background:#FEF2F2}.dclh{display:flex;justify-content:space-between;align-items:center;gap:6px}.dclh b{font-size:15px}.dclh .num{font-weight:800;font-size:15px}.dclh .ok{color:#15803D}.dclh .warn{color:#C2410C}.dclh .bad{color:#B91C1C}.dclh .nm{font-size:12px;color:#B91C1C}
 .dcln{display:flex;gap:5px}.dcln span{border-radius:6px;padding:1px 8px;font-weight:700;font-size:13px}.dcln .p{background:#DCFCE7;color:#166534}.dcln .a{background:#FEE2E2;color:#991B1B}.dcln .l{background:#FEF3C7;color:#92400E}
 .dcla{display:flex;flex-wrap:wrap;gap:4px}.dcla span{font-size:12px;border-radius:999px;padding:1px 8px;background:#FEE2E2;color:#991B1B}.dcla span.l{background:#FEF3C7;color:#92400E}
+.dsub{margin:2px 0 -2px;font-size:14px;color:#6B7280;font-weight:600}html[lang=dv] .dsub{font-family:Waheed,Faruma,sans-serif;font-weight:400}.dsep{border:0;border-top:1px dashed #E5E7EB;margin:6px 0}.dlist.lvl>span{background:#F3E8FF;color:#6B21A8}
 </style>
 </head>
 <body>
@@ -708,13 +709,19 @@ function dashSchool(){const X=DB.ss;if(!X)return "";const G=[...(X.grades||[])].
 function dashStudents(td,school){const A=ME.all_classes||[];if(!A.length)return "";
   const rows=A.map(c=>({c,m:(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===td),ab:(ME.absentees||[]).filter(x=>x.date===td&&x.class_en===c.class_en)}));
   const mk=rows.filter(r=>r.m),pr=mk.reduce((t,r)=>t+(+r.m.present||0),0),tot=mk.reduce((t,r)=>t+(+r.m.present||0)+(+r.m.absent||0),0),lt=mk.reduce((t,r)=>t+(+r.m.late||0),0),pc=tot?Math.round(pr/tot*100):null;
-  return `<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ދަރިވަރުންގެ ހާޒިރީ – މިއަދު","Students today")}</h3>
+  return `<h4 class="dsub">${LG("ދަރިވަރުން","Students")}</h4>
    ${!school&&!mk.length?`<div class="dbig muted">${LG("ބަންދު ދުވަސް","No school today")}</div>`:`<div class="dtiles">${dTile(`${mk.length}<small>/${A.length}</small>`,LG("ކްލާސް ނަގައިފި","Classes marked"),mk.length<A.length?"warn":"ok","all")}${dTile(`${pr}<small>/${tot}</small>`,LG("ހާޒިރު ދަރިވަރުން","Students present"),"ok","all")}${dTile(pc==null?"—":pc+"%",LG("ހާޒިރީ","Attendance"),pc==null?"":pc>=95?"ok":pc>=90?"warn":"bad","all")}${dTile(tot-pr,LG("ނެތް","Absent"),tot-pr?"bad":"","all")}${dTile(lt,LG("ލަސް","Late"),lt?"lv":"","all")}</div>
    <div class="dcls">${rows.map(({c,m,ab})=>{const t=m?(+m.present||0)+(+m.absent||0):0,q=m&&t?Math.round(m.present/t*100):null;
      return `<button type="button" class="dcl ${m?"ok":"no"}" data-tab="all"><div class="dclh"><b>${esc(NM(c.class_dv,c.class_en))}</b>${m?`<span class="num ${q>=95?"ok":q>=90?"warn":"bad"}">${q}%</span>`:`<span class="nm">${LG("ނުނަގާ","Not marked")}</span>`}</div>
        ${m?`<div class="dcln"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}</div>`:""}
        ${ab.length?`<div class="dcla">${ab.map(x=>`<span class="${x.status}">${esc(LANG==="en"?(x.name_en||x.name):x.name)}${x.status==="l"?` (${LG("ލަސް","late")})`:""}</span>`).join("")}</div>`:""}</button>`;}).join("")}</div>
-   <div class="ovk"><span class="p">${LG("ހާޒިރު","Present")}</span><span class="a">${LG("ނެތް","Absent")}</span><span class="l">${LG("ލަސް","Late")}</span></div>`}</div>`;}
+   <div class="ovk"><span class="p">${LG("ހާޒިރު","Present")}</span><span class="a">${LG("ނެތް","Absent")}</span><span class="l">${LG("ލަސް","Late")}</span></div>`}`;}
+function dashStaff(school){if(!ME.lead)return "";const D=DB.day||{},S=(D.staff||[]).filter(x=>x.emp_code),inn=S.filter(x=>x.first_in),lt=inn.filter(x=>lateBy(x.first_in,x.shift)>0),lvS=S.filter(x=>!x.first_in&&x.leave),abs=school?S.filter(x=>!x.first_in&&!x.leave&&x.shift):[];
+  return `<h4 class="dsub">${LG("މުވައްޒަފުން","Staff")}</h4><div class="dtiles">
+     ${dTile(`${inn.length}<small>/${S.length}</small>`,LG("ހާޒިރު","Present"),"ok","staff:day")}${dTile(lt.length,LG("ލަސް","Late"),lt.length?"warn":"","staff:day")}${dTile(lvS.length,LG("ޗުއްޓީ","On leave"),"lv","staff:day")}${dTile(abs.length,LG("ނުވަދެ","Not in"),abs.length?"bad":"","staff:day")}</div>
+     ${lt.length?`<div class="dlist"><small>${LG("ލަސްވި","Late")}:</small> ${lt.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))} <i class="num">${tmMV(x.first_in)}</i></span>`).join("")}</div>`:""}
+     ${lvS.length?`<div class="dlist lvl"><small>${LG("ޗުއްޓީ","On leave")}:</small> ${lvS.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}${x.leave&&x.leave.short?` <i>${esc(x.leave.short)}</i>`:""}</span>`).join("")}</div>`:""}
+     ${abs.length?`<div class="dlist bad"><small>${LG("އަދި ނުވަދެ","Not in yet")}:</small> ${abs.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}</span>`).join("")}</div>`:""}`;}
 function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
   if(!DB.at)return `<div class="card empty">…</div>`;
   const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
@@ -741,16 +748,12 @@ function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>1
   if(RC.ret&&RC.ret.length)T.push(`<button type="button" class="dtask bad" data-tab="report"><b><span class="num">${RC.ret.length}</span> ${LG("ބަޔާން އަނބުރާ ފޮނުވާފައި","comments sent back to fix")}</b><small>${LG("ރިޕޯޓް ކާޑު","Report cards")}</small></button>`);
   if(myPend.length)T.push(`<button type="button" class="dtask warn" data-mylv><b><span class="num">${myPend.length}</span> ${LG("ޗުއްޓީއަށް އެދުން ބަލަމުން","leave request(s) waiting for approval")}</b></button>`);
   const tk=`<div class="card dcard"><h3 class="h">${LG("ކުރަންޖެހޭ ކަންތައް","My tasks")}</h3>${T.length?`<div class="dtasks">${T.join("")}</div>`:`<div class="dbig muted">${LG("ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް ✓","Nothing to do ✓")}</div>`}</div>`;
-  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+dashStudents(td,school)+dashSchool();
+  const st=dashStudents(td,school),sf=dashStaff(school);let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+(st||sf?`<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ހާޒިރީ","Attendance")}</h3>${sf}${sf&&st?`<hr class="dsep">`:""}${st}</div>`:"")+dashSchool();
   if(!ME.lead)return h;
   // ---- supervisors
   const D=DB.day||{},S=(D.staff||[]).filter(x=>x.emp_code),inn=S.filter(x=>x.first_in),lt=inn.filter(x=>lateBy(x.first_in,x.shift)>0),lvS=S.filter(x=>!x.first_in&&x.leave),abs=school?S.filter(x=>!x.first_in&&!x.leave&&x.shift):[];
   const A=ME.all_classes||[],mk=A.map(c=>(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===td)).filter(Boolean),pr=mk.reduce((t,m)=>t+(+m.present||0),0),tot=mk.reduce((t,m)=>t+(+m.present||0)+(+m.absent||0),0);
   const DL=DB.dl||{},wait=(DL.rc_wait||[]).reduce((t,x)=>t+(+x.n||0),0);
-  h+=`<div class="card dcard" style="margin:0 0 16px">${""}<h3 class="h">${LG("މުވައްޒަފުން – މިއަދު","Staff today")}</h3><div class="dtiles">
-     ${dTile(`${inn.length}<small>/${S.length}</small>`,LG("ހާޒިރު","Present"),"ok","staff:day")}${dTile(lt.length,LG("ލަސް","Late"),lt.length?"warn":"","staff:day")}${dTile(lvS.length,LG("ޗުއްޓީ","On leave"),"lv","staff:day")}${dTile(abs.length,LG("ނުވަދެ","Not in"),abs.length?"bad":"","staff:day")}</div>
-     ${lt.length?`<div class="dlist"><small>${LG("ލަސްވި","Late")}:</small> ${lt.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))} <i class="num">${tmMV(x.first_in)}</i></span>`).join("")}</div>`:""}
-     ${abs.length?`<div class="dlist bad"><small>${LG("އަދި ނުވަދެ","Not in yet")}:</small> ${abs.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}</span>`).join("")}</div>`:""}</div>`;
   h+=`<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ނިންމަންޖެހޭ ކަންތައް","Waiting for you")}</h3><div class="dtiles">
      ${dTile(SA.lpend||0,LG("ޗުއްޓީ","Leave requests"),SA.lpend?"warn":"","staff:leave")}${dTile(SA.pend||0,LG("މެނުއަލް ހާޒިރީ","Manual check-ins"),SA.pend?"warn":"","staff:req")}${dTile(wait,LG("ބަޔާން އަދާހަމަކުރަން","Comments to review"),wait?"warn":"","report")}</div>
      ${wait?`<div class="dlist"><small>${LG("ކްލާސްތައް","Classes")}:</small> ${(DL.rc_wait||[]).map(x=>{const c=(ME.all_classes||[]).find(y=>y.class_en===x.class_en)||{};return `<button type="button" class="dchip" data-sbcls="${esc(x.class_en)}">${esc(NM(c.class_dv,x.class_en))} <i class="num">${x.n}</i></button>`;}).join("")}</div>`:""}</div>
