@@ -51,12 +51,24 @@ function Get-BioToken($cfg) {
   }
   if ($candidates.Count -eq 0) { throw "ZKBio Time login failed. Check BIOTIME_USER and BIOTIME_PASSWORD in config.txt." }
   # Find the header format this ZKBio Time version accepts
+  $testPaths = @('/personnel/api/employees/?page_size=1', '/iclock/api/transactions/?page_size=1', '/iclock/api/terminals/?page_size=1')
   foreach ($a in $candidates) {
-    try {
-      $null = Invoke-RestMethod -Method Get -Uri ($cfg['BIOTIME_URL'] + '/personnel/api/employees/?page_size=1') -Headers @{ Authorization = $a } -TimeoutSec 30
-      Write-Host ('Login OK (' + $a.Split(' ')[0] + ')')
-      return $a
-    } catch {}
+    foreach ($tp in $testPaths) {
+      try {
+        $resp = Invoke-WebRequest -UseBasicParsing -Method Get -Uri ($cfg['BIOTIME_URL'] + $tp) -Headers @{ Authorization = $a } -MaximumRedirection 0 -TimeoutSec 30 -ErrorAction Stop
+        if ([int]$resp.StatusCode -eq 200) {
+          Write-Host ('Login OK (' + $a.Split(' ')[0] + ', ' + $tp.Split('?')[0] + ')')
+          return $a
+        }
+        Write-Host ('  try ' + $a.Split(' ')[0] + ' ' + $tp.Split('?')[0] + ' -> ' + $resp.StatusCode + ' ' + $resp.Headers['Location'])
+      } catch {
+        $code = ''; $loc = ''
+        if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode; $loc = $_.Exception.Response.Headers['Location'] }
+        $det = ''; if ($_.ErrorDetails -and $_.ErrorDetails.Message) { $det = $_.ErrorDetails.Message }
+        if ($det.Length -gt 160) { $det = $det.Substring(0, 160) }
+        Write-Host ('  try ' + $a.Split(' ')[0] + ' ' + $tp.Split('?')[0] + ' -> ' + $code + ' ' + $loc + ' ' + $det)
+      }
+    }
   }
   throw "Logged in to ZKBio Time, but it refused the API token. Make sure this ZKBio Time user is a superuser / has API permission."
 }
