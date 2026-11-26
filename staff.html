@@ -556,6 +556,7 @@ html[lang=dv] .stkh button .dv,html[lang=dv] .stkf button .dv{font-family:Waheed
 .psl{display:grid;grid-template-columns:1fr 1.3fr 80px;gap:8px;align-items:center;margin-bottom:6px}.psl .psn{grid-column:2;margin-top:-4px;color:#B45309;font-size:12px}.psh{font-size:12px;color:#6B7280}.psl input{padding:9px 10px;border:1px solid #D1D5DB;border-radius:9px;font:14px "Plus Jakarta Sans","Faruma",sans-serif;min-width:0}.pso{font-weight:600}
 @media(max-width:600px){.psl{grid-template-columns:1fr 70px}.psl .pso{grid-column:1/-1}.psl .psn{grid-column:1}}
 .otpw{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.otp{display:inline-flex;gap:4px;align-items:baseline;background:#EDE9FE;color:#5B21B6;border-radius:8px;padding:3px 9px;font-size:12.5px;white-space:nowrap}.otp small{font-size:11px;opacity:.85}html[lang=dv] .otp small{font-family:Waheed,Faruma,sans-serif}
+html[lang=dv] .wkt,html[lang=dv] .otx{font-family:Waheed,Faruma,sans-serif;font-weight:400;font-size:12.5px}.wkt .num,.otx .num{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;direction:ltr;unicode-bidi:isolate}
 </style>
 </head>
 <body>
@@ -1549,8 +1550,9 @@ const etLbl=t=>t==="contract"?LG("ކޮންޓްރެކްޓް","Contract"):t==="per
 function workMin(ts,sh){if(!ts||ts.length<2)return null;const mm=t=>hm2m(tmMV(t)),q=p4(ts,sh);
   if(q){if(!q.in||!q.out)return null;const w=mm(q.out)-mm(q.in)+(q.ot||0);return Number.isFinite(w)?Math.max(0,w):null;}
   const w=mm(ts[ts.length-1])-mm(ts[0]);return Number.isFinite(w)?Math.max(0,w):null;}
-function otTag(w,et,d){if(w==null)return "";const n=otNeed(et);if(d&&isSat(d)&&et==="contract")return `<span class="wkt">${LG("މަސައްކަތްކުރި","Worked")} <span class="num">${minTxt(w)}</span></span><span class="otx ok">${LG("ބަންދު ދުވަސް – ހުރިހާ ގަޑި އޯޓީ","Holiday – all hours OT")}</span>`;const h=`<span class="wkt">${LG("މަސައްކަތްކުރި","Worked")} <span class="num">${minTxt(w)}</span></span>`;
-  if(n==null)return h;return h+(w>=n?`<span class="otx ok">${LG("އޯޓީއަށް ޤާބިލު ✓","OT eligible ✓")}${w>n?` +<span class="num">${minTxt(w-n)}</span>`:""}</span>`:`<span class="otx no">${LG(`${n/60} ގަޑިއިރު ފުރިހަމަ ނުވޭ`,`Under ${n/60}h`)} (−<span class="num">${minTxt(n-w)}</span>)</span>`);}
+function otTag(w,et,d){if(w==null)return "";const n=otNeed(et),h=`<span class="wkt">${LG("މަސައްކަތްކުރި","Worked")} <span class="num">${hhmm(w)}</span></span>`;
+  if(d&&isSat(d)&&et==="contract")return h+`<span class="otx ok">${LG("ބަންދު ދުވަސް · އޯޓީއަށް","Holiday · OT")} <span class="num">${hhmm(w)}</span></span>`;
+  if(n==null)return h;return h+(w>=n?`<span class="otx ok">${LG("އޯޓީއަށް","OT")} <span class="num">${hhmm(w-n)}</span></span>`:`<span class="otx no">${LG(`${n/60} ގަޑިއިރު ފުރިހަމަ ނުވޭ`,`Under ${n/60}h`)} <span class="num">(−${hhmm(n-w)})</span></span>`);}
 const P4L=()=>[LG("ޗެކް އިން","Check In"),LG("ބްރޭކް އައުޓް","Break Out"),LG("ބްރޭކް އިން","Break In"),LG("ޗެކް އައުޓް","Check Out")];
 const longTag=q=>q&&q.long>0?`<span class="lt">${LG("ބްރޭކް ދިގުވި","Long break")} +${minTxt(q.long)}</span>`:"";
 function earlyBy(tout,n,sh){if(!tout||!sh||!(n>1))return 0;const d=hm2m(sh.end)-t2m(tout);return d>0?d:0;}
