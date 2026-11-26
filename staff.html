@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="dv" dir="rtl">
 <head>
+<script>try{if(localStorage.getItem("kc_staff_session")||/access_token=/.test(location.hash))document.documentElement.classList.add("boot")}catch(e){}</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex">
@@ -450,6 +451,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .lvsc{display:inline-block;background:#7E22CE;color:#fff;border-radius:4px;padding:0 5px;font:700 11px "Plus Jakarta Sans",sans-serif;letter-spacing:.3px;vertical-align:1px}.lvdoc{margin-top:6px}.lvdocf input{padding:8px;border:1px dashed #A78BFA;border-radius:8px;background:#FAF5FF}.lvdocf[hidden]{display:none!important}
 .lved{margin-top:4px}
 .wh{font-family:Waheed,Faruma,sans-serif;font-style:normal;font-weight:400}.hg .tot .ltc b,.hg .tot .lvc b{font-weight:700}.hg .tot i.wh{font-style:normal}
+html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::after{content:"";position:fixed;inset:0;margin:auto;width:44px;height:44px;border:4px solid #F3D5D9;border-top-color:#C8102E;border-radius:50%;animation:bspin .8s linear infinite;z-index:9999}@keyframes bspin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -502,8 +504,8 @@ $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{metho
 
 let TAB="mark",ME=null,ABS={},DATE=todayMV();
 async function start(){
-  try{ME=await rpc("staff_me");}catch(e){saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
-  document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();rcLoad();setTimeout(manPend,300);
+  try{ME=await rpc("staff_me");}catch(e){document.documentElement.classList.remove("boot");saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
+  document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
 function render(){render0();layout();}
@@ -1229,7 +1231,7 @@ document.addEventListener("change",async e=>{const t=e.target;
     catch(er){m.className="msg err";m.textContent=er.message;}t.value="";}
 });
 
-if(S)start();
+if(S)start();else document.documentElement.classList.remove("boot");
 </script>
 </body>
 </html>
