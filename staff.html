@@ -686,10 +686,23 @@ html[lang=dv] .mchip{font-family:Waheed,Faruma,sans-serif;font-weight:400}.mchip
 .mlt.brk i{background:#FCE7F3;color:#9D174D}.mlt.xot i{background:#FFE4E6;color:#E11D48}.mlt.out i{background:#FEE2E2;color:#991B1B}
 @media(max-width:420px){.macv{font-size:28px}.mac{padding:14px 12px 12px 16px}}
 .dgrid1{max-width:760px;margin:0 auto 16px}.myd{min-width:0;max-width:100%;overflow:hidden}.myd>*{min-width:0;max-width:100%}.mds{width:100%;min-width:0}.dash{min-width:0}.dash>*{min-width:0}
+.tme{display:none}
+@media (max-width:899px){
+ body.tab-home .top .brand{display:none!important}
+ body.tab-home .tme{display:flex!important;flex:1 1 0;min-width:0;align-items:center;gap:12px;height:60px;padding:0 4px}
+ .tav{width:54px;height:54px;border-radius:50%;flex:none;overflow:hidden;display:grid;place-items:center;background:linear-gradient(140deg,#E0304B,#A50E28);color:#fff;font:800 19px "Plus Jakarta Sans",sans-serif;box-shadow:0 6px 14px rgba(200,16,46,.25);border:2px solid #fff}
+ .tav img{width:100%;height:100%;object-fit:cover}
+ .tnm{min-width:0;display:flex;flex-direction:column}
+ .tnm b{color:#111827;font-size:19px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ html[lang=en] .tnm b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:17px}
+ .tnm small{color:#6B7280;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ html[lang=dv] .tnm small{font-family:"Faruma",sans-serif}
+ body.tab-home .side .me{display:none!important}
+}
 </style>
 </head>
 <body>
-<div class="top"><div class="topin"><button class="mburger" id="mBurger" type="button" aria-label="Menu"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="https://www.kondeyschool.edu.mv/staff.html"><img src="/logo-white.png" alt=""><span class="bt"><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ</span><span class="en">GA. Kondey, Maldives</span></small></span></a><div class="tact"><button class="tb lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span><span class="mlg"><span class="hl-a"><span class="dv">ދިވ</span><span class="en">EN</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v9a4 4 0 0 0 4 4h8M15 13l4 4-4 4"/></svg><span class="hl-b"><span class="dv">EN</span><span class="en">ދިވ</span></span></span></button><button class="tb" id="logout" type="button" hidden title="Sign out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="tbl"><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></span></button></div></div></div>
+<div class="top"><div class="topin"><button class="mburger" id="mBurger" type="button" aria-label="Menu"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="https://www.kondeyschool.edu.mv/staff.html"><img src="/logo-white.png" alt=""><span class="bt"><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ</span><span class="en">GA. Kondey, Maldives</span></small></span></a><div class="tme" id="tMe" hidden></div><div class="tact"><button class="tb lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span><span class="mlg"><span class="hl-a"><span class="dv">ދިވ</span><span class="en">EN</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v9a4 4 0 0 0 4 4h8M15 13l4 4-4 4"/></svg><span class="hl-b"><span class="dv">EN</span><span class="en">ދިވ</span></span></span></button><button class="tb" id="logout" type="button" hidden title="Sign out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="tbl"><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></span></button></div></div></div>
 <div class="wrap">
   <div id="loginView" class="card">
     <div class="lhead"><img src="/logo-white.png" alt=""><div><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span></small></div></div>
@@ -1101,7 +1114,10 @@ async function start(){
   document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
-function render(){render0();layout();}
+function render(){render0();layout();topMe();}
+function topMe(){const el=$("#tMe");if(!el)return;const on=document.body.classList.contains("in")&&TAB==="home"&&ME&&ME.staff;document.body.classList.toggle("tab-home",!!on);el.hidden=!on;if(!on)return;
+  const st=ME.staff,nm=NM(st.name_dv,st.name_en)||"",ini=(st.name_en||"?").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+  el.innerHTML=`<span class="tav">${st.photo?`<img src="${esc(st.photo)}" alt="">`:esc(ini)}</span><span class="tnm"><b class="h">${esc(nm)}</b><small>${esc(NM(st.title_dv,st.title_en)||"")}</small></span>`;}
 function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const s=document.createElement("div"),m=document.createElement("div");s.className="side";m.className="mainc";
   const T={bill:LG("ބިލު ރަޖިސްޓަރީ","Bill registry"),vendor:LG("ވެންޑަރުން","Vendors"),po:LG("ޕާޗޭސް އޯޑަރު","Purchase orders"),stock:LG("ސްޓޮކް","Stock"),aa:LG("ހާޒިރީ އެލަވަންސް","Attendance allowance"),ot:LG("އޯވަޓައިމް","Overtime"),attrep:LG("ހާޒިރީގެ ރިޕޯޓް","Attendance report"),home:LG("ޑޭޝްބޯޑް","Dashboard"),mark:LG("ހާޒިރީ ނެގުން","Mark attendance"),all:LG("ހާޒިރީ","Attendance"),report:LG("ރިޕޯޓް ކާޑު","Report cards"),registry:LG("މައިގަނޑު ރަޖިސްޓަރީ","Main Registry"),staff:LG("މުވައްޒަފުންގެ ހާޒިރީ","Staff attendance")}[TAB];
   const kids=[...v.children],me=kids.find(e=>e.matches(".me")),tabs=kids.find(e=>e.matches(".tabs")),dc=kids.find(e=>e.matches(".datec")),al=kids.find(e=>e.matches(".alert"));
