@@ -36,13 +36,29 @@ function Read-Config {
 
 function Get-BioToken($cfg) {
   $body = @{ username = $cfg['BIOTIME_USER']; password = $cfg['BIOTIME_PASSWORD'] } | ConvertTo-Json
-  try {
-    $r = Invoke-RestMethod -Method Post -Uri ($cfg['BIOTIME_URL'] + '/jwt-api-token-auth/') -ContentType 'application/json' -Body $body -TimeoutSec 30
-    if ($r.token) { return 'JWT ' + $r.token }
-  } catch {}
-  $r = Invoke-RestMethod -Method Post -Uri ($cfg['BIOTIME_URL'] + '/api-token-auth/') -ContentType 'application/json' -Body $body -TimeoutSec 30
-  if ($r.token) { return 'Token ' + $r.token }
-  throw "ZKBio Time login failed. Check BIOTIME_USER and BIOTIME_PASSWORD in config.txt."
+  $candidates = @()
+  foreach ($ep in '/jwt-api-token-auth/', '/api-token-auth/') {
+    try {
+      $r = Invoke-RestMethod -Method Post -Uri ($cfg['BIOTIME_URL'] + $ep) -ContentType 'application/json' -Body $body -TimeoutSec 30
+      $tok = $r.token
+      if (-not $tok -and $r.data) { $tok = $r.data.token }
+      if (-not $tok -and $r.access) { $tok = $r.access }
+      if ($tok) {
+        if ($ep -like '*jwt*') { $candidates += @('JWT ' + $tok, 'Bearer ' + $tok, 'Token ' + $tok) }
+        else { $candidates += @('Token ' + $tok, 'JWT ' + $tok, 'Bearer ' + $tok) }
+      }
+    } catch {}
+  }
+  if ($candidates.Count -eq 0) { throw "ZKBio Time login failed. Check BIOTIME_USER and BIOTIME_PASSWORD in config.txt." }
+  # Find the header format this ZKBio Time version accepts
+  foreach ($a in $candidates) {
+    try {
+      $null = Invoke-RestMethod -Method Get -Uri ($cfg['BIOTIME_URL'] + '/personnel/api/employees/?page_size=1') -Headers @{ Authorization = $a } -TimeoutSec 30
+      Write-Host ('Login OK (' + $a.Split(' ')[0] + ')')
+      return $a
+    } catch {}
+  }
+  throw "Logged in to ZKBio Time, but it refused the API token. Make sure this ZKBio Time user is a superuser / has API permission."
 }
 
 # Reads every page of a ZKBio Time list (handles both "data" and "results" styles)
