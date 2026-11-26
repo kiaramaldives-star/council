@@ -435,6 +435,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 .scg select{padding:4px 6px;border:1px solid #E5E7EB;border-radius:6px;font:12px "Plus Jakarta Sans",sans-serif;max-width:150px;background:#fff}.scg select.has{background:#ECFDF5;border-color:#A7F3D0}
 .tsel{display:inline-flex;align-items:center;gap:4px}.tsel select{padding:8px 6px;border:1px solid #D1D5DB;border-radius:10px;font:600 15px "Plus Jakarta Sans",sans-serif;background:#fff;min-width:62px}.tsel b{font-weight:700}
 .shadd{width:auto!important;margin-top:4px}.shf2{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}.shf2 label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;margin:0}.shf2 .full{grid-column:1/-1}.shf2 input{padding:10px 12px;border:1px solid #D1D5DB;border-radius:10px;font:15px "Plus Jakarta Sans","Faruma",sans-serif}.shf2 small{margin:0;line-height:1.7}
+.shbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.shbar>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.shbar b{font-size:17px;font-weight:400}html[lang=en] .shbar b{font-weight:700}.shbar .btn{width:auto}.shchips{display:flex;flex-wrap:wrap;gap:5px}.shchips .shtag{font-size:12px;padding:3px 8px}
 </style>
 </head>
 <body>
@@ -854,21 +855,24 @@ function lateBy(tin,sh){if(!tin||!sh)return null;const d=t2m(tin)-hm2m(sh.start)
 function earlyBy(tout,n,sh){if(!tout||!sh||!(n>1))return 0;const d=hm2m(sh.end)-t2m(tout);return d>0?d:0;}
 const minTxt=m=>m>=60?`${Math.floor(m/60)}${LANG==="en"?"h ":" ގަ. "}${m%60}${LANG==="en"?"m":" މި."}`:`${m} ${LANG==="en"?"min":"މިނެޓް"}`;
 const shTag=sh=>sh?`<span class="shtag num" dir="ltr">${esc(sh.start)}–${esc(sh.end)}</span>`:"";
+function shListModal(){const SH=(SA.sc&&SA.sc.shifts)||[];rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";
+  m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(640px,100%)"><div class="mdlh"><div><b class="h">${LG("ޝިފްޓްތައް","Shifts")}</b><small>${LG("ފެށޭ ގަޑި، ނިމޭ ގަޑި، އަދި ލަސްވުމަށް ހުއްދަ މިނެޓް","Start, end and minutes allowed late")}</small></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
+   <div class="mdlbd"><div class="shl">${SH.map(x=>`<div class="shi"><b>${esc(x.name)}</b><span class="num" dir="ltr">${x.start}–${x.end}</span><small>${LG("ހުއްދަ","Late after")} <span class="num">${x.grace}</span> ${LG("މިނެޓް","min")}</small><button class="btn sm ghost" data-shedit="${x.id}">${LG("ބަދަލު","Edit")}</button><button class="btn sm ghost backb" data-shdel="${x.id}">✕</button></div>`).join("")||`<div class="empty">${LG("އަދި ޝިފްޓެއް ނެތް","No shifts yet")}</div>`}</div></div>
+   <div class="mdlf"><button class="btn ghost" data-rcecancel>${LG("ނިންމާ","Close")}</button><button class="btn" data-shnew>+ ${LG("ޝިފްޓެއް އިތުރުކުރައްވާ","Add shift")}</button></div></div>`;
+  document.body.appendChild(m);document.body.classList.add("mdl-open");}
 function shModal(ed){ed=ed||{};rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";
   m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(520px,100%)"><div class="mdlh"><div><b class="h">${ed.id?LG("ޝިފްޓް ބަދަލުކުރުން","Edit shift"):LG("އާ ޝިފްޓެއް","New shift")}</b></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
    <div class="mdlbd"><div class="shf2"><label class="full"><span>${LG("ނަން","Name")}</span><input id="shN" dir="auto" value="${esc(ed.name||"")}" placeholder="${LANG==="en"?"e.g. Morning":"މިސާލު: ހެނދުނު"}"></label>
      <label><span>${LG("ފެށޭ","Start")}</span>${tSel("shS",ed.start||"07:00",5)}</label><label><span>${LG("ނިމޭ","End")}</span>${tSel("shE",ed.end||"13:30",5)}</label>
      <label class="full"><span>${LG("ލަސްވުމަށް ހުއްދަ މިނެޓް","Minutes allowed late")}</span><input type="number" id="shG" min="0" max="120" value="${esc(ed.grace??5)}"><small class="pct">${LG("މިސާލު: 07:00 ގައި ފެށޭ ޝިފްޓަކަށް 5 މިނެޓް ދީފިނަމަ 07:05 ގެ ފަހުން އަންނަ މީހުން ލަސްވީ ކަމަށް ބަލާނެ.","Example: with a 07:00 start and 5 minutes, arriving after 07:05 counts as late.")}</small></label></div>
    <div class="msg" id="shMsg"></div></div>
-   <div class="mdlf"><button class="btn ghost" data-rcecancel>${LG("ކެންސަލް","Cancel")}</button><button class="btn" data-shsave="${ed.id||""}">${LG("ރައްކާކުރައްވާ","Save")}</button></div></div>`;
+   <div class="mdlf"><button class="btn ghost" data-shlist>${LG("ފަހަތަށް","Back")}</button><button class="btn" data-shsave="${ed.id||""}">${LG("ރައްކާކުރައްވާ","Save")}</button></div></div>`;
   document.body.appendChild(m);document.body.classList.add("mdl-open");setTimeout(()=>{const n=$("#shN");if(n)n.focus();},50);}
 async function scLoad(){SA.scl=true;render();try{SA.sc=await rpc("sched_get");}catch(e){SA.sc={err:e.message};}SA.scl=false;render();}
 function scView(){if(!SA.sc&&!SA.scl)scLoad();const C=SA.sc;if(!C||SA.scl)return stSeg()+`<div class="card empty">…</div>`;if(C.err)return stSeg()+`<div class="card"><div class="msg err">${esc(C.err)}</div></div>`;
   const SH=C.shifts||[],opt=v=>`<option value="">—</option>${SH.map(x=>`<option value="${x.id}"${String(v)===String(x.id)?" selected":""}>${esc(x.name)} (${x.start}–${x.end})</option>`).join("")}`;
   
-  return stSeg()+`<div class="card"><h3 class="h" style="margin:0 0 6px">${LG("ޝިފްޓްތައް","Shifts")}</h3><p class="pct" style="margin:0 0 10px">${LG("ވަގުތަށް އަންނަންޖެހޭ ގަޑި، ދާންވީ ގަޑި، އަދި ލަސްވުމަށް ހުއްދަ މިނެޓް.","Start time, end time, and the minutes allowed before someone counts as late.")}</p>
-    <div class="shl">${SH.map(x=>`<div class="shi"><b>${esc(x.name)}</b><span class="num" dir="ltr">${x.start}–${x.end}</span><small>${LG("ހުއްދަ","Grace")} <span class="num">${x.grace}</span> ${LG("މިނެޓް","min")}</small><button class="btn sm ghost" data-shedit="${x.id}">${LG("ބަދަލު","Edit")}</button><button class="btn sm ghost backb" data-shdel="${x.id}">✕</button></div>`).join("")||`<div class="empty">${LG("އަދި ޝިފްޓެއް ނެތް","No shifts yet")}</div>`}</div>
-    <button class="btn shadd" data-shnew>+ ${LG("ޝިފްޓެއް އިތުރުކުރައްވާ","Add shift")}</button></div>
+  return stSeg()+`<div class="card shbar"><div><b class="h">${LG("ޝިފްޓްތައް","Shifts")}</b><span class="shchips">${SH.map(x=>`<span class="shtag">${esc(x.name)} <span class="num" dir="ltr">${x.start}–${x.end}</span></span>`).join("")||`<span class="pct">${LG("އަދި ޝިފްޓެއް ނެތް","No shifts yet")}</span>`}</span></div><button class="btn" data-shlist>${LG("ޝިފްޓްތައް ބެލުން","Manage shifts")}</button></div>
    ${SH.length?`<div class="card"><h3 class="h" style="margin:0 0 6px">${LG("މުވައްޒަފުންގެ ޝެޑިއުލް","Staff schedules")}</h3>
     <div class="shb"><span>${LG("ހުރިހާ މުވައްޒަފުންނަށް (އާދިއްތަ–ބުރާސްފަތި)","Set for everyone (Sun–Thu)")}:</span><select id="scAll">${opt("")}</select><button class="btn sm" data-scall>${LG("ހުރިހާ މީހުންނަށް ލާ","Apply to all")}</button></div>
     <p class="pct" style="margin:6px 0 10px">${LG("ބަދަލުކުރުމުން އަމިއްލައަށް ރައްކާވާނެ. '—' = ބަންދު ދުވަސް.","Changes save automatically. '—' means a day off.")}</p>
@@ -1032,11 +1036,12 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.view="class";RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
-  if(b=t.closest("[data-shsave]")){const m=$("#shMsg");try{await rpc("sched_shift_save",{p:{id:b.dataset.shsave||null,name:$("#shN").value,start:tGet("shS"),end:tGet("shE"),grace:+$("#shG").value}});rgClose();SA.sc=null;SA.data=null;SA.hdata=null;render();}catch(er){m.className="msg err";m.textContent=er.message;}return;}
+  if(b=t.closest("[data-shsave]")){const m=$("#shMsg");try{await rpc("sched_shift_save",{p:{id:b.dataset.shsave||null,name:$("#shN").value,start:tGet("shS"),end:tGet("shE"),grace:+$("#shG").value}});SA.data=null;SA.hdata=null;SA.sc=await rpc("sched_get");render();shListModal();}catch(er){m.className="msg err";m.textContent=er.message;}return;}
   if(b=t.closest("[data-shedit]")){shModal((SA.sc.shifts||[]).find(x=>String(x.id)===b.dataset.shedit));return;}
   if(t.closest("[data-shnew]")){shModal({});return;}
+  if(t.closest("[data-shlist]")){shListModal();return;}
   if(t.closest("[data-shcancel]")){SA.scEdit=null;render();return;}
-  if(b=t.closest("[data-shdel]")){if(!confirm(LANG==="en"?"Delete this shift? Staff on it will have no schedule on those days.":"މި ޝިފްޓް ފޮހެލަންތޯ؟"))return;try{await rpc("sched_shift_delete",{p_id:+b.dataset.shdel});SA.sc=null;SA.data=null;SA.hdata=null;render();}catch(er){alert(er.message);}return;}
+  if(b=t.closest("[data-shdel]")){if(!confirm(LANG==="en"?"Delete this shift? Staff on it will have no schedule on those days.":"މި ޝިފްޓް ފޮހެލަންތޯ؟"))return;try{await rpc("sched_shift_delete",{p_id:+b.dataset.shdel});SA.data=null;SA.hdata=null;SA.sc=await rpc("sched_get");render();shListModal();}catch(er){alert(er.message);}return;}
   if(t.closest("[data-scall]")){const v=$("#scAll").value;if(!v)return;if(!confirm(LANG==="en"?"Set this shift Sunday–Thursday for every staff member?":"ހުރިހާ މުވައްޒަފުންނަށް އާދިއްތަ–ބުރާސްފަތި މި ޝިފްޓް ލާންތޯ؟"))return;for(const p of (SA.sc.staff||[])){await rpc("sched_set",{p_emp:p.emp_code,p_days:{0:v,1:v,2:v,3:v,4:v}});}SA.sc=null;SA.data=null;SA.hdata=null;render();return;}
   if(t.closest("[data-myman]")){manModal();return;}
   if(b=t.closest("[data-mrr]")){const r=$("#mrR");if(r){r.value=b.dataset.mrr;}return;}
