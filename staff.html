@@ -433,6 +433,7 @@ a.btn{text-decoration:none;display:inline-flex;align-items:center;justify-conten
 @media (max-width:700px){.shf{grid-template-columns:1fr 1fr}}
 .shb{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.shb select{padding:7px 10px;border-radius:8px}.shb .btn{width:auto}
 .scg select{padding:4px 6px;border:1px solid #E5E7EB;border-radius:6px;font:12px "Plus Jakarta Sans",sans-serif;max-width:150px;background:#fff}.scg select.has{background:#ECFDF5;border-color:#A7F3D0}
+.tsel{display:inline-flex;align-items:center;gap:4px}.tsel select{padding:8px 6px;border:1px solid #D1D5DB;border-radius:10px;font:600 15px "Plus Jakarta Sans",sans-serif;background:#fff;min-width:62px}.tsel b{font-weight:700}
 </style>
 </head>
 <body>
@@ -822,7 +823,7 @@ const dtMV=t=>{if(!t)return "";const d=new Date(new Date(t).getTime()+(5*60+new 
 async function manModal(){rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";const t=todayMV();
   m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(600px,100%)"><div class="mdlh"><div><b class="h">${LG("މެނުއަލް ހާޒިރީ ރިކުއެސްޓް","Manual check-in request")}</b><small>${LG("ސުޕަވައިޒަރ އެޕްރޫވްކުރުމުން ހާޒިރީއަށް ވަދެވޭނެ","It counts once a supervisor approves it")}</small></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
    <div class="mdlbd"><div class="rgg mrf"><label><span>${LG("ބާވަތް","Type")}</span><select id="mrK"><option value="in">${LANG==="en"?"Check-in":"ވަދެވުނު"}</option><option value="out">${LANG==="en"?"Check-out":"ނުކުމެވުނު"}</option></select></label>
-     <label><span>${LG("ތާރީޚު","Date")}</span><input type="date" id="mrD" value="${t}" max="${t}" min="${addDays(t,-30)}"></label><label><span>${LG("ގަޑި","Time")}</span><input type="time" id="mrT" value="07:00"></label></div>
+     <label><span>${LG("ތާރީޚު","Date")}</span><input type="date" id="mrD" value="${t}" max="${t}" min="${addDays(t,-30)}"></label><label><span>${LG("ގަޑި","Time")}</span>${tSel("mrT","07:00",1)}</label></div>
     <label class="mrl"><span>${LG("ސަބަބު","Reason")}</span></label><div class="mrc">${MREASONS.map(([d,e])=>`<button type="button" class="chp" data-mrr="${esc(LANG==="en"?e:d)}">${LANG==="en"?e:d}</button>`).join("")}</div>
     <textarea id="mrR" dir="auto" rows="2" placeholder="${LANG==="en"?"Reason":"ސަބަބު ލިޔުއްވާ"}"></textarea>
     <div class="msg" id="mrMsg"></div><button class="btn" data-mrsend style="margin-top:6px">${LG("ރިކުއެސްޓް ފޮނުއްވާ","Send request")}</button>
@@ -841,6 +842,9 @@ function mlView(){if(!SA.ml&&!SA.mll)mlLoad();const L=SA.ml,f=SA.mlf||"pending";
       :`<div class="rvbtns"><button class="btn sm okb" data-mlok="${r.id}">✓ ${LG("އެޕްރޫވް","Approve")}</button><button class="btn sm ghost backb" data-mlrej="${r.id}">${LG("ރިޖެކްޓް","Reject")}</button></div>`}
      <div class="msg" id="mlm-${r.id}"></div></div>`).join("")}</div>`:`<div class="empty">${LG("ބާކީ ރިކުއެސްޓެއް ނެތް ✓","No requests ✓")}</div>`}</div>`;}
 async function mlDecide(id,ok,note){try{await rpc("manual_review",{p_id:id,p_approve:ok,p_note:note||null});SA.mlNote=null;SA.ml=null;SA.data=null;SA.hdata=null;manPend();render();}catch(e){const m=document.getElementById("mlm-"+id);if(m){m.className="msg err";m.textContent=e.message;}}}
+function tSel(id,val,step){const [h,m]=String(val||"07:00").split(":");const st=step||5;let mo=[];for(let i=0;i<60;i+=st)mo.push(i);if(!mo.includes(+m))mo.push(+m);mo.sort((a,b)=>a-b);
+  return `<span class="tsel" dir="ltr"><select id="${id}H">${Array.from({length:24},(_,i)=>i).map(i=>`<option${i===+h?" selected":""}>${String(i).padStart(2,"0")}</option>`).join("")}</select><b>:</b><select id="${id}M">${mo.map(i=>`<option${i===+m?" selected":""}>${String(i).padStart(2,"0")}</option>`).join("")}</select></span>`;}
+const tGet=id=>$("#"+id+"H").value+":"+$("#"+id+"M").value;
 /* ===== Staff schedules ===== */
 const WD=[["އާދިއްތަ","Sun"],["ހޯމަ","Mon"],["އަންގާރަ","Tue"],["ބުދަ","Wed"],["ބުރާސްފަތި","Thu"],["ހުކުރު","Fri"],["ހޮނިހިރު","Sat"]];
 const hm2m=s=>{const [h,m]=String(s||"0:0").split(":").map(Number);return h*60+(m||0);};
@@ -855,7 +859,7 @@ function scView(){if(!SA.sc&&!SA.scl)scLoad();const C=SA.sc;if(!C||SA.scl)return
   const ed=SA.scEdit||{};
   return stSeg()+`<div class="card"><h3 class="h" style="margin:0 0 6px">${LG("ޝިފްޓްތައް","Shifts")}</h3><p class="pct" style="margin:0 0 10px">${LG("ވަގުތަށް އަންނަންޖެހޭ ގަޑި، ދާންވީ ގަޑި، އަދި ލަސްވުމަށް ހުއްދަ މިނެޓް.","Start time, end time, and the minutes allowed before someone counts as late.")}</p>
     <div class="shl">${SH.map(x=>`<div class="shi"><b>${esc(x.name)}</b><span class="num" dir="ltr">${x.start}–${x.end}</span><small>${LG("ހުއްދަ","Grace")} <span class="num">${x.grace}</span> ${LG("މިނެޓް","min")}</small><button class="btn sm ghost" data-shedit="${x.id}">${LG("ބަދަލު","Edit")}</button><button class="btn sm ghost backb" data-shdel="${x.id}">✕</button></div>`).join("")||`<div class="empty">${LG("އަދި ޝިފްޓެއް ނެތް","No shifts yet")}</div>`}</div>
-    <div class="shf"><label><span>${LG("ނަން","Name")}</span><input id="shN" dir="auto" value="${esc(ed.name||"")}" placeholder="${LANG==="en"?"e.g. Morning":"މިސާލު: ހެނދުނު"}"></label><label><span>${LG("ފެށޭ","Start")}</span><input type="time" id="shS" value="${esc(ed.start||"07:00")}"></label><label><span>${LG("ނިމޭ","End")}</span><input type="time" id="shE" value="${esc(ed.end||"13:30")}"></label><label><span>${LG("ހުއްދަ މިނެޓް","Grace (min)")}</span><input type="number" id="shG" min="0" max="120" value="${esc(ed.grace??5)}"></label>
+    <div class="shf"><label><span>${LG("ނަން","Name")}</span><input id="shN" dir="auto" value="${esc(ed.name||"")}" placeholder="${LANG==="en"?"e.g. Morning":"މިސާލު: ހެނދުނު"}"></label><label><span>${LG("ފެށޭ","Start")}</span>${tSel("shS",ed.start||"07:00",5)}</label><label><span>${LG("ނިމޭ","End")}</span>${tSel("shE",ed.end||"13:30",5)}</label><label><span>${LG("ލަސްވުމަށް ހުއްދަ މިނެޓް","Minutes allowed late")}</span><input type="number" id="shG" min="0" max="120" value="${esc(ed.grace??5)}"></label>
       <button class="btn" data-shsave="${ed.id||""}">${ed.id?LG("ރައްކާ","Save"):LG("+ ޝިފްޓް","+ Add shift")}</button>${ed.id?`<button class="btn ghost" data-shcancel>${LG("ކެންސަލް","Cancel")}</button>`:""}</div><div class="msg" id="shMsg"></div></div>
    ${SH.length?`<div class="card"><h3 class="h" style="margin:0 0 6px">${LG("މުވައްޒަފުންގެ ޝެޑިއުލް","Staff schedules")}</h3>
     <div class="shb"><span>${LG("ހުރިހާ މުވައްޒަފުންނަށް (އާދިއްތަ–ބުރާސްފަތި)","Set for everyone (Sun–Thu)")}:</span><select id="scAll">${opt("")}</select><button class="btn sm" data-scall>${LG("ހުރިހާ މީހުންނަށް ލާ","Apply to all")}</button></div>
@@ -1020,14 +1024,14 @@ document.addEventListener("click",async e=>{const t=e.target;let b;
   if(b=t.closest("[data-ct]")){RC.ct=b.dataset.ct;RC.view="class";RC.msg="";render();return;}
   if(b=t.closest("[data-chip]")){const w=b.parentNode,h=w.querySelector("input"),on=b.classList.contains("on");w.querySelectorAll(".chp").forEach(x=>x.classList.remove("on"));if(!on)b.classList.add("on");h.value=on?"":b.dataset.chip;return;}
   if(b=t.closest("[data-rcprint]")){rcPrint(b.dataset.rcprint);return;}
-  if(b=t.closest("[data-shsave]")){const m=$("#shMsg");try{await rpc("sched_shift_save",{p:{id:b.dataset.shsave||null,name:$("#shN").value,start:$("#shS").value,end:$("#shE").value,grace:+$("#shG").value}});SA.scEdit=null;SA.sc=null;SA.data=null;SA.hdata=null;render();}catch(er){m.className="msg err";m.textContent=er.message;}return;}
+  if(b=t.closest("[data-shsave]")){const m=$("#shMsg");try{await rpc("sched_shift_save",{p:{id:b.dataset.shsave||null,name:$("#shN").value,start:tGet("shS"),end:tGet("shE"),grace:+$("#shG").value}});SA.scEdit=null;SA.sc=null;SA.data=null;SA.hdata=null;render();}catch(er){m.className="msg err";m.textContent=er.message;}return;}
   if(b=t.closest("[data-shedit]")){SA.scEdit=(SA.sc.shifts||[]).find(x=>String(x.id)===b.dataset.shedit);render();return;}
   if(t.closest("[data-shcancel]")){SA.scEdit=null;render();return;}
   if(b=t.closest("[data-shdel]")){if(!confirm(LANG==="en"?"Delete this shift? Staff on it will have no schedule on those days.":"މި ޝިފްޓް ފޮހެލަންތޯ؟"))return;try{await rpc("sched_shift_delete",{p_id:+b.dataset.shdel});SA.sc=null;SA.data=null;SA.hdata=null;render();}catch(er){alert(er.message);}return;}
   if(t.closest("[data-scall]")){const v=$("#scAll").value;if(!v)return;if(!confirm(LANG==="en"?"Set this shift Sunday–Thursday for every staff member?":"ހުރިހާ މުވައްޒަފުންނަށް އާދިއްތަ–ބުރާސްފަތި މި ޝިފްޓް ލާންތޯ؟"))return;for(const p of (SA.sc.staff||[])){await rpc("sched_set",{p_emp:p.emp_code,p_days:{0:v,1:v,2:v,3:v,4:v}});}SA.sc=null;SA.data=null;SA.hdata=null;render();return;}
   if(t.closest("[data-myman]")){manModal();return;}
   if(b=t.closest("[data-mrr]")){const r=$("#mrR");if(r){r.value=b.dataset.mrr;}return;}
-  if(t.closest("[data-mrsend]")){const msg=$("#mrMsg"),d=$("#mrD").value,tm=$("#mrT").value,rs=$("#mrR").value.trim();if(!d||!tm||!rs){msg.className="msg err";msg.textContent=LANG==="en"?"Fill in the date, time and reason.":"ތާރީޚު، ގަޑި އަދި ސަބަބު ލިޔުއްވާ.";return;}
+  if(t.closest("[data-mrsend]")){const msg=$("#mrMsg"),d=$("#mrD").value,tm=tGet("mrT"),rs=$("#mrR").value.trim();if(!d||!tm||!rs){msg.className="msg err";msg.textContent=LANG==="en"?"Fill in the date, time and reason.":"ތާރީޚު، ގަޑި އަދި ސަބަބު ލިޔުއްވާ.";return;}
     try{await rpc("manual_request",{p_kind:$("#mrK").value,p_time:d+"T"+tm+":00",p_reason:rs});msg.className="msg ok";msg.textContent=LANG==="en"?"Request sent. A supervisor will review it.":"ރިކުއެސްޓް ފޮނުވިއްޖެ. ސުޕަވައިޒަރަކު ބައްލަވާނެ.";$("#mrR").value="";manMine();}catch(er){msg.className="msg err";msg.textContent=er.message;}return;}
   if(b=t.closest("[data-mrcancel]")){try{await rpc("manual_cancel",{p_id:+b.dataset.mrcancel});manMine();}catch(er){alert(er.message);}return;}
   if(b=t.closest("[data-mlf]")){SA.mlf=b.dataset.mlf;SA.ml=null;render();return;}
