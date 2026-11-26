@@ -728,6 +728,11 @@ html[lang=dv] .mas span{font-family:Waheed,Faruma,sans-serif}
 .mdp b{font-size:22px!important}.mdp small{font-size:10px!important;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 html[lang=dv] .mdp small{font-size:10.5px!important}
 @media(min-width:600px){.mdp b{font-size:26px!important}.mdp small{font-size:11.5px!important}}
+html[lang=en] .myd,html[lang=en] .masum,html[lang=en] .marecs,html[lang=en] .mah,html[lang=en] .tnm b,html[lang=en] .tnm small{font-family:"Exo 2","Plus Jakarta Sans",sans-serif}
+.myd .num,.masum .num,.marecs .num,.mdp b,.macv,.mlog b,.mab b,.mard b,.mas b{font-family:"Exo 2","Plus Jakarta Sans",sans-serif!important;font-weight:700}
+.macv{letter-spacing:-.01em}.mdp b{font-weight:600!important}
+html[lang=en] .myd h3,html[lang=en] .mah h3{font-family:"Exo 2",sans-serif!important;font-weight:600}
+.marec.noout .mard{background:#7F1D1D;color:#fff}
 </style>
 </head>
 <body>
@@ -1289,11 +1294,11 @@ function maView(){const td=todayMV();if(!MA.m)MA.m=td.slice(0,7);const [f,t]=maR
   const L=(DB.lv&&DB.lv.requests)||[],lvOn=d=>L.find(r=>r.status==="approved"&&r.from<=d&&r.to>=d),end=t<td?t:td,days=[];
   for(let d=end;d>=f;d=addDays(d,-1))days.push(d);
   const R=days.map(d=>{const x=MA.data.find(y=>y.day===d),w=new Date(d+"T00:00:00").getDay(),lv=lvOn(d);let st;
-    if(x){const q=p4(x.ts,x.shift)||{in:x.in,out:x.n>1?x.out:null,ot:0},lt=lateBy(x.in,x.shift),ea=q.out&&x.shift?earlyBy(q.out,2,x.shift):0;st=lt>0?"late":ea>0?"early":"ok";return {d,w,x,q,lt,ea,st,lv};}
+    if(x){const q=p4(x.ts,x.shift)||{in:x.in,out:x.n>1?x.out:null,ot:0},lt=lateBy(x.in,x.shift),ea=q.out&&x.shift?earlyBy(q.out,2,x.shift):0;st=!q.out&&d<td?"noout":lt>0?"late":ea>0?"early":"ok";return {d,w,x,q,lt,ea,st,lv};}
     if(lv)return {d,w,st:"lv",lv};if(w===5||w===6)return {d,w,st:"off"};if(d===td)return {d,w,st:"wait"};return {d,w,st:"abs"};});
-  const n=k=>R.filter(r=>k.includes(r.st)).length,P=n(["ok","late","early"]),O=n(["off"]),LV=n(["lv"]),A=n(["abs"]),TT=Math.max(1,P+O+LV+A),pc=v=>Math.round(v/TT*100);
+  const n=k=>R.filter(r=>k.includes(r.st)).length,P=n(["ok","late","early"]),O=n(["off"]),LV=n(["lv"]),A=n(["abs","noout"]),TT=Math.max(1,P+O+LV+A),pc=v=>Math.round(v/TT*100);
   const stat=(v,l,c)=>`<div class="mas"><div><b class="num">${v}</b><small class="num">${pc(v)}%</small></div><span><i style="background:${c}"></i>${l}</span></div>`;
-  const chip={ok:["ވަގުތުގައި","Attended – normal","n"],late:["ލަސްވި","Late","w"],early:["ކުރިން ދިޔަ","Left early","w"],lv:["ޗުއްޓީ","Leave","l"],off:["ބަންދު","Off / holiday","o"],abs:["ނުވަދެ","Absent","a"],wait:["އަދި ނުވަދެ","Not in yet","o"]};
+  const chip={ok:["ވަގުތުގައި","Attended – normal","n"],late:["ލަސްވި","Late","w"],early:["ކުރިން ދިޔަ","Left early","w"],lv:["ޗުއްޓީ","Leave","l"],off:["ބަންދު","Off / holiday","o"],abs:["ނުވަދެ","Absent","a"],noout:["ނުވަދެ – ޗެކް އައުޓް ނެތް","Absent – no check-out","a"],wait:["އަދި ނުވަދެ","Not in yet","o"]};
   const DW=["SUN","MON","TUE","WED","THU","FRI","SAT"],longD=d=>LANG==="en"?new Date(d+"T00:00:00").toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}):dvDate(d);
   const box=(v,l,c)=>`<div class="mab"><b class="num">${v}</b><span><i class="${c}"></i>${l}</span></div>`;
   return `<div class="masum"><div class="masumh"><span class="masi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg></span><div><b class="h">${LG("ހާޒިރީގެ ޚުލާޞާ","Attendance summary")}</b><small>${dvDate(f)} – ${dvDate(t)}</small></div>
@@ -1348,7 +1353,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   const sel=DB.sel&&DB.sel>=addDays(td,-13)?DB.sel:td,PD=(DB.pun||[]).find(x=>x.day===sel),dsh=PD&&PD.shift,dLv=d=>(L.requests||[]).find(r=>r.status==="approved"&&r.from<=d&&r.to>=d);
   const MO=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],DW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
   const strip=Array.from({length:14},(_,i)=>{const d=addDays(td,-i),dt=new Date(d+"T00:00:00"),x=(DB.pun||[]).find(y=>y.day===d),w=dt.getDay(),lt=x?lateBy(x.in,x.shift):0;
-    const dot=dLv(d)?"lv":x?(lt>0?"late":"ok"):(w===5||w===6?"off":"no");
+    const hasOut=x&&(x.n>1),dot=dLv(d)?"lv":x&&(hasOut||d===td)?(lt>0?"late":"ok"):(w===5||w===6)&&!x?"off":"no";
     return `<button type="button" class="mdp ${d===sel?"on":""}" data-mydate="${d}"><small>${LG(dvMonthShort(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small><i class="mdot ${dot}"></i></button>`;}).join("");
   const sLv=dLv(sel),q=PD?(p4(PD.ts,dsh)||{in:PD.in,bi:null,bo:null,out:PD.n>1?PD.out:null,long:0,ot:0,otp:[]}):null,lat=PD?lateBy(PD.in,dsh):0,early=q&&q.out&&dsh?earlyBy(q.out,2,dsh):0;
   const brk=q&&q.bi&&q.bo?Math.max(0,hm2m(tmMV(q.bo))-hm2m(tmMV(q.bi))):null,wk=PD?workMin(PD.ts||[PD.in,PD.out],dsh):null,otm=q?(q.ot||0):0;
@@ -1360,7 +1365,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   if(sLv)my+=`<div class="dbig lvq">${lvName(sLv)}<small>${lvRange(sLv.from,sLv.to,sLv.half)}</small></div>`;
   else if(!PD)my+=`<div class="dbig muted">${(SD.getDay()===5||SD.getDay()===6)?LG("ބަންދު ދުވަސް","Day off"):sel===td?LG("މިއަދު އަދި ފިންގަރ ނުޖަހާ","No check-in yet today"):LG("ފިންގަރ ނުޖަހާ","No check-in")}</div>`;
   else{my+=`<div class="macs">${card("ci",IC.in,LG("ޗެކް އިން","Check In"),tmMV(q.in),lat>0?`${LG("ލަސް","Late")} ${hhmm(lat)}`:LG("ވަގުތުގައި","On time"),lat>0?"bad":"")}
-     ${card("co",IC.out,LG("ޗެކް އައުޓް","Check Out"),q.out?tmMV(q.out):"—",q.out?(early>0?`${LG("ކުރިން ދިޔަ","Left early")} ${hhmm(early)}`:LG("ފުރިހަމަ","Completed")):LG("ކުރިއަށް ދަނީ","In progress"),q.out?(early>0?"bad":""):"wait")}
+     ${card("co",IC.out,LG("ޗެކް އައުޓް","Check Out"),q.out?tmMV(q.out):"—",q.out?(early>0?`${LG("ކުރިން ދިޔަ","Left early")} ${hhmm(early)}`:LG("ފުރިހަމަ","Completed")):sel<td?LG("ނުވަދެ – ޗެކް އައުޓް ނެތް","Absent – no check-out"):LG("ކުރިއަށް ދަނީ","In progress"),q.out?(early>0?"bad":""):sel<td?"bad":"wait")}
      ${card("br",IC.brk,LG("ބްރޭކް","Break time"),brk!=null?`${brk}<small> ${LG("މިނެޓް","mins")}</small>`:"—",brk==null?LG("ބްރޭކް ނުނަގާ","No break"):q.long>0?`${LG("ދިގުވި","Over by")} ${q.long} ${LG("މިނެޓް","min")}`:hasBrk(dsh)?`${LG("ހުއްދަ","Allowed")} ${dsh.brk} ${LG("މިނެޓް","min")}`:LG("ރަނގަޅު","OK"),q.long>0?"bad":"")}
      ${card("ov",IC.ot,LG("އޯވަޓައިމް","Overtime"),hhmm(otm),wk!=null?`${LG("މަސައްކަތްކުރި","Worked")} ${hhmm(wk)}`:"—","")}</div>`;
    const lab={};if(q.in)lab[q.in]=["in",LG("ޗެކް އިން","Check In")];if(q.bi)lab[q.bi]=["brk",LG("ބްރޭކް އައުޓް","Break Out")];if(q.bo)lab[q.bo]=["brk",LG("ބްރޭކް އިން","Break In")];if(q.out)lab[q.out]=["out",LG("ޗެކް އައުޓް","Check Out")];(q.otp||[]).forEach(o=>{lab[o.i]=["xot",LG("އޯޓީ ފެށުން","OT Start")];if(o.o)lab[o.o]=["xot",LG("އޯޓީ ނިމުން","OT End")];});
@@ -2039,7 +2044,7 @@ function rcHTML(R){const T=R.term||{},C=R.class||{},O=location.origin,rd=enDate(
     const pages=[page1,...subPages,page4,page5].filter(Boolean),n=pages.length;
     return pages.map((p,i)=>`<section class="pg">${i===0?head(s):`<div class="mini"><img src="${O}/logo.png" alt=""><span>KONDEY SCHOOL · Student Progress Report · ${esc(T.name_en||"")}</span></div>`}${strip(s,cls)}<div class="body">${p}</div>${foot(i+1,n)}</section>`).join("");}).join("");
   return `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Report cards · ${esc(C.class_en||"")} · ${esc(T.name_en||"")}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Exo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
   @font-face{font-family:Faruma;src:url("${O}/Faruma%20V2.0%20(official%20release).ttf")}@font-face{font-family:Waheed;src:url(${O}/MV_A_Waheed_Bold.ttf) format("truetype")}
   @page{size:A4;margin:0}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   :root{--r:#C8102E;--rd:#8E0B22;--ink:#111827;--mu:#6B7280;--ln:#E5E7EB;--bg:#F9FAFB}
