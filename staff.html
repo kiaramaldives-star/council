@@ -658,6 +658,34 @@ html[lang=dv] .vdtb th,html[lang=dv] .vdt span,html[lang=dv] .vdl{font-family:Wa
  .mdr-n .bdg{position:static!important;margin:0!important}
  html[lang=dv] .mdr-n .mrow{font-family:Waheed,Faruma,sans-serif}
 }
+.myd{gap:14px!important}
+.mds{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none}.mds::-webkit-scrollbar{display:none}
+.mdp{flex:none;width:72px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 4px 10px;border-radius:40px;border:2px solid #F1F2F4;background:#F7F7F9;color:#1F2937;cursor:pointer}
+.mdp small{font-size:11.5px;color:#6B7280;letter-spacing:.03em}.mdp b{font-size:26px;line-height:1.15}
+html[lang=dv] .mdp small{font-family:Waheed,Faruma,sans-serif;letter-spacing:0;font-size:12px}
+.mdp.on{background:linear-gradient(170deg,#E0304B,#A50E28);border-color:#FECDD3;color:#fff;box-shadow:0 8px 18px rgba(200,16,46,.3)}.mdp.on small{color:rgba(255,255,255,.85)}
+.mdot{width:8px;height:8px;border-radius:50%;margin-top:4px;background:#D1D5DB}.mdot.ok{background:#F87171}.mdot.late{background:#F59E0B}.mdot.no{background:#991B1B}.mdot.lv{background:#A855F7}.mdot.off{background:#E5E7EB}.mdp.on .mdot{background:#fff}
+.mdh{display:flex;align-items:center;justify-content:space-between;gap:10px;border-inline-start:4px solid #C8102E;padding-inline-start:12px}
+.mdh h3{margin:0!important}.mdh small{color:#6B7280;font-size:13.5px}
+.mlogb{display:inline-flex;align-items:center;gap:6px;border:0;background:none;color:#C8102E;font:600 15px "Plus Jakarta Sans","Faruma",sans-serif;cursor:pointer;flex:none}.mlogb svg{width:20px;height:20px}html[lang=dv] .mlogb{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+.macs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mac{position:relative;background:#fff;border:1px solid #F1F2F4;border-radius:22px;padding:16px 14px 14px 20px;box-shadow:0 6px 16px rgba(15,23,42,.05);display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.mac::before{content:"";position:absolute;top:16px;bottom:16px;inset-inline-start:0;width:4px;border-radius:4px;background:#C8102E}
+html[lang=dv] .mac{padding:16px 20px 14px 14px}
+.mach{display:flex;justify-content:space-between;align-items:center;font-size:15px;color:#1F2937;font-weight:600}html[lang=dv] .mach{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+.maci{width:40px;height:40px;border-radius:50%;background:#FFF1F2;color:#C8102E;display:grid;place-items:center;font-style:normal}.maci svg{width:20px;height:20px}
+.macv{font-size:34px;line-height:1.1;color:#111827;font-weight:800}.macv small{font-size:16px;font-weight:600;color:#6B7280}html[lang=dv] .macv small{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+.mchip{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:#FFF1F2;color:#BE123C;border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:600}.mchip i{width:7px;height:7px;border-radius:50%;background:currentColor}
+html[lang=dv] .mchip{font-family:Waheed,Faruma,sans-serif;font-weight:400}.mchip.bad{background:#FEE2E2;color:#991B1B}.mchip.wait{background:#F3F4F6;color:#6B7280}
+.mlh{margin-top:4px}.mcnt{background:#FFF1F2;color:#C8102E;border-radius:999px;min-width:34px;height:34px;display:grid;place-items:center;font-weight:700}
+.mlogs{background:#fff;border:1px solid #F1F2F4;border-radius:20px;overflow:hidden}
+.mlog{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #F3F4F6}.mlog:last-child{border-bottom:0}
+.mlog b{display:block;font-size:20px;color:#111827}.mlog b small{color:#9CA3AF;font-size:13px}.mlog>div>small{color:#6B7280;font-size:13px}
+.mlt{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;color:#1F2937}html[lang=dv] .mlt{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+.mlt i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;background:#FFF1F2;color:#C8102E}.mlt i svg{width:19px;height:19px}
+.mlt.brk i{background:#FCE7F3;color:#9D174D}.mlt.xot i{background:#FFE4E6;color:#E11D48}.mlt.out i{background:#FEE2E2;color:#991B1B}
+@media(max-width:420px){.macv{font-size:28px}.mac{padding:14px 12px 12px 16px}}
+.myd{min-width:0;max-width:100%;overflow:hidden}.myd>*{min-width:0;max-width:100%}.mds{width:100%;min-width:0}.dash{min-width:0}.dash>*{min-width:0}
 </style>
 </head>
 <body>
@@ -1200,9 +1228,12 @@ $("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`
  else if(h.get("error")||q.get("error")){const m=$("#lMsg");m.className="msg err";m.textContent=decodeURIComponent((h.get("error_description")||q.get("error_description")||h.get("error")||q.get("error")).replace(/\+/g," "));history.replaceState(null,"",location.pathname);}}
 $("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
 /* ================= DASHBOARD ================= */
+const dvMonthShort=d=>["ޖެނުއަރީ","ފެބްރުއަރީ","މާރިޗު","އޭޕްރިލް","މެއި","ޖޫން","ޖުލައި","އޮގަސްޓު","ސެޕްޓެމްބަރު","އޮކްޓޯބަރު","ނޮވެމްބަރު","ޑިސެމްބަރު"][d.getMonth()];
+const dvDayShort=w=>["އާދިއްތަ","ހޯމަ","އަންގާރަ","ބުދަ","ބުރާސްފަތި","ހުކުރު","ހޮނިހިރު"][w];
+document.addEventListener("click",e=>{const b=e.target.closest("[data-mydate]");if(b){DB.sel=b.dataset.mydate;render();}});
 const DB={};
 async function dashLoad(){if(DB.loading)return;DB.loading=1;const td=todayMV();
-  try{const jobs=[rpc("my_punch_history",{p_from:td,p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];rpc("school_stats").then(x=>{DB.ss=x;if(TAB==="home")render();}).catch(()=>{});
+  try{const jobs=[rpc("my_punch_history",{p_from:addDays(td,-6),p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];rpc("school_stats").then(x=>{DB.ss=x;if(TAB==="home")render();}).catch(()=>{});
     if(ME.lead)jobs.push(rpc("staff_att_day",{p_date:td}).catch(e=>({err:e.message})),rpc("dash_lead").catch(e=>({err:e.message})));
     rpc("staff_me").then(x=>{if(x&&x.staff){ME=x;if(TAB==="home")render();}}).catch(()=>{});const [pun,lv,day,dl]=await Promise.all(jobs);Object.assign(DB,{date:td,pun:pun||[],lv,day,dl,at:Date.now()});
     if(ME.lead)manPend();if(!RC.me)await rcLoad().catch(()=>{});if(RC.term&&!RC.ret)await rcRet();}
@@ -1239,13 +1270,27 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
   const onLv=(L.requests||[]).find(r=>r.status==="approved"&&r.from<=td&&r.to>=td);
   // ---- my day
-  let my=`<div class="card dcard"><h3 class="h">${LG("މިއަދު","My day")}</h3>`;
-  if(onLv)my+=`<div class="dbig lvq">${lvName(onLv)}<small>${lvRange(onLv.from,onLv.to,onLv.half)}</small></div>`;
-  else if(P&&p4(P.ts,sh)){const q=p4(P.ts,sh),L=P4L();my+=`<div class="drow d4">${[q.in,q.bi,q.bo,q.out].map((v,i)=>`<div class="${v?"":"nil"}${i===2&&q.long>0?" lng":""}${i===1||i===2?" brk":""}"><small>${L[i]}</small><b class="num">${v?tmMV(v):"—"}</b></div>`).join("")}</div>${q.long>0?`<div class="dst bad">${LG("ބްރޭކް ދިގުވި","Long break")} +<span class="num">${minTxt(q.long)}</span></div>`:""}${otPairTag(q)}
-      <div class="dst ${late>0?"bad":"ok"}">${late>0?`${LG("ލަސްވެފައި","Late by")} <span class="num">${minTxt(late)}</span>`:sh?LG("ވަގުތުން ✓","On time ✓"):LG("ހާޒިރު ✓","Present ✓")}${sh?` · <span class="num">${esc(sh.start)}–${esc(sh.end)}</span>${hasBrk(sh)?` ☕<span class="num">${esc(sh.brk)}</span>${LG("މިނެޓް","m")}`:""}`:""}</div>`;}
-  else if(P)my+=`<div class="drow"><div><small>${LG("ވަދެވުނު","Check-in")}</small><b class="num">${tmMV(P.in)}</b></div><div><small>${LG("ނުކުމެވުނު","Check-out")}</small><b class="num">${P.n>1?tmMV(P.out):"—"}</b></div></div>
-      <div class="dst ${late>0?"bad":"ok"}">${late>0?`${LG("ލަސްވެފައި","Late by")} <span class="num">${minTxt(late)}</span>`:sh?LG("ވަގުތުން ✓","On time ✓"):LG("ހާޒިރު ✓","Present ✓")}${sh?` · <span class="num">${esc(sh.start)}–${esc(sh.end)}</span>`:""}</div>`;
-  else my+=`<div class="dbig muted">${school?LG("މިއަދު އަދި ފިންގަރ ނުޖަހާ","No check-in yet today"):LG("ބަންދު ދުވަސް","Day off")}</div>`;
+  const sel=DB.sel&&DB.sel>=addDays(td,-6)?DB.sel:td,PD=(DB.pun||[]).find(x=>x.day===sel),dsh=PD&&PD.shift,dLv=d=>(L.requests||[]).find(r=>r.status==="approved"&&r.from<=d&&r.to>=d);
+  const MO=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],DW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  const strip=Array.from({length:7},(_,i)=>{const d=addDays(td,-i),dt=new Date(d+"T00:00:00"),x=(DB.pun||[]).find(y=>y.day===d),w=dt.getDay(),lt=x?lateBy(x.in,x.shift):0;
+    const dot=dLv(d)?"lv":x?(lt>0?"late":"ok"):(w===5||w===6?"off":"no");
+    return `<button type="button" class="mdp ${d===sel?"on":""}" data-mydate="${d}"><small>${LG(dvMonthShort(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small><i class="mdot ${dot}"></i></button>`;}).join("");
+  const sLv=dLv(sel),q=PD?(p4(PD.ts,dsh)||{in:PD.in,bi:null,bo:null,out:PD.n>1?PD.out:null,long:0,ot:0,otp:[]}):null,lat=PD?lateBy(PD.in,dsh):0,early=q&&q.out&&dsh?earlyBy(q.out,2,dsh):0;
+  const brk=q&&q.bi&&q.bo?Math.max(0,hm2m(tmMV(q.bo))-hm2m(tmMV(q.bi))):null,wk=PD?workMin(PD.ts||[PD.in,PD.out],dsh):null,otm=q?(q.ot||0):0;
+  const card=(cls,ic,t,v,chip,chc)=>`<div class="mac ${cls}"><div class="mach"><span>${t}</span><i class="maci">${ic}</i></div><b class="num macv">${v}</b><span class="mchip ${chc||""}"><i></i>${chip}</span></div>`;
+  const IC={in:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>',out:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>',brk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M6 2v3M10 2v3M14 2v3"/></svg>',ot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'};
+  const SD=new Date(sel+"T00:00:00");
+  let my=`<div class="card dcard myd"><div class="mds">${strip}</div>
+   <div class="mdh"><div><h3 class="h">${LG("ހާޒިރީ","Attendance")}</h3><small>${sel===td?LG("މިއަދު","Today")+" · ":""}${LANG==="en"?SD.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"}):dvDate(sel)}</small></div><button type="button" class="mlogb" data-myhist>${IC.ot}${LG("ތާރީޚު","Logs")}</button></div>`;
+  if(sLv)my+=`<div class="dbig lvq">${lvName(sLv)}<small>${lvRange(sLv.from,sLv.to,sLv.half)}</small></div>`;
+  else if(!PD)my+=`<div class="dbig muted">${(SD.getDay()===5||SD.getDay()===6)?LG("ބަންދު ދުވަސް","Day off"):sel===td?LG("މިއަދު އަދި ފިންގަރ ނުޖަހާ","No check-in yet today"):LG("ފިންގަރ ނުޖަހާ","No check-in")}</div>`;
+  else{my+=`<div class="macs">${card("ci",IC.in,LG("ޗެކް އިން","Check In"),tmMV(q.in),lat>0?`${LG("ލަސް","Late")} ${hhmm(lat)}`:LG("ވަގުތުގައި","On time"),lat>0?"bad":"")}
+     ${card("co",IC.out,LG("ޗެކް އައުޓް","Check Out"),q.out?tmMV(q.out):"—",q.out?(early>0?`${LG("ކުރިން ދިޔަ","Left early")} ${hhmm(early)}`:LG("ފުރިހަމަ","Completed")):LG("ކުރިއަށް ދަނީ","In progress"),q.out?(early>0?"bad":""):"wait")}
+     ${card("br",IC.brk,LG("ބްރޭކް","Break time"),brk!=null?`${brk}<small> ${LG("މިނެޓް","mins")}</small>`:"—",brk==null?LG("ބްރޭކް ނުނަގާ","No break"):q.long>0?`${LG("ދިގުވި","Over by")} ${q.long} ${LG("މިނެޓް","min")}`:hasBrk(dsh)?`${LG("ހުއްދަ","Allowed")} ${dsh.brk} ${LG("މިނެޓް","min")}`:LG("ރަނގަޅު","OK"),q.long>0?"bad":"")}
+     ${card("ov",IC.ot,LG("އޯވަޓައިމް","Overtime"),hhmm(otm),wk!=null?`${LG("މަސައްކަތްކުރި","Worked")} ${hhmm(wk)}`:"—","")}</div>`;
+   const lab={};if(q.in)lab[q.in]=["in",LG("ޗެކް އިން","Check In")];if(q.bi)lab[q.bi]=["brk",LG("ބްރޭކް އައުޓް","Break Out")];if(q.bo)lab[q.bo]=["brk",LG("ބްރޭކް އިން","Break In")];if(q.out)lab[q.out]=["out",LG("ޗެކް އައުޓް","Check Out")];(q.otp||[]).forEach(o=>{lab[o.i]=["xot",LG("އޯޓީ ފެށުން","OT Start")];if(o.o)lab[o.o]=["xot",LG("އޯޓީ ނިމުން","OT End")];});
+   const TS=[...(PD.ts||[PD.in])].sort().reverse(),sec=t=>new Date(t).toLocaleTimeString("en-GB",{timeZone:"Indian/Maldives",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+   my+=`<div class="mdh mlh"><h3 class="h">${LG("ފިންގަރޕްރިންޓްތައް","Recent logs")}</h3><span class="mcnt num">${TS.length}</span></div><div class="mlogs">${TS.map(t=>{const[k,l]=lab[t]||["pn",LG("ފިންގަރ","Punch")],x=sec(t);return `<div class="mlog"><div><b class="num">${x.slice(0,5)}<small>:${x.slice(6,8)}</small></b><small>${LANG==="en"?new Date(t).toLocaleDateString("en-GB",{timeZone:"Indian/Maldives",weekday:"long",day:"numeric",month:"short"}):dvDate(sel)}</small></div><span class="mlt ${k}">${l}<i>${IC[k==="pn"?"in":k==="xot"?"ot":k]}</i></span></div>`;}).join("")}</div>`;}
   my+=`<div class="dacts"><button class="btn sm ghost" data-mylv>${LG("ޗުއްޓީ","Leave")}</button><button class="btn sm ghost" data-myman>${LG("މެނުއަލް ހާޒިރީ","Manual request")}</button><button class="btn sm ghost" data-myhist>${LG("ތާރީޚު","History")}</button></div></div>`;
   // ---- my leave
   const B=(L.balances||[]).filter(b=>b.allow!=null);
