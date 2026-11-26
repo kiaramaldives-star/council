@@ -589,10 +589,57 @@ html[lang=dv] .vdtb th,html[lang=dv] .vdt span,html[lang=dv] .vdl{font-family:Wa
 @media(max-width:600px){.vdt{grid-template-columns:1fr 1fr}.vdtb th{width:auto;display:block;border-bottom:0}.vdtb td{display:block}.vdtb tr{display:block}.vddr{grid-template-columns:20px 1fr}.vds{grid-column:2}}
 .pyt{border:0;border-radius:999px;padding:3px 10px;font:600 12.5px "Plus Jakarta Sans","Faruma",sans-serif;cursor:pointer;white-space:nowrap}.pyt.paid{background:#DCFCE7;color:#166534}.pyt.due{background:#FFEDD5;color:#C2410C}.pyt b,.pyt small{direction:ltr;unicode-bidi:isolate}html[lang=dv] .pyt{font-family:Waheed,Faruma,sans-serif;font-weight:400}html[lang=dv] .pyt b{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
 .pydue{color:#C2410C}.pyok{color:#15803D}.pysum{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}.pysum>div{background:#F9FAFB;border-radius:10px;padding:8px 12px}.pysum small{display:block;color:#6B7280;font-size:12px}.pysum b{font-size:17px}.pysum b.ok{color:#15803D}.pysum b.due{color:#C2410C}html[lang=dv] .pysum small{font-family:Waheed,Faruma,sans-serif}
+.mburger,.mlg{display:none}
+@media (max-width:899px){
+ .top{background:#FBF7F8!important;box-shadow:none!important;border:0!important;padding:10px 12px!important;padding-top:calc(10px + env(safe-area-inset-top))!important}
+ .top .topin{display:flex!important;align-items:stretch!important;gap:10px!important;max-width:none!important;padding:0!important}
+ .mburger{display:grid;place-items:center;flex:none;width:60px;height:60px;border-radius:20px;border:0;background:var(--p);color:#fff;box-shadow:0 8px 18px rgba(200,16,46,.25);cursor:pointer}
+ body:not(.in) .mburger{display:none}
+ .top .brand{flex:1 1 0;min-width:0;display:flex!important;align-items:center;gap:10px;height:60px;border-radius:20px;padding:0 12px;background:linear-gradient(120deg,var(--p),#8E0B21);color:#fff!important;box-shadow:0 8px 18px rgba(200,16,46,.25);text-decoration:none;overflow:hidden}
+ .top .brand img{width:44px!important;height:44px!important;flex:none}
+ .top .brand .bt{min-width:0;display:block}
+ .top .brand b{display:block;color:#fff!important;font-size:21px!important;line-height:1.35!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ html[lang=en] .top .brand b{font-family:"Plus Jakarta Sans",sans-serif!important;font-weight:800;font-size:16px!important}
+ .top .brand small{display:block!important;color:rgba(255,255,255,.85)!important;font-size:12.5px!important;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:"KondeyHeading","Faruma",sans-serif}
+ html[lang=en] .top .brand small{font-family:"Plus Jakarta Sans",sans-serif;font-size:10.5px!important}
+ .top .tact{display:flex;gap:8px;flex:none}
+ .top #logout{display:none!important}
+ .top #langB{width:60px;height:60px;border-radius:20px!important;background:#F3E4E8!important;border:0!important;color:#8E0B21!important;padding:0!important;display:grid!important;place-items:center;box-shadow:0 8px 18px rgba(200,16,46,.12)}
+ .top #langB>.dv,.top #langB>.en{display:none!important}
+ .top #langB .mlg{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;align-items:center;justify-items:center;line-height:1}
+ .top #langB .hl-a{grid-column:1/3;font:400 15px "KondeyHeading","Faruma",sans-serif;color:#C8102E;margin-bottom:2px}
+ html[lang=en] .top #langB .hl-a{font:800 13px "Plus Jakarta Sans",sans-serif}
+ .top #langB .mlg svg{color:#C8102E;opacity:.75}
+ .top #langB .hl-b{font:800 19px "Plus Jakarta Sans",sans-serif;color:#7A0A1C}
+ html[lang=en] .top #langB .hl-b{font:400 17px "KondeyHeading","Faruma",sans-serif}
+ #mDrawer{position:fixed;inset:0;z-index:200;pointer-events:none}
+ #mDrawer .mdr-b{position:absolute;inset:0;background:rgba(17,24,39,.45);opacity:0;transition:opacity .2s}
+ #mDrawer .mdr-p{position:absolute;top:0;bottom:0;inset-inline-start:0;width:min(320px,86vw);background:linear-gradient(175deg,#6E0819 0%,#A80D27 45%,#C8102E 100%);color:#fff;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;padding-top:env(safe-area-inset-top);box-shadow:0 0 40px rgba(0,0,0,.3)}
+ html[lang=en] #mDrawer .mdr-p{transform:translateX(-100%)}
+ #mDrawer.open{pointer-events:auto}#mDrawer.open .mdr-b{opacity:1}#mDrawer.open .mdr-p{transform:none!important}
+ .mdr-h{display:flex;align-items:center;gap:12px;padding:18px 16px;border-bottom:1px solid rgba(255,255,255,.18)}
+ .mdr-av{width:48px;height:48px;border-radius:50%;overflow:hidden;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:none}.mdr-av img{width:100%;height:100%;object-fit:cover}.mdr-av svg{width:26px;height:26px}
+ .mdr-h div{flex:1;min-width:0}.mdr-h small{display:block;opacity:.8;font-size:12px}.mdr-h b{display:block;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ html[lang=dv] .mdr-h small{font-family:Waheed,Faruma,sans-serif}
+ .mdr-x{background:rgba(255,255,255,.15);border:0;color:#fff;width:36px;height:36px;border-radius:10px;font-size:16px}
+ .mdr-n{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:4px}
+ .mdr-n button{display:flex!important;flex-direction:row!important;align-items:center;gap:12px;width:100%;padding:12px 14px!important;border:0;border-radius:12px;background:none;color:#fff!important;font-size:16px!important;text-align:start;position:relative;min-height:0!important;height:auto!important}
+ .mdr-n button .ti,.mdr-n button svg{width:22px;height:22px;flex:none;color:#fff!important;opacity:.9}
+ .mdr-n button.on{background:#fff;color:#A50E28!important}.mdr-n button.on svg{color:#A50E28!important}
+ .mdr-n button.grp{background:rgba(255,255,255,.12)}
+ .mdr-n button.sub{padding-inline-start:30px!important;font-size:15px!important}
+ .mdr-n .bdg{position:static!important;margin-inline-start:auto}
+ html[lang=dv] .mdr-n button{font-family:Waheed,Faruma,sans-serif}
+ .mdr-f{padding:12px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.18)}
+ .mdr-out{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;border:0;border-radius:12px;background:#fff;color:#A50E28;font-weight:700;font-size:15px}
+ html[lang=dv] .mdr-out{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+ body.mdr-open{overflow:hidden}
+ .top #langB .hl-a,.top #langB .hl-a *{color:#C8102E!important;opacity:1!important}.top #langB .hl-b,.top #langB .hl-b *{color:#7A0A1C!important;opacity:1!important}
+}
 </style>
 </head>
 <body>
-<div class="top"><div class="topin"><a class="brand" href="https://www.kondeyschool.edu.mv/staff.html"><img src="/logo-white.png" alt=""><span class="bt"><b class="h"><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span></b><small><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></small></span></a><div class="tact"><button class="tb lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span></button><button class="tb" id="logout" type="button" hidden title="Sign out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="tbl"><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></span></button></div></div></div>
+<div class="top"><div class="topin"><button class="mburger" id="mBurger" type="button" aria-label="Menu"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="https://www.kondeyschool.edu.mv/staff.html"><img src="/logo-white.png" alt=""><span class="bt"><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">ގއ.ކޮނޑޭ، ދިވެހިރާއްޖެ</span><span class="en">GA. Kondey, Maldives</span></small></span></a><div class="tact"><button class="tb lang" id="langB" type="button"><span class="dv">EN</span><span class="en">ދިވެހި</span><span class="mlg"><span class="hl-a"><span class="dv">ދިވ</span><span class="en">EN</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v9a4 4 0 0 0 4 4h8M15 13l4 4-4 4"/></svg><span class="hl-b"><span class="dv">EN</span><span class="en">ދިވ</span></span></span></button><button class="tb" id="logout" type="button" hidden title="Sign out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="tbl"><span class="dv">ނުކުމޭ</span><span class="en">Sign out</span></span></button></div></div></div>
 <div class="wrap">
   <div id="loginView" class="card">
     <div class="lhead"><img src="/logo-white.png" alt=""><div><b class="h"><span class="dv">ކޮނޑޭ ސްކޫލް</span><span class="en">Kondey School</span></b><small><span class="dv">މުވައްޒަފުންގެ ޕޯޓަލް</span><span class="en">Staff portal</span></small></div></div>
@@ -629,6 +676,17 @@ const saveS=x=>{S=x;try{x?localStorage.setItem("kc_staff_session",JSON.stringify
 async function authCall(p,b){const r=await fetch(`${SB_URL}/auth/v1/${p}`,{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.error_description||j.message||("Error "+r.status));return j;}
 async function token(){if(!S)throw new Error("signed out");if(S.expires_at&&S.expires_at-60<Date.now()/1000){const j=await authCall("token?grant_type=refresh_token",{refresh_token:S.refresh_token});saveS({...j,expires_at:Date.now()/1000+j.expires_in});}return S.access_token;}
 async function rpc(fn,body){const r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+await token(),"Content-Type":"application/json"},body:JSON.stringify(body||{})});const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error(m);}return t?JSON.parse(t):null;}
+
+function mDrawer(open){let d=$("#mDrawer");if(!open){if(d)d.classList.remove("open");document.body.classList.remove("mdr-open");return;}
+  if(!d){d=document.createElement("div");d.id="mDrawer";document.body.appendChild(d);}
+  const t=document.querySelector(".tabs"),st=(ME&&ME.staff)||{};
+  d.innerHTML=`<div class="mdr-b" data-mdrclose></div><aside class="mdr-p"><div class="mdr-h"><span class="mdr-av">${st.photo?`<img src="${esc(st.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`}</span><div><small>${LG("މަރުޙަބާ","Welcome")}</small><b class="h">${esc(NM(st.name_dv,st.name_en)||"")}</b></div><button type="button" class="mdr-x" data-mdrclose aria-label="Close">✕</button></div>
+   <nav class="mdr-n">${t?t.innerHTML:""}</nav>
+   <div class="mdr-f"><button type="button" class="mdr-out" data-sout><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>${LG("ނުކުމޭ","Sign out")}</button></div></aside>`;
+  requestAnimationFrame(()=>d.classList.add("open"));document.body.classList.add("mdr-open");}
+document.addEventListener("click",e=>{const t=e.target;if(t.closest("#mBurger")){mDrawer(true);return;}if(t.closest("[data-mdrclose]")){mDrawer(false);return;}
+  if(t.closest("#mDrawer [data-tab],#mDrawer [data-sout],#mDrawer [data-sbcls]"))setTimeout(()=>mDrawer(false),0);});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")mDrawer(false);});
 const VD={files:{}};
 const VTYPES=[["sole_trader","Sole Trader","ސޯލް ޓްރޭޑަރ"],["cooperative","Cooperative","ކޯޕަރޭޓިވް"],["individual","Individual","ފަރުދެއް"],["partnership","Partnership","ޕާޓްނަރޝިޕް"],["private_company","Private Company","ޕްރައިވެޓް ކުންފުނި"],["public_company","Public Company","ޕަބްލިކް ކުންފުނި"]];
 const VDOCS=[["id_card","Copy of ID Card","އައިޑީ ކާޑުގެ ކޮޕީ"],["reg_cert","Copy of Company Registration Certificate / Company Profile","ކުންފުނި ރަޖިސްޓްރީ ސެޓްފިކެޓް / ކުންފުނީގެ ޕްރޮފައިލް"],["gst_cert","Copy of GST Certificate / Notification of Registration","ޖީއެސްޓީ ސެޓްފިކެޓް / ރަޖިސްޓްރީގެ ނޯޓިފިކޭޝަން"],["bank_slip","Copy of Bank Slip (ATM slip / cheque copy / bank statement first page)","ބޭންކް ސްލިޕް (އޭޓީއެމް ސްލިޕް / ޗެކް ކޮޕީ / ބޭންކް ސްޓޭޓްމަންޓް)"]];
