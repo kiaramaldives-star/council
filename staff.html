@@ -474,6 +474,18 @@ html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::
 .dbar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#F3F4F6}.dbar i,.dkey i{display:block;height:100%}.dbar i.b,.dkey i.b{background:#3B82F6}.dbar i.g,.dkey i.g{background:#EC4899}
 .dkey{display:flex;align-items:center;gap:6px;font-size:12px;color:#6B7280}.dkey i{width:10px;height:10px;border-radius:3px;display:inline-block}
 @media(max-width:760px){.dgrh,.dgrr{grid-template-columns:1fr 46px 46px 50px}.dgrh span:last-child,.dgrr>span:last-child{display:none}}
+@media (min-width:900px){
+.phead{background:linear-gradient(120deg,#7A0C1E 0%,#A50E28 45%,#C8102E 100%);border-radius:18px;padding:18px 22px;margin:0 0 18px!important;align-items:center;box-shadow:0 10px 28px rgba(160,14,40,.18);position:relative;overflow:hidden}
+.phead::after{content:"";position:absolute;inset-inline-end:-60px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.phead h1,html[lang=en] .phead h1{color:#fff}.phead .pt small{color:rgba(255,255,255,.8)}
+.phact{display:flex;align-items:center;gap:10px;margin-inline-start:auto;position:relative;z-index:1}
+.phme{display:flex;align-items:center;gap:10px;color:#fff;padding-inline-end:6px}.phme small{display:block;font-size:12px;color:rgba(255,255,255,.75);line-height:1.3}.phme b{display:block;font-size:15px;line-height:1.4;color:#fff}
+.phav{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.95);color:#A50E28;display:grid;place-items:center;overflow:hidden;flex:none}.phav img{width:100%;height:100%;object-fit:cover}.phav svg{width:22px;height:22px}
+.phb{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:11px;padding:9px 13px;font:600 13.5px inherit;cursor:pointer;transition:.15s}.phb:hover{background:rgba(255,255,255,.22)}
+.phb.out{background:#fff;color:#A50E28;border-color:#fff}.phb.out:hover{background:#FDECEF}
+.phead .datec{position:relative;z-index:1}
+.side .me,.side .sfoot{display:none!important}}
+@media (max-width:899px){.phact{display:none}}
 </style>
 </head>
 <body>
@@ -537,7 +549,11 @@ function layout(){const v=$("#appView");if(!v.querySelector(".me"))return;const 
   s.innerHTML=`<a class="sbrand" href="/"><img src="/logo-white.png" alt=""><span><b class="h">${LG("ކޮނޑޭ ސްކޫލް","Kondey School")}</b><small>${LG("މުވައްޒަފުންގެ ޕޯޓަލް","Staff portal")}</small></span></a>`;
   if(tabs)s.appendChild(tabs);{const CL=TAB==="report"&&typeof rcMyClasses==="function"?rcMyClasses():[];if(CL.length){const sc=document.createElement("div");sc.className="scls";sc.innerHTML=CL.map(c=>`<button type="button" class="${TAB==="report"&&RC.cls===c.class_en?"on":""}" data-sbcls="${esc(c.class_en)}"><span class="dot"></span>${esc(NM(c.class_dv,c.class_en))}${c.teacher?`<small>${LG("ކްލާސް ޓީޗަރ","Class teacher")}</small>`:""}</button>`).join("");s.appendChild(sc);}}const sp=document.createElement("div");sp.className="sgrow";s.appendChild(sp);if(me)s.appendChild(me);
   const sf=document.createElement("div");sf.className="sfoot";sf.innerHTML=`<button type="button" class="sbtn" data-slang><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>${LG("English","ދިވެހި")}</button><button type="button" class="sbtn" data-sout><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>${LG("ނުކުމޭ","Sign out")}</button>`;s.appendChild(sf);
-  const ph=document.createElement("div");ph.className="phead";ph.innerHTML=`<div class="pt"><h1 class="h">${T}</h1><small>${fullDate(todayMV())}</small></div>`;if(dc)ph.appendChild(dc);m.appendChild(ph);if(al)m.appendChild(al);
+  const ph=document.createElement("div");ph.className="phead";const st=(ME&&ME.staff)||{};
+  ph.innerHTML=`<div class="pt"><h1 class="h">${T}</h1><small>${fullDate(todayMV())}</small></div><div class="phact"><div class="phme"><span class="phav">${st.photo?`<img src="${esc(st.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`}</span><div><small>${LG("މަރުޙަބާ","Welcome")}</small><b class="h">${esc(NM(st.name_dv,st.name_en)||"")}</b>${st.title_en||st.title_dv?`<small>${esc(NM(st.title_dv,st.title_en))}</small>`:""}</div></div>
+   <button type="button" class="phb" data-slang><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>${LG("English","ދިވެހި")}</span></button>
+   <button type="button" class="phb out" data-sout><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>${LG("ނުކުމޭ","Sign out")}</span></button></div>`;
+  if(dc)ph.insertBefore(dc,ph.querySelector(".phact"));m.appendChild(ph);if(al)m.appendChild(al);
   kids.filter(e=>e!==me&&e!==tabs&&e!==dc&&e!==al).forEach(e=>m.appendChild(e));v.append(s,m);v.classList.add("dk");}
 document.addEventListener("click",e=>{const sb=e.target.closest("[data-sbcls]");if(sb){TAB="report";RC.view="";rcOpen(sb.dataset.sbcls,"");window.scrollTo(0,0);return;}if(e.target.closest("[data-slang]"))$("#langB").click();else if(e.target.closest("[data-sout]"))$("#logout").click();});
 function render0(){
