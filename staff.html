@@ -509,6 +509,10 @@ html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::
 .rcreg .btn{flex:none;width:auto}.rcreg{display:flex;align-items:center;gap:14px;justify-content:space-between;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:10px 14px;margin:0 0 12px}.rcreg b{display:block;color:#1E3A8A}.rcreg small{color:#1E40AF}.rcfilled td{background:#F0F9FF}
 html[lang=dv] .phead h1,html[lang=dv] .phead h1 *{font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important}
 html[lang=dv] .phead .pt small,html[lang=dv] .phead .pt small *{font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important}
+.dcls{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}.dcl{border:1px solid #EEF0F3;border-radius:12px;padding:10px 12px;background:#fff;text-align:start;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.dcl.no{border-color:#FECACA;background:#FEF2F2}.dclh{display:flex;justify-content:space-between;align-items:center;gap:6px}.dclh b{font-size:15px}.dclh .num{font-weight:800;font-size:15px}.dclh .ok{color:#15803D}.dclh .warn{color:#C2410C}.dclh .bad{color:#B91C1C}.dclh .nm{font-size:12px;color:#B91C1C}
+.dcln{display:flex;gap:5px}.dcln span{border-radius:6px;padding:1px 8px;font-weight:700;font-size:13px}.dcln .p{background:#DCFCE7;color:#166534}.dcln .a{background:#FEE2E2;color:#991B1B}.dcln .l{background:#FEF3C7;color:#92400E}
+.dcla{display:flex;flex-wrap:wrap;gap:4px}.dcla span{font-size:12px;border-radius:999px;padding:1px 8px;background:#FEE2E2;color:#991B1B}.dcla span.l{background:#FEF3C7;color:#92400E}
 </style>
 </head>
 <body>
@@ -688,7 +692,7 @@ const DB={};
 async function dashLoad(){if(DB.loading)return;DB.loading=1;const td=todayMV();
   try{const jobs=[rpc("my_punch_history",{p_from:td,p_to:td}).catch(()=>[]),rpc("my_leaves").catch(()=>null)];rpc("school_stats").then(x=>{DB.ss=x;if(TAB==="home")render();}).catch(()=>{});
     if(ME.lead)jobs.push(rpc("staff_att_day",{p_date:td}).catch(e=>({err:e.message})),rpc("dash_lead").catch(e=>({err:e.message})));
-    const [pun,lv,day,dl]=await Promise.all(jobs);Object.assign(DB,{date:td,pun:pun||[],lv,day,dl,at:Date.now()});
+    rpc("staff_me").then(x=>{if(x&&x.staff){ME=x;if(TAB==="home")render();}}).catch(()=>{});const [pun,lv,day,dl]=await Promise.all(jobs);Object.assign(DB,{date:td,pun:pun||[],lv,day,dl,at:Date.now()});
     if(ME.lead)manPend();if(!RC.me)await rcLoad().catch(()=>{});if(RC.term&&!RC.ret)await rcRet();}
   finally{DB.loading=0;}if(TAB==="home")render();}
 function dTile(n,label,cls,go,sub){return `<button type="button" class="dtile ${cls||""}" ${go?`data-dgo="${go}"`:""}><b class="num">${n}</b><span>${label}</span>${sub?`<small>${sub}</small>`:""}</button>`;}
@@ -701,6 +705,16 @@ function dashSchool(){const X=DB.ss;if(!X)return "";const G=[...(X.grades||[])].
    <div class="dgr"><div class="dgrh"><span>${LG("ގްރޭޑް","Grade")}</span><span>${LG("ފިރިހެން","Boys")}</span><span>${LG("އަންހެން","Girls")}</span><span>${LG("ޖުމްލަ","Total")}</span><span></span></div>
    ${G.map(g=>`<div class="dgrr"><b>${nm(g.grade)}</b><span class="num sb">${g.boys}</span><span class="num sg">${g.girls}</span><span class="num"><b>${g.total}</b></span><span class="dbar" title="${g.boys} / ${g.girls}"><i class="b" style="width:${(+g.boys)/mx*100}%"></i><i class="g" style="width:${(+g.girls)/mx*100}%"></i></span></div>`).join("")}
    <div class="dgrr tot"><b>${LG("ޖުމްލަ","Total")}</b><span class="num sb">${Bo}</span><span class="num sg">${Gi}</span><span class="num"><b>${T}</b></span><span class="dkey"><i class="b"></i>${LG("ފިރިހެން","Boys")} <i class="g"></i>${LG("އަންހެން","Girls")}</span></div></div></div>`;}
+function dashStudents(td,school){const A=ME.all_classes||[];if(!A.length)return "";
+  const rows=A.map(c=>({c,m:(ME.marked||[]).find(x=>x.class_en===c.class_en&&x.date===td),ab:(ME.absentees||[]).filter(x=>x.date===td&&x.class_en===c.class_en)}));
+  const mk=rows.filter(r=>r.m),pr=mk.reduce((t,r)=>t+(+r.m.present||0),0),tot=mk.reduce((t,r)=>t+(+r.m.present||0)+(+r.m.absent||0),0),lt=mk.reduce((t,r)=>t+(+r.m.late||0),0),pc=tot?Math.round(pr/tot*100):null;
+  return `<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ދަރިވަރުންގެ ހާޒިރީ – މިއަދު","Students today")}</h3>
+   ${!school&&!mk.length?`<div class="dbig muted">${LG("ބަންދު ދުވަސް","No school today")}</div>`:`<div class="dtiles">${dTile(`${mk.length}<small>/${A.length}</small>`,LG("ކްލާސް ނަގައިފި","Classes marked"),mk.length<A.length?"warn":"ok","all")}${dTile(`${pr}<small>/${tot}</small>`,LG("ހާޒިރު ދަރިވަރުން","Students present"),"ok","all")}${dTile(pc==null?"—":pc+"%",LG("ހާޒިރީ","Attendance"),pc==null?"":pc>=95?"ok":pc>=90?"warn":"bad","all")}${dTile(tot-pr,LG("ނެތް","Absent"),tot-pr?"bad":"","all")}${dTile(lt,LG("ލަސް","Late"),lt?"lv":"","all")}</div>
+   <div class="dcls">${rows.map(({c,m,ab})=>{const t=m?(+m.present||0)+(+m.absent||0):0,q=m&&t?Math.round(m.present/t*100):null;
+     return `<button type="button" class="dcl ${m?"ok":"no"}" data-tab="all"><div class="dclh"><b>${esc(NM(c.class_dv,c.class_en))}</b>${m?`<span class="num ${q>=95?"ok":q>=90?"warn":"bad"}">${q}%</span>`:`<span class="nm">${LG("ނުނަގާ","Not marked")}</span>`}</div>
+       ${m?`<div class="dcln"><span class="p num">${m.present}</span><span class="a num">${m.absent}</span>${+m.late?`<span class="l num">${m.late}</span>`:""}</div>`:""}
+       ${ab.length?`<div class="dcla">${ab.map(x=>`<span class="${x.status}">${esc(LANG==="en"?(x.name_en||x.name):x.name)}${x.status==="l"?` (${LG("ލަސް","late")})`:""}</span>`).join("")}</div>`:""}</button>`;}).join("")}</div>
+   <div class="ovk"><span class="p">${LG("ހާޒިރު","Present")}</span><span class="a">${LG("ނެތް","Absent")}</span><span class="l">${LG("ލަސް","Late")}</span></div>`}</div>`;}
 function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
   if(!DB.at)return `<div class="card empty">…</div>`;
   const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
@@ -727,7 +741,7 @@ function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>1
   if(RC.ret&&RC.ret.length)T.push(`<button type="button" class="dtask bad" data-tab="report"><b><span class="num">${RC.ret.length}</span> ${LG("ބަޔާން އަނބުރާ ފޮނުވާފައި","comments sent back to fix")}</b><small>${LG("ރިޕޯޓް ކާޑު","Report cards")}</small></button>`);
   if(myPend.length)T.push(`<button type="button" class="dtask warn" data-mylv><b><span class="num">${myPend.length}</span> ${LG("ޗުއްޓީއަށް އެދުން ބަލަމުން","leave request(s) waiting for approval")}</b></button>`);
   const tk=`<div class="card dcard"><h3 class="h">${LG("ކުރަންޖެހޭ ކަންތައް","My tasks")}</h3>${T.length?`<div class="dtasks">${T.join("")}</div>`:`<div class="dbig muted">${LG("ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް ✓","Nothing to do ✓")}</div>`}</div>`;
-  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+dashSchool();
+  let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+dashStudents(td,school)+dashSchool();
   if(!ME.lead)return h;
   // ---- supervisors
   const D=DB.day||{},S=(D.staff||[]).filter(x=>x.emp_code),inn=S.filter(x=>x.first_in),lt=inn.filter(x=>lateBy(x.first_in,x.shift)>0),lvS=S.filter(x=>!x.first_in&&x.leave),abs=school?S.filter(x=>!x.first_in&&!x.leave&&x.shift):[];
@@ -737,11 +751,10 @@ function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>1
      ${dTile(`${inn.length}<small>/${S.length}</small>`,LG("ހާޒިރު","Present"),"ok","staff:day")}${dTile(lt.length,LG("ލަސް","Late"),lt.length?"warn":"","staff:day")}${dTile(lvS.length,LG("ޗުއްޓީ","On leave"),"lv","staff:day")}${dTile(abs.length,LG("ނުވަދެ","Not in"),abs.length?"bad":"","staff:day")}</div>
      ${lt.length?`<div class="dlist"><small>${LG("ލަސްވި","Late")}:</small> ${lt.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))} <i class="num">${tmMV(x.first_in)}</i></span>`).join("")}</div>`:""}
      ${abs.length?`<div class="dlist bad"><small>${LG("އަދި ނުވަދެ","Not in yet")}:</small> ${abs.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}</span>`).join("")}</div>`:""}</div>`;
-  h+=`<div class="dgrid2"><div class="card dcard"><h3 class="h">${LG("ނިންމަންޖެހޭ ކަންތައް","Waiting for you")}</h3><div class="dtiles">
+  h+=`<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ނިންމަންޖެހޭ ކަންތައް","Waiting for you")}</h3><div class="dtiles">
      ${dTile(SA.lpend||0,LG("ޗުއްޓީ","Leave requests"),SA.lpend?"warn":"","staff:leave")}${dTile(SA.pend||0,LG("މެނުއަލް ހާޒިރީ","Manual check-ins"),SA.pend?"warn":"","staff:req")}${dTile(wait,LG("ބަޔާން އަދާހަމަކުރަން","Comments to review"),wait?"warn":"","report")}</div>
      ${wait?`<div class="dlist"><small>${LG("ކްލާސްތައް","Classes")}:</small> ${(DL.rc_wait||[]).map(x=>{const c=(ME.all_classes||[]).find(y=>y.class_en===x.class_en)||{};return `<button type="button" class="dchip" data-sbcls="${esc(x.class_en)}">${esc(NM(c.class_dv,x.class_en))} <i class="num">${x.n}</i></button>`;}).join("")}</div>`:""}</div>
-   <div class="card dcard"><h3 class="h">${LG("ދަރިވަރުންގެ ހާޒިރީ – މިއަދު","Students today")}</h3><div class="dtiles">
-     ${dTile(`${mk.length}<small>/${A.length}</small>`,LG("ކްލާސް ނަގައިފި","Classes marked"),mk.length<A.length&&school?"warn":"ok","all")}${dTile(tot?Math.round(pr/tot*100)+"%":"—",LG("ހާޒިރު","Present"),"ok","all")}${dTile(tot-pr,LG("ނެތް","Absent"),tot-pr?"bad":"","all")}</div></div></div>`;
+`;
   const LV=DL.leaves||[];
   const sy=DL.sync&&DL.sync.last_used,age=sy?Math.round((Date.now()-new Date(sy))/60000):null;
   h+=`<div class="dgrid2"><div class="card dcard"><h3 class="h">${LG("ޗުއްޓީގައި (މިއަދާއި ދެން އަންނަ 7 ދުވަސް)","On leave (today and next 7 days)")}</h3>${LV.length?`<div class="dlv">${LV.map(x=>`<div><span class="sph">${x.photo?`<img src="${esc(x.photo)}" alt="">`:esc((x.name_en||"?").charAt(0))}</span><b>${esc(NM(x.name_dv,x.name_en))}</b>${lvName(x)}<small>${lvRange(x.from,x.to,x.half)}</small></div>`).join("")}</div>`:`<div class="dbig muted">${LG("އެއްވެސް މީހަކު ޗުއްޓީގައި ނެތް","Nobody on leave")}</div>`}</div>
