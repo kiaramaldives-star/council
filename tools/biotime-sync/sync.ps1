@@ -74,6 +74,16 @@ function Get-BioToken($cfg) {
   throw "Logged in to ZKBio Time, but it refused the API token. Make sure this ZKBio Time user is a superuser / has API permission."
 }
 
+# Prints the shape of a ZKBio Time reply (keys, counts) to help diagnose
+function Show-Shape($cfg, $auth, $path) {
+  try {
+    $raw = (Invoke-WebRequest -UseBasicParsing -Method Get -Uri ($cfg['BIOTIME_URL'] + $path) -Headers @{ Authorization = $auth } -TimeoutSec 60).Content
+    $txt = [string]$raw
+    $short = $txt; if ($short.Length -gt 260) { $short = $short.Substring(0, 260) + '...' }
+    Write-Host ('  reply ' + $path.Split('?')[0] + ' (' + $txt.Length + ' chars): ' + $short)
+  } catch { Write-Host ('  reply ' + $path.Split('?')[0] + ' failed: ' + $_.Exception.Message) }
+}
+
 # Reads every page of a ZKBio Time list (handles both "data" and "results" styles)
 function Get-BioPages($cfg, $auth, $path) {
   $items = New-Object System.Collections.ArrayList
@@ -82,8 +92,11 @@ function Get-BioPages($cfg, $auth, $path) {
   while ($url -and $guard -lt 200) {
     $guard++
     $r = Invoke-RestMethod -Method Get -Uri $url -Headers @{ Authorization = $auth } -TimeoutSec 60
+    if ($r -is [string]) { try { $r = $r | ConvertFrom-Json } catch {} }
     $rows = $null
-    if ($r.data) { $rows = $r.data } elseif ($r.results) { $rows = $r.results }
+    if ($r.data -and $r.data.data) { $rows = $r.data.data } elseif ($r.data -and $r.data.results) { $rows = $r.data.results }
+    elseif ($r.data) { $rows = $r.data } elseif ($r.results) { $rows = $r.results } elseif ($r.rows) { $rows = $r.rows } elseif ($r.items) { $rows = $r.items }
+    elseif ($r -is [array]) { $rows = $r }
     if ($rows) { foreach ($x in @($rows)) { [void]$items.Add($x) } }
     $next = $r.next
     if ($next -and $next -notmatch '^https?://') { $next = $cfg['BIOTIME_URL'] + $next }
@@ -135,6 +148,12 @@ try {
       terminal_sn = [string]$t.terminal_sn; terminal_alias = [string]$t.terminal_alias; verify_type = [string]$t.verify_type_display
     }
     if (-not $latest -or ([string]$t.punch_time) -gt $latest) { $latest = [string]$t.punch_time }
+  }
+
+  if ($emps.Count -eq 0 -or $punches.Count -eq 0) {
+    Show-Shape $cfg $auth '/personnel/api/employees/?page_size=2'
+    Show-Shape $cfg $auth ('/iclock/api/transactions/?page_size=2&start_time=' + [uri]::EscapeDataString($start))
+    Show-Shape $cfg $auth '/iclock/api/transactions/?page_size=2'
   }
 
   # Send in batches of 1000
