@@ -685,7 +685,7 @@ html[lang=dv] .mchip{font-family:Waheed,Faruma,sans-serif;font-weight:400}.mchip
 .mlt i{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-style:normal;background:#FFF1F2;color:#C8102E}.mlt i svg{width:19px;height:19px}
 .mlt.brk i{background:#FCE7F3;color:#9D174D}.mlt.xot i{background:#FFE4E6;color:#E11D48}.mlt.out i{background:#FEE2E2;color:#991B1B}
 @media(max-width:420px){.macv{font-size:28px}.mac{padding:14px 12px 12px 16px}}
-.myd{min-width:0;max-width:100%;overflow:hidden}.myd>*{min-width:0;max-width:100%}.mds{width:100%;min-width:0}.dash{min-width:0}.dash>*{min-width:0}
+.dgrid1{max-width:760px;margin:0 auto 16px}.myd{min-width:0;max-width:100%;overflow:hidden}.myd>*{min-width:0;max-width:100%}.mds{width:100%;min-width:0}.dash{min-width:0}.dash>*{min-width:0}
 </style>
 </head>
 <body>
@@ -1307,6 +1307,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   if(RC.ret&&RC.ret.length)T.push(`<button type="button" class="dtask bad" data-tab="report"><b><span class="num">${RC.ret.length}</span> ${LG("ބަޔާން އަނބުރާ ފޮނުވާފައި","comments sent back to fix")}</b><small>${LG("ރިޕޯޓް ކާޑު","Report cards")}</small></button>`);
   if(myPend.length)T.push(`<button type="button" class="dtask warn" data-mylv><b><span class="num">${myPend.length}</span> ${LG("ޗުއްޓީއަށް އެދުން ބަލަމުން","leave request(s) waiting for approval")}</b></button>`);
   const tk=`<div class="card dcard"><h3 class="h">${LG("ކުރަންޖެހޭ ކަންތައް","My tasks")}</h3>${T.length?`<div class="dtasks">${T.join("")}</div>`:`<div class="dbig muted">${LG("ކުރަންޖެހޭ އެއްވެސް ކަމެއް ނެތް ✓","Nothing to do ✓")}</div>`}</div>`;
+  return `<div class="dgrid1">${my}</div>`;
   const st=dashStudents(td,school),sf=dashStaff(school);let h=`<div class="dgrid3">${my}${ml}${tk}</div>`+(st||sf?`<div class="card dcard" style="margin:0 0 16px"><h3 class="h">${LG("ހާޒިރީ","Attendance")}</h3>${sf}${sf&&st?`<hr class="dsep">`:""}${st}</div>`:"")+dashSchool();
   if(!ME.lead)return h;
   // ---- supervisors
