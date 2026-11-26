@@ -1168,7 +1168,8 @@ async function start(){
   document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
-function render(){render0();layout();topMe();}
+function render(){render0();layout();topMe();const m=document.querySelector(".mds");if(m&&DB.mdsX!=null){m.style.scrollSnapType="none";m.scrollLeft=DB.mdsX;requestAnimationFrame(()=>{m.style.scrollSnapType="";});}}
+document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("mds"))DB.mdsX=t.scrollLeft;},true);
 function topMe(){const el=$("#tMe");if(!el)return;const inn=document.body.classList.contains("in"),on=inn&&TAB==="home"&&ME&&ME.staff,h1=document.querySelector(".mainc>.phead h1"),ttx=h1?h1.innerHTML.trim():"",tt=inn&&!on&&!!ttx;document.body.classList.toggle("tab-home",!!on);document.body.classList.toggle("tab-title",!!tt);el.hidden=!(on||tt);
   if(tt){el.innerHTML=`<span class="ttl h">${ttx}</span>`;return;}if(!on)return;
   const st=ME.staff,nm=NM(st.name_dv,st.name_en)||"",ini=(st.name_en||"?").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
