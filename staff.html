@@ -504,6 +504,7 @@ html.boot body>*{visibility:hidden}html.boot body{background:#F3F4F6}html.boot::
 .printonly{display:none}
 @media print{.side,.phead,.noprint,.tabs,.me{display:none!important}.mainc{margin:0!important;padding:0!important}.printonly{display:block!important}.card{box-shadow:none!important;border:1px solid #ddd;break-inside:avoid;margin:0 0 10px!important}.arlog{max-height:none}body{background:#fff}
  .arhd b{font-size:20px;display:block}.arhd small{color:#555}}
+.rcreg .btn{flex:none;width:auto}.rcreg{display:flex;align-items:center;gap:14px;justify-content:space-between;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:10px 14px;margin:0 0 12px}.rcreg b{display:block;color:#1E3A8A}.rcreg small{color:#1E40AF}.rcfilled td{background:#F0F9FF}
 </style>
 </head>
 <body>
@@ -865,12 +866,20 @@ function rcSubject(s,L){const mk=hasMarks(RC.cls,s);
   <button class="btn" data-rcsave="sub">${LG("ރައްކާކުރައްވާ","Save")}</button><div class="msg" id="rcMsg">${RC.msg}</div></div>`;}
 function rcSel(k,opts,v){return `<select data-k="${k}"><option value=""></option>${opts.map(o=>`<option${o===v?" selected":""}>${o}</option>`).join("")}</select>`;}
 function rcChips(k,opts,v){return `<div class="chips"><input type="hidden" data-k="${k}" value="${esc(v||"")}">${opts.map(o=>`<button type="button" class="chp c-${o.toLowerCase().replace(/\s+/g,"-")}${o===v?" on":""}" data-chip="${esc(o)}">${o}</button>`).join("")}</div>`;}
+async function rcFillReg(btn){const T=rcTerm(),M=()=>$("#rcMsg")||{},td=todayMV(),to=T.end_date&&T.end_date<td?T.end_date:td;btn.disabled=true;
+  try{const R=await rpc("att_report",{p_from:T.start_date,p_to:to,p_class:RC.cls}),by={};(R.students||[]).forEach(x=>by[x.id]=x);const days=new Set((R.days||[]).map(x=>x.date)).size;let n=0;
+    document.querySelectorAll("tr.rcs[data-sid]").forEach(tr=>{const x=by[tr.dataset.sid];if(!x||!+x.days)return;n++;const set=(k,v)=>{const i=tr.querySelector(`[data-k="${k}"]`);if(i){i.value=v;i.dispatchEvent(new Event("input",{bubbles:true}));}};
+      set("absent_days",(+x.a)+(+x.sick)+(+x.mc));set("excused_days",(+x.sick)+(+x.mc));set("late_days",+x.l);tr.classList.add("rcfilled");});
+    const m=M();m.className="msg ok";m.innerHTML=LANG==="en"?`Filled ${n} students from ${days} school days in the register (${dvDate(T.start_date)} – ${dvDate(to)}). Check the numbers and press <b>Save</b>.`:`ރަޖިސްޓަރީގެ ${days} ސްކޫލް ދުވަހުން ${n} ދަރިވަރުން ފުރިއްޖެ. ބަލާފައި <b>ރައްކާކުރައްވާ</b>.`;}
+  catch(e){const m=M();m.className="msg err";m.textContent=e.message;}btn.disabled=false;}
+document.addEventListener("click",e=>{const rg=e.target.closest("[data-rcreg]");if(rg){e.preventDefault();e.stopPropagation();rcFillReg(rg);}},true);
 function rcClassForm(L){const T=rcTerm(),TD=T.teaching_days||"",sub=RC.ct||"att";
   const seg=`<div class="ctseg"><button type="button" class="${sub==="att"?"on":""}" data-ct="att">${LG("ހާޒިރީ އަދި ހެދިބޮޑުވުން","Attendance and growth")}</button><button type="button" class="${sub==="stu"?"on":""}" data-ct="stu">${LG("ސުލޫކު އަދި ބަޔާން","Conduct and comments")}</button></div>`;
   if(sub==="att"){
     return `<div class="card">
     <div class="tdnote">${LG("ޙާޒިރުވާން ޖެހޭ ދުވަސް","Days to be attended")}: <b class="num">${TD||"—"}</b> <small>${LG("(ޓާމްގެ ސެޓިންގްސްއިން، ހުރިހާ ދަރިވަރުންނަށް އެއްވަރު)","(from term settings, same for every student)")}</small></div>
     ${RC.prev?`<p class="pct" style="margin:0 0 4px">${LG(`ކުޑަ އަޅި ކުލައިގެ އަދަދުތަކަކީ ${pvName()} ގެ އަދަދުތައް.`,`The small grey numbers are from ${pvName()}.`)}</p>`:""}<p class="pct" style="margin:0 0 10px">${LG("ހާޒިރުނުވާ ދުވަސް ލިޔުއްވުމުން ހާޒިރުވި ދުވަސް އަމިއްލައަށް ހިސާބުވާނެ.","Type the days absent and days attended is worked out automatically.")}</p>
+    ${T.start_date?`<div class="rcreg"><div><b>${LG("ހާޒިރީ ރަޖިސްޓަރީން ފުރާ","Fill from the attendance register")}</b><small>${LG(`ޓާމް ފެށުނު ${dvDate(T.start_date)} އިން މިއަދާ ހަމައަށް ނެގި ހާޒިރީން ހާޒިރުނުވާ، ބަލިވެގެން އަދި ލަސްވި ދުވަސް ފުރާނެ. ބަލާފައި ރައްކާކުރައްވާ.`,`Fills absent, excused (sick / MC) and late days from the daily attendance since the term started on ${dvDate(T.start_date)}. Check, then press Save.`)}</small></div><button type="button" class="btn ghost" data-rcreg>⟳ ${LG("ރަޖިސްޓަރީން ފުރާ","Fill from register")}</button></div>`:""}
     <div class="rctw"><table class="rct atb"><thead><tr><th>#</th><th>${LG("ދަރިވަރު","Student")}</th><th>${LG("ހާޒިރުނުވާ","Absent")}</th><th>${LG("ބަލިވެގެން","Excused")}</th><th>${LG("ލަސްވި","Late")}</th><th>${LG("އިސްކޮޅު ސ.މ","Height cm")}</th><th>${LG("ބަރުދަން ކ.ގ","Weight kg")}</th><th>${LG("ހާޒިރުވި","Attended")}</th></tr></thead><tbody>
     ${L.map((r,i)=>{const d=r.data,ab=d.absent_days??"",at=ab!==""&&TD?(+TD-(+ab)):(d.att_days??"");return `<tr class="rcs" data-sid="${r.id}"><td class="num">${i+1}</td><td class="nm">${esc(NM(r.name_dv,r.name_en))}</td>
       <td><input inputmode="numeric" data-k="absent_days" data-abs value="${esc(ab)}">${pvSmall((pvD(r)||{}).absent_days)}</td><td><input inputmode="numeric" data-k="excused_days" value="${esc(d.excused_days??"")}">${pvSmall((pvD(r)||{}).excused_days)}</td><td><input inputmode="numeric" data-k="late_days" value="${esc(d.late_days??"")}">${pvSmall((pvD(r)||{}).late_days)}</td><td><input inputmode="decimal" data-k="height" value="${esc(d.height??"")}">${pvSmall((pvD(r)||{}).height)}</td><td><input inputmode="decimal" data-k="weight" value="${esc(d.weight??"")}">${pvSmall((pvD(r)||{}).weight)}</td>
