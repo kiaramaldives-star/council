@@ -44,8 +44,9 @@ function Get-BioToken($cfg) {
       if (-not $tok -and $r.data) { $tok = $r.data.token }
       if (-not $tok -and $r.access) { $tok = $r.access }
       if ($tok) {
-        if ($ep -like '*jwt*') { $candidates += @('JWT ' + $tok, 'Bearer ' + $tok, 'Token ' + $tok) }
-        else { $candidates += @('Token ' + $tok, 'JWT ' + $tok, 'Bearer ' + $tok) }
+        $tok = [string]$tok
+        if ($ep -like '*jwt*') { $candidates += @(('JWT ' + $tok), ('Bearer ' + $tok)) }
+        else { $candidates += @(('Token ' + $tok)) }
       }
     } catch {}
   }
