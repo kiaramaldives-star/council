@@ -1322,7 +1322,7 @@ function maView(){const td=todayMV();if(!MA.m)MA.m=td.slice(0,7);const [f,t]=maR
    <div class="marecs">${R.map(r=>{const dt=new Date(r.d+"T00:00:00"),[cd,ce,cc]=chip[r.st],sh=r.x&&r.x.shift;
      return `<div class="marec ${r.st}"><div class="marh"><span class="mard"><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(r.w),DW[r.w])}</small></span><div><b>${longD(r.d)}</b><span class="mach2 ${cc}">${LG(cd,ce)}${r.st==="late"?` <span class="num">${hhmm(r.lt)}</span>`:r.st==="early"?` <span class="num">${hhmm(r.ea)}</span>`:""}</span></div>${r.lv?`<span class="malv">${esc(r.lv.short||"")}</span>`:""}</div>
        ${r.x?`<div class="mabs">${box(tmMV(r.q.in),LG("ޗެކް އިން","Check In"),r.lt>0?"w":"g")}${box(r.q.out?tmMV(r.q.out):"—",LG("ޗެކް އައުޓް","Check Out"),r.ea>0?"w":"g")}${box(sh?`${esc(sh.start)}-${esc(sh.end)}`:"—",LG("ޑިއުޓީ","Duty"),"r")}</div>${r.q.otp&&r.q.otp.length||r.q.long>0?`<div class="maxtra">${r.q.long>0?`<span class="mach2 w">${LG("ބްރޭކް ދިގުވި","Long break")} +${r.q.long} ${LG("މިނެޓް","min")}</span>`:""}${r.q.otp&&r.q.otp.length?`<span class="mach2 n">${LG("އޯޓީ","OT")} <span class="num">${hhmm(r.q.ot)}</span></span>`:""}</div>`:""}`:""}</div>`;}).join("")}</div>
-   <p class="pct">${LG("ރަސްމީ ބަންދު ދުވަސްތަކުގައި ފިންގަރ ނުޖަހައިފިނަމަ ވެސް ނުވަދެ ކަމަށް ދައްކާނެ.","Public holidays without a check-in show as absent here.")}</p>`;}
+`;}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mam]");if(b&&!b.disabled){MA.m=b.dataset.mam;render();return;}if(e.target.closest("[data-maretry]")){MA.err="";maLoad();}});
 const DB={};
 async function dashLoad(){if(DB.loading)return;DB.loading=1;const td=todayMV();
