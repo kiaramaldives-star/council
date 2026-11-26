@@ -36,7 +36,7 @@ function Read-Config {
 
 function Get-BioToken($cfg) {
   $body = @{ username = $cfg['BIOTIME_USER']; password = $cfg['BIOTIME_PASSWORD'] } | ConvertTo-Json
-  $candidates = @()
+  $candidates = @(); $bearer = $null
   foreach ($ep in '/jwt-api-token-auth/', '/api-token-auth/') {
     try {
       $r = Invoke-RestMethod -Method Post -Uri ($cfg['BIOTIME_URL'] + $ep) -ContentType 'application/json' -Body $body -TimeoutSec 30
@@ -45,11 +45,12 @@ function Get-BioToken($cfg) {
       if (-not $tok -and $r.access) { $tok = $r.access }
       if ($tok) {
         $tok = [string]$tok
-        if ($ep -like '*jwt*') { $candidates += @(('JWT ' + $tok), ('Bearer ' + $tok)) }
-        else { $candidates += @(('Token ' + $tok)) }
+        if ($ep -like '*jwt*') { $candidates += @(('JWT ' + $tok)); $bearer = 'Bearer ' + $tok }
+        else { $candidates = @(('Token ' + $tok)) + $candidates }
       }
     } catch {}
   }
+  if ($bearer) { $candidates += @($bearer) }
   if ($candidates.Count -eq 0) { throw "ZKBio Time login failed. Check BIOTIME_USER and BIOTIME_PASSWORD in config.txt." }
   # Find the header format this ZKBio Time version accepts
   $testPaths = @('/personnel/api/employees/?page_size=1', '/iclock/api/transactions/?page_size=1', '/iclock/api/terminals/?page_size=1')
@@ -57,15 +58,19 @@ function Get-BioToken($cfg) {
     foreach ($tp in $testPaths) {
       try {
         $resp = Invoke-WebRequest -UseBasicParsing -Method Get -Uri ($cfg['BIOTIME_URL'] + $tp) -Headers @{ Authorization = $a } -MaximumRedirection 0 -TimeoutSec 30 -ErrorAction Stop
-        if ([int]$resp.StatusCode -eq 200) {
+        $ct = ([string]$resp.Content).TrimStart()
+        if ([int]$resp.StatusCode -eq 200 -and ($ct.StartsWith('{') -or $ct.StartsWith('['))) {
           Write-Host ('Login OK (' + $a.Split(' ')[0] + ', ' + $tp.Split('?')[0] + ')')
           return $a
         }
-        Write-Host ('  try ' + $a.Split(' ')[0] + ' ' + $tp.Split('?')[0] + ' -> ' + $resp.StatusCode + ' ' + $resp.Headers['Location'])
+        $snip = $ct; if ($snip.Length -gt 90) { $snip = $snip.Substring(0, 90) }
+        $snip = ($snip -replace '\s+', ' ')
+        Write-Host ('  try ' + $a.Split(' ')[0] + ' ' + $tp.Split('?')[0] + ' -> ' + $resp.StatusCode + ' ' + $resp.Headers['Location'] + ' ' + $snip)
       } catch {
         $code = ''; $loc = ''
         if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode; $loc = $_.Exception.Response.Headers['Location'] }
         $det = ''; if ($_.ErrorDetails -and $_.ErrorDetails.Message) { $det = $_.ErrorDetails.Message }
+        $det = ($det -replace '\s+', ' ')
         if ($det.Length -gt 160) { $det = $det.Substring(0, 160) }
         Write-Host ('  try ' + $a.Split(' ')[0] + ' ' + $tp.Split('?')[0] + ' -> ' + $code + ' ' + $loc + ' ' + $det)
       }
@@ -79,6 +84,7 @@ function Show-Shape($cfg, $auth, $path) {
   try {
     $raw = (Invoke-WebRequest -UseBasicParsing -Method Get -Uri ($cfg['BIOTIME_URL'] + $path) -Headers @{ Authorization = $auth } -TimeoutSec 60).Content
     $txt = [string]$raw
+    $txt = ($txt -replace '\s+', ' ')
     $short = $txt; if ($short.Length -gt 260) { $short = $short.Substring(0, 260) + '...' }
     Write-Host ('  reply ' + $path.Split('?')[0] + ' (' + $txt.Length + ' chars): ' + $short)
   } catch { Write-Host ('  reply ' + $path.Split('?')[0] + ' failed: ' + $_.Exception.Message) }
