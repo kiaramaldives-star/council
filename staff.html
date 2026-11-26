@@ -1304,6 +1304,7 @@ $("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`
 $("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
 /* ================= DASHBOARD ================= */
 const dvMonthShort=d=>["ޖެނުއަރީ","ފެބްރުއަރީ","މާރިޗު","އޭޕްރިލް","މެއި","ޖޫން","ޖުލައި","އޮގަސްޓު","ސެޕްޓެމްބަރު","އޮކްޓޯބަރު","ނޮވެމްބަރު","ޑިސެމްބަރު"][d.getMonth()];
+const dvMonthTiny=d=>["ޖެނު","ފެބް","މާރި","އޭޕް","މެއި","ޖޫން","ޖުލައި","އޮގަސް","ސެޕް","އޮކް","ނޮވެމް","ޑިސެމް"][d.getMonth()];
 const dvDayShort=w=>["އާދިއްތަ","ހޯމަ","އަންގާރަ","ބުދަ","ބުރާސްފަތި","ހުކުރު","ހޮނިހިރު"][w];
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mydate]");if(b){DB.sel=b.dataset.mydate;render();}});
 
@@ -1378,7 +1379,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
   const MO=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],DW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
   const strip=Array.from({length:14},(_,i)=>{const d=addDays(td,-i),dt=new Date(d+"T00:00:00"),x=(DB.pun||[]).find(y=>y.day===d),w=dt.getDay(),lt=x?lateBy(x.in,x.shift):0;
     const hasOut=x&&(x.n>1),dot=dLv(d)?"lv":x&&(hasOut||d===td)?(lt>0?"late":"ok"):(w===5||w===6)&&!x?"off":"no";
-    return `<button type="button" class="mdp ${d===sel?"on":""}" data-mydate="${d}"><small>${LG(dvMonthShort(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small><i class="mdot ${dot}"></i></button>`;}).join("");
+    return `<button type="button" class="mdp ${d===sel?"on":""}" data-mydate="${d}"><small>${LG(dvMonthTiny(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small><i class="mdot ${dot}"></i></button>`;}).join("");
   const sLv=dLv(sel),q=PD?(p4(PD.ts,dsh)||{in:PD.in,bi:null,bo:null,out:PD.n>1?PD.out:null,long:0,ot:0,otp:[]}):null,lat=PD?lateBy(PD.in,dsh):0,early=q&&q.out&&dsh?earlyBy(q.out,2,dsh):0;
   const brk=q&&q.bi&&q.bo?Math.max(0,hm2m(tmMV(q.bo))-hm2m(tmMV(q.bi))):null,wk=PD?workMin(PD.ts||[PD.in,PD.out],dsh):null,et=ME&&ME.etype,need=otNeed(et),swd=new Date(sel+"T00:00:00").getDay(),allOT=swd===5||(swd===6&&et==="contract"),otm=!q?0:wk==null?(q.ot||0):allOT?wk:need!=null?Math.max(0,wk-need):(q.ot||0);
   const card=(cls,ic,t,v,chip,chc)=>`<div class="mac ${cls}"><div class="mach"><span>${t}</span><i class="maci">${ic}</i></div><b class="num macv">${v}</b><span class="mchip ${chc||""}"><i></i>${chip}</span></div>`;
