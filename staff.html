@@ -1384,7 +1384,7 @@ function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>
    const lab={};if(q.in)lab[q.in]=["in",LG("ޗެކް އިން","Check In")];if(q.bi)lab[q.bi]=["brk",LG("ބްރޭކް އައުޓް","Break Out")];if(q.bo)lab[q.bo]=["brk",LG("ބްރޭކް އިން","Break In")];if(q.out)lab[q.out]=["out",LG("ޗެކް އައުޓް","Check Out")];(q.otp||[]).forEach(o=>{lab[o.i]=["xot",LG("އޯޓީ ފެށުން","OT Start")];if(o.o)lab[o.o]=["xot",LG("އޯޓީ ނިމުން","OT End")];});
    const TS=[...(PD.ts||[PD.in])].sort().reverse(),sec=t=>new Date(t).toLocaleTimeString("en-GB",{timeZone:"Indian/Maldives",hour:"2-digit",minute:"2-digit",second:"2-digit"});
    my+=`<div class="mdh mlh"><h3 class="h">${LG("ފިންގަރޕްރިންޓްތައް","Recent logs")}</h3><span class="mcnt num">${TS.length}</span></div><div class="mlogs">${TS.map(t=>{const[k,l]=lab[t]||["pn",LG("ފިންގަރ","Punch")],x=sec(t);return `<div class="mlog"><div><b class="num">${x.slice(0,5)}<small>:${x.slice(6,8)}</small></b><small>${LANG==="en"?new Date(t).toLocaleDateString("en-GB",{timeZone:"Indian/Maldives",weekday:"long",day:"numeric",month:"short"}):dvDate(sel)}</small></div><span class="mlt ${k}">${l}<i>${IC[k==="pn"?"in":k==="xot"?"ot":k]}</i></span></div>`;}).join("")}</div>`;}
-  my+=`<div class="dacts"><button class="btn sm ghost" data-mylv>${LG("ޗުއްޓީ","Leave")}</button><button class="btn sm ghost" data-myman>${LG("މެނުއަލް ހާޒިރީ","Manual request")}</button><button class="btn sm ghost" data-myhist>${LG("ތާރީޚު","History")}</button></div></div>`;
+  my+=`</div>`;
   // ---- my leave
   const B=(L.balances||[]).filter(b=>b.allow!=null);
   let ml=`<div class="card dcard"><h3 class="h">${LG("ބާކީ ޗުއްޓީ","My leave balance")}</h3>`;
