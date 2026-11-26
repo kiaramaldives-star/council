@@ -90,27 +90,41 @@ function Show-Shape($cfg, $auth, $path) {
   } catch { Write-Host ('  reply ' + $path.Split('?')[0] + ' failed: ' + $_.Exception.Message) }
 }
 
+# Downloads a ZKBio Time reply as UTF-8 and parses it with a strict JSON reader
+# (Windows PowerShell's own reader fails on some ZKBio Time replies)
+Add-Type -AssemblyName System.Web.Extensions
+function Get-Json($url, $auth) {
+  $resp = Invoke-WebRequest -UseBasicParsing -Method Get -Uri $url -Headers @{ Authorization = $auth } -TimeoutSec 120
+  $txt = [System.Text.Encoding]::UTF8.GetString($resp.RawContentStream.ToArray())
+  $ser = New-Object System.Web.Script.Serialization.JavaScriptSerializer
+  $ser.MaxJsonLength = 2147483647
+  return $ser.DeserializeObject($txt)
+}
+
 # Reads every page of a ZKBio Time list (handles both "data" and "results" styles)
 function Get-BioPages($cfg, $auth, $path) {
   $items = New-Object System.Collections.ArrayList
   $url = $cfg['BIOTIME_URL'] + $path
   $guard = 0
-  while ($url -and $guard -lt 200) {
+  while ($url -and $guard -lt 400) {
     $guard++
-    $r = Invoke-RestMethod -Method Get -Uri $url -Headers @{ Authorization = $auth } -TimeoutSec 60
-    if ($r -is [string]) { try { $r = $r | ConvertFrom-Json } catch {} }
+    $r = Get-Json $url $auth
     $rows = $null
-    if ($r.data -and $r.data.data) { $rows = $r.data.data } elseif ($r.data -and $r.data.results) { $rows = $r.data.results }
-    elseif ($r.data) { $rows = $r.data } elseif ($r.results) { $rows = $r.results } elseif ($r.rows) { $rows = $r.rows } elseif ($r.items) { $rows = $r.items }
-    elseif ($r -is [array]) { $rows = $r }
-    if ($rows) { foreach ($x in @($rows)) { [void]$items.Add($x) } }
-    $next = $r.next
+    if ($r -is [array]) { $rows = $r }
+    elseif ($r.ContainsKey('data') -and $r['data'] -is [array]) { $rows = $r['data'] }
+    elseif ($r.ContainsKey('results') -and $r['results'] -is [array]) { $rows = $r['results'] }
+    elseif ($r.ContainsKey('data') -and $r['data'] -is [System.Collections.IDictionary] -and $r['data'].ContainsKey('data')) { $rows = $r['data']['data'] }
+    if ($rows) { foreach ($x in $rows) { [void]$items.Add($x) } }
+    $next = $null
+    if (-not ($r -is [array]) -and $r.ContainsKey('next')) { $next = [string]$r['next'] }
     if ($next -and $next -notmatch '^https?://') { $next = $cfg['BIOTIME_URL'] + $next }
-    if ($next -and $next -match '^https?://[^/]+(/.*)$' -and $next -notlike ($cfg['BIOTIME_URL'] + '*')) { $next = $cfg['BIOTIME_URL'] + $Matches[1] }
+    elseif ($next -and $next -match '^https?://[^/]+(/.*)$') { $next = $cfg['BIOTIME_URL'] + $Matches[1] }
     $url = $next
   }
   return ,$items
 }
+
+function Val($o, $k) { if ($o -is [System.Collections.IDictionary]) { if ($o.ContainsKey($k)) { return $o[$k] } else { return $null } } return $o.$k }
 
 function Send-ToPortal($cfg, $punches, $employees) {
   $payload = @{ p_key = $cfg['SYNC_KEY']; p_punches = @($punches); p_employees = @($employees) } | ConvertTo-Json -Depth 5 -Compress
@@ -137,10 +151,10 @@ try {
 
   $emps = @()
   foreach ($e in (Get-BioPages $cfg $auth '/personnel/api/employees/?page_size=500')) {
-    $name = (@($e.first_name, $e.last_name) | Where-Object { $_ }) -join ' '
-    $dept = $null
-    if ($e.department) { $dept = $e.department.dept_name }
-    $emps += @{ emp_code = [string]$e.emp_code; name = $name; department = $dept }
+    $name = (@((Val $e 'first_name'), (Val $e 'last_name')) | Where-Object { $_ }) -join ' '
+    $d = Val $e 'department'; $dept = $null
+    if ($d -is [System.Collections.IDictionary]) { $dept = [string](Val $d 'dept_name') } elseif ($d) { $dept = [string]$d }
+    $emps += @{ emp_code = [string](Val $e 'emp_code'); name = $name; department = $dept }
   }
 
   $q = '/iclock/api/transactions/?page_size=500&start_time=' + [uri]::EscapeDataString($start)
@@ -148,15 +162,16 @@ try {
   $punches = @()
   $latest = $null
   foreach ($t in $list) {
-    if (-not $t.emp_code -or -not $t.punch_time) { continue }
+    $ec = [string](Val $t 'emp_code'); $pt = [string](Val $t 'punch_time')
+    if (-not $ec -or -not $pt) { continue }
     $punches += @{
-      emp_code = [string]$t.emp_code; punch_time = [string]$t.punch_time; punch_state = [string]$t.punch_state
-      terminal_sn = [string]$t.terminal_sn; terminal_alias = [string]$t.terminal_alias; verify_type = [string]$t.verify_type_display
+      emp_code = $ec; punch_time = $pt; punch_state = [string](Val $t 'punch_state')
+      terminal_sn = [string](Val $t 'terminal_sn'); terminal_alias = [string](Val $t 'terminal_alias'); verify_type = [string](Val $t 'verify_type_display')
     }
-    if (-not $latest -or ([string]$t.punch_time) -gt $latest) { $latest = [string]$t.punch_time }
+    if (-not $latest -or $pt -gt $latest) { $latest = $pt }
   }
 
-  if ($emps.Count -eq 0 -or $punches.Count -eq 0) {
+  if ($emps.Count -eq 0) {
     Show-Shape $cfg $auth '/personnel/api/employees/?page_size=2'
     Show-Shape $cfg $auth ('/iclock/api/transactions/?page_size=2&start_time=' + [uri]::EscapeDataString($start))
     Show-Shape $cfg $auth '/iclock/api/transactions/?page_size=2'
