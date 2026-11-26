@@ -515,6 +515,7 @@ html[lang=dv] .phead .pt small,html[lang=dv] .phead .pt small *{font-family:Wahe
 .dcla{display:flex;flex-wrap:wrap;gap:4px}.dcla span{font-size:12px;border-radius:999px;padding:1px 8px;background:#FEE2E2;color:#991B1B}.dcla span.l{background:#FEF3C7;color:#92400E}
 .dsub{margin:2px 0 -2px;font-size:14px;color:#6B7280;font-weight:600}html[lang=dv] .dsub{font-family:Waheed,Faruma,sans-serif;font-weight:400}.dsep{border:0;border-top:1px dashed #E5E7EB;margin:6px 0}.dlist.lvl>span{background:#F3E8FF;color:#6B21A8}
 html[lang=dv] .dlist>small,html[lang=dv] .dlist>span,html[lang=dv] .dchip,html[lang=dv] .dclh b,html[lang=dv] .dclh .nm,html[lang=dv] .dcla span{font-family:Waheed,Faruma,sans-serif;font-weight:400}html[lang=dv] .dlist .num,html[lang=dv] .dlist i{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700}
+html[lang=dv] .dash :is(h3,h4,span,small,b,i,div,button,p):not(.num):not(.lvsc){font-family:Waheed,Faruma,sans-serif}html[lang=dv] .dash .num,html[lang=dv] .dash .num *{font-family:"Plus Jakarta Sans",sans-serif!important}html[lang=dv] .dash b:not(.num),html[lang=dv] .dash h3{font-weight:400}
 </style>
 </head>
 <body>
@@ -723,7 +724,8 @@ function dashStaff(school){if(!ME.lead)return "";const D=DB.day||{},S=(D.staff||
      ${lt.length?`<div class="dlist"><small>${LG("ލަސްވި","Late")}:</small> ${lt.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))} <i class="num">${tmMV(x.first_in)}</i></span>`).join("")}</div>`:""}
      ${lvS.length?`<div class="dlist lvl"><small>${LG("ޗުއްޓީ","On leave")}:</small> ${lvS.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}${x.leave&&x.leave.short?` <i>${esc(x.leave.short)}</i>`:""}</span>`).join("")}</div>`:""}
      ${abs.length?`<div class="dlist bad"><small>${LG("އަދި ނުވަދެ","Not in yet")}:</small> ${abs.map(x=>`<span>${esc(NM(x.name_dv,x.name_en))}</span>`).join("")}</div>`:""}`;}
-function dashView(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
+function dashView(){return `<div class="dash">${dashView0()}</div>`;}
+function dashView0(){const td=todayMV();if((DB.date!==td||Date.now()-(DB.at||0)>120000)&&!DB.loading)dashLoad();
   if(!DB.at)return `<div class="card empty">…</div>`;
   const wd=new Date(td+"T00:00:00").getDay(),school=wd!==5&&wd!==6,P=(DB.pun||[])[0],sh=P&&P.shift,late=P?lateBy(P.in,sh):0,L=DB.lv||{};
   const onLv=(L.requests||[]).find(r=>r.status==="approved"&&r.from<=td&&r.to>=td);
