@@ -1,0 +1,16 @@
+# Kondey School - fingerprint sync settings
+# Fill in the three empty lines below, then save this file.
+
+# ZKBio Time address on this computer (leave as it is)
+BIOTIME_URL=http://127.0.0.1:8089
+
+# A ZKBio Time login (best: create a separate user just for this sync)
+BIOTIME_USER=
+BIOTIME_PASSWORD=
+
+# Sync key from the staff portal: Report cards > Settings > Fingerprint machines > Create sync key
+SYNC_KEY=
+
+# Staff portal (leave as it is)
+PORTAL_URL=https://tmjjrhdwuoencmtmolvs.supabase.co
+PORTAL_APIKEY=sb_publishable_BG4KiDiwGlQUmMb9vDqG2g_KvrRmhdx
