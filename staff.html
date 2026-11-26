@@ -639,6 +639,25 @@ html[lang=dv] .vdtb th,html[lang=dv] .vdt span,html[lang=dv] .vdl{font-family:Wa
 @media (max-width:899px){#appView .tabs,body>.tabs,.wrap .tabs{display:none!important}body.in{padding-bottom:env(safe-area-inset-bottom)!important}}
 .pyt.late{background:#FEE2E2;color:#B91C1C}.blt td{white-space:nowrap}
 .bldocs{white-space:nowrap}.bld{display:inline-block;border:0;border-radius:999px;padding:2px 8px;margin:1px;font:600 11.5px "Plus Jakarta Sans","Faruma",sans-serif;background:#DBEAFE;color:#1E40AF;cursor:pointer}.bld.none{background:#F3F4F6;color:#C0C4CC;cursor:default;font-weight:500}html[lang=dv] .bld{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+@media (max-width:899px){
+ .mdr-n{gap:0!important;padding:6px 14px!important}
+ .mdr-n .mrow{display:flex!important;align-items:center;gap:12px;width:100%;background:none!important;border:0;border-bottom:1px solid rgba(255,255,255,.16)!important;border-radius:0!important;padding:14px 4px!important;color:#fff!important;font-size:17px!important;text-align:start;cursor:pointer}
+ .mdr-n .mlb{flex:1;display:flex;align-items:center;gap:12px;min-width:0}
+ .mdr-n .mlb svg{width:22px;height:22px;flex:none;opacity:.9;color:#fff!important;stroke:#fff}
+ .mdr-n .mra{flex:none;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;font-style:normal;color:#fff}
+ html[lang=dv] .mdr-n .mra:not(.chv) svg{transform:scaleX(-1)}
+ .mdr-n .chv svg{transition:transform .2s}
+ .mdr-n .mgrp.open>.mgh .chv svg{transform:rotate(180deg)}
+ .mdr-n .mrow.on,.mdr-n .mrow.cur{color:#fff!important}
+ .mdr-n .mrow.on .mlb{font-weight:700}
+ .mdr-n .mrow.on .mra{background:#fff;color:#A50E28}
+ .mdr-n .msubs{display:none;padding-inline-start:34px}
+ .mdr-n .mgrp.open>.msubs{display:block}
+ .mdr-n .msub{font-size:15.5px!important;padding:11px 4px!important}
+ .mdr-n .msub .mra{width:32px;height:32px}
+ .mdr-n .bdg{position:static!important;margin:0!important}
+ html[lang=dv] .mdr-n .mrow{font-family:Waheed,Faruma,sans-serif}
+}
 </style>
 </head>
 <body>
@@ -742,11 +761,23 @@ document.addEventListener("change",e=>{const t=e.target;
   if(t.id==="bl_due")t.dataset.auto="0";});
 document.addEventListener("input",e=>{if(e.target.id==="blQ"){BL.q=e.target.value;clearTimeout(BL.qt);BL.qt=setTimeout(()=>{render();const q=$("#blQ");if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length);}},250);}});
 
+
+function mMenu(t){if(!t)return "";const ARW='<i class="mra"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i>',CHV='<i class="mra chv"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></i>';
+  const STAT={ot:[["ot","އޯވަޓައިމް","Overtime"],["aa","ހާޒިރީ އެލަވަންސް","Attendance allowance"]],po:[["po","ޕާޗޭސް އޯޑަރު","Purchase orders"],["vendor","ވެންޑަރުން","Vendors"],["stock","ސްޓޮކް","Stock"],["bill","ބިލު ރަޖިސްޓަރީ","Bill registry"]]};
+  const it=[];[...t.querySelectorAll(":scope>button")].forEach(b=>{const sub=b.classList.contains("sub");if(!sub){it.push({b,subs:[]});return;}const last=it[it.length-1];if(last&&!STAT[last.b.dataset.tab])last.subs.push(b);});
+  const lbl=b=>{const c=b.cloneNode(true);c.querySelectorAll(".bdg").forEach(x=>x.remove());return c.innerHTML;},bdg=b=>{const x=b.querySelector(".bdg");return x?x.outerHTML:"";};
+  return it.map(({b,subs})=>{const k=b.dataset.tab;let S=null;
+    if(STAT[k])S=STAT[k].map(([tk,dv,en])=>`<button type="button" data-tab="${tk}" class="mrow msub ${TAB===tk?"on":""}"><span class="mlb">${LG(dv,en)}</span>${tk==="stock"&&STK.ov&&STK.ov.pending?`<i class="bdg num">${STK.ov.pending}</i>`:""}${ARW}</button>`);
+    else if(subs.length)S=[`<button type="button" data-tab="${k}" class="mrow msub ${TAB===k?"on":""}"><span class="mlb">${lbl(b)}</span>${ARW}</button>`].concat(subs.map(x=>`<button type="button" data-tab="${x.dataset.tab}" class="mrow msub ${TAB===x.dataset.tab?"on":""}"><span class="mlb">${lbl(x)}</span>${bdg(x)}${ARW}</button>`));
+    if(!S)return `<button type="button" data-tab="${k}" class="mrow ${TAB===k?"on":""}"><span class="mlb">${lbl(b)}</span>${bdg(b)}${ARW}</button>`;
+    const keys=STAT[k]?STAT[k].map(x=>x[0]):[k].concat(subs.map(x=>x.dataset.tab)),open=keys.includes(TAB),sb=STAT.po===STAT[k]&&STK.ov&&STK.ov.pending?`<i class="bdg num">${STK.ov.pending}</i>`:(subs.map(bdg).join("")||bdg(b));
+    return `<div class="mgrp ${open?"open":""}"><button type="button" class="mrow mgh ${open?"cur":""}" data-mtog><span class="mlb">${lbl(b)}</span>${open?"":sb}${CHV}</button><div class="msubs">${S.join("")}</div></div>`;}).join("");}
+document.addEventListener("click",e=>{const g=e.target.closest("[data-mtog]");if(g){e.stopPropagation();g.parentElement.classList.toggle("open");}},true);
 function mDrawer(open){let d=$("#mDrawer");if(!open){if(d)d.classList.remove("open");document.body.classList.remove("mdr-open");return;}
   if(!d){d=document.createElement("div");d.id="mDrawer";document.body.appendChild(d);}
   const t=document.querySelector(".tabs"),st=(ME&&ME.staff)||{};
   d.innerHTML=`<div class="mdr-b" data-mdrclose></div><aside class="mdr-p"><div class="mdr-h"><span class="mdr-av">${st.photo?`<img src="${esc(st.photo)}" alt="">`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>`}</span><div><small>${LG("މަރުޙަބާ","Welcome")}</small><b class="h">${esc(NM(st.name_dv,st.name_en)||"")}</b></div><button type="button" class="mdr-x" data-mdrclose aria-label="Close">✕</button></div>
-   <nav class="mdr-n">${t?t.innerHTML:""}</nav>
+   <nav class="mdr-n">${mMenu(t)}</nav>
    <div class="mdr-f"><button type="button" class="mdr-out" data-sout><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>${LG("ނުކުމޭ","Sign out")}</button></div></aside>`;
   requestAnimationFrame(()=>d.classList.add("open"));document.body.classList.add("mdr-open");}
 document.addEventListener("click",e=>{const t=e.target;if(t.closest("#mBurger")){mDrawer(true);return;}if(t.closest("[data-mdrclose]")){mDrawer(false);return;}
