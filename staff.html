@@ -806,6 +806,11 @@ html[lang=dv] .ppt,html[lang=dv] .ppmiss{font-family:Waheed,Faruma,sans-serif;fo
 .ppsc{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}.ppsc label{display:flex;flex-direction:column;gap:4px}.ppsc span{font-size:13px;color:#4B5563}
 @media (max-width:899px){.ppst{grid-template-columns:repeat(2,1fr)}.ppseg{grid-template-columns:repeat(2,1fr)}.ppbar .btn{flex:1 1 100%}.ppg{grid-template-columns:1fr}.pptabs{grid-template-columns:repeat(2,1fr)}}
 html[lang=dv] #pplQ{direction:rtl;text-align:right}html[lang=dv] #pplQ,html[lang=dv] #pplQ::placeholder{font-family:Waheed,Faruma,sans-serif!important;font-weight:400}
+.otbar{padding:14px 12px}.ots{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none;scroll-behavior:smooth}.ots::-webkit-scrollbar{display:none}
+.ots .mdp{flex:0 0 calc((100% - 50px)/6.5)!important;font:inherit}.otm .mdp{padding:8px 2px 6px!important}.otm .mdp b{font-size:18px!important}
+@media (max-width:599px){.ots .mdp{flex-basis:calc((100% - 30px)/4.5)!important}}
+.otd{margin-top:6px;border-top:1px solid #F3F4F6;padding-top:12px}.mdp.otwk:not(.on){background:#FFF7ED;border-color:#FED7AA}.mdp.otall:not(.on){background:#FFF1F2;border-color:#FECDD3;color:#C8102E}
+.otcus{margin-top:6px}.otcb{border:0;background:none;color:#6B7280;font:inherit;font-size:13px;cursor:pointer;padding:6px 2px}.otcb.on{color:#C8102E}html[lang=dv] .otcb{font-family:Waheed,Faruma,sans-serif}.otcus .arfr{margin-top:8px}
 </style>
 </head>
 <body>
@@ -1221,7 +1226,7 @@ async function start(){
   document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
-function render(){render0();layout();topMe();const m=document.querySelector(".mds");if(m&&DB.mdsX!=null){m.style.scrollSnapType="none";m.scrollLeft=DB.mdsX;requestAnimationFrame(()=>{m.style.scrollSnapType="";});}}
+function render(){render0();layout();topMe();if((TAB==="ot"||TAB==="aa")&&OT.sk!==OT.from+OT.to+TAB){OT.sk=OT.from+OT.to+TAB;requestAnimationFrame(otScroll);}const m=document.querySelector(".mds");if(m&&DB.mdsX!=null){m.style.scrollSnapType="none";m.scrollLeft=DB.mdsX;requestAnimationFrame(()=>{m.style.scrollSnapType="";});}}
 document.addEventListener("scroll",e=>{const t=e.target;if(t&&t.classList&&t.classList.contains("mds"))DB.mdsX=t.scrollLeft;},true);
 function topMe(){const el=$("#tMe");if(!el)return;const inn=document.body.classList.contains("in"),on=inn&&TAB==="home"&&ME&&ME.staff,h1=document.querySelector(".mainc>.phead h1"),ttx=h1?h1.innerHTML.trim():"",tt=inn&&!on&&!!ttx;document.body.classList.toggle("tab-home",!!on);document.body.classList.toggle("tab-title",!!tt);el.hidden=!(on||tt);
   if(tt){el.innerHTML=`<span class="ttl h">${ttx}</span>`;return;}if(!on)return;
@@ -1898,9 +1903,21 @@ function otPreset(k){const t=todayMV(),y=+t.slice(0,4),m=+t.slice(5,7),p=n=>Stri
   if(k==="today"){OT.from=OT.to=t;}else if(k==="yest"){OT.from=OT.to=addDays(t,-1);}else if(k==="week"){OT.from=addDays(t,-wd);OT.to=t;}
   else if(k==="month"){OT.from=t.slice(0,8)+"01";OT.to=t;}else if(k==="last"){const ly=m===1?y-1:y,lm=m===1?12:m-1;OT.from=`${ly}-${p(lm)}-01`;OT.to=`${ly}-${p(lm)}-${p(new Date(ly,lm,0).getDate())}`;}
   OT.preset=k;otLoad();}
+function otBar(){const td=todayMV(),p=n=>String(n).padStart(2,"0"),MO=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"],DW=["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  const mon=OT.from.slice(0,7),whole=OT.from===mon+"-01"&&(OT.to===otMEnd(mon)||(mon===td.slice(0,7)&&OT.to===td)),day=OT.from===OT.to?OT.from:null,custom=!whole&&!day||(day&&day.slice(0,7)!==mon);
+  const ms=[];for(let i=0;i<12;i++){const d=new Date(+td.slice(0,4),+td.slice(5,7)-1-i,1),k=d.getFullYear()+"-"+p(d.getMonth()+1);ms.push(`<button type="button" class="mdp ${k===mon&&!custom?"on":""}" data-otmon="${k}"><small class="num">${d.getFullYear()}</small><b>${LG(dvMonthTiny(d),MO[d.getMonth()])}</b><small>${i===0?LG("މި މަސް","THIS"):i===1?LG("ފާއިތުވި","LAST"):"&nbsp;"}</small></button>`);}
+  const end=mon===td.slice(0,7)?td:otMEnd(mon),ds=[`<button type="button" class="mdp otall ${whole?"on":""}" data-otmon="${mon}"><small>${LG("މުޅި","WHOLE")}</small><b class="num">${+end.slice(8)}</b><small>${LG("ދުވަސް","DAYS")}</small></button>`];
+  for(let d=end;d>=mon+"-01";d=addDays(d,-1)){const dt=new Date(d+"T00:00:00"),w=dt.getDay();ds.push(`<button type="button" class="mdp ${day===d?"on":""} ${w===5||w===6?"otwk":""}" data-otday="${d}"><small>${LG(dvMonthTiny(dt),MO[dt.getMonth()])}</small><b class="num">${dt.getDate()}</b><small>${LG(dvDayShort(w),DW[w])}</small></button>`);}
+  return `<div class="card otbar"><div class="ots otm">${ms.join("")}</div><div class="ots otd">${ds.join("")}</div>
+    <div class="otcus"><button type="button" class="otcb ${custom||OT.cus?"on":""}" data-otcus>📅 ${LG("އެހެން ތާރީޚުތަކެއް","Custom dates")}${custom?`: <span class="num">${dvDate(OT.from)} – ${dvDate(OT.to)}</span>`:""}</button>
+    ${OT.cus?`<div class="arfr"><label><span>${LG("ފެށޭ ތާރީޚު","From")}</span><input type="date" id="otFrom" value="${OT.from}"></label><label><span>${LG("ނިމޭ ތާރީޚު","To")}</span><input type="date" id="otTo" value="${OT.to}"></label></div>`:""}</div></div>`;}
+const otMEnd=m=>{const [y,mo]=m.split("-").map(Number);return m+"-"+String(new Date(y,mo,0).getDate()).padStart(2,"0");};
+function otScroll(){document.querySelectorAll(".ots").forEach(st=>{const o=st.querySelector(".mdp.on");if(!o)return;const sr=st.getBoundingClientRect(),r=o.getBoundingClientRect();st.scrollLeft+=(r.left+r.width/2)-(sr.left+sr.width/2);});}
+document.addEventListener("click",e=>{let b;if(b=e.target.closest("[data-otmon]")){const m=b.dataset.otmon,td=todayMV();OT.from=m+"-01";OT.to=m===td.slice(0,7)?td:otMEnd(m);OT.preset=null;OT.err=null;otLoad();setTimeout(otScroll,30);return;}
+  if(b=e.target.closest("[data-otday]")){OT.from=OT.to=b.dataset.otday;OT.preset=null;OT.err=null;otLoad();setTimeout(otScroll,30);return;}
+  if(e.target.closest("[data-otcus]")){OT.cus=!OT.cus;render();}});
 function otView(mode){const AA=mode==="aa";otDefaults();if((!OT.data||OT.key!==OT.from+OT.to)&&!OT.loading&&!OT.err)otLoad();
-  const bar=`<div class="card arf"><div class="arfr"><label><span>${LG("ފެށޭ ތާރީޚު","From")}</span><input type="date" id="otFrom" value="${OT.from}"></label><label><span>${LG("ނިމޭ ތާރީޚު","To")}</span><input type="date" id="otTo" value="${OT.to}"></label></div>
-     <div class="archips">${[["today","މިއަދު","Today"],["yest","އިއްޔެ","Yesterday"],["week","މި ހަފްތާ","This week"],["month","މި މަސް","This month"],["last","ފާއިތުވި މަސް","Last month"]].map(([k,dv,en])=>`<button type="button" class="${OT.preset===k?"on":""}" data-otpre="${k}">${LG(dv,en)}</button>`).join("")}</div></div>`;
+  const bar=otBar();
   if(OT.err)return bar+`<div class="card"><div class="msg err">${esc(OT.err)}</div><button type="button" class="btn sm" data-otretry style="margin-top:10px">↻ ${LG("އަލުން މަސައްކަތްކުރޭ","Try again")}</button></div>`;
   const H=OT.data;if(!H||OT.loading)return bar+`<div class="card empty">…</div>`;
   const rows=H.filter(p=>p.onlist).map(p=>{const R=otRows(p),W=R.filter(r=>r.w!=null);return {p,R,days:W.length,tot:W.reduce((a,r)=>a+r.w,0),okd:R.filter(r=>r.ok).length,extra:R.reduce((a,r)=>a+r.extra,0),sum:otSum(p,R),hr:otHr(p),aa:R.filter(r=>r.aa).length};});
