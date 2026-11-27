@@ -1,6 +1,6 @@
 {
-  "name": "Kondey School Staff Portal",
-  "short_name": "Kondey School",
+  "name": "KS Portal – Kondey School",
+  "short_name": "KS Portal",
   "start_url": "/staff.html",
   "scope": "/",
   "display": "standalone",
