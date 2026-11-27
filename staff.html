@@ -831,6 +831,11 @@ html[lang=dv] .otm .mdp b,html[lang=dv] .ots .mdp small:not(.num){font-family:Wa
 .skd{position:relative;overflow:hidden}.skrow{display:flex;gap:10px;overflow:hidden}.skp{flex:0 0 calc((100% - 50px)/5.5);height:96px;border-radius:30px;background:#EEF0F3}
 .skl{display:block;height:14px;border-radius:8px;background:#EEF0F3;margin-top:10px}.skgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.skc{height:120px;border-radius:22px;background:#EEF0F3}
 @media (prefers-reduced-motion:reduce){.sk::after,.skd::after{animation:none}}
+.mrms{background:#FFF7F7;border:1px solid #FECDD3;border-radius:16px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}.mrms h4{margin:0;display:flex;align-items:center;gap:8px;color:#C8102E}.mrms .pct{margin:0}
+.mrmsl{display:flex;flex-direction:column;max-height:230px;overflow:auto}.mrmr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #FDE2E4}.mrmr:first-child{border-top:0}.mrmr small{display:block;color:#6B7280;font-size:12px}
+.mrmb{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.mrmk{background:#fff!important;border:1.5px solid #FCA5A5!important;color:#B91C1C!important;white-space:nowrap}.mrmk.on{background:#C8102E!important;color:#fff!important;border-color:#C8102E!important}
+.mrok{background:#F0FDF4;color:#166534;border-radius:14px;padding:10px 14px;margin-bottom:14px;font-size:14px}html[lang=dv] .mrok,html[lang=dv] .mrms small,html[lang=dv] .mrmk{font-family:Waheed,Faruma,sans-serif}
+@keyframes mrfl{0%{box-shadow:0 0 0 0 rgba(200,16,46,.45)}100%{box-shadow:0 0 0 12px rgba(200,16,46,0)}}.mrflash{animation:mrfl .9s ease-out;border-radius:14px}
 </style>
 </head>
 <body>
@@ -2061,13 +2066,30 @@ const stTag=s=>s==="approved"?`<span class="mst ok">✓ ${LG("އެޕްރޫވްކ
 const dtMV=t=>{if(!t)return "";const d=new Date(new Date(t).getTime()+(5*60+new Date().getTimezoneOffset())*60000);const ds=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");return dvDate(ds)+" · <span class=\"num\">"+tmMV(t)+"</span>";};
 async function manModal(){rgClose();const m=document.createElement("div");m.id="rgModal";m.className="mdl";const t=todayMV();
   m.innerHTML=`<div class="mdlb" data-rcecancel></div><div class="mdlc" role="dialog" aria-modal="true" style="width:min(600px,100%)"><div class="mdlh"><div><b class="h">${LG("މެނުއަލް ހާޒިރީ ރިކުއެސްޓް","Manual check-in request")}</b><small>${LG("ސުޕަވައިޒަރ އެޕްރޫވްކުރުމުން ހާޒިރީއަށް ވަދެވޭނެ","It counts once a supervisor approves it")}</small></div><button type="button" class="mdlx" data-rcecancel>✕</button></div>
-   <div class="mdlbd"><div class="rgg mrf"><label><span>${LG("ބާވަތް","Type")}</span><select id="mrK"><option value="in">${LANG==="en"?"Check-in":"ވަދެވުނު"}</option><option value="out">${LANG==="en"?"Check-out":"ނުކުމެވުނު"}</option></select></label>
+   <div class="mdlbd"><div id="mrMiss"></div><div class="rgg mrf"><label><span>${LG("ބާވަތް","Type")}</span><select id="mrK"><option value="in">${LANG==="en"?"Check-in":"ވަދެވުނު"}</option><option value="out">${LANG==="en"?"Check-out":"ނުކުމެވުނު"}</option></select></label>
      <label><span>${LG("ތާރީޚު","Date")}</span><input type="date" id="mrD" value="${t}" max="${t}" min="${addDays(t,-30)}"></label><label><span>${LG("ގަޑި","Time")}</span>${tSel("mrT","07:00",1)}</label></div>
     <label class="mrl"><span>${LG("ސަބަބު","Reason")}</span></label><div class="mrc">${MREASONS.map(([d,e])=>`<button type="button" class="chp" data-mrr="${esc(LANG==="en"?e:d)}">${LANG==="en"?e:d}</button>`).join("")}</div>
     <textarea id="mrR" dir="auto" rows="2" placeholder="${LANG==="en"?"Reason":"ސަބަބު ލިޔުއްވާ"}"></textarea>
     <div class="msg" id="mrMsg"></div><button class="btn" data-mrsend style="margin-top:6px">${LG("ރިކުއެސްޓް ފޮނުއްވާ","Send request")}</button>
     <h4 class="h" style="margin:18px 0 8px">${LG("ތިބާގެ ރިކުއެސްޓްތައް","My requests")}</h4><div id="mrList" class="mrl2"><div class="sk" aria-busy="true"><i class="skl" style="width:45%;height:16px"></i><i class="skl" style="width:70%;height:11px"></i><i class="skb"></i><i class="skb"></i><i class="skb"></i></div></div></div></div>`;
-  document.body.appendChild(m);document.body.classList.add("mdl-open");manMine();}
+  document.body.appendChild(m);document.body.classList.add("mdl-open");manMine();manMissing();}
+async function manMissing(){const el=$("#mrMiss");if(!el)return;const td=todayMV(),from=addDays(td,-30);
+  el.innerHTML=`<div class="mrms"><i class="skl" style="width:40%;height:14px;margin:0"></i><i class="skb" style="height:44px"></i></div>`;
+  try{const [H,M,LV]=await Promise.all([rpc("my_punch_history",{p_from:from,p_to:td}),rpc("my_manual_requests").catch(()=>[]),rpc("my_leaves").catch(()=>null),holLoad()]);
+    const P={};(H||[]).forEach(x=>P[x.day]=x);const sh0=((H||[]).find(x=>x.shift)||{}).shift||{start:"07:00",end:"14:00"};
+    const asked=new Set((M||[]).filter(r=>r.status!=="rejected").map(r=>new Date(r.t).toLocaleDateString("en-CA",{timeZone:"Indian/Maldives"})+":"+r.kind));
+    const onLv=d=>((LV&&LV.requests)||[]).some(r=>r.status!=="rejected"&&d>=r.from&&d<=r.to);
+    const out=[];for(let d=addDays(td,-1);d>=from;d=addDays(d,-1)){const w=new Date(d+"T00:00:00").getDay(),x=P[d];
+      if(!x&&(w===5||w===6||holOf(d)||onLv(d)))continue;if(x&&(w===5||w===6||holOf(d)))continue;
+      const sh=(x&&x.shift)||sh0,need=[];if(!x)need.push("in","out");else if(!(x.n>1))need.push("out");
+      const left=need.filter(k=>!asked.has(d+":"+k));if(left.length)out.push({d,left,sh,x});}
+    if(!out.length){el.innerHTML=`<div class="mrok">✓ ${LG("ފާއިތުވި 30 ދުވަހު ހާޒިރީ ފުރިހަމަ","No missing attendance in the last 30 days")}</div>`;return;}
+    el.innerHTML=`<div class="mrms"><h4 class="h">${LG("ނެތް ހާޒިރީ","Missing attendance")} <span class="mcnt num">${out.reduce((a,o)=>a+o.left.length,0)}</span></h4><p class="pct">${LG("އެއްޗަކަށް ފިތާލުމުން ރިކުއެސްޓް ފޯމު ފުރިގެންދާނެ","Tap one to fill in the request form")}</p><div class="mrmsl">${out.map(o=>`<div class="mrmr"><div><b>${dvDate(o.d)}</b><small>${!o.x?LG("ފިންގަރ ޖަހާފައި ނެތް","No punches"):`${LG("ޗެކް އިން","Check in")} <span class="num">${tmMV(o.x.in)}</span>`}</small></div><div class="mrmb">${o.left.map(k=>`<button type="button" class="chp mrmk ${k}" data-mrfill="${o.d}|${k}|${k==="in"?o.sh.start:o.sh.end}">＋ ${k==="in"?LG("ޗެކް އިން","Check in"):LG("ޗެކް އައުޓް","Check out")}</button>`).join("")}</div></div>`).join("")}</div></div>`;
+  }catch(e){el.innerHTML="";}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-mrfill]");if(!b)return;const [d,k,t]=b.dataset.mrfill.split("|"),[h,mi]=String(t||"07:00").slice(0,5).split(":");
+  $("#mrK").value=k;$("#mrD").value=d;const H=$("#mrTH"),M=$("#mrTM");if(H)H.value=h;if(M){if(![...M.options].some(o=>o.value===mi))M.add(new Option(mi,mi));M.value=mi;}
+  document.querySelectorAll("[data-mrfill]").forEach(x=>x.classList.toggle("on",x===b));const f=$(".mrf");if(f){f.classList.remove("mrflash");void f.offsetWidth;f.classList.add("mrflash");f.scrollIntoView({behavior:"smooth",block:"start"});}
+  const r=$("#mrR");if(r)setTimeout(()=>r.focus({preventScroll:true}),350);});
 async function manMine(){const el=$("#mrList");if(!el)return;try{const L=await rpc("my_manual_requests");el.innerHTML=L.length?L.map(r=>`<div class="mri"><div><b>${kindName(r.kind)}</b> · ${dtMV(r.t)}<small dir="auto">${esc(r.reason)}</small>${r.note?`<small class="mrn" dir="auto">${LG("ނޯޓް","Note")}: ${esc(r.note)}</small>`:""}${lvDocBtn(r.doc_path)}${r.by?`<small>${esc(NM(r.by_dv,r.by))}</small>`:""}</div><div class="mra">${stTag(r.status)}${r.status==="pending"?`<button class="btn sm ghost" data-mrcancel="${r.id}">${LG("ކެންސަލް","Cancel")}</button>`:""}</div></div>`).join(""):`<div class="empty">${LG("އަދި ރިކުއެސްޓެއް ނެތް","No requests yet")}</div>`;}catch(e){el.innerHTML=`<div class="msg err">${esc(e.message)}</div>`;}}
 async function manPend(){if(!ME||!ME.lead)return;try{const [L,V]=await Promise.all([rpc("manual_list",{p_status:"pending"}),rpc("leave_list",{p_status:"pending"})]);const n=L.filter(x=>!x.mine).length,v=(V.requests||[]).filter(x=>!x.mine).length;if(n!==SA.pend||v!==SA.lpend){SA.pend=n;SA.lpend=v;render();}}catch(e){}}
 async function mlLoad(){SA.mll=true;render();try{SA.ml=await rpc("manual_list",{p_status:SA.mlf||"pending"});}catch(e){SA.ml={err:e.message};}SA.mll=false;render();}
