@@ -876,6 +876,7 @@ html[lang=dv] .smsst,html[lang=dv] .smsg,html[lang=dv] .smsl{font-family:Waheed,
 .sw{position:relative;display:inline-block;width:52px;height:30px;flex:none;cursor:pointer}.sw input{opacity:0;width:0;height:0}.sw span{position:absolute;inset:0;background:#D1D5DB;border-radius:99px;transition:.2s}.sw span:before{content:"";position:absolute;width:24px;height:24px;top:3px;left:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}.sw input:checked+span{background:#16A34A}.sw input:checked+span:before{transform:translateX(22px)}.sw input:disabled+span{opacity:.45}.sw.sm{width:42px;height:24px}.sw.sm span:before{width:18px;height:18px}.sw.sm input:checked+span:before{transform:translateX(18px)}
 .smsl{padding:4px 14px}.smslr{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #F3F4F6}.smslr p{margin:4px 0 0;color:#4B5563;font-size:13px}.smslr small{color:#9CA3AF;margin-inline-start:6px}.rlv.x{background:#FEE2E2;color:#991B1B}
 @media (max-width:899px){.smsg{grid-template-columns:1fr}}
+.smstpl{display:flex;flex-direction:column;gap:4px;margin-top:8px}.smstpl textarea{width:100%;resize:vertical}.smscnt{color:#9CA3AF;font-size:11px}.smsg code{background:#F3F4F6;padding:1px 6px;border-radius:6px;font-size:12px}
 </style>
 </head>
 <body>
@@ -1373,7 +1374,7 @@ function render0(){
   if(TAB==="ot"&&P("pay")){v.innerHTML=h+tabs+otView();return;}
   if(TAB==="aa"&&P("pay")){v.innerHTML=h+tabs+otView("aa");return;}
   if(TAB==="hrep"&&P("hrep")){v.innerHTML=h+tabs+hrView();return;}
-  if(TAB==="sms"&&ME.admin){v.innerHTML=h+tabs+smsView();return;}
+  if(TAB==="sms"&&ME.admin){v.innerHTML=h+tabs+smsView();document.querySelectorAll("[id^=smsT_]").forEach(smsCount);return;}
   if(TAB==="roles"&&ME.admin){v.innerHTML=h+tabs+rlView();return;}
   if(TAB==="hol"){v.innerHTML=h+tabs+holView();return;}
   if(TAB==="people"&&P("people")){v.innerHTML=h+tabs+pplView();return;}
@@ -2228,6 +2229,9 @@ document.addEventListener("change",async e=>{const t=e.target;if(!t.dataset||t.d
 
 /* ---------- SMS alerts (admin) ---------- */
 const SMS={};
+const SMSDEF={in_en:"Kondey School: No check-in found today ({date}) for your {start} shift. If you are at school, please punch in or send a manual request in KS Portal.",out_en:"Kondey School: No check-out found today ({date}). Please punch out or send a manual request in KS Portal.",in_dv:"ކޮނޑޭ ސްކޫލް: މިއަދު ({date}) ތިބާގެ {start} ޝިފްޓަށް ޗެކް އިން ނުފެނޭ. ސްކޫލުގައި ތިބިނަމަ ފިންގަރ ޖައްސަވާ ނުވަތަ KS Portal ގައި މެނުއަލް ރިކުއެސްޓް ފޮނުއްވާ.",out_dv:"ކޮނޑޭ ސްކޫލް: މިއަދު ({date}) ޗެކް އައުޓް ނުފެނޭ. ފިންގަރ ޖައްސަވާ ނުވަތަ KS Portal ގައި މެނުއަލް ރިކުއެސްޓް ފޮނުއްވާ."};
+function smsCount(el){const v=el.value||el.placeholder,u=/[^\x00-\x7F]/.test(v),per=u?67:153,one=u?70:160,n=v.length<=one?1:Math.ceil(v.length/per),c=document.querySelector(`.smscnt[data-for="${el.id}"]`);if(c)c.textContent=`${v.length} ${TX("އަކުރު","characters")} · ${n} SMS${u?" (Unicode)":""}`;}
+document.addEventListener("input",e=>{if(e.target.id&&e.target.id.startsWith("smsT_"))smsCount(e.target);});
 async function smsLoad(){SMS.err="";try{SMS.d=await rpc("sms_admin_get");}catch(e){SMS.err=e.message;}render();}
 function smsView(){if(!SMS.d&&!SMS.err){smsLoad();return `<div class="card sk" aria-busy="true"><i class="skl" style="width:45%;height:16px"></i><i class="skl" style="width:70%;height:11px"></i><i class="skb"></i><i class="skb"></i></div>`;}
   if(SMS.err)return `<div class="card"><div class="msg err">${esc(SMS.err)}</div></div>`;
@@ -2243,6 +2247,9 @@ function smsView(){if(!SMS.d&&!SMS.err){smsLoad();return `<div class="card sk" a
      <label><span>${LG("ބަސް","Language")}</span><select id="smsLang"><option value="en">English</option><option value="dv" ${S.lang==="dv"?"selected":""}>ދިވެހި</option></select></label>
      <label><span>${LG("ޗެކް އިން: ޝިފްޓް ފެށިތާ (މިނެޓް)","Check-in: minutes after start")}</span><input type="number" id="smsIn" min="5" max="240" value="${S.in_after||30}"></label>
      <label><span>${LG("ޗެކް އައުޓް: ޝިފްޓް ނިމިތާ (މިނެޓް)","Check-out: minutes after end")}</span><input type="number" id="smsOut" min="5" max="240" value="${S.out_after||30}"></label></div>
+     <h4 class="h" style="margin-top:16px">${LG("މެސެޖުގެ ޓެމްޕްލޭޓް","Message templates")}</h4>
+     <p class="pct">${LG("ހުސްކޮށް ބާއްވައިފިނަމަ ޑިފޯލްޓް މެސެޖު ފޮނުވޭނެ. ބޭނުންކުރެވޭ ބައިތައް:","Leave empty to use the default message. You can use:")} <code>{name}</code> <code>{date}</code> <code>{start}</code> <code>{end}</code></p>
+     ${[["in","ޗެކް އިން ނެތް","No check-in"],["out","ޗެކް އައުޓް ނެތް","No check-out"]].map(([k,dv,en])=>[["en","English"],["dv","ދިވެހި"]].map(([l,ln])=>`<label class="full smstpl"><span>${LG(dv,en)} · ${ln}</span><textarea id="smsT_${k}_${l}" rows="3" dir="${l==="dv"?"rtl":"ltr"}" maxlength="480" placeholder="${esc(SMSDEF[k+"_"+l])}">${esc(S["tpl_"+k+"_"+l]||"")}</textarea><small class="smscnt" data-for="smsT_${k}_${l}"></small></label>`).join("")).join("")}
      <button type="button" class="btn" data-smssave style="margin-top:12px">${LG("ރައްކާކުރައްވާ","Save")}</button>
      <h4 class="h" style="margin-top:18px">MsgOwl API key ${D.has_key?`<span class="rlv e">${LG("ލާފައި","Saved")}</span>`:`<span class="rlv x">${LG("ނެތް","Not set")}</span>`}</h4>
      <p class="pct">${LG("MsgOwl ކޮންސޯލުން API key ކޮޕީކޮށް މިތަނަށް ޕޭސްޓް ކުރައްވާ. ސޭވްކުރުމަށްފަހު ދެން ނުފެންނާނެ.","Copy the API key from the MsgOwl console and paste it here. It is stored securely and never shown again.")}</p>
@@ -2255,7 +2262,7 @@ function smsView(){if(!SMS.d&&!SMS.err){smsLoad();return `<div class="card sk" a
    <div class="card smsl">${(D.log||[]).map(l=>`<div class="smslr"><div><b>${esc(l.name||"—")}</b> · ${st(l)} <small class="num">${dvDate(l.day)} · ${new Date(l.at).toLocaleTimeString("en-GB",{timeZone:"Indian/Maldives",hour:"2-digit",minute:"2-digit"})} · <bdi dir="ltr">+${esc(l.phone)}</bdi></small><p>${esc(l.body)}</p></div>${ok(l)}</div>`).join("")||`<div class="empty">${LG("އަދި މެސެޖެއް ނުފޮނުވޭ","No messages yet")}</div>`}</div>`;}
 function smsMsg(t,err){const m=$("#smsMsg");if(m){m.className="msg "+(err?"err":"ok");m.textContent=t;}}
 document.addEventListener("click",async e=>{const t=e.target;let b;
-  if(b=t.closest("[data-smssave]")){b.disabled=true;try{await rpc("sms_settings_set",{p:{enabled:SMS.d.settings.enabled,sender_id:$("#smsSid").value,lang:$("#smsLang").value,in_after:+$("#smsIn").value,out_after:+$("#smsOut").value}});await smsLoad();smsMsg(TX("ރައްކާވެއްޖެ ✓","Saved ✓"));}catch(er){b.disabled=false;smsMsg(er.message,1);}return;}
+  if(b=t.closest("[data-smssave]")){b.disabled=true;try{await rpc("sms_settings_set",{p:{enabled:SMS.d.settings.enabled,sender_id:$("#smsSid").value,lang:$("#smsLang").value,in_after:+$("#smsIn").value,out_after:+$("#smsOut").value,tpl_in_en:$("#smsT_in_en").value,tpl_out_en:$("#smsT_out_en").value,tpl_in_dv:$("#smsT_in_dv").value,tpl_out_dv:$("#smsT_out_dv").value}});await smsLoad();smsMsg(TX("ރައްކާވެއްޖެ ✓","Saved ✓"));}catch(er){b.disabled=false;smsMsg(er.message,1);}return;}
   if(b=t.closest("[data-smskey]")){const k=$("#smsKey").value.trim();if(!k){smsMsg(TX("ކީ ޕޭސްޓް ކުރައްވާ","Paste the key first"),1);return;}b.disabled=true;try{await rpc("sms_key_set",{p_key:k});$("#smsKey").value="";await smsLoad();smsMsg(TX("ކީ ރައްކާވެއްޖެ ✓","Key saved ✓"));}catch(er){b.disabled=false;smsMsg(er.message,1);}return;}
   if(b=t.closest("[data-smstest]")){b.disabled=true;try{await rpc("sms_test",{p_phone:$("#smsTo").value});smsMsg(TX("ފޮނުވިއްޖެ – ތިރީގައި ސްޓޭޓަސް ބައްލަވާ","Sent – check the status below in a few seconds"));setTimeout(smsLoad,4000);}catch(er){smsMsg(er.message,1);}b.disabled=false;return;}
 });
