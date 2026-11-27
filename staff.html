@@ -1482,7 +1482,7 @@ document.addEventListener("change",async e=>{const t=e.target;if(!t.closest||!t.
     else if(k==="aa"){const n=v===""?null:+v;await rpc("aa_set",{p_emp:x.emp_code,p_amount:n});x.aa_day=n;OT.sal=null;}
     SA.lvb=null;SA.lv=null;pplOk();}catch(er){pplErr(er);}},true);
 
-async function lvReqModal(){if(!DB.lv){try{DB.lv=await rpc("my_leaves");}catch(e){return alert(e.message);}}const D=DB.lv;if(!D.linked)return alert(TX("ތިބާގެ ފިންގަރޕްރިންޓް އައިޑީ އަދި ގުޅާފައެއް ނެތް.","Your fingerprint ID is not linked yet."));
+async function lvReqModal(pick){if(!DB.lv){try{DB.lv=await rpc("my_leaves");}catch(e){return alert(e.message);}}const D=DB.lv;if(!D.linked)return alert(TX("ތިބާގެ ފިންގަރޕްރިންޓް އައިޑީ އަދި ގުޅާފައެއް ނެތް.","Your fingerprint ID is not linked yet."));
   const st=(ME&&ME.staff)||{},ini=(st.name_en||"?").split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase(),t=todayMV(),B=D.balances||[],COL=["#5B54A8","#2B7A78","#E0605E","#C8102E","#D97706","#2563EB","#7E22CE"];
   const left=x=>{const b=B.find(y=>y.name_en===x.name_en);return b&&b.allow!=null?Math.max(0,b.allow-b.used):null;};
   const opts=(D.types||[]).map((x,i)=>{const l=left(x);return `<option value="${x.id}" data-doc="${x.doc?1:""}" data-col="${COL[i%COL.length]}">${x.short?x.short+" · ":""}${esc(LANG==="en"?x.name_en:(x.name_dv||x.name_en))} — ${l!=null?(LANG==="en"?`${dnum(l)} left`:`${dnum(l)} ދުވަސް ބާކީ`):x.months?(LANG==="en"?`up to ${x.months} months`:`${x.months} މަސް`):(LANG==="en"?"no limit":"ލިމިޓެއް ނެތް")}</option>`;}).join("");
@@ -1495,9 +1495,9 @@ async function lvReqModal(){if(!DB.lv){try{DB.lv=await rpc("my_leaves");}catch(e
     <label id="lvDocL" hidden><span>${LG("ޑޮކިއުމަންޓް (PDF ނުވަތަ ފޮޓޯ) – ލާޒިމް","Document (PDF or photo) – required")}</span><input type="file" id="lvDoc" accept="application/pdf,image/*"></label>
     <div class="msg" id="lvMsg"></div>
     <button type="button" class="btn lrqbtn" data-lvsend>＋ ${LG("ޗުއްޓީއަށް އެދޭ","Request leave")}</button></div></div>`;
-  document.body.appendChild(m);document.body.classList.add("mdl-open");lrqSync();}
+  document.body.appendChild(m);document.body.classList.add("mdl-open");if(pick){const sl=$("#lvT"),ty=(D.types||[]).find(x=>(pick.id!=null&&x.id==pick.id)||x.name_en===pick.name_en);if(sl&&ty&&[...sl.options].some(o=>o.value==String(ty.id)))sl.value=String(ty.id);}lrqSync();}
 function lrqSync(){const s=$("#lvT");if(!s)return;const o=s.selectedOptions[0],d=$("#lvDot"),L=$("#lvDocL");if(d&&o)d.style.background=o.dataset.col;if(L&&o)L.hidden=!o.dataset.doc;}
-document.addEventListener("click",e=>{if(e.target.closest("[data-mylvreq]")){lvReqModal();}});
+document.addEventListener("click",e=>{if(e.target.closest("[data-mylvreq]")){const B=((DB.lv&&DB.lv.balances)||[]).filter(b=>b.allow!=null),b=TAB==="myleave"&&B.length?B[Math.min(MLV.sel||0,B.length-1)]:null;lvReqModal(b);}});
 document.addEventListener("change",e=>{if(e.target.id==="lvT"&&e.target.closest(".lrq"))lrqSync();});
 const MLV={};
 function mlvView(){if(!DB.lv&&!MLV.loading){MLV.loading=1;rpc("my_leaves").then(x=>{DB.lv=x;}).catch(e=>{MLV.err=e.message;}).finally(()=>{MLV.loading=0;render();});}
