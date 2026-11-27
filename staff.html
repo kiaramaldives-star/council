@@ -1442,7 +1442,7 @@ document.addEventListener("click",async e=>{
     catch(err){sm.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
 });
 document.addEventListener("change",e=>{if(e.target.id==="dt"&&e.target.value){DATE=e.target.value;ABS={};render();}});
-let HO_DONE=null,HO_T=null;
+let HO_DONE=null,HO_T=null;const HO_ON=false; /* turn on after the redirect URL with ?ho= is allowed in Supabase Auth settings */
 async function hoTry(){let P=null;try{P=JSON.parse(localStorage.getItem("kc_ho")||"null")}catch(e){}
   if(!P||S||Date.now()-P.t>6*60000){if(P&&!S&&Date.now()-P.t>6*60000)try{localStorage.removeItem("kc_ho")}catch(e){}clearInterval(HO_T);HO_T=null;return;}
   try{const r=await fetch(`${SB_URL}/rest/v1/rpc/auth_handoff_take`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_n:P.n})});const j=r.ok?await r.json():null;
@@ -1450,7 +1450,7 @@ async function hoTry(){let P=null;try{P=JSON.parse(localStorage.getItem("kc_ho")
 function hoWatch(){if(!HO_T)HO_T=setInterval(hoTry,2500);}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)hoTry();});window.addEventListener("focus",hoTry);
 const IS_APP=!!(navigator.standalone||(window.matchMedia&&matchMedia("(display-mode: standalone)").matches));
-$("#gGo").onclick=()=>{let r=location.origin+location.pathname;if(IS_APP){const a=new Uint8Array(20);crypto.getRandomValues(a);const n=[...a].map(x=>x.toString(16).padStart(2,"0")).join("");try{localStorage.setItem("kc_ho",JSON.stringify({n,t:Date.now()}));}catch(e){}r+="?ho="+n;hoWatch();}location.href=`${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(r)}&hd=kondeyschool.edu.mv&prompt=select_account`;};
+$("#gGo").onclick=()=>{let r=location.origin+location.pathname;if(IS_APP){const a=new Uint8Array(20);crypto.getRandomValues(a);const n=[...a].map(x=>x.toString(16).padStart(2,"0")).join("");try{localStorage.setItem("kc_ho",JSON.stringify({n,t:Date.now()}));}catch(e){}if(HO_ON){r+="?ho="+n;hoWatch();}}location.href=`${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(r)}&hd=kondeyschool.edu.mv&prompt=select_account`;};
 {const h=new URLSearchParams(location.hash.slice(1)),q=new URLSearchParams(location.search);
  if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});
    const ho=q.get("ho");if(ho&&/^[0-9a-f]{32,64}$/.test(ho)){HO_DONE=fetch(`${SB_URL}/rest/v1/rpc/auth_handoff_put`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+h.get("access_token"),"Content-Type":"application/json"},body:JSON.stringify({p_n:ho,p_refresh:h.get("refresh_token")})}).then(r=>r.ok).catch(()=>false);}
