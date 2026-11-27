@@ -853,6 +853,7 @@ html[lang=dv] .hrsum span,html[lang=dv] .hrhd small,html[lang=dv] .hrt th,html[l
 .hrpdf[lang=dv] .hrt td.nm,.hrpdf[lang=dv] .hrt td:nth-child(3),.hrpdf[lang=dv] .hpF{font-family:Faruma,Waheed,sans-serif;font-weight:400}.hrpdf tr{page-break-inside:avoid}
 .hpw,.hpk{display:inline-block}.hpF{margin-top:14px;font-size:11px;color:#4B5563}.hpSig{display:flex;justify-content:space-between;gap:80px;margin-top:34px}.hpSig div{flex:1;max-width:260px;text-align:center}.hpSig i{display:block;border-top:1px solid #9CA3AF;margin-bottom:6px}
 html[lang=dv] .hrt th,.hrpdf[lang=dv] .hrt th{font-family:Waheed,Faruma,sans-serif!important;font-weight:400!important}.hrpdf[lang=dv] .hrt th{font-size:10.5px}
+.hoban{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 12px);z-index:9999;background:#166534;color:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:4px;font-size:14px}html[lang=dv] .hoban{font-family:Waheed,Faruma,sans-serif}
 </style>
 </head>
 <body>
@@ -890,9 +891,14 @@ function setLang(l){LANG=l;const H=document.documentElement;H.lang=l;H.dir=l==="
 setLang(LANG);
 let S=null;try{S=JSON.parse(localStorage.getItem("kc_staff_session")||"null")}catch(e){}
 const saveS=x=>{S=x;try{x?localStorage.setItem("kc_staff_session",JSON.stringify(x)):localStorage.removeItem("kc_staff_session")}catch(e){}};
-async function authCall(p,b){const r=await fetch(`${SB_URL}/auth/v1/${p}`,{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.msg||j.error_description||j.message||("Error "+r.status));return j;}
-async function token(){if(!S)throw new Error("signed out");if(S.expires_at&&S.expires_at-60<Date.now()/1000){const j=await authCall("token?grant_type=refresh_token",{refresh_token:S.refresh_token});saveS({...j,expires_at:Date.now()/1000+j.expires_in});}return S.access_token;}
-async function rpc(fn,body){let r;for(let i=0;;i++){try{r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+await token(),"Content-Type":"application/json"},body:JSON.stringify(body||{})});break;}catch(e){if(i>=2)throw new Error(LANG==="en"?"Could not connect. Check your internet and try again.":"ކަނެކްޓް ނުވި. އިންޓަނެޓް ބައްލަވާފައި އަލުން މަސައްކަތް ކުރައްވާ.");await new Promise(z=>setTimeout(z,800*(i+1)));}}const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error(m);}return t?JSON.parse(t):null;}
+async function authCall(p,b){const r=await fetch(`${SB_URL}/auth/v1/${p}`,{method:"POST",headers:{apikey:SB_KEY,"Content-Type":"application/json"},body:JSON.stringify(b)});const j=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(j.msg||j.error_description||j.message||("Error "+r.status));e.auth=r.status>=400&&r.status<500;throw e;}return j;}
+let REFP=null;
+function authErr(m){const e=new Error(m);e.auth=true;return e;}
+async function refreshS(){if(REFP)return REFP;const rt=S&&S.refresh_token;REFP=(async()=>{try{const j=await authCall("token?grant_type=refresh_token",{refresh_token:rt});saveS({...j,expires_at:Date.now()/1000+j.expires_in});}
+    catch(e){let L=null;try{L=JSON.parse(localStorage.getItem("kc_staff_session")||"null")}catch(_){}
+      if(L&&L.refresh_token&&L.refresh_token!==rt){S=L;return;}throw e;}})().finally(()=>{REFP=null;});return REFP;}
+async function token(force){if(!S)throw authErr("signed out");if(force||(S.expires_at&&S.expires_at-60<Date.now()/1000))await refreshS();return S.access_token;}
+async function rpc(fn,body){let r,f=false;for(let i=0;;i++){try{const tk=await token(f);r=await fetch(`${SB_URL}/rest/v1/rpc/${fn}`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+tk,"Content-Type":"application/json"},body:JSON.stringify(body||{})});if(r.status===401&&!f){f=true;i--;continue;}break;}catch(e){if(e.auth)throw e;if(i>=2)throw new Error(LANG==="en"?"Could not connect. Check your internet and try again.":"ކަނެކްޓް ނުވި. އިންޓަނެޓް ބައްލަވާފައި އަލުން މަސައްކަތް ކުރައްވާ.");await new Promise(z=>setTimeout(z,800*(i+1)));}}const t=await r.text();if(!r.ok){let m=t;try{m=JSON.parse(t).message||t}catch(e){}if(r.status===401)throw authErr(m);throw new Error(m);}return t?JSON.parse(t):null;}
 document.addEventListener("click",e=>{if(e.target.closest("[data-otretry]")){OT.err=null;otLoad();}});
 
 const BDOCS=[["invoice","Invoice","އިންވޮއިސް"],["delivery","Delivery note","ޑެލިވަރީ ނޯޓް"]];
@@ -1297,7 +1303,11 @@ $("#logout").onclick=async()=>{try{await fetch(`${SB_URL}/auth/v1/logout`,{metho
 
 let TAB="home",ME=null,ABS={},DATE=todayMV();
 async function start(){
-  try{ME=await rpc("staff_me");}catch(e){document.documentElement.classList.remove("boot");saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
+  try{ME=await rpc("staff_me");}catch(e){document.documentElement.classList.remove("boot");
+    if(e.auth||/jwt|token|signed out/i.test(e.message)){saveS(null);$("#lMsg").className="msg err";$("#lMsg").textContent=e.message;return;}
+    $("#lMsg").className="msg err";$("#lMsg").innerHTML=`${esc(e.message)} <button type="button" class="btn sm" id="lRetry" style="margin-top:8px">↻ ${LANG==="en"?"Try again":"އަލުން"}</button>`;
+    const go=()=>{window.removeEventListener("online",go);$("#lMsg").textContent="…";start();};$("#lRetry").onclick=go;window.addEventListener("online",go);return;}
+  $("#lMsg").textContent="";$("#lMsg").className="msg";
   document.body.classList.add("in");$("#loginView").hidden=true;$("#appView").hidden=false;$("#logout").hidden=false;render();document.documentElement.classList.remove("boot");rcLoad();setTimeout(manPend,300);
 }
 function marked(c,d){return (ME.marked||[]).find(a=>a.class_en===c.class_en&&a.date===d);}
@@ -1432,9 +1442,19 @@ document.addEventListener("click",async e=>{
     catch(err){sm.disabled=false;msg.className="msg err";msg.textContent=err.message;}return;}
 });
 document.addEventListener("change",e=>{if(e.target.id==="dt"&&e.target.value){DATE=e.target.value;ABS={};render();}});
-$("#gGo").onclick=()=>{const r=location.origin+location.pathname;location.href=`${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(r)}&hd=kondeyschool.edu.mv&prompt=select_account`;};
+let HO_DONE=null,HO_T=null;
+async function hoTry(){let P=null;try{P=JSON.parse(localStorage.getItem("kc_ho")||"null")}catch(e){}
+  if(!P||S||Date.now()-P.t>6*60000){if(P&&!S&&Date.now()-P.t>6*60000)try{localStorage.removeItem("kc_ho")}catch(e){}clearInterval(HO_T);HO_T=null;return;}
+  try{const r=await fetch(`${SB_URL}/rest/v1/rpc/auth_handoff_take`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+SB_KEY,"Content-Type":"application/json"},body:JSON.stringify({p_n:P.n})});const j=r.ok?await r.json():null;
+    if(j&&j.refresh_token){try{localStorage.removeItem("kc_ho")}catch(e){}clearInterval(HO_T);HO_T=null;const t=await authCall("token?grant_type=refresh_token",{refresh_token:j.refresh_token});saveS({...t,expires_at:Date.now()/1000+t.expires_in});start();}}catch(e){}}
+function hoWatch(){if(!HO_T)HO_T=setInterval(hoTry,2500);}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)hoTry();});window.addEventListener("focus",hoTry);
+const IS_APP=!!(navigator.standalone||(window.matchMedia&&matchMedia("(display-mode: standalone)").matches));
+$("#gGo").onclick=()=>{let r=location.origin+location.pathname;if(IS_APP){const a=new Uint8Array(20);crypto.getRandomValues(a);const n=[...a].map(x=>x.toString(16).padStart(2,"0")).join("");try{localStorage.setItem("kc_ho",JSON.stringify({n,t:Date.now()}));}catch(e){}r+="?ho="+n;hoWatch();}location.href=`${SB_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(r)}&hd=kondeyschool.edu.mv&prompt=select_account`;};
 {const h=new URLSearchParams(location.hash.slice(1)),q=new URLSearchParams(location.search);
- if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});history.replaceState(null,"",location.pathname);}
+ if(h.get("access_token")){saveS({access_token:h.get("access_token"),refresh_token:h.get("refresh_token"),expires_in:+h.get("expires_in")||3600,expires_at:Date.now()/1000+(+h.get("expires_in")||3600),token_type:"bearer"});
+   const ho=q.get("ho");if(ho&&/^[0-9a-f]{32,64}$/.test(ho)){HO_DONE=fetch(`${SB_URL}/rest/v1/rpc/auth_handoff_put`,{method:"POST",headers:{apikey:SB_KEY,Authorization:"Bearer "+h.get("access_token"),"Content-Type":"application/json"},body:JSON.stringify({p_n:ho,p_refresh:h.get("refresh_token")})}).then(r=>r.ok).catch(()=>false);}
+   history.replaceState(null,"",location.pathname);}
  else if(h.get("error")||q.get("error")){const m=$("#lMsg");m.className="msg err";m.textContent=decodeURIComponent((h.get("error_description")||q.get("error_description")||h.get("error")||q.get("error")).replace(/\+/g," "));history.replaceState(null,"",location.pathname);}}
 $("#langB").onclick=()=>setLang(LANG==="en"?"dv":"en");
 /* ================= DASHBOARD ================= */
@@ -2593,6 +2613,8 @@ document.addEventListener("change",async e=>{const t=e.target;
 });
 
 if(S)start();else document.documentElement.classList.remove("boot");
+if(!S){hoWatch();hoTry();}
+if(HO_DONE)HO_DONE.then(ok=>{if(!ok)return;const d=document.createElement("div");d.className="hoban";d.innerHTML=`<b>✓ ${LANG==="en"?"Signed in":"ލޮގިން ވެއްޖެ"}</b><span>${LANG==="en"?"Tap “Done” at the top to go back to the Staff Portal app.":"އެޕަށް އެނބުރި ދިއުމަށް މަތީގައިވާ “Done” އަށް ފިތާލައްވާ."}</span>`;document.body.appendChild(d);setTimeout(()=>d.remove(),15000);});
 </script>
 </body>
 </html>
