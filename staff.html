@@ -786,6 +786,7 @@ html[lang=dv] .lrqs select{font-family:Faruma,sans-serif}
 .lrqb textarea{border:1.5px solid #E5E7EB;border-radius:14px;padding:10px 12px;font:15px "Plus Jakarta Sans","Faruma",sans-serif;resize:vertical}
 .lrqc{display:flex!important;align-items:center;gap:8px;font-size:14px;color:#374151}html[lang=dv] .lrqc{font-family:Waheed,Faruma,sans-serif}.lrqc input{width:18px;height:18px;accent-color:#C8102E}
 .lrqbtn{width:100%;padding:15px;border-radius:14px;font-size:16px}html[lang=dv] .lrqbtn{font-family:Waheed,Faruma,sans-serif;font-weight:400}
+.mlvbtn:has(+.mlvadm){margin-bottom:10px}.mlvadm{background:#fff!important;color:#C8102E!important;border:1.5px solid #FECDD3!important;box-shadow:none!important}
 </style>
 </head>
 <body>
@@ -1401,6 +1402,7 @@ function mlvView(){if(!DB.lv&&!MLV.loading){MLV.loading=1;rpc("my_leaves").then(
    <div class="mlvl">${B.map((x,i)=>{const c=COL[i%COL.length],l=Math.max(0,x.allow-x.used);return `<button type="button" class="mlvr ${i===si?"on":""}" data-mlv="${i}" style="--c:${c}"><i class="rad"></i><span class="nm">${esc(NM(x.name_dv,x.name_en))}</span><span class="vl">${LANG==="en"?`<b class="num">${dnum(l)}</b> <small>of <span class="num">${dnum(x.allow)}</span></small>`:`<small><span class="num">${dnum(x.allow)}</span> ގެ ތެރެއިން</small> <b class="num">${dnum(l)}</b>`}</span></button>`;}).join("")}</div>
    <p class="pct mlvp">${LG("ބާކީ ހުރި ޗުއްޓީ","Days left")}${L.period_from?` · ${dvDate(L.period_from)} – ${dvDate(L.period_to)}`:""}</p>
    <button type="button" class="btn mlvbtn" data-mylvreq>＋ ${LG("ޗުއްޓީއަށް އެދޭ","Request leave")}</button>
+   ${ME.admin?`<button type="button" class="btn ghost mlvbtn mlvadm" data-ltmodal>⚙ ${LG("ޗުއްޓީގެ ބާވަތްތައް (އެޑްމިން)","Leave types (admin)")}</button>`:""}
    ${R.length?`<div class="mdh mah"><h3 class="h">${LG("ޗުއްޓީގެ ރިކުއެސްޓްތައް","My leave requests")}</h3><span class="mcnt num">${(L.requests||[]).length}</span></div><div class="mlvq">${R.map(r=>{const[c,t]=stc[r.status]||["pd",esc(r.status)];return `<div class="mlvqr"><div><b>${lvName(r)}</b><small>${lvRange(r.from,r.to,r.half)} · <span class="num">${dnum(r.days)}</span> ${LG("ދުވަސް","days")}</small></div><span class="mlvs ${c}">${t}</span></div>`;}).join("")}</div>`:""}</div>`;}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mlv]");if(b){MLV.sel=+b.dataset.mlv;render();}});
 const DB={};
